@@ -1,0 +1,3 @@
+* text=auto !eol
+/pom.xml -text
+src/main/webapp/WEB-INF/web.xml -text
