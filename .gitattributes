@@ -1,3 +1,5 @@
 * text=auto !eol
+FormBuilder/pom.xml -text
+FormBuilder/src/main/webapp/WEB-INF/web.xml -text
 FormService/pom.xml -text
 FormService/src/main/webapp/WEB-INF/web.xml -text
