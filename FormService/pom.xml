@@ -31,10 +31,33 @@
 	<dependencies>
 
 		<dependency>
+	        <groupId>org.apache.cxf</groupId>
+	        <artifactId>cxf-rt-transports-http</artifactId>
+	        <version>${cxf.version}</version>
+	    </dependency>
+	    
+	    <dependency>
+		  <groupId>org.apache.cxf</groupId>
+		  <artifactId>cxf-rt-frontend-jaxrs</artifactId>
+		  <version>${cxf.version}</version>
+		</dependency>
+		
+		<dependency>
 			<groupId>org.apache.cxf</groupId>
-			<artifactId>cxf-rt-frontend-jaxrs</artifactId>
+			<artifactId>cxf-rt-rs-client</artifactId>
 			<version>${cxf.version}</version>
 		</dependency>
+		
+	    <dependency>
+	        <groupId>org.apache.cxf</groupId>
+	        <artifactId>cxf-rt-rs-extension-providers</artifactId>
+	        <version>${cxf.version}</version>
+	    </dependency>
+	    <dependency>
+	        <groupId>org.codehaus.jettison</groupId>
+	        <artifactId>jettison</artifactId>
+	        <version>1.2</version>
+	    </dependency>  
 
 		<dependency>
 			<groupId>javax.ws.rs</groupId>
