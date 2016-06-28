@@ -1,3 +1,10 @@
+FormBuilder/FormBuilder.iml
+FormBuilder/frontend-tools/dist
+FormBuilder/frontend-tools/etc
+FormBuilder/frontend-tools/node
+FormBuilder/frontend-tools/node_modules
+FormBuilder/node
+FormBuilder/node_modules
 FormBuilder/src/main/webapp/dist
 FormBuilder/src/main/webapp/etc
 FormBuilder/src/main/webapp/node
