@@ -6,4 +6,9 @@ FormBuilder/src/main/resources/applicationContext.xml -text
 FormBuilder/src/main/webapp/WEB-INF/web.xml -text
 FormBuilder/src/main/webapp/index.jsp -text
 FormService/pom.xml -text
+FormService/src/main/java/gov/nih/nci/cadsr/FormServiceConstants.java -text
+FormService/src/main/java/gov/nih/nci/cadsr/FormServiceProperties.java -text
+FormService/src/main/java/gov/nih/nci/cadsr/service/FormService.java -text
+FormService/src/main/resources/applicationContext.xml -text
+FormService/src/main/resources/context-services.xml -text
 FormService/src/main/webapp/WEB-INF/web.xml -text
