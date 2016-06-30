@@ -43,6 +43,7 @@
 
 	</dependencies>
 
+<!-- Commenting out Node front-end build Pending NCI Approval
 	<build>
 		<plugins>
 			<plugin>
@@ -65,7 +66,7 @@
 						</configuration>
 					</execution>
 
-					<!--Install dependencies -->
+					&lt;!&ndash;Install dependencies &ndash;&gt;
 					<execution>
 						<id>npm install</id>
 						<goals>
@@ -76,7 +77,7 @@
 						</configuration>
 					</execution>
 
-					<!-- Run "build" script from package.json  -->
+					&lt;!&ndash; Run "build" script from package.json  &ndash;&gt;
 					<execution>
 						<id>npm run build</id>
 						<goals>
@@ -90,5 +91,6 @@
 			</plugin>
 		</plugins>
 	</build>
+-->
 
 </project>
