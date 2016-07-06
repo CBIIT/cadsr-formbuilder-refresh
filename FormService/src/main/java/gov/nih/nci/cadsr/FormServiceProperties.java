@@ -7,14 +7,14 @@ public class FormServiceProperties {
 	private static final String DEFAULT_TEST_VALUE = "default test property";
 	
 	@Value("#{applicationProperties['test.value']}")
-	private String rExecutablePath;
+	private String testProperty;
 	
-	public String getRExecutablePath() {
+	public String getTestProp() {
 
-		if (rExecutablePath == null || rExecutablePath.isEmpty()) {
+		if (testProperty == null || testProperty.isEmpty()) {
 			return DEFAULT_TEST_VALUE;
 		} else {
-			return rExecutablePath;
+			return testProperty;
 
 		}
 	}
