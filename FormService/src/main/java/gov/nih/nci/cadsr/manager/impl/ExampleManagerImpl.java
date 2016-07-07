@@ -1,15 +1,16 @@
-package gov.nih.nci.cadsr.service;
+package gov.nih.nci.cadsr.manager.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import gov.nih.nci.cadsr.dao.ExampleDao;
+import gov.nih.nci.cadsr.dao.impl.ExampleDaoImpl;
+import gov.nih.nci.cadsr.manager.ExampleManager;
 
 @Service
-public class ExampleService {
+public class ExampleManagerImpl implements ExampleManager {
 	
 	@Autowired
-	private ExampleDao exDao;
+	private ExampleDaoImpl exDao;
 	
 	public String printName(String name){
 		

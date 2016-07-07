@@ -1,4 +1,4 @@
-package gov.nih.nci.cadsr.service;
+package gov.nih.nci.cadsr.controller;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.RestController;
 import gov.nih.nci.cadsr.FormServiceProperties;
 
 @RestController
-public class FormService {
+public class FormController {
 	
-	private static final Logger logger = Logger.getLogger(FormService.class);
+	private static final Logger logger = Logger.getLogger(FormController.class);
 	
 	@Autowired
 	private FormServiceProperties props;

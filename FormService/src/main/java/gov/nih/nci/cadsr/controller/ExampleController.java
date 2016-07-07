@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import gov.nih.nci.cadsr.FormServiceProperties;
-import gov.nih.nci.cadsr.service.ExampleService;
+import gov.nih.nci.cadsr.manager.impl.ExampleManagerImpl;
 
 @RestController
 @RequestMapping(path="/example")
@@ -17,7 +17,7 @@ public class ExampleController {
 	private static final Logger logger = Logger.getLogger(ExampleController.class);
 	
 	@Autowired
-	private ExampleService exService;
+	private ExampleManagerImpl exManager;
 	
 	@Autowired
 	private FormServiceProperties props;
@@ -25,7 +25,7 @@ public class ExampleController {
 	
 	@RequestMapping(value = "/hello{name}", method = RequestMethod.GET)
 	public String getName(@PathVariable String name) {
-		String result = exService.printName(name);
+		String result = exManager.printName(name);
 		logger.error("calling test hello name");
 		return result;
 	}

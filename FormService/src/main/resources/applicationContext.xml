@@ -23,7 +23,6 @@
 	<bean id="props" class="gov.nih.nci.cadsr.FormServiceProperties"
 		scope="singleton" />
 
-	<context:annotation-config />
 	<context:component-scan base-package="gov.nih.nci.cadsr" />
 	<mvc:annotation-driven />
 
