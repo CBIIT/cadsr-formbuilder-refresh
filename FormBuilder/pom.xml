@@ -43,54 +43,62 @@
 
 	</dependencies>
 
-<!-- Commenting out Node front-end build Pending NCI Approval
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>com.github.eirslett</groupId>
-				<artifactId>frontend-maven-plugin</artifactId>
-				<version>1.0</version>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.6</version>
 				<configuration>
-					<workingDirectory>frontend-tools</workingDirectory>
-
+					<!--Exclude Node.js-related build files from war -->
+					<warSourceExcludes>frontend-tools/**, package.json, node_modules/**, node/**</warSourceExcludes>
 				</configuration>
-				<executions>
-					<execution>
-						<id>install node and npm</id>
-						<goals>
-							<goal>install-node-and-npm</goal>
-						</goals>
-						<configuration>
-							<nodeVersion>v6.2.2</nodeVersion>
-							<npmVersion>3.9.5</npmVersion>
-						</configuration>
-					</execution>
-
-					&lt;!&ndash;Install dependencies &ndash;&gt;
-					<execution>
-						<id>npm install</id>
-						<goals>
-							<goal>npm</goal>
-						</goals>
-						<configuration>
-							<arguments>install</arguments>
-						</configuration>
-					</execution>
-
-					&lt;!&ndash; Run "build" script from package.json  &ndash;&gt;
-					<execution>
-						<id>npm run build</id>
-						<goals>
-							<goal>npm</goal>
-						</goals>
-						<configuration>
-							<arguments>run build</arguments>
-						</configuration>
-					</execution>
-				</executions>
 			</plugin>
+
+			<!--Commenting out Node front-end build Pending NCI Approval
+						<plugin>
+							<groupId>com.github.eirslett</groupId>
+							<artifactId>frontend-maven-plugin</artifactId>
+							<version>1.0</version>
+							<configuration>
+								<workingDirectory>src/main/webapp</workingDirectory>
+							</configuration>
+							<executions>
+								<execution>
+									<id>install node and npm</id>
+									<goals>
+										<goal>install-node-and-npm</goal>
+									</goals>
+									<configuration>
+										<nodeVersion>v6.2.2</nodeVersion>
+										<npmVersion>3.9.5</npmVersion>
+									</configuration>
+								</execution>
+
+								&lt;!&ndash;Install dependencies listed in package.json  &ndash;&gt;
+								<execution>
+									<id>npm install</id>
+									<goals>
+										<goal>npm</goal>
+									</goals>
+									<configuration>
+										<arguments>&#45;&#45;cache-min 9999999 install</arguments>
+									</configuration>
+								</execution>
+
+								&lt;!&ndash; Run "build" script from package.json  &ndash;&gt;
+								<execution>
+									<id>npm run build</id>
+									<goals>
+										<goal>npm</goal>
+									</goals>
+									<configuration>
+										<arguments>run build</arguments>
+									</configuration>
+								</execution>
+							</executions>
+						</plugin>-->
 		</plugins>
 	</build>
--->
 
 </project>

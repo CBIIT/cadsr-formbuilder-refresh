@@ -1,14 +1,4 @@
 * text=auto !eol
-FormBuilder/frontend-tools/.babelrc -text
-FormBuilder/frontend-tools/build.js -text
-FormBuilder/frontend-tools/gulp -text
-FormBuilder/frontend-tools/gulp.cmd -text
-FormBuilder/frontend-tools/npm -text
-FormBuilder/frontend-tools/npm.cmd -text
-FormBuilder/frontend-tools/package.json -text
-FormBuilder/frontend-tools/webpack -text
-FormBuilder/frontend-tools/webpack.cmd -text
-FormBuilder/frontend-tools/webpack.config.dev.js -text
 FormBuilder/pom.xml -text
 FormBuilder/src/main/java/gov/nih/nci/cadsr/FormBuilderConstants.java -text
 FormBuilder/src/main/java/gov/nih/nci/cadsr/FormBuilderProperties.java -text
@@ -16,7 +6,19 @@ FormBuilder/src/main/resources/applicationContext.xml -text
 FormBuilder/src/main/webapp/WEB-INF/web.xml -text
 FormBuilder/src/main/webapp/assets/js/App.js -text
 FormBuilder/src/main/webapp/assets/js/routes.js -text
+FormBuilder/src/main/webapp/frontend-tools/.babelrc -text
+FormBuilder/src/main/webapp/frontend-tools/.editorconfig -text
+FormBuilder/src/main/webapp/frontend-tools/.eslintrc -text
+FormBuilder/src/main/webapp/frontend-tools/build.js -text
+FormBuilder/src/main/webapp/frontend-tools/gulp -text
+FormBuilder/src/main/webapp/frontend-tools/gulp.cmd -text
+FormBuilder/src/main/webapp/frontend-tools/npm -text
+FormBuilder/src/main/webapp/frontend-tools/npm.cmd -text
+FormBuilder/src/main/webapp/frontend-tools/webpack -text
+FormBuilder/src/main/webapp/frontend-tools/webpack.cmd -text
+FormBuilder/src/main/webapp/frontend-tools/webpack.config.dev.js -text
 FormBuilder/src/main/webapp/index.jsp -text
+FormBuilder/src/main/webapp/package.json -text
 FormService/pom.xml -text
 FormService/src/main/java/gov/nih/nci/cadsr/FormServiceConstants.java -text
 FormService/src/main/java/gov/nih/nci/cadsr/FormServiceProperties.java -text
