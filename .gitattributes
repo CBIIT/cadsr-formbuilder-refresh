@@ -5,6 +5,7 @@ FormBuilder/src/main/java/gov/nih/nci/cadsr/FormBuilderProperties.java -text
 FormBuilder/src/main/resources/applicationContext.xml -text
 FormBuilder/src/main/webapp/WEB-INF/web.xml -text
 FormBuilder/src/main/webapp/assets/js/App.js -text
+FormBuilder/src/main/webapp/assets/js/router/RoutController.js -text
 FormBuilder/src/main/webapp/assets/js/routes.js -text
 FormBuilder/src/main/webapp/dist/bundle.js -text
 FormBuilder/src/main/webapp/dist/bundle.js.map -text
