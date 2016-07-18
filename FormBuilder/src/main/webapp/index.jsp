@@ -16,6 +16,7 @@
 			<spring:eval expression="@applicationProperties.getProperty('test.value')" />
 		</p>
 	</div>
+    <div id="app"></div>
 	<script src="dist/bundle.js"></script>
 
 </body>
