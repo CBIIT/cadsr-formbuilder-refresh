@@ -29,8 +29,10 @@ FormService/src/main/java/gov/nih/nci/cadsr/controller/ExampleController.java -t
 FormService/src/main/java/gov/nih/nci/cadsr/controller/FormController.java -text
 FormService/src/main/java/gov/nih/nci/cadsr/dao/ExampleDao.java -text
 FormService/src/main/java/gov/nih/nci/cadsr/dao/impl/ExampleDaoImpl.java -text
+FormService/src/main/java/gov/nih/nci/cadsr/domain/Customer.java -text
 FormService/src/main/java/gov/nih/nci/cadsr/manager/ExampleManager.java -text
 FormService/src/main/java/gov/nih/nci/cadsr/manager/impl/ExampleManagerImpl.java -text
+FormService/src/main/java/gov/nih/nci/cadsr/model/Form.java -text
 FormService/src/main/resources/applicationContext.xml -text
 FormService/src/main/resources/log4j.properties -text
 FormService/src/main/webapp/WEB-INF/web.xml -text
