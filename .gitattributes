@@ -1,7 +1,5 @@
 * text=auto !eol
 lib/acegi-security-1.0.4.jar -text
-lib/ant-contrib-1.0b3.jar -text
-lib/ant.jar -text
 lib/aopalliance.jar -text
 lib/asm.jar -text
 lib/caDSR-beans.jar -text
@@ -13,7 +11,6 @@ lib/cglib-2.1.3.jar -text
 lib/collections.jar -text
 lib/commons-chain-1.1.jar -text
 lib/commons-digester-1.7.jar -text
-lib/commons-fileupload-1.1.1.jar -text
 lib/commons-fileupload.jar -text
 lib/commons-io-1.1.jar -text
 lib/commons-lang-2.4.jar -text
@@ -22,7 +19,6 @@ lib/commons-validator-1.2.0.jar -text
 lib/commons-validator-1.3.0.jar -text
 lib/ehcache-1.4.1.jar -text
 lib/extension-client-framework.jar -text
-lib/healthtoolkit.zip -text
 lib/j2ee.jar -text
 lib/jakarta-oro.jar -text
 lib/jasper-compiler.jar -text
@@ -33,7 +29,6 @@ lib/jdev-cm.jar -text
 lib/jdev-rt.jar -text
 lib/jms.jar -text
 lib/jta.jar -text
-lib/log4j-1.2.8.jar -text
 lib/objectCart-beans.jar -text
 lib/owasp-esapi-full-java-1.4.jar -text
 lib/poi-3.9-20121203.jar -text
@@ -41,9 +36,6 @@ lib/saxon9-unpack.jar -text
 lib/saxon9he.jar -text
 lib/sdk-client-framework.jar -text
 lib/servlet.jar -text
-lib/struts-core-1.3.5.jar -text
-lib/struts-taglib-1.3.5.jar -text
-lib/struts.jar -text
 lib/xmlcomp.jar -text
 lib/xsu12.jar -text
 /pom.xml -text
