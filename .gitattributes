@@ -1,27 +1,13 @@
 * text=auto !eol
-lib/acegi-security-1.0.4.jar -text
-lib/aopalliance.jar -text
-lib/asm.jar -text
 lib/caDSR-beans.jar -text
 lib/cadsrapi40-beans.jar -text
 lib/cadsrsentinelapi.jar -text
 lib/cadsrutil.jar -text
-lib/castor-1.0.2.jar -text
-lib/collections.jar -text
-lib/commons-chain-1.1.jar -text
-lib/commons-digester-1.7.jar -text
-lib/commons-io-1.1.jar -text
-lib/commons-lang-2.4.jar -text
-lib/commons-logging.jar -text
-lib/commons-validator-1.3.0.jar -text
 lib/extension-client-framework.jar -text
 lib/objectCart-beans.jar -text
 lib/saxon9-unpack.jar -text
 lib/saxon9he.jar -text
 lib/sdk-client-framework.jar -text
-lib/servlet.jar -text
-lib/xmlcomp.jar -text
-lib/xsu12.jar -text
 /pom.xml -text
 src/main/java/gov/nih/nci/cadsr/FormServiceConstants.java -text
 src/main/java/gov/nih/nci/cadsr/FormServiceProperties.java -text
