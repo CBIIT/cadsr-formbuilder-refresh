@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import gov.nih.nci.cadsr.dao.WorkFlowDao;
-import gov.nih.nci.cadsr.domain.WorkFlow;
 import gov.nih.nci.cadsr.manager.WorkFlowManager;
+import gov.nih.nci.cadsr.model.WorkFlow;
 
 @Service
 public class WorkFlowManagerImpl implements WorkFlowManager {

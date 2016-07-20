@@ -3,7 +3,7 @@ package gov.nih.nci.cadsr.manager;
 import java.sql.SQLException;
 import java.util.List;
 
-import gov.nih.nci.cadsr.domain.Form;
+import gov.nih.nci.cadsr.model.Form;
 
 public interface FormManager {
 

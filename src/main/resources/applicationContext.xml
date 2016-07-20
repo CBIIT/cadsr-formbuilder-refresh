@@ -32,10 +32,39 @@
 	<bean id="props" class="gov.nih.nci.cadsr.FormServiceProperties"
 		scope="singleton" />
 
-	<!-- <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"> 
-		<property name="driverClassName" value="com.mysql.jdbc.Driver" /> <property 
-		name="url" value="jdbc:mysql://localhost:3306/mkyongjava" /> <property name="username" 
-		value="root" /> <property name="password" value="password" /> </bean> -->
+	<bean id="formBuilderService"
+		class="gov.nih.nci.ncicb.cadsr.formbuilder.ejb.impl.FormBuilderServiceImpl"
+		scope="singleton" />
+
+	<bean id="treeCache" class="gov.nih.nci.ncicb.cadsr.contexttree.CDEBrowserTreeCache">
+		<property name="appServiceLocator" ref="appServiceLocator" />
+	</bean>
+
+	<bean id="formOwnerMap" class="java.util.HashMap">
+	</bean>
+
+	<bean id="lockingService"
+		class="gov.nih.nci.ncicb.cadsr.formbuilder.service.impl.LockingServiceImpl">
+		<property name="lockerMap" ref="formOwnerMap" />
+	</bean>
+
+	<bean id="treeNode" class="gov.nih.nci.ncicb.webtree.LazyActionTreeNode">
+		<property name="appServiceLocator" ref="appServiceLocator" />
+	</bean>
+
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
+		<property name="url" value="${oracle.url}" />
+		<property name="username" value="${oracle.username}" />
+		<property name="password" value="${oracle.password}" />
+	</bean>
+
+	<bean id="txManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
 
 	<bean id="oracleDataSource" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close">
@@ -66,6 +95,7 @@
 	</bean>
 
 	<context:component-scan base-package="gov.nih.nci.cadsr" />
+	<context:component-scan base-package="gov.nih.nci.ncicb.cadsr" />
 	<mvc:annotation-driven />
 
 </beans>

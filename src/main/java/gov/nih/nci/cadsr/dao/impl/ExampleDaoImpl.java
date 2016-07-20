@@ -15,7 +15,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import gov.nih.nci.cadsr.dao.ExampleDao;
-import gov.nih.nci.cadsr.domain.Customer;
+import gov.nih.nci.cadsr.model.Customer;
 
 @Repository
 public class ExampleDaoImpl implements ExampleDao {

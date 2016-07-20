@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import gov.nih.nci.cadsr.dao.FormDao;
 import gov.nih.nci.cadsr.manager.FormManager;
-import gov.nih.nci.cadsr.domain.Form;
+import gov.nih.nci.cadsr.model.Form;
 
 @Service
 public class FormManagerImpl implements FormManager {

@@ -12,8 +12,7 @@ import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.stereotype.Repository;
 
 import gov.nih.nci.cadsr.dao.WorkFlowDao;
-
-import gov.nih.nci.cadsr.domain.WorkFlow;
+import gov.nih.nci.cadsr.model.WorkFlow;
 
 @Repository
 public class WorkFlowDaoImpl implements WorkFlowDao {

@@ -10,9 +10,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-
-import gov.nih.nci.cadsr.domain.WorkFlow;
 import gov.nih.nci.cadsr.manager.WorkFlowManager;
+import gov.nih.nci.cadsr.model.WorkFlow;
 
 @RestController
 public class WorkFlowController {

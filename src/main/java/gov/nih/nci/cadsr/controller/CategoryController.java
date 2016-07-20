@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import gov.nih.nci.cadsr.domain.Category;
 import gov.nih.nci.cadsr.manager.CategoryManager;
+import gov.nih.nci.cadsr.model.Category;
 
 @RestController
 public class CategoryController {

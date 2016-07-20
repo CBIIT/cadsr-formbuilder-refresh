@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import gov.nih.nci.cadsr.dao.CategoryDao;
-import gov.nih.nci.cadsr.domain.Category;
 import gov.nih.nci.cadsr.manager.CategoryManager;
+import gov.nih.nci.cadsr.model.Category;
 
 @Service
 public class CategoryManagerImpl implements CategoryManager {

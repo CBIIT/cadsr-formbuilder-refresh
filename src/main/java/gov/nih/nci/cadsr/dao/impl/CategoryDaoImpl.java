@@ -12,7 +12,7 @@ import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.stereotype.Repository;
 
 import gov.nih.nci.cadsr.dao.CategoryDao;
-import gov.nih.nci.cadsr.domain.Category;
+import gov.nih.nci.cadsr.model.Category;
 
 @Repository
 public class CategoryDaoImpl implements CategoryDao {

@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import gov.nih.nci.cadsr.FormServiceProperties;
 import gov.nih.nci.cadsr.manager.FormManager;
-import gov.nih.nci.cadsr.domain.Form;
+import gov.nih.nci.cadsr.model.Form;
 
 @RestController
 public class FormController {
