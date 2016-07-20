@@ -93,10 +93,43 @@
 		</dependency>
 
 		<dependency>
+			<groupId>net.sf.ehcache</groupId>
+			<artifactId>ehcache</artifactId>
+			<version>1.4.1</version>
+		</dependency>
+
+		<dependency>
 			<groupId>struts</groupId>
 			<artifactId>struts</artifactId>
 			<version>1.2.8</version>
 		</dependency>
+
+		<!-- <dependency> <groupId>jboss</groupId> <artifactId>jbosssx</artifactId> 
+			<version>3.2.3</version> </dependency> -->
+
+		<dependency>
+			<groupId>org.picketbox</groupId>
+			<artifactId>jbosssx-bare</artifactId>
+			<version>4.0.16.Final</version>
+		</dependency>
+
+		<!-- <dependency> <groupId>jboss</groupId> <artifactId>jbosssx</artifactId> 
+			<version>4.2.0.GA</version> </dependency> -->
+
+		<!-- wrong version? -->
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>3.0-FINAL</version>
+		</dependency>
+
+		<!-- wrong version? -->
+		<dependency>
+			<groupId>org.owasp.esapi</groupId>
+			<artifactId>esapi</artifactId>
+			<version>2.1.0.1</version>
+		</dependency>
+
 
 
 
