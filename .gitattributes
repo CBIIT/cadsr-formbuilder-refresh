@@ -13,6 +13,7 @@ FormBuilder/src/main/webapp/assets/js/router/RouteController.js -text
 FormBuilder/src/main/webapp/assets/js/router/Router.js -text
 FormBuilder/src/main/webapp/assets/js/router/router.js -text
 FormBuilder/src/main/webapp/assets/js/views/AppLayoutView.js -text
+FormBuilder/src/main/webapp/assets/js/views/search/SearchLayoutView.js -text
 FormBuilder/src/main/webapp/dist/bundle.js -text
 FormBuilder/src/main/webapp/dist/bundle.js.map -text
 FormBuilder/src/main/webapp/frontend-tools/.babelrc -text
