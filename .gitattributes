@@ -5,6 +5,7 @@ lib/cadsrsentinelapi.jar -text
 lib/cadsrutil.jar -text
 lib/extension-client-framework.jar -text
 lib/objectCart-beans.jar -text
+lib/ojdbc6-11.2.0.3.jar -text
 lib/sdk-client-framework.jar -text
 /pom.xml -text
 src/main/java/gov/nih/nci/cadsr/FormServiceConstants.java -text

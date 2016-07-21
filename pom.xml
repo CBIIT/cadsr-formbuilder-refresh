@@ -58,6 +58,14 @@
 			<artifactId>log4j</artifactId>
 			<version>${log4j.version}</version>
 		</dependency>
+		
+		<!-- CORS Filter -->
+		<!-- <dependency>
+            <groupId>org.apache.tomcat</groupId>
+            <artifactId>tomcat-catalina</artifactId>
+            <version>7.0.42</version>
+            <scope>provided</scope>
+        </dependency> -->
 
 		<!-- ORACLE database driver -->
 		<dependency>

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import gov.nih.nci.ncicb.cadsr.common.persistence.PersistenceConstants;
 import gov.nih.nci.ncicb.cadsr.common.resource.NCIUser;
 import gov.nih.nci.ncicb.cadsr.formbuilder.ejb.impl.FormBuilderServiceImpl;
 
@@ -53,6 +54,50 @@ public class LegacyController {
 		return forms;
 
 	}
+	
+	@RequestMapping(value = "/workflows", method = RequestMethod.GET)
+	public @ResponseBody Collection getAllWorkflows(){
+		
+		return formBuilderService.getStatusesForACType(PersistenceConstants.FORM_ADMIN_COMPONENT_TYPE);
+		
+	}
+	
+	@RequestMapping(value = "/contexts", method = RequestMethod.GET)
+	public @ResponseBody Collection getAllContexts(){
+		
+		return formBuilderService.getAllContexts();
+		
+	}
 
+	@RequestMapping(value = "/categories", method = RequestMethod.GET)
+	public @ResponseBody Collection getAllCategories(){
+		
+		return formBuilderService.getAllFormCategories();
+		
+	}
 
+	@RequestMapping(value = "/types", method = RequestMethod.GET)
+	public @ResponseBody String[] getAllTypes(){
+		
+		return PersistenceConstants.FORM_TYPE_VALUES;
+		
+	}
+	
+	@RequestMapping(value = "/protocols", method = RequestMethod.GET)
+	public @ResponseBody Collection searchProtocols(@RequestParam(value = "keyword", required = false) String keyword,
+			@RequestParam(value = "contextFilter", required = false) boolean contextFilter){
+		
+		return null;
+		
+	}
+	
+	@RequestMapping(value = "/classifications", method = RequestMethod.GET)
+	public @ResponseBody Collection searchClassifications(@RequestParam(value = "longName", required = false) String longName,
+			@RequestParam(value = "version", required = false) String version,
+			@RequestParam(value = "name", required = false) String name,
+			@RequestParam(value = "contextFilter", required = false) boolean contextFilter){
+		
+		return null;
+		
+	}
 }
