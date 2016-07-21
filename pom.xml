@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>FormBuilder</groupId>
 	<artifactId>FormService</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>5.0-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<name>FormService</name>
 
@@ -26,7 +26,6 @@
 	<properties>
 		<spring.version>4.2.6.RELEASE</spring.version>
 		<hibernate.version>3.6.3.Final</hibernate.version>
-		<jackson.version>1.9.10</jackson.version>
 		<log4j.version>1.2.17</log4j.version>
 	</properties>
 
@@ -175,9 +174,23 @@
 			<version>9.7.0-7</version>
 		</dependency>
 
-
-
-
+		<!-- local dependencies -->
+		<dependency>
+			<groupId>nih.nci.cadsr</groupId>
+			<artifactId>cadsrutil</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/cadsrutil.jar</systemPath>
+		</dependency>
+		
+		<dependency>
+			<groupId>nih.nci.cadsr</groupId> 
+			<artifactId>cadsrsentinelapi</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/cadsrsentinelapi.jar</systemPath>
+		</dependency>
+		
 	</dependencies>
 
 </project>
