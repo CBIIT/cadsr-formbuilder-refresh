@@ -1,6 +1,7 @@
 * text=auto !eol
 lib/cadsrsentinelapi.jar -text
 lib/cadsrutil.jar -text
+lib/ojdbc6.jar -text
 /pom.xml -text
 src/main/java/gov/nih/nci/cadsr/FormServiceConstants.java -text
 src/main/java/gov/nih/nci/cadsr/FormServiceProperties.java -text
