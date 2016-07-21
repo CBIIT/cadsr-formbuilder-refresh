@@ -15,6 +15,7 @@
 				<value>file:///c:/cadsr/test.properties</value>
 				<value>/opt/wildfly-8.2.0-Final/standalone/configuration/test.properties
 				</value>
+				<value>local/content/wildfly/standalone-18080/configuration/test.properties</value>
 			</list>
 		</property>
 		<property name="ignoreResourceNotFound" value="true" />
@@ -25,8 +26,12 @@
 		<property name="locations">
 			<list>
 				<value>file:///c:/cadsr/database.properties</value>
+				<value>/opt/wildfly-8.2.0-Final/standalone/configuration/database.properties
+				</value>
+				<value>local/content/wildfly/standalone-18080/configuration/test.properties</value>
 			</list>
 		</property>
+		<property name="ignoreResourceNotFound" value="true" />
 	</bean>
 
 	<bean id="props" class="gov.nih.nci.cadsr.FormServiceProperties"
