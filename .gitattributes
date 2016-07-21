@@ -1,12 +1,7 @@
 * text=auto !eol
-lib/caDSR-beans.jar -text
-lib/cadsrapi40-beans.jar -text
 lib/cadsrsentinelapi.jar -text
 lib/cadsrutil.jar -text
-lib/extension-client-framework.jar -text
-lib/objectCart-beans.jar -text
 lib/ojdbc6-11.2.0.3.jar -text
-lib/sdk-client-framework.jar -text
 /pom.xml -text
 src/main/java/gov/nih/nci/cadsr/FormServiceConstants.java -text
 src/main/java/gov/nih/nci/cadsr/FormServiceProperties.java -text
@@ -134,5 +129,6 @@ src/main/java/gov/nih/nci/ncicb/cadsr/formbuilder/struts/common/FormJspUtil.java
 src/main/java/gov/nih/nci/ncicb/cadsr/formbuilder/struts/common/FormLockerSessionListener.java -text
 src/main/resources/applicationContext.xml -text
 src/main/resources/log4j.properties -text
+src/main/resources/settings.xml -text
 src/main/webapp/WEB-INF/web.xml -text
 src/test/resources/applicationTestContext.xml -text

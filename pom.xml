@@ -58,14 +58,10 @@
 			<artifactId>log4j</artifactId>
 			<version>${log4j.version}</version>
 		</dependency>
-		
+
 		<!-- CORS Filter -->
-		<!-- <dependency>
-            <groupId>org.apache.tomcat</groupId>
-            <artifactId>tomcat-catalina</artifactId>
-            <version>7.0.42</version>
-            <scope>provided</scope>
-        </dependency> -->
+		<!-- <dependency> <groupId>org.apache.tomcat</groupId> <artifactId>tomcat-catalina</artifactId> 
+			<version>7.0.42</version> <scope>provided</scope> </dependency> -->
 
 		<!-- ORACLE database driver -->
 		<dependency>
@@ -84,6 +80,39 @@
 			<groupId>commons-dbcp</groupId>
 			<artifactId>commons-dbcp</artifactId>
 			<version>1.2.2</version>
+		</dependency>
+
+		<!-- caDSR Dependencies -->
+		<!-- In order to retrieve these dependencies, copy the settings.xml file 
+			from src/main/resources to your local maven .m2 folder -->
+		<dependency>
+			<groupId>nih.nci.cadsr</groupId>
+			<artifactId>sdk-client-framework</artifactId>
+			<version>1.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>nih.nci.cadsr</groupId>
+			<artifactId>extension-client-framework</artifactId>
+			<version>1.0.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>nih.nci.cadsr</groupId>
+			<artifactId>objectcart-beans</artifactId>
+			<version>1.0.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>gov.nih.nci.caintegrator2</groupId>
+			<artifactId>caDSR-beans</artifactId>
+			<version>4.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>nih.nci.cadsr</groupId>
+			<artifactId>cadsrapi40-beans</artifactId>
+			<version>1.0</version>
 		</dependency>
 
 		<!-- Legacy Dependencies -->
