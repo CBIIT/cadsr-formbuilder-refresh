@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -14,6 +15,7 @@ import gov.nih.nci.ncicb.cadsr.common.persistence.PersistenceConstants;
 import gov.nih.nci.ncicb.cadsr.common.resource.NCIUser;
 import gov.nih.nci.ncicb.cadsr.formbuilder.ejb.impl.FormBuilderServiceImpl;
 
+@CrossOrigin(maxAge = 3600)
 @RestController
 @RequestMapping(path = "/legacy")
 public class LegacyController {
