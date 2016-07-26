@@ -12,9 +12,12 @@
   "dependencies": {
     "backbone": "1.2.3",
     "backbone.marionette": "2.4.7",
+    "backbone.paginator": "^2.0.5",
     "backbone.radio": "^1.0.5",
+    "backgrid": "^0.3.7",
     "bootstrap-sass": "3.3.6",
     "jquery": "2.2.4",
+    "marionette-service": "0.0.7",
     "underscore": "^1.8.3"
   },
   "devDependencies": {
