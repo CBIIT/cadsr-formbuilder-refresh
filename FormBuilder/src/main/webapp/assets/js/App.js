@@ -1,4 +1,13 @@
 import * as Marionette from 'backbone.marionette';
-const App = new Marionette.Application();
+import AppLayoutView from "./views/AppLayoutView";
 
-export default App;
+const App = Marionette.Application.extend({
+	initialize() {
+		this.layout = new AppLayoutView();
+		this.layout.render();
+	}
+});
+
+const app = new App();
+
+export default app;

@@ -1,43 +1,33 @@
 import Marionette from 'backbone.marionette';
 import Radio from 'backbone.radio';
-import {Header, Footer, ListView} from './views';
+import HeaderView from './HeaderView';
+import FooterView from './FooterView';
+import template from '../../templates/app-layout/app-layout.html';
 
-let filterChannel = Radio.channel('filter');
-
-export const AppLayoutView = Marionette.LayoutView.extend({
-
-	el: '#todoapp',
-
+const AppLayoutView = Marionette.LayoutView.extend({
+	el:      "#app",
+	template: template,
 	regions: {
 		header: '#header',
-		main: '#main',
+		main:   '#main',
 		footer: '#footer'
 	},
 
-	initialize: function() {
+	onRender(){
 		this.showHeader();
 		this.showFooter();
-		this.showSearchResultsPane();
 	},
 
-	showHeader: function () {
-		const header = new Header({
-			collection: this.collection
-		});
+	showHeader () {
+		const header = new HeaderView();
 		this.showChildView('header', header);
 	},
 
-	showFooter: function () {
-		const footer = new Footer({
-			collection: this.collection
-		});
+	showFooter () {
+		const footer = new FooterView();
 		this.showChildView('footer', footer);
-	},
-
-	showSearchResultsPane: function () {
-		this.showChildView('main', new ListView({
-			collection: this.collection
-		}));
 	}
 });
+
+export default AppLayoutView;
 

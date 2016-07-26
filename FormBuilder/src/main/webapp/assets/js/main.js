@@ -1,13 +1,17 @@
-import App from './App';
+import app from './App';
 import * as Backbone from 'backbone';
 import $ from 'jquery';
-import Router from './router/Router'
+import SearchController from  "./controllers/search/SearchController";
 
 Backbone.$ = $;
 
-App.on('start', function () {
-	const router = new Router();
+app.on('start', function(){
+
+	this.search = new SearchController({
+		container: this.layout.getRegion("main")
+	});
+
 	Backbone.history.start();
 });
 
-App.start();
+app.start();

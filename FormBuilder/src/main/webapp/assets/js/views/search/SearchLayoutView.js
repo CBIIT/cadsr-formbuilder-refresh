@@ -1,36 +1,36 @@
 import Marionette from 'backbone.marionette';
 import Radio from 'backbone.radio';
-import {Header, Footer, ListView} from './views';
-
+import template from '../../../templates/search/search-layout.html';
+import SearchResultsView from './form-search/SearchResultsView';
 let filterChannel = Radio.channel('filter');
 
-export const AppLayoutView = Marionette.LayoutView.extend({
-
-	el: '#app',
-
+const SearchLayoutView = Marionette.LayoutView.extend({
+	template: template,
+	tagMame:  "section",
 	regions: {
-		searchCriteria: '#search-criteria',
-		searchResults: '#search-results',
+		searchCriteria: '#search-form-wrapper',
+		searchResults:  '#search-results-wrapper',
 	},
-
-	initialize: function() {
-		this.showHeader();
-		this.showFooter();
-		this.showSearchResultsPane();
+	onRender() {
+		this.showSearchForm();
+		this.showSearchResultsView();
 	},
-
-	showHeader: function () {
-		const header = new Header({
+	showSearchForm(){
+	},
+	showSearchResultsView(){
+		/*TODO move this, just testing now */
+		this.collection.fetch();
+		const view = new SearchResultsView({
 			collection: this.collection
 		});
-		this.showChildView('header', header);
-	},
-
-	showFooter: function () {
-		const footer = new Footer({
-			collection: this.collection
-		});
-		this.showChildView('footer', footer);
+		this.showChildView('searchResults', view);
 	}
+	/*
+	 showSearchForm () {
+	 const searchLayoutView = new SearchLayoutView({});
+	 this.showChildView('header', searchLayoutView);
+	 }*/
 });
+
+export default SearchLayoutView;
 

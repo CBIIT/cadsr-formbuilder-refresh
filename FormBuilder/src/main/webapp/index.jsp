@@ -9,14 +9,15 @@
 </head>
 <body>
 
-	<h1>Hello World!</h1>
+	<h1>CaDSR FormBuilder</h1>
 	<h2>Test Property Injection:</h2>
 	<div>
 		<p>
 			<spring:eval expression="@applicationProperties.getProperty('test.value')" />
 		</p>
 	</div>
-    <div id="app"></div>
+    <div id="app">
+	</div>
 	<script src="dist/bundle.js"></script>
 
 </body>
