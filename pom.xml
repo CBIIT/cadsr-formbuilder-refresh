@@ -19,6 +19,19 @@
 						<target>1.7</target>
 					</configuration>
 				</plugin>
+
+				<plugin>
+					<groupId>org.wildfly.plugins</groupId>
+					<artifactId>wildfly-maven-plugin</artifactId>
+					<version>1.0.1.Final</version>
+					<configuration>
+						<hostname>${deploy.server}</hostname>
+						<port>${deploy.port}</port>
+						<username>${deploy.username}</username>
+						<password>${deploy.password}</password>
+						<name>${deploy.artifact.name}</name>
+					</configuration>
+				</plugin>
 			</plugins>
 		</pluginManagement>
 	</build>
@@ -58,17 +71,7 @@
 			<version>${log4j.version}</version>
 		</dependency>
 
-		<!-- CORS Filter -->
-		<!-- <dependency> <groupId>org.apache.tomcat</groupId> <artifactId>tomcat-catalina</artifactId> 
-			<version>7.0.42</version> <scope>provided</scope> </dependency> -->
-
-		<!-- ORACLE database driver -->
-		<!-- <dependency>
-			<groupId>com.oracle</groupId>
-			<artifactId>ojdbc6</artifactId>
-			<version>11.2.0.3</version>
-		</dependency> -->
-
+		<!-- Database Drivers -->
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
@@ -182,23 +185,23 @@
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/cadsrutil.jar</systemPath>
 		</dependency>
-		
+
 		<dependency>
-			<groupId>nih.nci.cadsr</groupId> 
+			<groupId>nih.nci.cadsr</groupId>
 			<artifactId>cadsrsentinelapi</artifactId>
 			<version>1.0</version>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/cadsrsentinelapi.jar</systemPath>
 		</dependency>
-		
+
 		<dependency>
-			<groupId>com.oracle</groupId> 
+			<groupId>com.oracle</groupId>
 			<artifactId>ojdbc6</artifactId>
 			<version>1.0</version>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/ojdbc6.jar</systemPath>
 		</dependency>
-		
+
 	</dependencies>
 
 </project>
