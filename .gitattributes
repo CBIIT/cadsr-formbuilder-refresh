@@ -20,6 +20,8 @@ FormBuilder/src/main/webapp/assets/js/views/HeaderView.js -text
 FormBuilder/src/main/webapp/assets/js/views/search/SearchLayoutView.js -text
 FormBuilder/src/main/webapp/assets/js/views/search/form-search/SearchResultsView.js -text
 FormBuilder/src/main/webapp/assets/templates/app-layout/app-layout.html -text
+FormBuilder/src/main/webapp/assets/templates/app-layout/footer.html -text
+FormBuilder/src/main/webapp/assets/templates/app-layout/header.html -text
 FormBuilder/src/main/webapp/assets/templates/search/search-layout.html -text
 FormBuilder/src/main/webapp/dist/bundle.js -text
 FormBuilder/src/main/webapp/dist/bundle.js.map -text
