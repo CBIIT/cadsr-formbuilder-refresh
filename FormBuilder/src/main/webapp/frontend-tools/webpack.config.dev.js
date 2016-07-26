@@ -53,7 +53,8 @@ export default {
       },
       {
         test: /\.html$/,
-        loader: 'underscore-template-loader'
+        loader: 'underscore-template-loader',
+        prependFilenameComment: __dirname,
       },
       {test: /\.eot(\?v=\d+.\d+.\d+)?$/, loader: 'file'},
       {
