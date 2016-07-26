@@ -8,7 +8,7 @@
 	<name>FormService</name>
 
 	<build>
-		<pluginManagement>
+		<finalName>${project.artifactId}</finalName>		<pluginManagement>
 			<plugins>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
