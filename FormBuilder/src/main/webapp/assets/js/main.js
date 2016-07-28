@@ -7,9 +7,7 @@ Backbone.$ = $;
 
 app.on('start', function(){
 
-	this.search = new SearchController({
-		container: this.layout.getRegion("main")
-	});
+	this.search = new SearchController();
 
 	Backbone.history.start();
 });

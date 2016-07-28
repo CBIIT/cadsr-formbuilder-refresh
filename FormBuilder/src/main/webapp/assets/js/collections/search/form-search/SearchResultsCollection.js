@@ -8,7 +8,6 @@ const SearchResultsCollection = PageableCollection.extend({
 		pageSize: 50
 	},
 	mode:  "client"
-
 });
 
 export default SearchResultsCollection;

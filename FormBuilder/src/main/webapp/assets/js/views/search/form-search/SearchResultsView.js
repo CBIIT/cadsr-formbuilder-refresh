@@ -1,49 +1,56 @@
 import Backbone from 'backbone';
-import {Grid} from "backgrid";
+import Backgrid from "backgrid";
+import SelectAllHeaderCell from 'backgrid-select-all';
+import Paginator from 'backgrid-paginator';
 
-const columns = [{
-	name:     "id",
-	label:    "Long Name",
+var columns = [{
+	name: "id",
 	editable: false,
-	cell:     "string"
+	cell: Backgrid.IntegerCell.extend({
+		orderSeparator: ''
+	})
 }, {
-	name:     "name",
-	label:    "Context",
-	editable: false,
-	cell:     "string"
+	name: "name",
+	cell: "string"
 }, {
-	name:     "pop",
-	label:    "Type",
-	editable: false,
-	cell:     "string"
+	name: "pop",
+	cell: "integer"
 }, {
-	name:     "percentage",
-	label:    "Protocol Long Name(s)",
-	editable: false,
-	cell:     "string"
+	name: "percentage",
+	cell: "number"
 }, {
-	name:     "date",
-	label:    "Workflow Status",
-	editable: false,
-	cell:     "string"
+	name: "date",
+	cell: "date"
 }, {
-	name:     "url",
-	label:    "Public ID",
-	editable: false,
-	cell:     "string"
-}, {
-	name:     "name",
-	label:    "Context",
-	editable: false,
-	cell:     "string"
+	name: "url",
+	cell: "uri"
 }];
 
-const SearchResultsView = Grid.extend({
-	initialize(options ={}) {
-		this.collection = options.collection
-	},
-	columns: columns,
+const SearchResultsView = Backgrid.Grid.extend({
+	columns: [{
+		// enable the select-all extension
+		name: "",
+		cell: "select-row",
+		headerCell: "select-all"
+	}].concat(columns),
 	emptyText: "No Data is available"
 });
+
+/*var paginator = Paginator.extend({
+	// If you anticipate a large number of pages, you can adjust
+	// the number of page handles to show. The sliding window
+	// will automatically show the next set of page handles when
+	// you click next at the end of a window.
+	windowSize: 20, // Default is 10
+
+	// Used to multiple windowSize to yield a number of pages to slide,
+	// in the case the number is 5
+	slideScale: 0.25, // Default is 0.5
+
+	// Whether sorting should go back to the first page
+	goBackFirstOnSort: false, // Default is true
+
+	collection: resultsCollection
+});*/
 
 export default SearchResultsView;
