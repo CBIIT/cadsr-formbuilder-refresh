@@ -1,7 +1,8 @@
 package gov.nih.nci.cadsr.controller;
 
-import java.util.List;
+import java.util.Collection;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,26 +12,43 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import gov.nih.nci.cadsr.manager.CategoryManager;
-import gov.nih.nci.cadsr.model.Category;
 
 @RestController
 public class CategoryController {
-
+	private static final Logger logger = Logger.getLogger(CategoryController.class);
 	@Autowired
 	private CategoryManager categoryManager;
 
-	@RequestMapping(value = "/category", method = RequestMethod.GET)
+	@RequestMapping(value = "/categories", method = RequestMethod.GET)
 	@ResponseBody
-	public ResponseEntity<List<Category>> getAllCategory() {
+	public ResponseEntity<Collection> getAllCategories() throws RuntimeException {
 
-		List<Category> category = categoryManager.getAllCategory();
-		ResponseEntity<List<Category>> response = createSuccessResponse(category);
+		long startTimer = System.currentTimeMillis();
+		Collection category = categoryManager.getAllFormCategories();
+
+		ResponseEntity<Collection> response = createSuccessResponse(category);
+		long endTimer = System.currentTimeMillis();
+		logger.info("----------EJB query took " + (endTimer - startTimer) + " ms.");
+		logger.info("----------# of category Results: " + category.size());
 
 		return response;
+
 	}
 
-	private ResponseEntity<List<Category>> createSuccessResponse(List<Category> category) {
-		return new ResponseEntity<List<Category>>(category, HttpStatus.OK);
+	/*
+	 * @RequestMapping(value = "/category", method = RequestMethod.GET)
+	 * 
+	 * @ResponseBody public ResponseEntity<List<Category>> getAllCategory() {
+	 * 
+	 * List<Category> category = categoryManager.getAllCategory();
+	 * ResponseEntity<List<Category>> response =
+	 * createSuccessResponse(category);
+	 * 
+	 * return response; }
+	 */
+
+	private ResponseEntity<Collection> createSuccessResponse(Collection category) {
+		return new ResponseEntity<Collection>(category, HttpStatus.OK);
 	}
 
 }
