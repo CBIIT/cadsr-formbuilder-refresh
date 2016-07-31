@@ -26,7 +26,7 @@ public class LegacyController {
 	private FormBuilderServiceImpl formBuilderService;
 
 
-	@RequestMapping(value = "/forms", method = RequestMethod.GET)
+	@RequestMapping(value = "/forms", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody Collection searchForms(@RequestParam(value = "formLongName", required = false) String formLongName,
 			@RequestParam(value = "protocolIdSeq", required = false) String protocolIdSeq,
 			@RequestParam(value = "contextIdSeq", required = false) String contextIdSeq,
