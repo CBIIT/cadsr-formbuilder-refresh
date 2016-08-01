@@ -2,12 +2,13 @@ import PageableCollection from 'backbone.paginator';
 import SearchResultModel from "../../../models/search/form-search/SearchResultModel";
 
 const SearchResultsCollection = PageableCollection.extend({
-	model: SearchResultModel,
-	url: 'http://localhost:8080/FormService/api/v1/legacy/forms?formLongName=demographics',
-	state: {
-		pageSize: 50
-	},
-	mode:  "client"
+	model:   SearchResultModel,
+	/* baseUrl is a custom property. the "url" property is constructed after the UI input data is gathered */
+	baseUrl: serverProps.searchEndPointUrl,
+/*	state:   {
+		pageSize: 100
+	},*/
+	mode:    "client"
 });
 
 export default SearchResultsCollection;

@@ -1,15 +1,19 @@
 import {Model} from 'backbone';
 
 const SearchResultModel = Model.extend({
-	default: {
+	defaults: {
+		/* same as search query longName */
 		formLongName:  '',
-		protocolIdSeq: '',
-		context:       '',
-		workflow:      '',
+		protocolLongName: '',
+		contextName:       '',
+		/*TODO confirm this is the workflow status */
+		aslName:      '',
+		/*TODO where did this come from?*/
 		categoryName:  '',
-		type:          '',
+		formType:          '',
 		classification: '',
-		publicId: ''
+		publicId: '',
+		version: '',
 	}
 });
 

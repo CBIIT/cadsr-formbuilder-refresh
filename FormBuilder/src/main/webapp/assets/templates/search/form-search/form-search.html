@@ -1,30 +1,51 @@
-<div id="search-form-wrapper">
-	<div class="search-preferences">
-	</div>
+<div class="search-preferences">
+	<p>Search Preferences</p>
+</div>
+<form class="search-form">
 	<div class="search-criteria">
+		<h3>Search For Forms</h3>
+		<p>Note: Enter/select search criteria and click search button to initiate search. The wildcard character is *. For additional information on how to use Form Builder, click the Help button above.</p>
 		<div class="form-control">
-			<label for="">Form Long Name</label>
-			<input type="text" />
+			<label for="">Form Long Name</label> <input name="formLongName" type="text" value="<%- formLongName %>"/>
 		</div>
 		<div class="form-control">
-			<label for="">Public ID</label>
-			<input type="text" />
+			<label for="">Public ID</label> <input name="publicId" type="text" value="<%- publicId %>"/>
 		</div>
 		<div class="form-control">
-			<label for="">Protocol Long Name</label>
-			<input type="text" />
+			<label for="">Protocol Long Name</label> <input name="protocolLongName" type="text" value="<%- protocolLongName %>"/>
 		</div>
 		<div class="form-control">
-			<label for="">CS/CSI (Classification)</label>
-			<input type="text" />
+			<label for="">CS/CSI (Classification)</label> <input name="classification" type="text" value="<%- classification %>"/>
 		</div>
 		<div class="form-control">
-			<label for="">Public ID</label>
-			<input type="text" />
+			<label for="">CDE Public ID</label> <input type="text" name="cdePublicId"  value="<%- cdePublicId %>"/>
 		</div>
 
+		<div class="form-control">
+			<label for="">Module</label> <input type="text" name="module"  value="<%- module %>"/>
+		</div>
+		<div class="form-control">
+			<label for="">Workflow</label> <select>
+			<option value=""></option>
+		</select>
+		</div>
+		<div class="form-control">
+			<label for="">Context</label> <select>
+			<option value=""></option>
+		</select>
+		</div>
+		<div class="form-control">
+			<label for="">Category</label> <select>
+			<option value=""></option>
+		</select>
+		</div>
+		<div class="form-control">
+			<label for="">Type</label> <select>
+			<option value=""></option>
+		</select>
+		</div>
 	</div>
 	<div class="button-group">
-		<button type="button" id="search-button">Submit</button>
+		<input type="submit" id="search-button" value="Submit" />
 	</div>
-</div>
+</form>

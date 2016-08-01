@@ -18,6 +18,13 @@
 	</div>
     <div id="app">
 	</div>
+	<script>
+		const serverProps = {
+			/*TODO inject value from properties file */
+			searchEndPoint: 'http://localhost:8080/FormService/api/v1/legacy/forms'
+		};
+		Object.freeze(serverProps);
+	</script>
 	<script src="dist/bundle.js"></script>
 
 </body>

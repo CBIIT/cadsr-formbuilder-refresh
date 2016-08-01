@@ -1,10 +1,10 @@
 import Marionette from 'backbone.marionette';
-import Radio from 'backbone.radio';
+import EVENTS from '../constants/EVENTS';
+import {appChannel} from '../channels/radioChannels'
 import HeaderView from './HeaderView';
 import FooterView from './FooterView';
 import template from '../../templates/app-layout/app-layout.html';
 
-let appChannel = Radio.channel('appEvents');
 
 const AppLayoutView = Marionette.LayoutView.extend({
 	el:       "#app",
@@ -16,8 +16,8 @@ const AppLayoutView = Marionette.LayoutView.extend({
 	},
 	initialize(){
 		/*The Main region gets shown when the appLayout receives a radio event via appChannel with the actual view passed into it */
-		appChannel.reply('set:mainLayout', (contentView) =>{
-			this.showMain(contentView);
+		appChannel.reply(EVENTS.APP.SET_MAIN_CONTENT_LAYOUT, (contentView) =>{
+			this.showMainContent(contentView);
 		});
 	},
 	onRender() {
@@ -33,7 +33,7 @@ const AppLayoutView = Marionette.LayoutView.extend({
 		const footer = new FooterView();
 		this.showChildView('footer', footer);
 	},
-	showMain(contentView){
+	showMainContent(contentView){
 		this.showChildView('main', contentView);
 	}
 });

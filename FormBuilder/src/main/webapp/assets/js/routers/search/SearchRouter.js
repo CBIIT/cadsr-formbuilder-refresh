@@ -1,7 +1,5 @@
 import * as Backbone from 'backbone';
-import Radio from 'backbone.radio';
-
-let searchChannel = Radio.channel('search');
+import {searchChannel} from '../../channels/radioChannels'
 
 const SearchRouter = Backbone.Router.extend({
 	routes: {
@@ -9,7 +7,7 @@ const SearchRouter = Backbone.Router.extend({
 		'search': 'searchLayout',
 	},
 	searchLayout: function () {
-		searchChannel.request('searchLayout');
+		searchChannel.request('set:searchLayout');
 	}});
 
 export default SearchRouter;

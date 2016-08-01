@@ -1,42 +1,50 @@
 import Backbone from 'backbone';
+import $ from 'jquery';
 import Backgrid from "backgrid";
 import SelectAllHeaderCell from 'backgrid-select-all';
-import Paginator from 'backgrid-paginator';
+/*
+import * as Paginator from 'backgrid-paginator';
+*/
 
-var columns = [{
-	name: "id",
+const columns = [{
+	/* same as search query longName */
+	name:     "longName",
+	label:    "Long Name",
 	editable: false,
-	cell: Backgrid.IntegerCell.extend({
-		orderSeparator: ''
-	})
+	cell:     "string"
 }, {
-	name: "name",
-	cell: "string"
+	name:     "contextName",
+	label:    "Context",
+	editable: false,
+	cell:     "string"
 }, {
-	name: "pop",
-	cell: "integer"
+	name:     "formType",
+	label:    "Type",
+	editable: false,
+	cell:     "string"
 }, {
-	name: "percentage",
-	cell: "number"
+	name:     "Protocol Long Name(s)",
+	label:    "Protocol Long Name(s)",
+	editable: false,
+	cell:     "string"
 }, {
-	name: "date",
-	cell: "date"
+	name:     "aslName",
+	label:    "Workflow Status",
+	editable: false,
+	cell:     "string"
 }, {
-	name: "url",
-	cell: "uri"
+	name:     "publicId",
+	label:    "Public ID",
+	editable: false,
+	cell:     "string"
+}, {
+	name:     "version",
+	label:    "Version",
+	editable: false,
+	cell:     "string"
 }];
 
-const SearchResultsView = Backgrid.Grid.extend({
-	columns: [{
-		// enable the select-all extension
-		name: "",
-		cell: "select-row",
-		headerCell: "select-all"
-	}].concat(columns),
-	emptyText: "No Data is available"
-});
-
-/*var paginator = Paginator.extend({
+/*const resultsPaginator = Paginator.extend({
 	// If you anticipate a large number of pages, you can adjust
 	// the number of page handles to show. The sliding window
 	// will automatically show the next set of page handles when
@@ -49,8 +57,25 @@ const SearchResultsView = Backgrid.Grid.extend({
 
 	// Whether sorting should go back to the first page
 	goBackFirstOnSort: false, // Default is true
-
-	collection: resultsCollection
 });*/
+
+const SearchResultsView = Backgrid.Grid.extend({
+	columns:   [{
+		// enable the select-all extension
+		name:       "",
+		cell:       "select-row",
+		headerCell: "select-all"
+	}].concat(columns),
+	emptyText: "No Data is available",
+	onRender(){
+	/*	let paginator = new Paginator({
+			collection: this.collection
+		});*/
+	},
+	onAttach() {
+		let totalResults = this.collection.length;
+		this.$el.before(`<p>Total Results: ${totalResults}</p>`);
+	}
+});
 
 export default SearchResultsView;
