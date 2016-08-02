@@ -17,7 +17,7 @@ import SearchResultsCollection from '../../collections/search/form-search/Search
  * Marionette.Object without any external dependencies
  */
 /*TODO move common methods out into a mixin/HOF or baseController/baseService */
-const SearchController = Service.extend({
+const SearchService = Service.extend({
 	radioRequests: {
 		'search set:searchLayout': 'dispatchSearchLayout',
 	},
@@ -59,4 +59,4 @@ const SearchController = Service.extend({
 	}
 });
 
-export default SearchController;
+export default SearchService;
