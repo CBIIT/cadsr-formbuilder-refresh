@@ -52,10 +52,8 @@ const SearchController = Service.extend({
 		appChannel.request(EVENTS.APP.SET_MAIN_CONTENT_LAYOUT, this.constructSearchLayout());
 	},
 	dispatchSearchResultsReceived(){
-		/*TODO is this the best way to commicatoe with the search layout? */
-		searchChannel.request();
-	},
-	/*TODO Move this into a separate command or utils/helper class*/
+		searchChannel.request(EVENTS.SEARCH.RESULTS_COLLECTION_RESET);
+	}
 });
 
 export default SearchController;
