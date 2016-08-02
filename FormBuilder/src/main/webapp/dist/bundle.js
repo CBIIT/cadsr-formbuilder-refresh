@@ -17431,12 +17431,7 @@
 			this.formSearchModel = new _FormSearchModel2.default();
 	
 			_radioChannels.searchChannel.reply(_EVENTS2.default.SEARCH.SEND_SEARCH_INPUTS, function (data) {
-				/*Save form search field data so user sees form fields as entered before */
-				_this.formSearchModel.set(data);
-				_this.searchResultsCollection.url = _urlHelpers2.default.buildUrl(_this.searchResultsCollection.baseUrl, data);
-				_this.searchResultsCollection.fetch({
-					reset: true
-				});
+				_this.handleSearchSubmitData(data);
 			});
 	
 			this.listenTo(this.searchResultsCollection, 'reset', this.dispatchSearchResultsReceived);
@@ -17452,8 +17447,15 @@
 			_radioChannels.appChannel.request(_EVENTS2.default.APP.SET_MAIN_CONTENT_LAYOUT, this.constructSearchLayout());
 		},
 		dispatchSearchResultsReceived: function dispatchSearchResultsReceived() {
-			/*TODO is this the best way to commicatoe with the search layout? */
-			_radioChannels.searchChannel.request();
+			_radioChannels.searchChannel.request(_EVENTS2.default.SEARCH.RESULTS_COLLECTION_RESET);
+		},
+		handleSearchSubmitData: function handleSearchSubmitData(data) {
+			/*Save form search field data so user sees form fields as entered before */
+			this.formSearchModel.set(data);
+			this.searchResultsCollection.url = _urlHelpers2.default.buildUrl(this.searchResultsCollection.baseUrl, data);
+			this.searchResultsCollection.fetch({
+				reset: true
+			});
 		}
 	});
 	
