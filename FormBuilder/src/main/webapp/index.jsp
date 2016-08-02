@@ -10,18 +10,16 @@
 <body>
 
 	<h1>CaDSR FormBuilder</h1>
-	<h2>Test Property Injection:</h2>
 	<div>
 		<p>
-			<spring:eval expression="@applicationProperties.getProperty('test.value')" />
+			<spring:eval expression="@applicationProperties.getProperty('formbuilder.api.url')" var="formBuilderHost" />
 		</p>
 	</div>
     <div id="app">
 	</div>
 	<script>
 		const serverProps = {
-			/*TODO inject value from properties file */
-			searchEndPoint: 'http://localhost:8080/FormService/api/v1/legacy/forms'
+			searchEndPointUrl: '${formBuilderHost}/FormBuilder/api/v1/forms'
 		};
 		Object.freeze(serverProps);
 	</script>
