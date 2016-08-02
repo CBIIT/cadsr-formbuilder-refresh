@@ -1,11 +1,10 @@
 package gov.nih.nci.cadsr.manager;
 
-import java.util.List;
-
-import gov.nih.nci.cadsr.domain.Category;
+import java.util.Collection;
 
 public interface CategoryManager {
 
-	public List<Category> getAllCategory();
+	// public List<Category> getAllCategory();
+	public Collection getAllFormCategories();
 
 }

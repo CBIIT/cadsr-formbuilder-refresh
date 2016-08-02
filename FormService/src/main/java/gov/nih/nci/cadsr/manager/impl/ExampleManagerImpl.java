@@ -8,18 +8,18 @@ import gov.nih.nci.cadsr.manager.ExampleManager;
 
 @Service
 public class ExampleManagerImpl implements ExampleManager {
-	
+
 	@Autowired
 	private ExampleDao exDao;
-	
-	public String printName(String name){
-		
+
+	public String printName(String name) {
+
 		return exDao.retrieveGreeting(name);
-		
+
 	}
-	
-	public String pingDb(String db){
-		
+
+	public String pingDb(String db) {
+
 		return exDao.pingDb(db);
 	}
 

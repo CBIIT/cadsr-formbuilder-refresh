@@ -1,92 +1,84 @@
 package gov.nih.nci.cadsr.model;
 
-import java.io.Serializable;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
-@Entity
-@Table(name = "form_tbl")
-public class Form implements Serializable{
-
-	private static final long serialVersionUID = 5720004843807447638L;
-	
-	private long id;
+public class Form {
+	private int publicId;
 	private String longName;
-	private String context;
-	private String type;
-	private String protocol;
-	private String workflow;
-	private String publicId;
-	private double version;
-	
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	public long getId() {
-		return id;
+	private Context context;
+	private Type type;
+	private String prtocolName;
+	private WorkFlow workflow;
+	private String version;
+	private Category category;
+
+	public String getVersion() {
+		return version;
 	}
-	public void setId(long id) {
-		this.id = id;
+
+	public void setVersion(String version) {
+		this.version = version;
 	}
-	
-	@Column(name = "long_name")
+
+	public int getPublicId() {
+		return publicId;
+	}
+
+	public void setPublicId(int publicId) {
+		this.publicId = publicId;
+	}
+
 	public String getLongName() {
 		return longName;
 	}
+
 	public void setLongName(String longName) {
 		this.longName = longName;
 	}
-	
-	@Column(name = "context")
-	public String getContext() {
+
+	public Context getContext() {
 		return context;
 	}
-	public void setContext(String context) {
+
+	public void setContext(Context context) {
 		this.context = context;
 	}
-	
-	@Column(name = "type")
-	public String getType() {
+
+	public Type getType() {
 		return type;
 	}
-	public void setType(String type) {
+
+	public void setType(Type type) {
 		this.type = type;
 	}
-	
-	@Column(name = "protocol")
-	public String getProtocol() {
-		return protocol;
+
+	public String getPrtocolName() {
+		return prtocolName;
 	}
-	public void setProtocol(String protocol) {
-		this.protocol = protocol;
+
+	public void setPrtocolName(String prtocolName) {
+		this.prtocolName = prtocolName;
 	}
-	
-	@Column(name = "workflow")
-	public String getWorkflow() {
+
+	public WorkFlow getWorkflow() {
 		return workflow;
 	}
-	public void setWorkflow(String workflow) {
+
+	public void setWorkflow(WorkFlow workflow) {
 		this.workflow = workflow;
 	}
-	
-	@Column(name = "public_id")
-	public String getPublicId() {
-		return publicId;
+
+	public Form() {
+		category = new Category();
+		type = new Type();
+		workflow = new WorkFlow();
+		context = new Context();
 	}
-	public void setPublicId(String publicId) {
-		this.publicId = publicId;
+
+	public Category getCategory() {
+		return category;
 	}
-	
-	@Column(name = "version")
-	public double getVersion() {
-		return version;
-	}
-	public void setVersion(double version) {
-		this.version = version;
+
+	public void setCategory(Category category) {
+		this.category = category;
 	}
 
 }

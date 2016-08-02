@@ -12,8 +12,7 @@ import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.stereotype.Repository;
 
 import gov.nih.nci.cadsr.dao.WorkFlowDao;
-
-import gov.nih.nci.cadsr.domain.WorkFlow;
+import gov.nih.nci.cadsr.model.WorkFlow;
 
 @Repository
 public class WorkFlowDaoImpl implements WorkFlowDao {
@@ -28,13 +27,11 @@ public class WorkFlowDaoImpl implements WorkFlowDao {
 		this.jdbcTemplate = jdbcTemplate;
 	}
 
-	@Override
 	public List<WorkFlow> getAllWorkFlow() {
 		String sql = "SELECT * FROM WORKFLOW";
 
 		return jdbcTemplate.query(sql, new ResultSetExtractor<List<WorkFlow>>() {
 
-			@Override
 			public List<WorkFlow> extractData(ResultSet rs) throws SQLException, DataAccessException {
 				List<WorkFlow> workFlowList = new ArrayList<WorkFlow>();
 				while (rs.next()) {
