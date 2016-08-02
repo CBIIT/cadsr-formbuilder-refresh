@@ -29,12 +29,7 @@ const SearchController = Service.extend({
 		this.formSearchModel = new FormSearchModel();
 
 		searchChannel.reply(EVENTS.SEARCH.SEND_SEARCH_INPUTS, (data) =>{
-			/*Save form search field data so user sees form fields as entered before */
-			this.formSearchModel.set(data);
-			this.searchResultsCollection.url = urlHelpers.buildUrl(this.searchResultsCollection.baseUrl, data);
-			this.searchResultsCollection.fetch({
-				reset: true
-			})
+			this.handleSearchSubmitData(data);
 		});
 
 		this.listenTo(this.searchResultsCollection, 'reset', this.dispatchSearchResultsReceived);
@@ -53,6 +48,14 @@ const SearchController = Service.extend({
 	},
 	dispatchSearchResultsReceived(){
 		searchChannel.request(EVENTS.SEARCH.RESULTS_COLLECTION_RESET);
+	},
+	handleSearchSubmitData(data) {
+		/*Save form search field data so user sees form fields as entered before */
+		this.formSearchModel.set(data);
+		this.searchResultsCollection.url = urlHelpers.buildUrl(this.searchResultsCollection.baseUrl, data);
+		this.searchResultsCollection.fetch({
+			reset: true
+		})
 	}
 });
 
