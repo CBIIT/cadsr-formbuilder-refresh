@@ -49,7 +49,6 @@ public class ExampleDaoImpl implements ExampleDao {
 		return GREETING_PREFIX + name;
 	}
 	
-	@Override
 	public String pingDb(String db) {
 		
 		String result = "";
@@ -85,7 +84,6 @@ public class ExampleDaoImpl implements ExampleDao {
 		
 	}
 	
-	@Override 
 	public void insert(Customer customer){
 		
 		String sql = "INSERT INTO CUSTOMER " +
@@ -130,7 +128,6 @@ public class ExampleDaoImpl implements ExampleDao {
 			}
 		}
 	}
-	@Override 
 	public Customer findByCustomerId(int custId){
 		
 		String sql = "SELECT * FROM CUSTOMER WHERE CUST_ID = ?";

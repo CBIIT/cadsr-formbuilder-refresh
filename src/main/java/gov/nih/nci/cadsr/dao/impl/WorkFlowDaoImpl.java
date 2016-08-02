@@ -27,13 +27,11 @@ public class WorkFlowDaoImpl implements WorkFlowDao {
 		this.jdbcTemplate = jdbcTemplate;
 	}
 
-	@Override
 	public List<WorkFlow> getAllWorkFlow() {
 		String sql = "SELECT * FROM WORKFLOW";
 
 		return jdbcTemplate.query(sql, new ResultSetExtractor<List<WorkFlow>>() {
 
-			@Override
 			public List<WorkFlow> extractData(ResultSet rs) throws SQLException, DataAccessException {
 				List<WorkFlow> workFlowList = new ArrayList<WorkFlow>();
 				while (rs.next()) {

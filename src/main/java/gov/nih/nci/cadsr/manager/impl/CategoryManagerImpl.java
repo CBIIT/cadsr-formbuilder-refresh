@@ -14,7 +14,6 @@ public class CategoryManagerImpl implements CategoryManager {
 	AbstractDAOFactoryFB daoFactory;
 	private static final Logger logger = Logger.getLogger(CategoryManagerImpl.class);
 
-	@Override
 	public Collection getAllFormCategories() {
 		long startTimer = System.currentTimeMillis();
 		Collection cat = daoFactory.getFormCategoryDAO().getAllCategories();

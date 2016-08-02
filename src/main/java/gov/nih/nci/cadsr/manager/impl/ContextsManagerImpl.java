@@ -14,7 +14,6 @@ public class ContextsManagerImpl implements ContextsManager {
 	@Autowired
 	AbstractDAOFactoryFB daoFactory;
 
-	@Override
 	public Collection getAllContexts() {
 
 		long startTimer = System.currentTimeMillis();

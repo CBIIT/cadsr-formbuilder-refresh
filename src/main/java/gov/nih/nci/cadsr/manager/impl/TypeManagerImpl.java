@@ -10,7 +10,6 @@ import gov.nih.nci.ncicb.cadsr.common.persistence.PersistenceConstants;
 public class TypeManagerImpl implements TypeManager {
 	private static final Logger logger = Logger.getLogger(TypeManagerImpl.class);
 
-	@Override
 	public String[] getAllType() {
 		long startTimer = System.currentTimeMillis();
 		String[] type = PersistenceConstants.FORM_TYPE_VALUES;

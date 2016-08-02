@@ -17,7 +17,6 @@ public class FormManagerImpl implements FormManager {
 	@Autowired
 	AbstractDAOFactoryFB daoFactory;
 
-	@Override
 	public Collection getAllForms(String formLongName, String protocolIdSeq, String contextIdSeq, String workflow,
 			String categoryName, String type, String classificationIdSeq, String publicId, String version,
 			String moduleLongName, String cdePublicId, NCIUser user, String contextRestriction) {
@@ -52,18 +51,32 @@ public class FormManagerImpl implements FormManager {
 		return forms;
 	}
 
-	/*
-	 * @Autowired private FormDao formDao;
-	 */
+	public Collection getPagedForms(String formLongName, String protocolIdSeq, String contextIdSeq, String workflow,
+			String categoryName, String type, String classificationIdSeq, String publicId, String version,
+			String moduleLongName, String cdePublicId, NCIUser user, String contextRestriction, String page_size,
+			String page_num, String order_by, String order) {
 
-	// @Override
-	/*
-	 * public List<Form> searchForm(String formLongName, String protocolIdSeq,
-	 * String workflow, String category, String type, String
-	 * classificationIdSeq, String publicId, String version) throws SQLException
-	 * { return formDao.searchForm(formLongName, protocolIdSeq, workflow,
-	 * category, type, classificationIdSeq, publicId, version);
-	 */
-	// }
+		long startTimer = System.currentTimeMillis();
+
+		FormDAO dao = daoFactory.getFormDAO();
+		ContextDAO contextDao = daoFactory.getContextDAO();
+
+		Collection forms = null;
+
+		try {
+//			forms = dao.getPagedForms(formLongName, protocolIdSeq, contextIdSeq, workflow, categoryName, type,
+//					classificationIdSeq, contextRestriction, publicId, version, moduleLongName, cdePublicId, page_size, page_num, order_by, order);
+
+		} catch (Exception ex) {
+			throw new DMLException("Cannot get Forms", ex);
+		}
+
+		long endTimer = System.currentTimeMillis();
+		logger.info("----------DAO query took " + (endTimer - startTimer) + " ms.");
+		logger.info("----------# to get FormSearch Results to service: " + forms.size());
+
+		return forms;
+
+	}
 
 }
