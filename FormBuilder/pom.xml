@@ -69,14 +69,12 @@
 						</configuration>
 					</execution>
 
-								<!--Run "build" script from package.json -->
 					<execution>
 						<id>npm install</id>
 						<goals>
 							<goal>npm</goal>
 						</goals>
 						<configuration>
-							<!-- Force NPM to install project dependencies from cache -->
 							<arguments>install</arguments>
 						</configuration>
 					</execution>
