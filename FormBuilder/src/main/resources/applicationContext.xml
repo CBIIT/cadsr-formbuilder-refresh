@@ -13,8 +13,7 @@
 		class="org.springframework.beans.factory.config.PropertiesFactoryBean">
 		<property name="locations">
 			<list>
-				<value>file:///c:/cadsr/formbuilder.properties</value>
-				<value>file:/local/content/wildfly/standalone-18180/configuration/formbuilder.properties</value>
+				<value>classpath:formbuilder-${env}.properties</value>
 			</list>
 		</property>
 		<property name="ignoreResourceNotFound" value="true" />
