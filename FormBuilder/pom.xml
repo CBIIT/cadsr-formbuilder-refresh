@@ -77,7 +77,7 @@
 						</goals>
 						<configuration>
 							<!-- Force NPM to install project dependencies from cache -->
-							<arguments>--cache-min 9999999 install</arguments>
+							<arguments>install</arguments>
 						</configuration>
 					</execution>
 
