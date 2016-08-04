@@ -50,8 +50,6 @@
 				</configuration>
 			</plugin>
 
-			<!--Commenting out Node front-end build Pending NCI Approval -->
-			<!-- 
 			<plugin>
 				<groupId>com.github.eirslett</groupId>
 				<artifactId>frontend-maven-plugin</artifactId>
@@ -66,28 +64,24 @@
 							<goal>install-node-and-npm</goal>
 						</goals>
 						<configuration>
-							<nodeVersion>v6.2.2</nodeVersion>
-							<npmVersion>3.9.5</npmVersion>
+							<nodeVersion>v6.3.1</nodeVersion>
+							<npmVersion>3.10.3</npmVersion>
 						</configuration>
 					</execution>
-					&lt;!&ndash;
-					Run "build" script from package.json &ndash;&gt;
+
+								<!--Run "build" script from package.json -->
 					<execution>
 						<id>npm install</id>
 						<goals>
 							<goal>npm</goal>
 						</goals>
 						<configuration>
-							&lt;!&ndash;
-							Force NPM
-							to install project dependencies from cache &ndash;&gt;
-							<arguments>&#45;&#45;cache-min
-								9999999 install</arguments>
+							<!-- Force NPM to install project dependencies from cache -->
+							<arguments>--cache-min 9999999 install</arguments>
 						</configuration>
 					</execution>
-					&lt;!&ndash;
-					Run
-					"build" script from package.json &ndash;&gt;
+
+					<!-- Run "build" script from package.json  -->
 					<execution>
 						<id>npm run build</id>
 						<goals>
@@ -99,7 +93,6 @@
 					</execution>
 				</executions>
 			</plugin>
-			-->
 		</plugins>
 	</build>
 
