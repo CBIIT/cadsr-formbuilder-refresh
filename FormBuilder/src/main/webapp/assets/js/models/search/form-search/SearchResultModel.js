@@ -4,9 +4,10 @@ const SearchResultModel = Model.extend({
 	defaults: {
 		/* same as search query longName */
 		formLongName:  '',
-		protocolLongName: '',
+		/*Populates the Protocol Long Name in the search results table */
+		delimitedProtocolLongNames: '',
 		contextName:       '',
-		/*TODO confirm this is the workflow status */
+		/* this is the workflow status */
 		aslName:      '',
 		/*TODO where did this come from?*/
 		categoryName:  '',

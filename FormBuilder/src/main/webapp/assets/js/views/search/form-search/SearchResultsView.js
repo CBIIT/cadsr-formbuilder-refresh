@@ -23,7 +23,7 @@ const columns = [{
 	editable: false,
 	cell:     "string"
 }, {
-	name:     "Protocol Long Name(s)",
+	name:     "delimitedProtocolLongNames",
 	label:    "Protocol Long Name(s)",
 	editable: false,
 	cell:     "string"
