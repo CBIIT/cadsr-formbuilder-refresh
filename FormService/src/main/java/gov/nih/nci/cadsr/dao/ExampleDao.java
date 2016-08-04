@@ -8,8 +8,4 @@ public interface ExampleDao {
 	
 	public String pingDb(String db);
 	
-	public void insert(Customer customer);
-	
-	public Customer findByCustomerId(int custId);
-
 }

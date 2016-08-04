@@ -26,77 +26,23 @@
 					<artifactId>maven-war-plugin</artifactId>
 					<version>2.6</version>
 				</plugin>
-
-				<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-war-plugin</artifactId> 
-					<version>2.6</version> <configuration> <webResources> <resource> <directory>${basedir}/lib</directory> 
-					<targetPath>WEB-INF/lib</targetPath> <filtering>true</filtering> <includes> 
-					<include>**/*.jar</include> </includes> </resource> </webResources> </configuration> 
-					</plugin> -->
-
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-install-plugin</artifactId>
-					<version>2.4</version>
-					<executions>
-						<execution>
-							<id>install-cadsrutil</id>
-							<phase>clean</phase>
-							<configuration>
-								<file>${basedir}/lib/cadsrutil.jar</file>
-								<groupId>nih.nci.cadsr</groupId>
-								<artifactId>cadsrutil</artifactId>
-								<version>1.0</version>
-								<packaging>jar</packaging>
-							</configuration>
-							<goals>
-								<goal>install-file</goal>
-							</goals>
-						</execution>
-						<execution>
-							<id>install-cadsrsentinel</id>
-							<phase>clean</phase>
-							<configuration>
-								<file>${basedir}/lib/cadsrsentinelapi.jar</file>
-								<groupId>nih.nci.cadsr</groupId>
-								<artifactId>cadsrsentinelapi</artifactId>
-								<version>1.0</version>
-								<packaging>jar</packaging>
-							</configuration>
-							<goals>
-								<goal>install-file</goal>
-							</goals>
-						</execution>
-						<execution>
-							<id>install-ojdbc6</id>
-							<phase>clean</phase>
-							<configuration>
-								<file>${basedir}/lib/ojdbc6.jar</file>
-								<groupId>com.oracle</groupId>
-								<artifactId>ojdbc6</artifactId>
-								<version>1.0</version>
-								<packaging>jar</packaging>
-							</configuration>
-							<goals>
-								<goal>install-file</goal>
-							</goals>
-						</execution>
-					</executions>
-				</plugin>
-
-				<plugin>
-					<groupId>org.wildfly.plugins</groupId>
-					<artifactId>wildfly-maven-plugin</artifactId>
-					<version>1.0.1.Final</version>
-					<configuration>
-						<hostname>${deploy.server}</hostname>
-						<port>${deploy.port}</port>
-						<username>${deploy.username}</username>
-						<password>${deploy.password}</password>
-						<name>${deploy.artifact.name}</name>
-					</configuration>
-				</plugin>
 			</plugins>
 		</pluginManagement>
+
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>false</filtering>
+				<excludes>
+					<exclude>/applicationContext.xml</exclude>
+				</excludes>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+
 	</build>
 
 	<!-- Retrieves cadsr-specific artifacts from the NCI Nexus repository -->
@@ -107,9 +53,6 @@
 			<name>nexus</name>
 			<url>https://ncimvn.nci.nih.gov/nexus/content/groups/public</url>
 		</repository>
-
-		<!-- <repository> <id>my-local-repo</id> <url>file://${basedir}/lib/repo</url> 
-			</repository> -->
 	</repositories>
 
 	<properties>
@@ -161,9 +104,25 @@
 			<version>1.2.2</version>
 		</dependency>
 
+		<dependency>
+			<groupId>com.oracle</groupId>
+			<artifactId>ojdbc7</artifactId>
+			<version>12.1.0.2.0</version>
+		</dependency>
+
 		<!-- caDSR Dependencies -->
 		<!-- In order to retrieve these dependencies, copy the settings.xml file 
 			from src/main/resources to your local maven .m2 folder -->
+		<dependency>
+			<groupId>nih.nci.cadsr</groupId>
+			<artifactId>cadsrutil</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>nih.nci.cadsr</groupId>
+			<artifactId>cadsrsentinelapi</artifactId>
+			<version>1.0</version>
+		</dependency>
 		<dependency>
 			<groupId>nih.nci.cadsr</groupId>
 			<artifactId>sdk-client-framework</artifactId>
@@ -248,23 +207,6 @@
 			<groupId>net.sf.saxon</groupId>
 			<artifactId>Saxon-HE</artifactId>
 			<version>9.7.0-7</version>
-		</dependency>
-
-		<!-- local dependencies -->
-		<dependency>
-			<groupId>nih.nci.cadsr</groupId>
-			<artifactId>cadsrutil</artifactId>
-			<version>1.0</version>
-		</dependency>
-		<dependency>
-			<groupId>nih.nci.cadsr</groupId>
-			<artifactId>cadsrsentinelapi</artifactId>
-			<version>1.0</version>
-		</dependency>
-		<dependency>
-			<groupId>com.oracle</groupId>
-			<artifactId>ojdbc6</artifactId>
-			<version>1.0</version>
 		</dependency>
 
 	</dependencies>

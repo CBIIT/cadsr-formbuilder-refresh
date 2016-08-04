@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import gov.nih.nci.cadsr.FormServiceProperties;
 import gov.nih.nci.cadsr.manager.ExampleManager;
 
 @RestController
@@ -17,6 +18,9 @@ public class ExampleController {
 	
 	@Autowired
 	private ExampleManager exManager;
+	
+	@Autowired
+	private FormServiceProperties props;
 	
 	
 	@RequestMapping(value = "/hello{name}", method = RequestMethod.GET)
@@ -30,6 +34,11 @@ public class ExampleController {
 	public String pingDb(@PathVariable String db) {
 		String result = exManager.pingDb(db);
 		return result;
+	}
+	
+	@RequestMapping(value = "/prop/{prop}", method = RequestMethod.GET)
+	public String getProp(@PathVariable String prop) {
+		return props.getTestProp();
 	}
 	
 }

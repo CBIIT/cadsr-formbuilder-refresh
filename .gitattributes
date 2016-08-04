@@ -184,6 +184,10 @@ FormService/src/main/java/gov/nih/nci/ncicb/cadsr/formbuilder/struts/common/Form
 FormService/src/main/java/gov/nih/nci/ncicb/cadsr/formbuilder/struts/common/FormJspUtil.java -text
 FormService/src/main/java/gov/nih/nci/ncicb/cadsr/formbuilder/struts/common/FormLockerSessionListener.java -text
 FormService/src/main/resources/applicationContext.xml -text
+FormService/src/main/resources/config-default.properties -text
+FormService/src/main/resources/formservice-dev.properties -text
+FormService/src/main/resources/formservice-local.properties -text
+FormService/src/main/resources/formservice-qa.properties -text
 FormService/src/main/resources/log4j.properties -text
 FormService/src/main/resources/settings.xml -text
 FormService/src/main/webapp/WEB-INF/web.xml -text

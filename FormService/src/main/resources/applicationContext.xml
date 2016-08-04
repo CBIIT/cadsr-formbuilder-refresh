@@ -12,8 +12,7 @@
 		class="org.springframework.beans.factory.config.PropertiesFactoryBean">
 		<property name="locations">
 			<list>
-				<value>file:///c:/cadsr/test.properties</value>
-				<value>file:/local/content/wildfly/standalone-18080/configuration/test.properties</value>
+				<value>classpath*:formservice-${env}.properties</value>
 			</list>
 		</property>
 		<property name="ignoreResourceNotFound" value="true" />
@@ -23,8 +22,7 @@
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="locations">
 			<list>
-				<value>file:///c:/cadsr/database.properties</value>
-				<value>file:/local/content/wildfly/standalone-18080/configuration/database.properties</value>
+				<value>classpath*:formservice-${env}.properties</value>
 			</list>
 		</property>
 		<property name="ignoreResourceNotFound" value="true" />
@@ -75,13 +73,13 @@
 		<property name="password" value="${oracle.password}" />
 	</bean>
 
-	<bean id="mysqlDataSource" class="org.apache.commons.dbcp.BasicDataSource"
+	<!-- <bean id="mysqlDataSource" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
 		<property name="url" value="${mysql.url}" />
 		<property name="username" value="${mysql.username}" />
 		<property name="password" value="${mysql.password}" />
-	</bean>
+	</bean> -->
 
 	<bean id="localDataSource" class="org.apache.commons.dbcp.BasicDataSource">
 		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />

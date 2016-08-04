@@ -26,7 +26,7 @@ public class ExampleDaoImpl implements ExampleDao {
 	@Qualifier("oracleDataSource")
 	private DataSource oracleDataSource;
 	
-	@Autowired
+/*	@Autowired
 	@Qualifier("mysqlDataSource")
 	private DataSource mysqlDataSource;
 	
@@ -35,12 +35,8 @@ public class ExampleDaoImpl implements ExampleDao {
 	private DataSource localDataSource;
 	
 	@Autowired
-	private JdbcTemplate jdbcTemplate;
+	private JdbcTemplate jdbcTemplate;*/
 	
-//	@Autowired
-//	public void setDataSource(@Qualifier("oracleDataSource")BasicDataSource dataSource) {
-//		this.dataSource = dataSource;
-//	}
 	
 	private static final String GREETING_PREFIX = "Hello ";
 	
@@ -58,12 +54,12 @@ public class ExampleDaoImpl implements ExampleDao {
 			if(db.equals("oracle")){
 				conn = oracleDataSource.getConnection();
 			}
-			else if (db.equals("mysql")){
+			/*else if (db.equals("mysql")){
 				conn = mysqlDataSource.getConnection();
 			}
 			else if (db.equals("local")){
 				conn = ((DataSource) jdbcTemplate).getConnection();
-			}
+			}*/
 			
 			if(conn != null){
 				result = "Success";
@@ -84,85 +80,4 @@ public class ExampleDaoImpl implements ExampleDao {
 		
 	}
 	
-	public void insert(Customer customer){
-		
-		String sql = "INSERT INTO CUSTOMER " +
-				"(CUST_ID, NAME, AGE) VALUES (?, ?, ?)";
-		Connection conn = null;
-		
-		
-		
-		try {
-			System.out.println("before");
-			conn=localDataSource.getConnection();
-			System.out.println("after");
-			PreparedStatement ps = conn.prepareStatement(sql);
-			ps.setInt(1, 1);
-			ps.setString(2, "Name");
-			ps.setInt(3, 2);
-			ps.executeUpdate();
-			ps.close();
-//			dataSource.getConnection().prepareStatement(sql);
-			//jdbcTemplate.update(sql);
-			/*conn = jdbcTemplate.getDataSource().getConnection();
-			PreparedStatement ps = conn.prepareStatement(sql);
-			ps.setInt(1, customer.getCustId());
-			ps.setString(2, customer.getName());
-			ps.setInt(3, customer.getAge());
-			ps.executeUpdate();
-			ps.close();*/
-			
-		}
-		catch(Exception e) {
-			System.out.println("Error Beyyt**********************" + e.getMessage());
-			e.printStackTrace();
-		}
-/*		catch (SQLException e) {
-			throw new RuntimeException(e);
-			
-		}*/ finally {
-			if (conn != null) {
-				try {
-					conn.close();
-				} catch (SQLException e) {}
-			}
-		}
-	}
-	public Customer findByCustomerId(int custId){
-		
-		String sql = "SELECT * FROM CUSTOMER WHERE CUST_ID = ?";
-		
-		Connection conn = null;
-		
-		try {
-			conn = ((DataSource) jdbcTemplate).getConnection();
-			PreparedStatement ps = conn.prepareStatement(sql);
-			ps.setInt(1, custId);
-			Customer customer = null;
-			ResultSet rs = ps.executeQuery();
-			if (rs.next()) {
-				customer = new Customer(
-						rs.getInt("CUST_ID"),
-						rs.getString("NAME"), 
-						rs.getInt("Age")
-				);
-			}
-			rs.close();
-			ps.close();
-			return customer;
-			
-		} catch (SQLException e) {
-			throw new RuntimeException(e);
-		} finally {
-			if (conn != null) {
-				try {
-				conn.close();
-				} catch (SQLException e) {}
-			}
-		}
-
-			
-	
-	}
-
 }
