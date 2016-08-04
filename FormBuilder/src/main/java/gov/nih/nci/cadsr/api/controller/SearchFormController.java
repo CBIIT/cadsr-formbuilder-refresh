@@ -215,5 +215,11 @@ public class SearchFormController {
 
 		return response;
 	}
+	
+	@RequestMapping(value = "/props", method = RequestMethod.GET)
+	@ResponseBody
+	public String getProps() throws RuntimeException {
+		return "Builder Address: " + props.getFormBuilderApiUrl() + " Service Address: " + props.getFormServiceApiUrl();
+	}
 
 }
