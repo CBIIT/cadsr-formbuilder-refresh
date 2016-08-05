@@ -10,6 +10,17 @@ import org.springframework.web.bind.annotation.RestController;
 import gov.nih.nci.cadsr.FormServiceProperties;
 import gov.nih.nci.cadsr.manager.ExampleManager;
 
+/**
+ * 
+ * @author rtromb
+ *
+ *
+ * This is a test for the Anthill Pro Continuous Integration hook.
+ *
+ */
+
+
+
 @RestController
 @RequestMapping(path="/example")
 public class ExampleController {
@@ -36,9 +47,5 @@ public class ExampleController {
 		return result;
 	}
 	
-	@RequestMapping(value = "/prop/{prop}", method = RequestMethod.GET)
-	public String getProp(@PathVariable String prop) {
-		return props.getTestProp();
-	}
 	
 }
