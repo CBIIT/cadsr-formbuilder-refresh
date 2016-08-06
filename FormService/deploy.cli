@@ -1,7 +1,7 @@
 connect
  
 if (outcome ==success) of /deployment=FormService.war:read-resource
-undeploy formbuilder.war
+undeploy FormService.war
 end-if
  
 deploy --force  /local/content/FormService/dist/FormService.war
