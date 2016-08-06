@@ -49,6 +49,7 @@ FormBuilder/src/main/webapp/frontend-tools/webpack.cmd -text
 FormBuilder/src/main/webapp/frontend-tools/webpack.config.dev.js -text
 FormBuilder/src/main/webapp/index.jsp -text
 FormBuilder/src/main/webapp/package.json -text
+FormService/deploy.cli -text
 FormService/lib/cadsrsentinelapi.jar -text
 FormService/lib/cadsrutil.jar -text
 FormService/lib/ojdbc6.jar -text
