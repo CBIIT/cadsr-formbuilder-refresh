@@ -1,4 +1,5 @@
 * text=auto !eol
+FormBuilder/deploy.cli -text
 FormBuilder/pom.xml -text
 FormBuilder/src/main/java/gov/nih/nci/cadsr/FormBuilderConstants.java -text
 FormBuilder/src/main/java/gov/nih/nci/cadsr/FormBuilderProperties.java -text
