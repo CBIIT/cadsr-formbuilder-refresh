@@ -1,13 +1,13 @@
 import Backbone from 'backbone';
-import $ from 'jquery';
-import Backgrid from "backgrid";
+import {LayoutView} from 'backbone.marionette';
+import {Grid, Extension} from "backgrid";
+import template from '../../../../templates/search/form-search/search-results-layout.html';
 import SelectAllHeaderCell from 'backgrid-select-all';
-/*
-import * as Paginator from 'backgrid-paginator';
-*/
+/* backgridPaginator is just meant to give the import a namespace but isn't used by name below */
+import  backgridPaginator from 'backgrid-paginator';
 
 const columns = [{
-	/* same as search query longName */
+	/* same as search query formLongName */
 	name:     "longName",
 	label:    "Long Name",
 	editable: false,
@@ -44,7 +44,8 @@ const columns = [{
 	cell:     "string"
 }];
 
-/*const resultsPaginator = Paginator.extend({
+const Paginator = Extension.Paginator.extend({
+
 	// If you anticipate a large number of pages, you can adjust
 	// the number of page handles to show. The sliding window
 	// will automatically show the next set of page handles when
@@ -56,10 +57,13 @@ const columns = [{
 	slideScale: 0.25, // Default is 0.5
 
 	// Whether sorting should go back to the first page
-	goBackFirstOnSort: false, // Default is true
-});*/
+	goBackFirstOnSort: true, // Default is true,
+	initialize(){
+		console.log("paginator init");
+	}
+});
 
-const SearchResultsView = Backgrid.Grid.extend({
+const ResultsTable = Grid.extend({
 	columns:   [{
 		// enable the select-all extension
 		name:       "",
@@ -67,14 +71,26 @@ const SearchResultsView = Backgrid.Grid.extend({
 		headerCell: "select-all"
 	}].concat(columns),
 	emptyText: "No Data is available",
-	onRender(){
-	/*	let paginator = new Paginator({
-			collection: this.collection
-		});*/
-	},
 	onAttach() {
-		let totalResults = this.collection.length;
+		let totalResults = this.collection.state.totalRecords;
 		this.$el.before(`<p>Total Results: ${totalResults}</p>`);
+	}
+});
+
+const SearchResultsView = LayoutView.extend({
+	template: template,
+	regions:  {
+		searchResultsTable: '.results-table',
+		paginator:          '.paginator'
+	},
+	onBeforeShow(){
+		//paginator.collection = this.collection;
+		this.showChildView('searchResultsTable', new ResultsTable({
+			collection: this.collection
+		}));
+		this.showChildView('paginator', new Paginator({
+			collection: this.collection
+		}));
 	}
 });
 

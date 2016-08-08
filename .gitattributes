@@ -42,10 +42,9 @@ FormBuilder/src/main/webapp/assets/templates/app-layout/header.html -text
 FormBuilder/src/main/webapp/assets/templates/common/inputs/select-input.html -text
 FormBuilder/src/main/webapp/assets/templates/common/inputs/text-input.html -text
 FormBuilder/src/main/webapp/assets/templates/search/form-search/form-search.html -text
+FormBuilder/src/main/webapp/assets/templates/search/form-search/search-results-layout.html -text
 FormBuilder/src/main/webapp/assets/templates/search/search-layout.html -text
 FormBuilder/src/main/webapp/assets/templates/search/search-preferences.html -text
-FormBuilder/src/main/webapp/dist/bundle.js -text
-FormBuilder/src/main/webapp/dist/bundle.js.map -text
 FormBuilder/src/main/webapp/frontend-tools/.babelrc -text
 FormBuilder/src/main/webapp/frontend-tools/.editorconfig -text
 FormBuilder/src/main/webapp/frontend-tools/.eslintrc -text
