@@ -69,7 +69,14 @@ public class JDBCFormDAOFB extends JDBCAdminComponentDAOFB implements FormDAO {
 
 		Collection forms = query.execute();
 		// add protocols
-//		fetchProtocols(forms);
+		fetchProtocols(forms);
+		
+		Iterator it = forms.iterator();
+		while (it.hasNext()) {
+			FormTransferObject form = (FormTransferObject) it.next();
+			form.setProtocolLongName(form.getDelimitedProtocolLongNames());
+		}
+		
 		return forms;
 	}
 
