@@ -3,6 +3,7 @@ FormBuilder/node
 FormBuilder/node_modules
 FormBuilder/src/main/resources/rebel.xml
 FormBuilder/src/main/resources/test.properties
+FormBuilder/src/main/webapp/dist
 FormBuilder/src/main/webapp/etc
 FormBuilder/src/main/webapp/frontend-tools/dist
 FormBuilder/src/main/webapp/frontend-tools/etc
