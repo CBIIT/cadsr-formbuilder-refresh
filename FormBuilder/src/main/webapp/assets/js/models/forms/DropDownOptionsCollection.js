@@ -6,8 +6,10 @@ const DropDownOptionsCollection = Collection.extend({
 	parse(response){
 		let modifiedResponse = response.map((item) =>{
 			/*If the item in the array is an object, grab the name property */
-			if(item.name){
+			if(item.conteIdseq){
 				return {
+					/*renaming to contextIdSeq for readability */
+					contextIdSeq: item.conteIdseq,
 					name: item.name
 				}
 			}
