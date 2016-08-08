@@ -1,4 +1,5 @@
 import * as Backbone from 'backbone';
+import EVENTS from '../../constants/EVENTS'
 import {searchChannel} from '../../channels/radioChannels'
 
 const SearchRouter = Backbone.Router.extend({
@@ -7,7 +8,7 @@ const SearchRouter = Backbone.Router.extend({
 		'search': 'searchLayout',
 	},
 	searchLayout: function () {
-		searchChannel.request('set:searchLayout');
+		searchChannel.request(EVENTS.SEARCH.SEND_SEARCH_LAYOUT);
 	}});
 
 export default SearchRouter;

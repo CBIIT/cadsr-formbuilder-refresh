@@ -6,7 +6,9 @@ import SearchLayoutView from '../../views/search/SearchLayoutView';
 import searchPreferencesModel from '../../models/search/SearchPreferencesModel';
 import FormSearchModel from '../../models/search/form-search/FormSearchModel';
 import urlHelpers from '../../helpers/urlHelpers';
-import SearchResultsCollection from '../../collections/search/form-search/SearchResultsCollection';
+
+import SearchResultsCollection from '../../models/search/form-search/SearchResultsCollection';
+import GetSearchFormCriteriaCommand from '../../commands/GetSearchFormCriteriaCommand';
 
 /**
  * This is a simple service that maintains the
@@ -35,6 +37,7 @@ const SearchService = Service.extend({
 		this.listenTo(this.searchResultsCollection, 'reset', this.dispatchSearchResultsReceived);
 	},
 	constructSearchLayout(){
+
 		return new SearchLayoutView(
 			{
 				searchPreferencesModel:  searchPreferencesModel,
@@ -44,18 +47,45 @@ const SearchService = Service.extend({
 		);
 	},
 	dispatchSearchLayout() {
-		appChannel.request(EVENTS.APP.SET_MAIN_CONTENT_LAYOUT, this.constructSearchLayout());
+		searchChannel.on('model:getDropDownOptionsSuccess', () =>{
+			appChannel.request(EVENTS.APP.SET_MAIN_CONTENT_LAYOUT, this.constructSearchLayout());
+		});
+
+		new GetSearchFormCriteriaCommand({model: this.formSearchModel}).execute();
+
 	},
 	dispatchSearchResultsReceived(){
 		searchChannel.request(EVENTS.SEARCH.RESULTS_COLLECTION_RESET);
 	},
+	getConteIdSeq(contextsCollection, contextName){
+		return contextsCollection.findWhere({name: contextName}).get("contextIdSeq")
+	},
 	handleSearchSubmitData(data) {
-		/*Save form search field data so user sees form fields as entered before */
-		this.formSearchModel.set(data);
-		this.searchResultsCollection.url = urlHelpers.buildUrl(this.searchResultsCollection.baseUrl, data);
-		this.searchResultsCollection.fetch({
-			reset: true
-		})
+
+		let contextName = data.context;
+		if(contextName){
+
+			let newData = Object.assign({}, data);
+			newData.contextIdSeq =  this.getConteIdSeq(this.formSearchModel.get("contexts"), contextName);
+			this.formSearchModel.set(newData);
+
+			delete newData.context;
+			this.searchResultsCollection.fetch({
+				url: urlHelpers.buildUrl(this.searchResultsCollection.baseUrl, newData), reset: true
+			})
+
+
+		}
+		else{
+			/*Save form search field data so user sees form fields as entered before */
+			this.formSearchModel.set(data);
+
+			this.searchResultsCollection.fetch({
+				url:   urlHelpers.buildUrl(this.searchResultsCollection.baseUrl, data),
+				reset: true
+			})
+		}
+
 	}
 });
 

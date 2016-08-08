@@ -1,5 +1,6 @@
 const EVENTS = {
 	SEARCH: {
+		SEND_SEARCH_LAYOUT: 'set:searchLayout',
 		SEND_SEARCH_INPUTS: 'send:searchInputs',
 		RESULTS_COLLECTION_RESET: 'search:resultsCollectionReset'
 	},

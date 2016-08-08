@@ -19,7 +19,7 @@
 	</div>
 	<script>
 		const serverProps = {
-			searchEndPointUrl: '${formBuilderHost}/FormBuilder/api/v1/forms'
+			formBuilderHost: '${formBuilderHost}'
 		};
 		Object.freeze(serverProps);
 	</script>
