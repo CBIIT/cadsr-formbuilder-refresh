@@ -4,7 +4,7 @@
 <head>
     <!--Force IE not to run in compatibility mode -->
     <meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
-    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+	<meta charset="UTF-8">
     <title>CaDSR FormBuilder</title>
 </head>
 <body>
