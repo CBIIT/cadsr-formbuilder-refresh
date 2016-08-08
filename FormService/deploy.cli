@@ -1,7 +1,7 @@
 connect
  
-if (outcome ==success) of /deployment=FormService.war:read-resource
-undeploy FormService.war
+if (outcome ==success) of /deployment=formservice.war:read-resource
+undeploy formservice.war
 end-if
  
-deploy --force  /local/content/FormService/dist/FormService.war
+deploy --force  /local/content/formservice/dist/formservice.war
