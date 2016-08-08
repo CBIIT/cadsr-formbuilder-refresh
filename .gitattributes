@@ -36,6 +36,7 @@ FormBuilder/src/main/webapp/assets/js/views/search/SearchLayoutView.js -text
 FormBuilder/src/main/webapp/assets/js/views/search/form-search/FormSearchView.js -text
 FormBuilder/src/main/webapp/assets/js/views/search/form-search/SearchPreferencesView.js -text
 FormBuilder/src/main/webapp/assets/js/views/search/form-search/SearchResultsView.js -text
+FormBuilder/src/main/webapp/assets/styles/styles.scss -text
 FormBuilder/src/main/webapp/assets/templates/app-layout/app-layout.html -text
 FormBuilder/src/main/webapp/assets/templates/app-layout/footer.html -text
 FormBuilder/src/main/webapp/assets/templates/app-layout/header.html -text

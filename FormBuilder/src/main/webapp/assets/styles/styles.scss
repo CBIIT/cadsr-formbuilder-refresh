@@ -1,0 +1,10 @@
+// Bootstrap
+/*
+See:http://stackoverflow.com/questions/34788771/unable-to-load-bootstrap-with-node-sass-bootstrap-sass
+*/
+$icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
+@import "~bootstrap-sass/assets/stylesheets/_bootstrap.scss";
+
+/*Backgrid */
+@import "~backgrid/src/backgrid.css";
+@import "~backgrid-paginator/backgrid-paginator.css";
