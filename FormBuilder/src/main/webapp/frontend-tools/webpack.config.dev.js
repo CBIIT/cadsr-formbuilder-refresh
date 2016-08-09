@@ -35,8 +35,7 @@ export default {
     // Tells React to build in prod mode. https://facebook.github.io/react/downloads.html
     new webpack.DefinePlugin(GLOBALS),
 
-    // Generate an external css file with a hash in the filename
-    new ExtractTextPlugin('[name].css'),
+    new ExtractTextPlugin('style.css'),
     // Eliminate duplicate packages when generating bundle
     new webpack.optimize.DedupePlugin()
     // Minify JS
@@ -67,9 +66,9 @@ export default {
       {test: /\.svg(\?v=\d+.\d+.\d+)?$/, loader: 'url?limit=10000&mimetype=image/svg+xml&name=[name].[ext]'},
       {test: /\.(jpe?g|png|gif)$/i, loader: 'file?name=[name].[ext]'},
       {test: /\.ico$/, loader: 'file?name=[name].[ext]'},
-      {test: /(\.css|\.scss)$/, loaders: ['style', 'css?sourceMap', 'postcss', 'sass?sourceMap']}
+      {test: /(\.css|\.scss)$/,
+        loader: ExtractTextPlugin.extract('css?sourceMap!sass?sourceMap!postcss')}
     ]
   },
   postcss: ()=> [autoprefixer]
-
 };
