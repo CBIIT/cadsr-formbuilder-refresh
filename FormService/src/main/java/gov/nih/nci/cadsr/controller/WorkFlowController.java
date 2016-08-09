@@ -17,7 +17,7 @@ public class WorkFlowController {
 	@Autowired
 	private WorkFlowManager workFlowManager;
 
-	@RequestMapping(value = "/workFlow", method = RequestMethod.GET)
+	@RequestMapping(value = "/workflows", method = RequestMethod.GET)
 	@ResponseBody
 	public ResponseEntity<Collection> getAllWorkflow() throws RuntimeException {
 
