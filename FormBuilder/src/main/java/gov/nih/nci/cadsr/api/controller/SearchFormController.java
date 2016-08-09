@@ -213,7 +213,7 @@ public class SearchFormController {
 
 	}
 
-	@RequestMapping(value = "/workFlow", method = RequestMethod.GET)
+	@RequestMapping(value = "/workFlows", method = RequestMethod.GET)
 	@ResponseBody
 	public ResponseEntity getAllWorkflow() throws RuntimeException {
 		String uri = props.getFormServiceApiUrl() + FormBuilderConstants.FORMSERVICE_BASE_URL
