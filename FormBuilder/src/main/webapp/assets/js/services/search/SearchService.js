@@ -57,26 +57,7 @@ const SearchService = Service.extend({
 	dispatchSearchResultsReceived(){
 		searchChannel.request(EVENTS.SEARCH.RESULTS_COLLECTION_RESET);
 	},
-	getConteIdSeq(contextsCollection, contextName){
-		return contextsCollection.findWhere({name: contextName}).get("contextIdSeq")
-	},
 	handleSearchSubmitData(data) {
-
-		let contextName = data.context;
-		if(contextName){
-
-			let newData = Object.assign({}, data);
-			newData.contextIdSeq =  this.getConteIdSeq(this.formSearchModel.get("contexts"), contextName);
-			this.formSearchModel.set(newData);
-
-			delete newData.context;
-			this.searchResultsCollection.fetch({
-				url: urlHelpers.buildUrl(this.searchResultsCollection.baseUrl, newData), reset: true
-			})
-
-
-		}
-		else{
 			/*Save form search field data so user sees form fields as entered before */
 			this.formSearchModel.set(data);
 
@@ -84,8 +65,6 @@ const SearchService = Service.extend({
 				url:   urlHelpers.buildUrl(this.searchResultsCollection.baseUrl, data),
 				reset: true
 			})
-		}
-
 	}
 });
 

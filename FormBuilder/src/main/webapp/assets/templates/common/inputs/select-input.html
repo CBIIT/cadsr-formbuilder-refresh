@@ -2,6 +2,6 @@
 <select class="form-control select-input" name="<%- name %>" id="<%- name %>">
 	<option value="">Select...</option>
 	<% _.each(options, function(option){ %>
-	<option name="" value="<%= option.name %>"><%= option.name %></option>
+	<option value="<%= option[optionKey] %>"><%= option.name %></option>
 	<% }) %>
 </select>

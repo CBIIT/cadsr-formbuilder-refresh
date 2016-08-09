@@ -57,10 +57,7 @@ const Paginator = Extension.Paginator.extend({
 	slideScale: 0.25, // Default is 0.5
 
 	// Whether sorting should go back to the first page
-	goBackFirstOnSort: true, // Default is true,
-	initialize(){
-		console.log("paginator init");
-	}
+	goBackFirstOnSort: true // Default is true
 });
 
 const ResultsTable = Grid.extend({

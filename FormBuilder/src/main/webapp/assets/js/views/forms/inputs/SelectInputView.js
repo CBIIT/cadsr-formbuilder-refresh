@@ -11,7 +11,8 @@ const SelectInputView = ItemView.extend({
 			name:    this.model.get('name'),
 			value:   this.model.get('value'),
 			/*Because options is a collection, it needs to be converted into JSON to be made available to (and not break) the template */
-			options: this.model.get('options').toJSON()
+			options: this.model.get('options').toJSON(),
+			optionKey: this.model.get('optionKey') || 'name'
 		};
 	},
 	initialize(options){

@@ -75,8 +75,9 @@ const FormSearchView = LayoutView.extend({
 		this.showChildView('contextsDropdwon', new SelectInputView({
 			label:   'Context',
 			options: this.model.get('contexts'),
-			value:   this.model.get('context'),
-			name:    'context'
+			optionKey: 'contextIdSeq',
+			value:   this.model.get('contextIdSeq'),
+			name:    'contextIdSeq'
 		}));
 		this.showChildView('typesDropDown', new SelectInputView({
 			label:   'Types',
