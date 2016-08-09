@@ -9,6 +9,7 @@ const TextInputView = ItemView.extend({
 		return {
 			label: this.model.get('label'),
 			name: this.model.get('name'),
+			/* TODO refactor to this.model.get([this.model.get('name')]) to avoid the need to pass the name into this view manually */
 			value: this.model.get('value'),
 			type: 'text' || this.model.get('type'),
 			/*More attrs like required, min, max, can be added here */
