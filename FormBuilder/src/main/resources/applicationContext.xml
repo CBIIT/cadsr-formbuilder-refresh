@@ -11,7 +11,7 @@
       				 	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
       				 	">
 
-	<util:properties id="propertyConfigurer" location="classpath:formbuilder-${env}.properties"/>
+	<util:properties id="propertyConfigurer" location="classpath:formbuilder-local.properties"/>
     <context:property-placeholder properties-ref="propertyConfigurer"/>
 
 	<bean id="formBuilderConstants" class="gov.nih.nci.cadsr.FormBuilderConstants"

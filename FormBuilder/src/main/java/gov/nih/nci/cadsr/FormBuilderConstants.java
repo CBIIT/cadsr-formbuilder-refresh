@@ -7,6 +7,6 @@ public class FormBuilderConstants {
 	public static final String FORMSERVICE_CONTEXTS = "contexts";
 	public static final String FORMSERVICE_CATEGORIES = "categories";
 	public static final String FORMSERVICE_TYPES = "types";
-	public static final String FORMSERVICE_WORKFLOWS = "legacy/workflows";
+	public static final String FORMSERVICE_WORKFLOWS = "workflows";
 
 }
