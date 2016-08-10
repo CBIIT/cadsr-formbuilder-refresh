@@ -6,13 +6,13 @@ const SelectInputView = ItemView.extend({
 	className: ".form-group",
 	template:  template,
 	serializeData(){
+		const inputName = this.model.get('name');
 		return {
-			label:   this.model.get('label'),
-			name:    this.model.get('name'),
-			/* TODO refactor to this.model.get([this.model.get('name')]) to avoid the need to pass the name into this view manually */
-			value:   this.model.get('value'),
+			label:     this.model.get('label'),
+			name:      inputName,
+			value: this.model.get('value') || this.model.get([inputName]),
 			/*Because options is a collection, it needs to be converted into JSON to be made available to (and not break) the template */
-			options: this.model.get('options').toJSON(),
+			options:   this.model.get('options').toJSON(),
 			optionKey: this.model.get('optionKey') || 'name'
 		};
 	},

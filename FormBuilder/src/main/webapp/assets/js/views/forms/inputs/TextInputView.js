@@ -4,14 +4,15 @@ import template from '../../../../templates/common/inputs/text-input.html';
 
 const TextInputView = ItemView.extend({
 	className: ".form-group",
-	template: template,
+	template:  template,
 	serializeData(){
+		const inputName = this.model.get('name');
+
 		return {
 			label: this.model.get('label'),
-			name: this.model.get('name'),
-			/* TODO refactor to this.model.get([this.model.get('name')]) to avoid the need to pass the name into this view manually */
-			value: this.model.get('value'),
-			type: 'text' || this.model.get('type'),
+			name:  inputName,
+			value: this.model.get('value') || this.model.get([inputName]),
+			type:  this.model.get('type') || 'text',
 			/*More attrs like required, min, max, can be added here */
 		};
 	},
