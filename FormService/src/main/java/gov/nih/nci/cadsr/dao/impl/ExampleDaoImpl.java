@@ -23,7 +23,7 @@ public class ExampleDaoImpl implements ExampleDao {
 	private static final Logger logger = Logger.getLogger(ExampleDaoImpl.class);
 
 	@Autowired
-	@Qualifier("oracleDataSource")
+	@Qualifier("dataSource")
 	private DataSource oracleDataSource;
 	
 /*	@Autowired
