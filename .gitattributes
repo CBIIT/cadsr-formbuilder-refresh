@@ -39,6 +39,7 @@ src/main/java/gov/nih/nci/cadsr/model/Category.java -text
 src/main/java/gov/nih/nci/cadsr/model/Context.java -text
 src/main/java/gov/nih/nci/cadsr/model/Customer.java -text
 src/main/java/gov/nih/nci/cadsr/model/Form.java -text
+src/main/java/gov/nih/nci/cadsr/model/FormWrapper.java -text
 src/main/java/gov/nih/nci/cadsr/model/Type.java -text
 src/main/java/gov/nih/nci/cadsr/model/WorkFlow.java -text
 src/main/java/gov/nih/nci/ncicb/cadsr/common/CaDSRUtil.java -text
