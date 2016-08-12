@@ -7,11 +7,11 @@ public class FormBuilderProperties {
 	private static final String DEFAULT_LOCAL_SERVICE_HOST = "http://localhost:8080/";
 	private static final String DEFAULT_REMOTE_SERVICE_HOST = "http://localhost:8080/";
 	
-	
-	@Value("${formbuilder.api.url}")
+	@Value("#{propertyConfigurer['formbuilder.api.url']}")
+//	@Value("${formbuilder.api.url}")
 	private String formBuilderApiUrl;
 	
-	@Value("${formservice.api.url}")
+	@Value("#{propertyConfigurer['formservice.api.url']}")
 	private String formServiceApiUrl;
 	
 	
