@@ -2,6 +2,7 @@ package gov.nih.nci.cadsr.manager;
 
 import java.util.Collection;
 import gov.nih.nci.ncicb.cadsr.common.resource.NCIUser;
+import gov.nih.nci.cadsr.model.FormWrapper;
 
 public interface FormManager {
 	/*
@@ -13,5 +14,7 @@ public interface FormManager {
 	public Collection getAllForms(String formLongName, String protocolIdSeq, String contextIdSeq, String workflow,
 			String categoryName, String type, String classificationIdSeq, String publicId, String version,
 			String moduleLongName, String cdePublicId, NCIUser user, String contextRestriction);
+
+	public void createFormComponent(FormWrapper form);
 
 }

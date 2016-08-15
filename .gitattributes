@@ -98,6 +98,7 @@ FormService/src/main/java/gov/nih/nci/cadsr/model/Category.java -text
 FormService/src/main/java/gov/nih/nci/cadsr/model/Context.java -text
 FormService/src/main/java/gov/nih/nci/cadsr/model/Customer.java -text
 FormService/src/main/java/gov/nih/nci/cadsr/model/Form.java -text
+FormService/src/main/java/gov/nih/nci/cadsr/model/FormWrapper.java -text
 FormService/src/main/java/gov/nih/nci/cadsr/model/Type.java -text
 FormService/src/main/java/gov/nih/nci/cadsr/model/WorkFlow.java -text
 FormService/src/main/java/gov/nih/nci/ncicb/cadsr/common/CaDSRUtil.java -text

@@ -17,7 +17,7 @@ public class ExceptionControllerAdvice {
 	private ResponseEntity<ErrorResponse> createErrorResponse(final Exception badReq) {
 		ErrorResponse error = new ErrorResponse();
 		error.setErrorCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
-		error.setMessage("Exception occured.");
+		error.setMessage(badReq.getMessage());
 		logger.error("Exception occured :", badReq);
 		return new ResponseEntity<ErrorResponse>(error, HttpStatus.BAD_REQUEST);
 	}
