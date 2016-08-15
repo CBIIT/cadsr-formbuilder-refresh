@@ -20,7 +20,6 @@ FormBuilder/src/main/webapp/assets/js/main.js -text
 FormBuilder/src/main/webapp/assets/js/models/AppModel.js -text
 FormBuilder/src/main/webapp/assets/js/models/forms/DropDownOptionModel.js -text
 FormBuilder/src/main/webapp/assets/js/models/forms/DropDownOptionsCollection.js -text
-FormBuilder/src/main/webapp/assets/js/models/forms/FormCategoriesCollection.js -text
 FormBuilder/src/main/webapp/assets/js/models/search/SearchModel.js -text
 FormBuilder/src/main/webapp/assets/js/models/search/SearchPreferencesModel.js -text
 FormBuilder/src/main/webapp/assets/js/models/search/form-search/FormSearchModel.js -text

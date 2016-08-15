@@ -1,9 +1,5 @@
 import {Model} from 'backbone';
 import DropDownOptionsCollection from '../../forms/DropDownOptionsCollection';
-/*
-import formCategoriesCollection from '../../forms/FormCategoriesCollection';
-*/
-
 
 const FormSearchModel = Model.extend({
 	defaults: {
