@@ -21,7 +21,7 @@ import GetSearchFormCriteriaCommand from '../../commands/GetSearchFormCriteriaCo
 /*TODO move common methods out into a mixin/HOF or baseController/baseService */
 const SearchService = Service.extend({
 	radioRequests: {
-		'search set:searchLayout': 'dispatchSearchLayout',
+		'search set:searchLayout': 'dispatchSearchLayout'
 	},
 	initialize(options = {}) {
 		const searchRouter = new SearchRouter();
