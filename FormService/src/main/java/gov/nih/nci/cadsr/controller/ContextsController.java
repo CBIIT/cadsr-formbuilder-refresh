@@ -1,10 +1,13 @@
 package gov.nih.nci.cadsr.controller;
 
 import java.util.Collection;
+import java.util.Optional;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -18,9 +21,9 @@ public class ContextsController {
 	@Autowired
 	ContextsManager contextsManager;
 
-	@RequestMapping(value = "/contexts", method = RequestMethod.GET)
+	@RequestMapping(value = {"/contexts","/contexts/{username}"}, method = RequestMethod.GET)
 	@ResponseBody
-	public ResponseEntity<Collection> getAllContexts() throws RuntimeException {
+	public ResponseEntity<Collection> getAllContexts(@PathVariable Optional<String> username) throws RuntimeException {
 
 		long startTimer = System.currentTimeMillis();
 		Collection contexts = contextsManager.getAllContexts();
