@@ -18,7 +18,6 @@
 		class="org.springframework.beans.factory.config.PropertiesFactoryBean">
 		<property name="properties">
 			<util:properties local-override="false">
-				<prop key="formbuilder.api.url">${formbuilder.api.url}</prop>
 				<prop key="formservice.api.url">${formservice.api.url}</prop>
 			</util:properties>
 		</property>

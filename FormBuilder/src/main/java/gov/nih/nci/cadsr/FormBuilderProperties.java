@@ -4,27 +4,11 @@ import org.springframework.beans.factory.annotation.Value;
 
 public class FormBuilderProperties {
 	
-	private static final String DEFAULT_LOCAL_SERVICE_HOST = "http://localhost:8080/";
 	private static final String DEFAULT_REMOTE_SERVICE_HOST = "http://localhost:8080/";
-	
-	@Value("#{propertyConfigurer['formbuilder.api.url']}")
-//	@Value("${formbuilder.api.url}")
-	private String formBuilderApiUrl;
 	
 	@Value("#{propertyConfigurer['formservice.api.url']}")
 	private String formServiceApiUrl;
 	
-	
-	
-	public String getFormBuilderApiUrl() {
-
-		if (formBuilderApiUrl == null || formBuilderApiUrl.isEmpty()) {
-			return DEFAULT_LOCAL_SERVICE_HOST;
-		} else {
-			return formBuilderApiUrl;
-
-		}
-	}
 	
 	public String getFormServiceApiUrl() {
 

@@ -11,14 +11,10 @@
 <body>
 
 	<h1>CaDSR FormBuilder</h1>
-	<div>
-		<p>
-			<spring:eval expression="@propertyConfigurer.getProperty('formbuilder.api.url')" var="formBuilderHost" />
-		</p>
-	</div>
     <div id="app">
 	</div>
 	<script>
+		var formBuilderHost = window.location.host;
 		const serverProps = {
 			formBuilderHost: '${formBuilderHost}'
 		};
