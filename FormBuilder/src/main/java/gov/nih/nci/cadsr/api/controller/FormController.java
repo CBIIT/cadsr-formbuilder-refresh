@@ -1,7 +1,11 @@
 package gov.nih.nci.cadsr.api.controller;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,7 +26,7 @@ import gov.nih.nci.cadsr.FormBuilderProperties;
 
 
 @RestController
-public class SearchFormController {
+public class FormController {
 
 	@Autowired
 	private FormBuilderProperties props;
@@ -45,7 +49,7 @@ public class SearchFormController {
 			throws RuntimeException {
 
 		String base_uri = props.getFormServiceApiUrl() + FormBuilderConstants.FORMSERVICE_BASE_URL
-				+ FormBuilderConstants.FORMSERVICE_SEARCH_FORM;
+				+ FormBuilderConstants.FORMSERVICE_FORMS;
 
 		StringBuilder sb = new StringBuilder();
 		sb.append(base_uri);
@@ -174,11 +178,15 @@ public class SearchFormController {
 
 	}
 
-	@RequestMapping(value = "/contexts", method = RequestMethod.GET)
+	@RequestMapping(value = {"/contexts","/contexts/{username}"}, method = RequestMethod.GET)
 	@ResponseBody
-	public ResponseEntity getAllContexts() throws RuntimeException {
+	public ResponseEntity getAllContexts(@PathVariable Optional<String> username) throws RuntimeException {
 		String uri = props.getFormServiceApiUrl() + FormBuilderConstants.FORMSERVICE_BASE_URL
 				+ FormBuilderConstants.FORMSERVICE_CONTEXTS;
+		
+		if(username != null && !username.equals("")){
+			uri = uri + "/" + username;
+		}
 
 		RestTemplate restTemplate = new RestTemplate();
 		ResponseEntity<String> response = restTemplate.getForEntity(uri, String.class);
@@ -221,6 +229,19 @@ public class SearchFormController {
 
 		RestTemplate restTemplate = new RestTemplate();
 		ResponseEntity<String> response = restTemplate.getForEntity(uri, String.class);
+
+		return response;
+	}
+	
+	@RequestMapping(value = "/forms", method = RequestMethod.POST, consumes = "application/json")
+	@ResponseBody
+	public ResponseEntity createForm(@RequestBody String form) {
+	
+		String uri = props.getFormServiceApiUrl() + FormBuilderConstants.FORMSERVICE_BASE_URL
+				+ FormBuilderConstants.FORMSERVICE_FORMS;
+		
+		RestTemplate restTemplate = new RestTemplate();
+		ResponseEntity<String> response = restTemplate.postForEntity(uri, form, String.class);
 
 		return response;
 	}
