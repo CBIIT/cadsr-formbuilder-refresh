@@ -7,9 +7,8 @@ const SearchResultModel = Model.extend({
 		/*Populates the Protocol Long Name in the search results table */
 		delimitedProtocolLongNames: '',
 		contextName:       '',
-		/* this is the workflow status */
+		/* aslName this is the workflow status */
 		aslName:      '',
-		/*TODO where did this come from?*/
 		categoryName:  '',
 		formType:          '',
 		classification: '',

@@ -1,17 +1,23 @@
-import Marionette from 'backbone.marionette';
+import {LayoutView} from 'backbone.marionette';
 import EVENTS from '../../constants/EVENTS';
-import {searchChannel} from '../../channels/radioChannels'
+import {searchChannel, formChannel} from '../../channels/radioChannels';
 import template from '../../../templates/search/search-layout.html';
 import FormSearchView from './form-search/FormSearchView';
 import SearchResultsView from './form-search/SearchResultsView';
 import SearchPreferencesView from './form-search/SearchPreferencesView';
 
-const SearchLayoutView = Marionette.LayoutView.extend({
+const SearchLayoutView = LayoutView.extend({
 	template: template,
 	regions:  {
 		searchPreferences: ".search-preferences",
 		searchCriteria:    '#search-form-wrapper',
-		searchResults:     '#search-results-wrapper',
+		searchResults:     '#search-results-wrapper'
+	},
+	events: {
+		"click .create-new-form-button": "dispatchCreateForm"
+	},
+	dispatchCreateForm () {
+		formChannel.request(EVENTS.FORM.CREATE_FORM);
 	},
 	initialize(options){
 		this.formSearchModel = options.formSearchModel;
@@ -23,7 +29,7 @@ const SearchLayoutView = Marionette.LayoutView.extend({
 	},
 	onBeforeShow() {
 		this.showFormSearchView();
-		//this.showSearchPreferences();
+		this.showSearchPreferences();
 	},
 	showFormSearchView(){
 		const view = new FormSearchView({

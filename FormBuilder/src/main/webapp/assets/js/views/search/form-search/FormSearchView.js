@@ -18,7 +18,8 @@ const FormSearchView = LayoutView.extend({
 		categoriesDropdown:    '.categories-dropdown',
 		contextsDropdwon:      '.contexts-dropdown',
 		typesDropDown:         '.types-dropdown',
-		workflowsDropdown:     '.workflows-dropdown'
+		workflowsDropdown:     '.workflows-dropdown',
+		excludeOldVersionsCheckbox: '.exclude-old-versions-checkbox'
 	},
 	/* cache the selectors on render using ui instead of inside events */
 	ui:       {
@@ -76,8 +77,8 @@ const FormSearchView = LayoutView.extend({
 			name:    'type'
 		}));
 	},
-	gatherData(e){
-		e.preventDefault();
+	gatherData(evemt){
+		evemt.preventDefault();
 		this.dispatchFormData(Syphon.serialize(this));
 	},
 	dispatchFormData(data){

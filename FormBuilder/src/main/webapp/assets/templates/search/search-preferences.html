@@ -1,19 +1,13 @@
-<div id="search-form-wrapper">
-	<div class="search-preferences">
+<h3> Search Preferences </h3>
+<form class="search-preferences-form">
+	<div class="form-group">
+		<label for="">Exclude "Test" Context</label> <input type="checkbox" name="<%- excludeTestContext %>"/>
 	</div>
-	<form class="search-preferences-form">
-		<div class="form-group">
-			<label for="">Exclude "Test" Context</label>
-			<input type="checkbox" name="<%- excludeTestContext %>" />
-		</div>
-		<div class="form-group">
-			<label for="">Exclude "Training" Context</label>
-			<input type="checkbox" name="<%- excludeTrainingContext %>" />
-		</div>
+	<div class="form-group">
+		<label for="">Exclude "Training" Context</label> <input type="checkbox" name="<%- excludeTrainingContext %>"/>
+	</div>
 
-		<div class="button-group">
-			<button type="button" id="search-button">Submit</button>
-		</div>
-	</form>
-
-</div>
+	<div class="button-group">
+		<button type="button" id="search-button">Save</button>
+	</div>
+</form>

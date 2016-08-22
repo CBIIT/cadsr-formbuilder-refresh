@@ -1,8 +1,8 @@
 import {ItemView} from 'backbone.marionette';
 import Backbone  from 'backbone';
-import template from '../../../../templates/common/inputs/text-input.html';
+import template from '../../../../templates/common/inputs/textarea-input.html';
 
-const TextInputView = ItemView.extend({
+const TextareaInputView = ItemView.extend({
 	className: ".form-group",
 	template:  template,
 	serializeData(){
@@ -26,4 +26,4 @@ const TextInputView = ItemView.extend({
 	}
 });
 
-export default TextInputView;
+export default TextareaInputView;
