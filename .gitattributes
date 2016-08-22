@@ -18,6 +18,7 @@ FormBuilder/src/main/webapp/assets/js/constants/EVENTS.js -text
 FormBuilder/src/main/webapp/assets/js/helpers/urlHelpers.js -text
 FormBuilder/src/main/webapp/assets/js/main.js -text
 FormBuilder/src/main/webapp/assets/js/models/AppModel.js -text
+FormBuilder/src/main/webapp/assets/js/models/forms/CoreFormDetailsModel.js -text
 FormBuilder/src/main/webapp/assets/js/models/forms/DropDownOptionModel.js -text
 FormBuilder/src/main/webapp/assets/js/models/forms/DropDownOptionsCollection.js -text
 FormBuilder/src/main/webapp/assets/js/models/forms/FormModel.js -text
