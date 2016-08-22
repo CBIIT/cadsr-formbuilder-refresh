@@ -103,7 +103,7 @@ public class FormController {
 	@RequestMapping(value = "/forms", method = RequestMethod.POST, consumes = "application/json")
 	@ResponseBody
 	public ResponseEntity<FormWrapper> createForm(@RequestBody FormWrapper form) {
-	
+
 		formManager.createFormComponent(form);
 		FormWrapper newForm = new FormWrapper();
 		newForm.setFormIdseq(form.getFormIdseq());
@@ -112,8 +112,11 @@ public class FormController {
 		newForm.setCreatedBy(form.getCreatedBy());
 		newForm.setFormType(form.getFormType());
 		newForm.setProtocolTransferObjects(form.getProtocolTransferObjects());
+		newForm.setLongName(form.getLongName());
+		newForm.setVersion(form.getVersion());
+		newForm.setFormCategory(form.getFormCategory());
+		newForm.setPreferredDefinition(form.getPreferredDefinition());
 		ResponseEntity<FormWrapper> response = createSuccessFormResponse(newForm);
-
 		return response;
 	}
 
