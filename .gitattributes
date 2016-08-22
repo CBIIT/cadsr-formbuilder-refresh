@@ -36,6 +36,7 @@ FormBuilder/src/main/webapp/assets/js/views/FooterView.js -text
 FormBuilder/src/main/webapp/assets/js/views/HeaderView.js -text
 FormBuilder/src/main/webapp/assets/js/views/forms/CoreFormDetailsView.js -text
 FormBuilder/src/main/webapp/assets/js/views/forms/FormLayoutView.js -text
+FormBuilder/src/main/webapp/assets/js/views/forms/inputs/RadioInputView.js -text
 FormBuilder/src/main/webapp/assets/js/views/forms/inputs/SelectInputView.js -text
 FormBuilder/src/main/webapp/assets/js/views/forms/inputs/TextInputView.js -text
 FormBuilder/src/main/webapp/assets/js/views/forms/inputs/TextareaInputView.js -text
@@ -47,6 +48,7 @@ FormBuilder/src/main/webapp/assets/styles/styles.scss -text
 FormBuilder/src/main/webapp/assets/templates/app-layout/app-layout.html -text
 FormBuilder/src/main/webapp/assets/templates/app-layout/footer.html -text
 FormBuilder/src/main/webapp/assets/templates/app-layout/header.html -text
+FormBuilder/src/main/webapp/assets/templates/common/inputs/radio-input.html -text
 FormBuilder/src/main/webapp/assets/templates/common/inputs/select-input.html -text
 FormBuilder/src/main/webapp/assets/templates/common/inputs/text-input.html -text
 FormBuilder/src/main/webapp/assets/templates/common/inputs/textarea-input.html -text

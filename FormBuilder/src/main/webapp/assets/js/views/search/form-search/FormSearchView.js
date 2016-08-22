@@ -1,9 +1,10 @@
 import {LayoutView} from 'backbone.marionette';
 import EVENTS from '../../../constants/EVENTS';
-import {searchChannel} from '../../../channels/radioChannels'
+import {searchChannel} from '../../../channels/radioChannels';
 import Syphon from 'backbone.syphon';
 import TextInputView from '../../forms/inputs/TextInputView';
 import SelectInputView from '../../forms/inputs/SelectInputView';
+import RadioInputView from '../../forms/inputs/RadioInputView';
 import template from '../../../../templates/search/form-search/form-search.html';
 
 const FormSearchView = LayoutView.extend({
@@ -19,7 +20,7 @@ const FormSearchView = LayoutView.extend({
 		contextsDropdwon:      '.contexts-dropdown',
 		typesDropDown:         '.types-dropdown',
 		workflowsDropdown:     '.workflows-dropdown',
-		excludeOldVersionsCheckbox: '.exclude-old-versions-checkbox'
+		VersionSelector:       '.version-selector'
 	},
 	/* cache the selectors on render using ui instead of inside events */
 	ui:       {
@@ -66,16 +67,30 @@ const FormSearchView = LayoutView.extend({
 			name:    'workflow'
 		}));
 		this.showChildView('contextsDropdwon', new SelectInputView({
-			label:   'Context',
-			options: this.model.get('contexts'),
+			label:     'Context',
+			options:   this.model.get('contexts'),
 			optionKey: 'contextIdSeq',
-			name:    'contextIdSeq'
+			name:      'contextIdSeq'
 		}));
 		this.showChildView('typesDropDown', new SelectInputView({
 			label:   'Types',
 			options: this.model.get('types'),
 			name:    'type'
 		}));
+		this.showChildView('VersionSelector', new RadioInputView({
+				label:   'Versions',
+				options: [{
+					name:  "Latest Version",
+					value: 'latestVersion'
+				},
+					{
+						name:  "All Versions",
+						value: false
+					}
+				],
+				name:    'version'
+			}
+		));
 	},
 	gatherData(evemt){
 		evemt.preventDefault();
