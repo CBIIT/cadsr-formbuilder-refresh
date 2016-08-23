@@ -13,10 +13,10 @@ const GetCoreFormDetailsCriteriaCommand = Marionette.Object.extend({
 			url: `${ENDPOINT_URLS.CONTEXTS}/${this.userName}`
 		}).then(() =>{
 			this.model.get("formCategories").fetch({
-				url: ENDPOINT_URLS.TYPES
+				url: ENDPOINT_URLS.CATEGORIES
 			}).then(() =>{
 				this.model.get("formTypes").fetch({
-					url: ENDPOINT_URLS.WORKFLOWS
+					url: ENDPOINT_URLS.TYPES
 				}).then(() =>{
 					formChannel.trigger(EVENTS.FORM.GET_FORM_CORE_DETAILS_CRITERIA);
 				}).fail((error) =>{
