@@ -21,7 +21,7 @@ const SearchLayoutView = LayoutView.extend({
 	},
 	initialize(options){
 		this.formSearchModel = options.formSearchModel;
-		this.searchPreferencesModel = options.searchPreferencesModel;
+		this.searchContextRestrictionModel = options.searchContextRestrictionModel;
 
 		searchChannel.reply(EVENTS.SEARCH.RESULTS_COLLECTION_RESET, () =>{
 			this.showSearchResultsView(options.searchResultsCollection);
@@ -45,7 +45,7 @@ const SearchLayoutView = LayoutView.extend({
 	},
 	showSearchPreferences(){
 		const view = new SearchPreferencesView({
-			model: this.searchPreferencesModel
+			model: this.searchContextRestrictionModel
 		});
 		this.showChildView('searchPreferences', view);
 	}

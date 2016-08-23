@@ -9,6 +9,7 @@ const EVENTS = {
 		SET_CORE_FORM_DETAILS: "set:coreFormDetails"
 	},
 	SEARCH: {
+		SAVE_SEARCH_PREFERENCES: 'save:searchPreferences',
 		SEND_SEARCH_LAYOUT: 'set:searchLayout',
 		SEND_SEARCH_INPUTS: 'send:searchInputs',
 		RESULTS_COLLECTION_RESET: 'search:resultsCollectionReset'

@@ -1,9 +1,9 @@
 import Service from "marionette-service";
 import EVENTS from '../../constants/EVENTS';
-import {appChannel, searchChannel} from '../../channels/radioChannels'
+import {appChannel, searchChannel} from '../../channels/radioChannels';
 import SearchRouter from  "../../routers/search/SearchRouter";
 import SearchLayoutView from '../../views/search/SearchLayoutView';
-import searchPreferencesModel from '../../models/search/SearchPreferencesModel';
+import searchContextRestrictionModel from '../../models/search/SearchContextRestrictionModel';
 import FormSearchModel from '../../models/search/form-search/FormSearchModel';
 import urlHelpers from '../../helpers/urlHelpers';
 
@@ -21,7 +21,9 @@ import GetSearchFormCriteriaCommand from '../../commands/GetSearchFormCriteriaCo
 /*TODO move common methods out into a mixin/HOF or baseController/baseService */
 const SearchService = Service.extend({
 	radioRequests: {
-		'search set:searchLayout': 'dispatchSearchLayout'
+		[`search ${EVENTS.SEARCH.SEND_SEARCH_LAYOUT}`]:      'dispatchSearchLayout',
+		[`search ${EVENTS.SEARCH.SEND_SEARCH_INPUTS}`]:      'handleSearchSubmitData',
+		[`search ${EVENTS.SEARCH.SAVE_SEARCH_PREFERENCES}`]: 'handlePreferencesSave'
 	},
 	initialize(options = {}) {
 		const searchRouter = new SearchRouter();
@@ -29,10 +31,7 @@ const SearchService = Service.extend({
 		/* use singleton instead if we want to persist the search results client side */
 		this.searchResultsCollection = new SearchResultsCollection();
 		this.formSearchModel = new FormSearchModel();
-
-		searchChannel.reply(EVENTS.SEARCH.SEND_SEARCH_INPUTS, (data) =>{
-			this.handleSearchSubmitData(data);
-		});
+		this.searchContextRestrictionModel = searchContextRestrictionModel;
 
 		this.listenTo(this.searchResultsCollection, 'reset', this.dispatchSearchResultsReceived);
 	},
@@ -40,9 +39,9 @@ const SearchService = Service.extend({
 
 		return new SearchLayoutView(
 			{
-				searchPreferencesModel:  searchPreferencesModel,
-				searchResultsCollection: this.searchResultsCollection,
-				formSearchModel:         this.formSearchModel
+				searchContextRestrictionModel: searchContextRestrictionModel,
+				searchResultsCollection:       this.searchResultsCollection,
+				formSearchModel:               this.formSearchModel
 			}
 		);
 	},
@@ -57,14 +56,26 @@ const SearchService = Service.extend({
 	dispatchSearchResultsReceived(){
 		searchChannel.request(EVENTS.SEARCH.RESULTS_COLLECTION_RESET);
 	},
+	handlePreferencesSave(data) {
+		this.searchContextRestrictionModel.set(data);
+	},
 	handleSearchSubmitData(data) {
-			/*Save form search field data so user sees form fields as entered before */
-			this.formSearchModel.set(data);
+		/*Save form search field data so user sees form fields as entered before */
+		this.formSearchModel.set(data);
 
-			this.searchResultsCollection.fetch({
-				url:   urlHelpers.buildUrl(this.searchResultsCollection.baseUrl, data),
-				reset: true
-			})
+		this.searchResultsCollection.fetch({
+			url:   `${urlHelpers.buildUrl(this.searchResultsCollection.baseUrl, data)}${this.setContextRestrictionParams(this.searchContextRestrictionModel.attributes)}`,
+			reset: true
+		});
+	},
+	setContextRestrictionParams(object){
+		let paramString = "";
+		for(let index in object){
+			if(object[index]){
+				paramString += `${index},`;
+			}
+		}
+		return paramString ? `&contextRestriction='${paramString}'` : '';
 	}
 });
 
