@@ -63,7 +63,7 @@ const SearchService = Service.extend({
 		}
 
 		/*omit/clean submitted form data that shouldn't be bound to the form search model */
-		let cleansedData = _.omit(data, ['TEST', 'Training', 'latestVersion']);
+		const cleansedData = _.omit(data, ['TEST', 'Training', 'latestVersion']);
 
 		const formSearchModelData = Object.assign({},
 			cleansedData,
