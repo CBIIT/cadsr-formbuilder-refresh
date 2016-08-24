@@ -82,12 +82,8 @@ const FormSearchView = LayoutView.extend({
 			options: this.model.get('types'),
 			name:    'type'
 		}));
-		this.showChildView('typesDropDown', new SelectInputView({
-			label:   'Types',
-			options: this.model.get('types'),
-			name:    'type'
-		}));
-		this.showChildView('typesDropDown', new SearchPreferencesView({
+
+		this.showChildView('contenxtRestrictions', new SearchPreferencesView({
 			model: this.model.get('contextRestriction')
 		}));
 
