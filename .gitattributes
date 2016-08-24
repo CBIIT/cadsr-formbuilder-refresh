@@ -87,6 +87,7 @@ FormService/src/main/java/gov/nih/nci/cadsr/controller/ContextsController.java -
 FormService/src/main/java/gov/nih/nci/cadsr/controller/ExampleController.java -text
 FormService/src/main/java/gov/nih/nci/cadsr/controller/FormController.java -text
 FormService/src/main/java/gov/nih/nci/cadsr/controller/LegacyController.java -text
+FormService/src/main/java/gov/nih/nci/cadsr/controller/ModuleController.java -text
 FormService/src/main/java/gov/nih/nci/cadsr/controller/ProtocolController.java -text
 FormService/src/main/java/gov/nih/nci/cadsr/controller/TypeController.java -text
 FormService/src/main/java/gov/nih/nci/cadsr/controller/WorkFlowController.java -text
@@ -107,6 +108,7 @@ FormService/src/main/java/gov/nih/nci/cadsr/manager/ClassificationManager.java -
 FormService/src/main/java/gov/nih/nci/cadsr/manager/ContextsManager.java -text
 FormService/src/main/java/gov/nih/nci/cadsr/manager/ExampleManager.java -text
 FormService/src/main/java/gov/nih/nci/cadsr/manager/FormManager.java -text
+FormService/src/main/java/gov/nih/nci/cadsr/manager/ModuleManger.java -text
 FormService/src/main/java/gov/nih/nci/cadsr/manager/ProtocolManager.java -text
 FormService/src/main/java/gov/nih/nci/cadsr/manager/TypeManager.java -text
 FormService/src/main/java/gov/nih/nci/cadsr/manager/WorkFlowManager.java -text
@@ -115,6 +117,7 @@ FormService/src/main/java/gov/nih/nci/cadsr/manager/impl/ClassificationManagerIm
 FormService/src/main/java/gov/nih/nci/cadsr/manager/impl/ContextsManagerImpl.java -text
 FormService/src/main/java/gov/nih/nci/cadsr/manager/impl/ExampleManagerImpl.java -text
 FormService/src/main/java/gov/nih/nci/cadsr/manager/impl/FormManagerImpl.java -text
+FormService/src/main/java/gov/nih/nci/cadsr/manager/impl/ModuleMangerImpl.java -text
 FormService/src/main/java/gov/nih/nci/cadsr/manager/impl/ProtocolManagerImpl.java -text
 FormService/src/main/java/gov/nih/nci/cadsr/manager/impl/TypeManagerImpl.java -text
 FormService/src/main/java/gov/nih/nci/cadsr/manager/impl/WorkFlowManagerImpl.java -text
@@ -123,6 +126,7 @@ FormService/src/main/java/gov/nih/nci/cadsr/model/Context.java -text
 FormService/src/main/java/gov/nih/nci/cadsr/model/Customer.java -text
 FormService/src/main/java/gov/nih/nci/cadsr/model/Form.java -text
 FormService/src/main/java/gov/nih/nci/cadsr/model/FormWrapper.java -text
+FormService/src/main/java/gov/nih/nci/cadsr/model/ModuleWrapper.java -text
 FormService/src/main/java/gov/nih/nci/cadsr/model/Type.java -text
 FormService/src/main/java/gov/nih/nci/cadsr/model/WorkFlow.java -text
 FormService/src/main/java/gov/nih/nci/ncicb/cadsr/common/CaDSRUtil.java -text
