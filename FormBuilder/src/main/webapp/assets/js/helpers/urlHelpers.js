@@ -11,7 +11,10 @@ const urlHelpers = {
 			}
 			return baseUrl;
 		}
-		return addParams(baseUrl, data);
+
+		const concatedParams = addParams(baseUrl, data);
+
+		return (concatedParams.endsWith("&")) ? concatedParams.slice(0, -1) : concatedParams;
 	}
 };
 
