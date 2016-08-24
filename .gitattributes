@@ -44,6 +44,7 @@ FormBuilder/src/main/webapp/assets/js/views/forms/inputs/TextInputView.js -text
 FormBuilder/src/main/webapp/assets/js/views/forms/inputs/TextareaInputView.js -text
 FormBuilder/src/main/webapp/assets/js/views/search/SearchLayoutView.js -text
 FormBuilder/src/main/webapp/assets/js/views/search/form-search/FormSearchView.js -text
+FormBuilder/src/main/webapp/assets/js/views/search/form-search/LatestVersionOnlSelectorView.js -text
 FormBuilder/src/main/webapp/assets/js/views/search/form-search/SearchPreferencesView.js -text
 FormBuilder/src/main/webapp/assets/js/views/search/form-search/SearchResultsView.js -text
 FormBuilder/src/main/webapp/assets/styles/styles.scss -text
@@ -57,6 +58,7 @@ FormBuilder/src/main/webapp/assets/templates/common/inputs/textarea-input.html -
 FormBuilder/src/main/webapp/assets/templates/form/core-form-details.html -text
 FormBuilder/src/main/webapp/assets/templates/form/form-layout.html -text
 FormBuilder/src/main/webapp/assets/templates/search/form-search/form-search.html -text
+FormBuilder/src/main/webapp/assets/templates/search/form-search/latest-version-only.html -text
 FormBuilder/src/main/webapp/assets/templates/search/form-search/search-results-layout.html -text
 FormBuilder/src/main/webapp/assets/templates/search/search-layout.html -text
 FormBuilder/src/main/webapp/assets/templates/search/search-preferences.html -text

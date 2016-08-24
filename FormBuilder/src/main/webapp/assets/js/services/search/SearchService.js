@@ -52,6 +52,8 @@ const SearchService = Service.extend({
 		searchChannel.request(EVENTS.SEARCH.RESULTS_COLLECTION_RESET);
 	},
 	handleSearchSubmitData(data) {
+
+		/*Add keys for context restricions into format for model */
 		const contextRestriction = [];
 		if(data.TEST){
 			contextRestriction.push("TEST");
@@ -59,11 +61,21 @@ const SearchService = Service.extend({
 		if(data.Training){
 			contextRestriction.push("Training");
 		}
-		let dataMinusContextRestriction = _.omit(data, ['TEST', 'Training']);
-		const newData = Object.assign({}, dataMinusContextRestriction, {contextRestriction: contextRestriction});
+
+		/*omit/clean submitted form data that shouldn't be bound to the form search model */
+		let cleansedData = _.omit(data, ['TEST', 'Training', 'latestVersion']);
+
+		const formSearchModelData = Object.assign({},
+			cleansedData,
+			{contextRestriction: contextRestriction},
+			{latestVersion: data.latestVersion}
+		);
 		/*Save form search field data so user sees form fields as entered before */
-		this.formSearchModel.set(newData);
-		const url = `${urlHelpers.buildUrl(this.searchResultsCollection.baseUrl, dataMinusContextRestriction)}${this.contendRestrictionParam(contextRestriction)}`;
+		this.formSearchModel.set(formSearchModelData);
+
+		/* construct the url based on safeModelData and manipulated data */
+		const url = `${urlHelpers.buildUrl(this.searchResultsCollection.baseUrl, cleansedData)}&version=${data.latestVersion ? 'latestVersion' : ''}${this.contendRestrictionParam(contextRestriction)}`;
+
 		this.searchResultsCollection.fetch({
 			url:   url,
 			reset: true

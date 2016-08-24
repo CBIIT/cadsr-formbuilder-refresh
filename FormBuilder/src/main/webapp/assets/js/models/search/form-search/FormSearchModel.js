@@ -25,7 +25,7 @@ const FormSearchModel = Model.extend({
 		classification: '',
 		selectedClassification: null,
 		publicId: '',
-		latestVersionOnly: false
+		latestVersion: false
 	}
 });
 

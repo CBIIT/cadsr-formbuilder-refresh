@@ -5,7 +5,7 @@ import Syphon from 'backbone.syphon';
 import TextInputView from '../../forms/inputs/TextInputView';
 import SelectInputView from '../../forms/inputs/SelectInputView';
 import SearchPreferencesView from './SearchPreferencesView';
-import RadioInputView from '../../forms/inputs/RadioInputView';
+import LatestVersionOnlSelectorView from './LatestVersionOnlSelectorView';
 import template from '../../../../templates/search/form-search/form-search.html';
 
 const FormSearchView = LayoutView.extend({
@@ -88,22 +88,12 @@ const FormSearchView = LayoutView.extend({
 			name:    'type'
 		}));
 		this.showChildView('typesDropDown', new SearchPreferencesView({
-			model: this.model.get('contextRestriction'),
+			model: this.model.get('contextRestriction')
 		}));
-		this.showChildView('VersionSelector', new RadioInputView({
-				label:   'Versions',
-				options: [{
-					name:  "Latest Version",
-					value: 'latestVersion'
-				},
-					{
-						name:  "All Versions",
-						value: false
-					}
-				],
-				name:    'version'
-			}
-		));
+
+		this.showChildView('VersionSelector', new LatestVersionOnlSelectorView({
+			value: this.model.get('latestVersion')
+		}));
 	},
 	gatherData(evemt){
 		evemt.preventDefault();
