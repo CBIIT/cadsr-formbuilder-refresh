@@ -6,7 +6,7 @@ import {appChannel, formChannel, userChannel} from '../../channels/radioChannels
 import FormModel from '../../models/forms/FormModel';
 import FormRouter from  "../../routers/FormRouter";
 import DropDownOptionsCollection from '../../models/forms/DropDownOptionsCollection';
-import GetCoreFormDetailsCriteriaCommand from '../../commands/GetCreateFormCriteriaCommand';
+import GetCoreFormDetailsCriteriaCommand from '../../commands/GetCoreFormDetailsCriteriaCommand';
 import FormLayoutView from '../../views/forms/FormLayoutView';
 
 /**
