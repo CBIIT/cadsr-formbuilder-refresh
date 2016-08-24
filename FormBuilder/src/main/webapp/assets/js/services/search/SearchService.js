@@ -78,7 +78,11 @@ const SearchService = Service.extend({
 
 		this.searchResultsCollection.fetch({
 			url:   url,
-			reset: true
+			reset: true,
+			/*Fix addition of square brackets added to query by jQuery
+			See http://stackoverflow.com/questions/18492127/backbone-js-fetch-method-with-data-option-is-passing-url-params-with-square-brac
+			 */
+			traditional: true
 		});
 	},
 	contendRestrictionParam(list){
