@@ -9,7 +9,6 @@ import SearchPreferencesView from './form-search/SearchPreferencesView';
 const SearchLayoutView = LayoutView.extend({
 	template: template,
 	regions:  {
-		searchPreferences: ".search-preferences",
 		searchCriteria:    '#search-form-wrapper',
 		searchResults:     '#search-results-wrapper'
 	},
@@ -29,7 +28,6 @@ const SearchLayoutView = LayoutView.extend({
 	},
 	onBeforeShow() {
 		this.showFormSearchView();
-		this.showSearchPreferences();
 	},
 	showFormSearchView(){
 		const view = new FormSearchView({
@@ -42,12 +40,6 @@ const SearchLayoutView = LayoutView.extend({
 			collection: resultsCollection
 		});
 		this.showChildView('searchResults', view);
-	},
-	showSearchPreferences(){
-		const view = new SearchPreferencesView({
-			model: this.searchContextRestrictionModel
-		});
-		this.showChildView('searchPreferences', view);
 	}
 });
 

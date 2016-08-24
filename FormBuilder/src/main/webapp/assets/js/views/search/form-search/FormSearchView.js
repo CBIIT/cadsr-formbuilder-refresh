@@ -4,6 +4,7 @@ import {searchChannel} from '../../../channels/radioChannels';
 import Syphon from 'backbone.syphon';
 import TextInputView from '../../forms/inputs/TextInputView';
 import SelectInputView from '../../forms/inputs/SelectInputView';
+import SearchPreferencesView from './SearchPreferencesView';
 import RadioInputView from '../../forms/inputs/RadioInputView';
 import template from '../../../../templates/search/form-search/form-search.html';
 
@@ -20,6 +21,7 @@ const FormSearchView = LayoutView.extend({
 		contextsDropdwon:      '.contexts-dropdown',
 		typesDropDown:         '.types-dropdown',
 		workflowsDropdown:     '.workflows-dropdown',
+		contenxtRestrictions:  '#context-restrictions',
 		VersionSelector:       '.version-selector'
 	},
 	/* cache the selectors on render using ui instead of inside events */
@@ -28,6 +30,9 @@ const FormSearchView = LayoutView.extend({
 	},
 	events:   {
 		'submit @ui.form': 'gatherData'
+	},
+	initialize({searchContextRestrictionModel}) {
+		this.searchContextRestrictionModel = searchContextRestrictionModel;
 	},
 	onBeforeShow(){
 		/*TODO Figure out a more DRY way to do this. The regions' selectors are separately being specified in the template: Might be worth re-working later to dynamically drop in views */
@@ -76,6 +81,14 @@ const FormSearchView = LayoutView.extend({
 			label:   'Types',
 			options: this.model.get('types'),
 			name:    'type'
+		}));
+		this.showChildView('typesDropDown', new SelectInputView({
+			label:   'Types',
+			options: this.model.get('types'),
+			name:    'type'
+		}));
+		this.showChildView('typesDropDown', new SearchPreferencesView({
+			model: this.model.get('contextRestriction'),
 		}));
 		this.showChildView('VersionSelector', new RadioInputView({
 				label:   'Versions',

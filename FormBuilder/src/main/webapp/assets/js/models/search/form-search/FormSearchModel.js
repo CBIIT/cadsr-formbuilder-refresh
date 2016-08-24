@@ -3,6 +3,7 @@ import DropDownOptionsCollection from '../../forms/DropDownOptionsCollection';
 
 const FormSearchModel = Model.extend({
 	defaults: {
+		contextRestriction: ['TEST', 'Training'],
 		formLongName:  '',
 		protocolIdSeq: '',
 		protocolLongName: '',
