@@ -1,4 +1,4 @@
-import {LayoutView} from 'backbone.marionette';
+import {View} from 'backbone.marionette';
 import EVENTS from '../../constants/EVENTS';
 import {formChannel} from '../../channels/radioChannels'
 import Syphon from 'backbone.syphon';
@@ -7,7 +7,7 @@ import TextareaInputView from '../forms/inputs/TextareaInputView';
 import SelectInputView from '../forms/inputs/SelectInputView';
 import template from '../../../templates/form/core-form-details.html';
 
-const CoreFormDetailsView = LayoutView.extend({
+const CoreFormDetailsView = View.extend({
 	template: template,
 	regions:  {
 		longNameInput:           '.longname-input',
@@ -33,7 +33,7 @@ const CoreFormDetailsView = LayoutView.extend({
 		this.uiDropDownOptionsModel = uiDropDownOptionsModel;
 
 	},
-	onBeforeShow(){
+	onBeforeAttach(){
 		this.showChildView('longNameInput', new TextInputView({
 			label: 'Long Name',
 			name:  'longName',

@@ -1,4 +1,4 @@
-import Service from "marionette-service";
+import Marionette from "backbone.marionette";
 import EVENTS from '../../constants/EVENTS';
 import {appChannel, searchChannel} from '../../channels/radioChannels';
 import SearchRouter from  "../../routers/search/SearchRouter";
@@ -10,18 +10,14 @@ import SearchResultsCollection from '../../models/search/form-search/SearchResul
 import GetSearchFormCriteriaCommand from '../../commands/GetSearchFormCriteriaCommand';
 
 /**
- * This is a simple service that maintains the
- * state of search functionality, and passes it on
- * to any other parts of the code that request it
- * This currently uses Marionette-service for its service
- * object, in Mn 3.0 this will be replaceable with
- * Marionette.Object without any external dependencies
+ * This is a simple service that maintains the state of search functionality
  */
 /*TODO move common methods out into a mixin/HOF or baseController/baseService */
-const SearchService = Service.extend({
+const SearchService = Marionette.Object.extend({
+	channelName: 'search',
 	radioRequests: {
-		[`search ${EVENTS.SEARCH.SEND_SEARCH_LAYOUT}`]: 'dispatchSearchLayout',
-		[`search ${EVENTS.SEARCH.SEND_SEARCH_INPUTS}`]: 'handleSearchSubmitData'
+		[EVENTS.SEARCH.SEND_SEARCH_LAYOUT]: 'dispatchSearchLayout',
+		[EVENTS.SEARCH.SEND_SEARCH_INPUTS]: 'handleSearchSubmitData'
 	},
 	initialize(options = {}) {
 		const searchRouter = new SearchRouter();

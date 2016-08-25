@@ -1,10 +1,10 @@
-import * as Marionette from 'backbone.marionette';
+import {Application} from 'backbone.marionette';
 import AppLayoutView from "./views/AppLayoutView";
 
-const App = Marionette.Application.extend({
-	initialize() {
-		this.layout = new AppLayoutView();
-		this.layout.render();
+const App = Application.extend({
+	region:         "#app",
+	onStart() {
+		this.showView(new AppLayoutView());
 	}
 });
 

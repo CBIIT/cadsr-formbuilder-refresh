@@ -1,4 +1,4 @@
-import {LayoutView} from 'backbone.marionette';
+import {View} from 'backbone.marionette';
 import EVENTS from '../../../constants/EVENTS';
 import {searchChannel} from '../../../channels/radioChannels';
 import Syphon from 'backbone.syphon';
@@ -8,7 +8,7 @@ import SearchPreferencesView from './SearchPreferencesView';
 import LatestVersionOnlSelectorView from './LatestVersionOnlSelectorView';
 import template from '../../../../templates/search/form-search/form-search.html';
 
-const FormSearchView = LayoutView.extend({
+const FormSearchView = View.extend({
 	template: template,
 	regions:  {
 		formLongNameInput:     '.longname-input',
@@ -34,7 +34,7 @@ const FormSearchView = LayoutView.extend({
 	initialize({searchContextRestrictionModel}) {
 		this.searchContextRestrictionModel = searchContextRestrictionModel;
 	},
-	onBeforeShow(){
+	onBeforeAttach(){
 		/*TODO Figure out a more DRY way to do this. The regions' selectors are separately being specified in the template: Might be worth re-working later to dynamically drop in views */
 		this.showChildView('formLongNameInput', new TextInputView({
 			label: 'Form Long Name',

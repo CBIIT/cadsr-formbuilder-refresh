@@ -1,5 +1,5 @@
 import Backbone from 'backbone';
-import {LayoutView} from 'backbone.marionette';
+import {View} from 'backbone.marionette';
 import {Grid, Extension} from "backgrid";
 import template from '../../../../templates/search/form-search/search-results-layout.html';
 import SelectAllHeaderCell from 'backgrid-select-all';
@@ -74,13 +74,13 @@ const ResultsTable = Grid.extend({
 	}
 });
 
-const SearchResultsView = LayoutView.extend({
+const SearchResultsView = View.extend({
 	template: template,
 	regions:  {
 		searchResultsTable: '.results-table',
 		paginator:          '.paginator'
 	},
-	onBeforeShow(){
+	onBeforeAttach(){
 		//paginator.collection = this.collection;
 		this.showChildView('searchResultsTable', new ResultsTable({
 			collection: this.collection

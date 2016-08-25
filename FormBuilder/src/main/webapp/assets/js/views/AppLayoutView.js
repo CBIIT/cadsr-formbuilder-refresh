@@ -1,4 +1,4 @@
-import Marionette from 'backbone.marionette';
+import {View} from 'backbone.marionette';
 import EVENTS from '../constants/EVENTS';
 import {appChannel} from '../channels/radioChannels'
 import HeaderView from './HeaderView';
@@ -6,8 +6,7 @@ import FooterView from './FooterView';
 import template from '../../templates/app-layout/app-layout.html';
 
 
-const AppLayoutView = Marionette.LayoutView.extend({
-	el:       "#app",
+const AppLayoutView = View.extend({
 	template: template,
 	regions:  {
 		header: '#header',

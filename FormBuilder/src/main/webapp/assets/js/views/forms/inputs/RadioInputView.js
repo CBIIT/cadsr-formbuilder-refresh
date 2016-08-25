@@ -1,8 +1,8 @@
-import {ItemView} from 'backbone.marionette';
+import {View} from 'backbone.marionette';
 import {Model}  from 'backbone';
 import template from '../../../../templates/common/inputs/radio-input.html';
 
-const SelectInputView = ItemView.extend({
+const SelectInputView = View.extend({
 	className: ".form-group",
 	template:  template,
 	serializeData(){

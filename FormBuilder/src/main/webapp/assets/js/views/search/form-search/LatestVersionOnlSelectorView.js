@@ -1,7 +1,7 @@
-import  {ItemView} from 'backbone.marionette';
+import  {View} from 'backbone.marionette';
 import template from '../../../../templates/search/form-search/latest-version-only.html';
 
-const LatestVersionOnlSelectorView = ItemView.extend({
+const LatestVersionOnlSelectorView = View.extend({
 	template: template,
 	initialize({value}) {
 		this.value = value;

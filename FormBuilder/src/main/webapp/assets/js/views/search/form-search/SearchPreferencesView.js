@@ -1,7 +1,7 @@
-import  {ItemView} from 'backbone.marionette';
+import {View} from 'backbone.marionette';
 import template from '../../../../templates/search/search-preferences.html';
 
-const SearchPreferencesView = ItemView.extend({
+const SearchPreferencesView = View.extend({
 	template: template,
 	serializeData () {
 		return {

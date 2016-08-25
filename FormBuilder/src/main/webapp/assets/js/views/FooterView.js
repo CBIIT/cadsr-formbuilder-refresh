@@ -1,7 +1,7 @@
-import * as Marionette from 'backbone.marionette';
+import {View} from 'backbone.marionette';
 import template from '../../templates/app-layout/footer.html';
 
-const FooterView = Marionette.ItemView.extend({
+const FooterView = View.extend({
 	template: template
 });
 

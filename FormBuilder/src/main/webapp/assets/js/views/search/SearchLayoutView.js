@@ -1,4 +1,4 @@
-import {LayoutView} from 'backbone.marionette';
+import {View} from 'backbone.marionette';
 import EVENTS from '../../constants/EVENTS';
 import {searchChannel, formChannel} from '../../channels/radioChannels';
 import template from '../../../templates/search/search-layout.html';
@@ -6,7 +6,7 @@ import FormSearchView from './form-search/FormSearchView';
 import SearchResultsView from './form-search/SearchResultsView';
 import SearchPreferencesView from './form-search/SearchPreferencesView';
 
-const SearchLayoutView = LayoutView.extend({
+const SearchLayoutView = View.extend({
 	template: template,
 	regions:  {
 		searchCriteria:    '#search-form-wrapper',
@@ -26,7 +26,7 @@ const SearchLayoutView = LayoutView.extend({
 			this.showSearchResultsView(options.searchResultsCollection);
 		});
 	},
-	onBeforeShow() {
+	onBeforeAttach() {
 		this.showFormSearchView();
 	},
 	showFormSearchView(){

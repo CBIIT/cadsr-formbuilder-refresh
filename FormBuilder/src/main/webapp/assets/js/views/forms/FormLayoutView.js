@@ -1,8 +1,8 @@
-import {LayoutView} from 'backbone.marionette';
+import {View} from 'backbone.marionette';
 import CoreFormDetailsView from './CoreFormDetailsView';
 import template from '../../../templates/form/form-layout.html';
 
-const FormLayoutView = LayoutView.extend({
+const FormLayoutView = View.extend({
 	template: template,
 	regions:  {
 		coreFormDetails:    '#core-form-details-wrapper'
@@ -11,7 +11,7 @@ const FormLayoutView = LayoutView.extend({
 		this.formModel = formModel;
 		this.uiDropDownOptionsModel = uiDropDownOptionsModel;
 	},
-	onBeforeShow() {
+	onBeforeAttach() {
 		this.FormDetailsView();
 	},
 	FormDetailsView(){

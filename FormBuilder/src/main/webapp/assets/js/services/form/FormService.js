@@ -1,8 +1,8 @@
-import Service from "marionette-service";
+import Marionette from "backbone.marionette";
 import {Model, Collection} from "backbone";
 import EVENTS from '../../constants/EVENTS';
 import ROUTES from '../../constants/ROUTES';
-import {appChannel, formChannel, userChannel} from '../../channels/radioChannels'
+import {appChannel, formChannel, userChannel} from '../../channels/radioChannels';
 import FormModel from '../../models/forms/FormModel';
 import FormRouter from  "../../routers/FormRouter";
 import DropDownOptionsCollection from '../../models/forms/DropDownOptionsCollection';
@@ -10,24 +10,18 @@ import GetCoreFormDetailsCriteriaCommand from '../../commands/GetCoreFormDetails
 import FormLayoutView from '../../views/forms/FormLayoutView';
 
 /**
- * This is a simple service that maintains the
- * state of search functionality, and passes it on
- * to any other parts of the code that request it
- * This currently uses Marionette-service for its service
- * object, in Mn 3.0 this will be replaceable with
- * Marionette.Object without any external dependencies
+ * This is a service that maintains the state of a form
  */
 /*TODO move common methods out into a mixin/HOF or baseController/baseService */
 
-const FormService = Service.extend({
+const FormService = Marionette.Object.extend({
+	channelName: 'form',
 	radioRequests: {
-		[`form ${EVENTS.FORM.SET_FORM_LAYOUT}`]: 'dispatchLayout',
-		[`form ${EVENTS.FORM.CREATE_FORM}`]: 'navigateToFormLayout'
+		[EVENTS.FORM.SET_FORM_LAYOUT]: 'dispatchLayout',
+		[EVENTS.FORM.CREATE_FORM]: 'navigateToFormLayout'
 	},
 	initialize(options = {}) {
 		this.router  = new FormRouter();
-		this.container = options.container;
-
 		this.setupModels();
 
 		formChannel.on(EVENTS.FORM.SET_CORE_FORM_DETAILS, (data) =>{

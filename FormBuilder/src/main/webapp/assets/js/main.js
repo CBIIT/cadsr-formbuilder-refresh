@@ -6,17 +6,11 @@ import UserService from  "./services/user/UserService";
 
 app.on('start', function(){
 
-	this.form = new FormService({
-		container: this.layout.getRegion("main")
-	});
+	this.form = new FormService({});
 
-	this.search = new SearchService({
-		container: this.layout.getRegion("main")
-	});
+	this.search = new SearchService({});
 
-	this.form = new UserService({
-		container: this.layout.getRegion("main")
-	});
+	this.form = new UserService({});
 
 	Backbone.history.start();
 });
