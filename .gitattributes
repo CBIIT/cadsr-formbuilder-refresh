@@ -236,4 +236,5 @@ FormService/src/main/resources/formservice-qa.properties -text
 FormService/src/main/resources/log4j.properties -text
 FormService/src/main/resources/settings.xml -text
 FormService/src/main/webapp/WEB-INF/web.xml -text
+FormService/src/test/java/gov/nih/nci/cadsr/client/FormServiceClient.java -text
 FormService/src/test/resources/applicationTestContext.xml -text

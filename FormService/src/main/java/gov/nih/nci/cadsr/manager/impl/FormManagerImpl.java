@@ -6,13 +6,16 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import gov.nih.nci.cadsr.domain.Instruction;
 import gov.nih.nci.cadsr.manager.FormManager;
 import gov.nih.nci.cadsr.model.FormWrapper;
 import gov.nih.nci.ncicb.cadsr.common.dto.FormTransferObject;
+import gov.nih.nci.ncicb.cadsr.common.dto.InstructionTransferObject;
 import gov.nih.nci.ncicb.cadsr.common.exception.DMLException;
 import gov.nih.nci.ncicb.cadsr.common.persistence.dao.AbstractDAOFactoryFB;
 import gov.nih.nci.ncicb.cadsr.common.persistence.dao.ContextDAO;
 import gov.nih.nci.ncicb.cadsr.common.persistence.dao.FormDAO;
+import gov.nih.nci.ncicb.cadsr.common.persistence.dao.FormInstructionDAO;
 import gov.nih.nci.ncicb.cadsr.common.persistence.dao.jdbc.JDBCFormDAOFB;
 import gov.nih.nci.ncicb.cadsr.common.resource.NCIUser;
 
@@ -60,7 +63,7 @@ public class FormManagerImpl implements FormManager {
 	}
 
 	@Override
-	public void createFormComponent(FormWrapper form) {
+	public void createFormComponent(FormWrapper form, InstructionTransferObject headerInstruction, InstructionTransferObject footerInstruction) {
 		FormDAO fdao = daoFactory.getFormDAO();
 		FormTransferObject formTransferObject = new FormTransferObject();
 		
@@ -76,6 +79,19 @@ public class FormManagerImpl implements FormManager {
 		formTransferObject.setProtocols(form.getProtocolTransferObjects());
 		String id = fdao.createFormComponent(formTransferObject);
 		//throw new RuntimeException("******" + formTransferObject.getFormIdseq());
+		
+		if (headerInstruction != null)
+        {
+            FormInstructionDAO fidao1 = daoFactory.getFormInstructionDAO();
+            fidao1.createInstruction(headerInstruction, id);
+        }
+
+        if (footerInstruction != null)
+        {
+            FormInstructionDAO fidao2 = daoFactory.getFormInstructionDAO();
+            fidao2
+            .createFooterInstruction(footerInstruction, id);
+        }
 		
 		form.setFormIdseq(id);
 

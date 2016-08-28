@@ -1,7 +1,10 @@
 package gov.nih.nci.cadsr.manager;
 
 import java.util.Collection;
+
+import gov.nih.nci.ncicb.cadsr.common.dto.InstructionTransferObject;
 import gov.nih.nci.ncicb.cadsr.common.resource.NCIUser;
+import gov.nih.nci.cadsr.domain.Instruction;
 import gov.nih.nci.cadsr.model.FormWrapper;
 
 public interface FormManager {
@@ -15,6 +18,6 @@ public interface FormManager {
 			String categoryName, String type, String classificationIdSeq, String publicId, String version,
 			String moduleLongName, String cdePublicId, NCIUser user, String contextRestriction);
 
-	public void createFormComponent(FormWrapper form);
+	public void createFormComponent(FormWrapper form, InstructionTransferObject headerInstruction, InstructionTransferObject footerInstruction);
 
 }

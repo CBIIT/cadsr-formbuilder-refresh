@@ -20,10 +20,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import gov.nih.nci.cadsr.FormServiceProperties;
 import gov.nih.nci.cadsr.manager.FormManager;
+import gov.nih.nci.cadsr.model.CurrentForm;
 import gov.nih.nci.cadsr.model.FormWrapper;
 import gov.nih.nci.ncicb.cadsr.common.dto.FormTransferObject;
+import gov.nih.nci.ncicb.cadsr.common.dto.InstructionTransferObject;
 import gov.nih.nci.ncicb.cadsr.common.resource.Form;
 import gov.nih.nci.ncicb.cadsr.common.resource.NCIUser;
+import gov.nih.nci.ncicb.cadsr.common.util.StringUtils;
 
 @RestController
 public class FormController {
@@ -103,8 +106,34 @@ public class FormController {
 	@RequestMapping(value = "/forms", method = RequestMethod.POST, consumes = "application/json")
 	@ResponseBody
 	public ResponseEntity<FormWrapper> createForm(@RequestBody FormWrapper form) {
+		
+    	InstructionTransferObject headerInstruction = new InstructionTransferObject();
+    	InstructionTransferObject footerInstruction = new InstructionTransferObject();
 
-		formManager.createFormComponent(form);
+		// assemble a new form instruction for having form header.
+	    int dispOrder = 0;
+	    if (StringUtils.doesValueExist(form.getHeaderInstructions())){
+	    	headerInstruction.setLongName(form.getLongName());
+	    	headerInstruction.setPreferredDefinition(form.getHeaderInstructions());
+	    	headerInstruction.setContext(form.getContext());
+	    	headerInstruction.setAslName("DRAFT NEW");
+	    	headerInstruction.setVersion(new Float(1.0));
+	    	headerInstruction.setCreatedBy(form.getCreatedBy());
+	    	headerInstruction.setDisplayOrder(1);
+	    }
+	    if (StringUtils.doesValueExist(form.getFooterInstructions())){
+	    	footerInstruction.setLongName(form.getLongName());
+	    	footerInstruction.setPreferredDefinition(form.getFooterInstructions());
+	    	footerInstruction.setContext(form.getContext());
+	    	footerInstruction.setAslName("DRAFT NEW");
+	    	footerInstruction.setVersion(new Float(1.0));
+	    	footerInstruction.setCreatedBy(form.getCreatedBy());
+	    	footerInstruction.setDisplayOrder(1);
+	    }
+
+	    Form createdForm = null;
+
+		formManager.createFormComponent(form, headerInstruction, footerInstruction);
 		FormWrapper newForm = new FormWrapper();
 		newForm.setFormIdseq(form.getFormIdseq());
 		newForm.setAslName(form.getAslName());
@@ -118,6 +147,18 @@ public class FormController {
 		newForm.setPreferredDefinition(form.getPreferredDefinition());
 		ResponseEntity<FormWrapper> response = createSuccessFormResponse(newForm);
 		return response;
+	}
+	
+	@RequestMapping(value = "/forms/testPassForm", method = RequestMethod.POST, consumes = "application/json")
+	@ResponseBody
+	public String testPassForm(@RequestBody CurrentForm form) {
+		
+		String longName = form.getFormHeader().getLongName();
+		String mod1 = form.getAddedModules().get(0).getLongName();
+		String mod2 = form.getAddedModules().get(1).getLongName();
+		
+		
+		return longName + mod1 + mod2;
 	}
 
 	private ResponseEntity<Collection> createSuccessResponse(final Collection formList) {

@@ -17,6 +17,8 @@ private String formIdseq;
 	private String formCategory;
 	private String formType;
 	private float version;
+	private String headerInstructions;
+	private String footerInstructions;
 
 	public String getFormIdseq() {
 		return formIdseq;
@@ -101,6 +103,22 @@ private String formIdseq;
 
 	public void setVersion(float version) {
 		this.version = version;
+	}
+
+	public String getHeaderInstructions() {
+		return headerInstructions;
+	}
+
+	public void setHeaderInstructions(String headerInstructions) {
+		this.headerInstructions = headerInstructions;
+	}
+
+	public String getFooterInstructions() {
+		return footerInstructions;
+	}
+
+	public void setFooterInstructions(String footerInstructions) {
+		this.footerInstructions = footerInstructions;
 	}
 
 }
