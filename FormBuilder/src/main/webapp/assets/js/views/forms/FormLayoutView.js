@@ -1,11 +1,11 @@
 import {View} from 'backbone.marionette';
-import CoreFormDetailsView from './CoreFormDetailsView';
+import FormMetadataView from './FormMetadataView';
 import template from '../../../templates/form/form-layout.html';
 
 const FormLayoutView = View.extend({
 	template: template,
 	regions:  {
-		coreFormDetails:    '#core-form-details-wrapper'
+		formMetadata:    '#core-form-details-wrapper'
 	},
 	initialize({formModel, uiDropDownOptionsModel}){
 		this.formModel = formModel;
@@ -15,11 +15,11 @@ const FormLayoutView = View.extend({
 		this.FormDetailsView();
 	},
 	FormDetailsView(){
-		const view = new CoreFormDetailsView({
+		const view = new FormMetadataView({
 			uiDropDownOptionsModel: this.uiDropDownOptionsModel,
-			model: this.formModel.get("coreFormDetails")
+			model: this.formModel.get("formMetadata")
 		});
-		this.showChildView('coreFormDetails', view);
+		this.showChildView('formMetadata', view);
 	}
 });
 

@@ -7,7 +7,7 @@ import TextareaInputView from '../forms/inputs/TextareaInputView';
 import SelectInputView from '../forms/inputs/SelectInputView';
 import template from '../../../templates/form/core-form-details.html';
 
-const CoreFormDetailsView = View.extend({
+const FormMetadataView = View.extend({
 	template: template,
 	regions:  {
 		longNameInput:           '.longname-input',
@@ -101,4 +101,4 @@ const CoreFormDetailsView = View.extend({
 	}
 });
 
-export default CoreFormDetailsView;
+export default FormMetadataView;

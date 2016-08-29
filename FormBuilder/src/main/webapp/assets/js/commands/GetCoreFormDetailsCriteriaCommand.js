@@ -3,7 +3,7 @@ import {formChannel, appChannel} from '../channels/radioChannels';
 import ENDPOINT_URLS from '../constants/ENDPOINT_URLS';
 import EVENTS from '../constants/EVENTS';
 
-const GetCoreFormDetailsCriteriaCommand = Marionette.Object.extend({
+const GetFormMetadataCriteriaCommand = Marionette.Object.extend({
 	initialize(options) {
 		this.model = options.model;
 		this.userName = options.userName;
@@ -57,4 +57,4 @@ const GetCoreFormDetailsCriteriaCommand = Marionette.Object.extend({
 
 });
 
-export default GetCoreFormDetailsCriteriaCommand;
+export default GetFormMetadataCriteriaCommand;

@@ -1,9 +1,9 @@
 import {Model} from 'backbone';
-import CoreFormDetails from './CoreFormDetailsModel';
+import FormMetadata from './FormMetadataModel';
 
 const FormModel = Model.extend({
 	defaults: {
-		coreFormDetails: new CoreFormDetails()
+		formMetadata: new FormMetadata()
 	}
 });
 

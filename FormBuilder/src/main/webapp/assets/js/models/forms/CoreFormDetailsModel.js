@@ -1,7 +1,7 @@
 import {Model} from 'backbone';
 import ENDPOINT_URLS from '../../constants/ENDPOINT_URLS';
 
-const CoreFormDetailsModel = Model.extend({
+const FormMetadataModel = Model.extend({
 	defaults: {
 		createdBy:              '',
 		longName:                '',
@@ -23,4 +23,4 @@ const CoreFormDetailsModel = Model.extend({
 	urlRoot: ENDPOINT_URLS.FORM_CREATE
 });
 
-export default CoreFormDetailsModel;
+export default FormMetadataModel;

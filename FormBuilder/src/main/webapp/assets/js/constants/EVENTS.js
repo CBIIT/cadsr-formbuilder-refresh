@@ -6,7 +6,7 @@ const EVENTS = {
 		CREATE_FORM: 'createForm',
 		SET_FORM_LAYOUT: 'set:formLayout',
 		GET_FORM_CORE_DETAILS_CRITERIA: 'get:getDropDownOptionsSuccess',
-		SET_CORE_FORM_DETAILS: "set:coreFormDetails"
+		SET_CORE_FORM_DETAILS: "set:formMetadata"
 	},
 	SEARCH: {
 		SEND_SEARCH_LAYOUT: 'set:searchLayout',

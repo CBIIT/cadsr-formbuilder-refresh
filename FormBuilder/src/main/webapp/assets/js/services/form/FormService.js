@@ -6,7 +6,7 @@ import {appChannel, formChannel, userChannel} from '../../channels/radioChannels
 import FormModel from '../../models/forms/FormModel';
 import FormRouter from  "../../routers/FormRouter";
 import DropDownOptionsCollection from '../../models/forms/DropDownOptionsCollection';
-import GetCoreFormDetailsCriteriaCommand from '../../commands/GetCoreFormDetailsCriteriaCommand';
+import GetFormMetadataCriteriaCommand from '../../commands/GetFormMetadataCriteriaCommand';
 import FormLayoutView from '../../views/forms/FormLayoutView';
 
 /**
@@ -25,7 +25,7 @@ const FormService = Marionette.Object.extend({
 		this.setupModels();
 
 		formChannel.on(EVENTS.FORM.SET_CORE_FORM_DETAILS, (data) =>{
-			this.handleCoreFormDetailsSubmitData(data);
+			this.handleFormMetadataSubmitData(data);
 		});
 	},
 	dispatchLayout(idSeq = '') {
@@ -33,7 +33,7 @@ const FormService = Marionette.Object.extend({
 			appChannel.request(EVENTS.APP.SET_MAIN_CONTENT_LAYOUT, this.constructLayout());
 		});
 
-		new GetCoreFormDetailsCriteriaCommand({
+		new GetFormMetadataCriteriaCommand({
 			model:    this.uiDropDownOptionsModel,
 			userName: userChannel.request(EVENTS.USER.GET_USERNAME)
 		}).execute();
@@ -46,18 +46,18 @@ const FormService = Marionette.Object.extend({
 			}
 		);
 	},
-	handleCoreFormDetailsSubmitData(data) {
+	handleFormMetadataSubmitData(data) {
 		/*TODO handle context a better way. */
 		let context = data.conteIdseq;
 		delete data.conteIdseq;
 
-		this.formModel.get('coreFormDetails').set(data);
-		this.formModel.get('coreFormDetails').set({
+		this.formModel.get('formMetadata').set(data);
+		this.formModel.get('formMetadata').set({
 			context:   {conteIdseq: context},
 			createdBy: userChannel.request(EVENTS.USER.GET_USERNAME)
 		});
 
-		this.formModel.get('coreFormDetails').save(null, {
+		this.formModel.get('formMetadata').save(null, {
 			success: function (model) {
 				let formIdseq = model.get("formIdseq");
 				alert("Form created. formIdseq is: " + formIdseq);
