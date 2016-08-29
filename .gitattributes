@@ -36,8 +36,8 @@ FormBuilder/src/main/webapp/assets/js/services/user/UserService.js -text
 FormBuilder/src/main/webapp/assets/js/views/AppLayoutView.js -text
 FormBuilder/src/main/webapp/assets/js/views/FooterView.js -text
 FormBuilder/src/main/webapp/assets/js/views/HeaderView.js -text
-FormBuilder/src/main/webapp/assets/js/views/forms/CoreFormDetailsView.js -text
 FormBuilder/src/main/webapp/assets/js/views/forms/FormLayoutView.js -text
+FormBuilder/src/main/webapp/assets/js/views/forms/FormMetadataView.js -text
 FormBuilder/src/main/webapp/assets/js/views/forms/inputs/RadioInputView.js -text
 FormBuilder/src/main/webapp/assets/js/views/forms/inputs/SelectInputView.js -text
 FormBuilder/src/main/webapp/assets/js/views/forms/inputs/TextInputView.js -text
