@@ -23,7 +23,7 @@ public class CurrentForm implements Serializable {
 	private List<ModuleTransferObject> addedModules;
 	private List<ModuleChangesTransferObject> updatedModules;
 	private List<String> deletedModules;
-	private List<FormInstructionChangesTransferObject> instructionChanges;
+	private FormInstructionChangesTransferObject instructionChanges;
 	private List<TriggerActionChangesTransferObject> protocolTriggerActionChanges; //XXX: These are skip patterns?
 	public FormMetaData getFormHeader() {
 		return formHeader;
@@ -61,10 +61,10 @@ public class CurrentForm implements Serializable {
 	public void setDeletedModules(List<String> deletedModules) {
 		this.deletedModules = deletedModules;
 	}
-	public List<FormInstructionChangesTransferObject> getInstructionChanges() {
+	public FormInstructionChangesTransferObject getInstructionChanges() {
 		return instructionChanges;
 	}
-	public void setInstructionChanges(List<FormInstructionChangesTransferObject> instructionChanges) {
+	public void setInstructionChanges(FormInstructionChangesTransferObject instructionChanges) {
 		this.instructionChanges = instructionChanges;
 	}
 	public List<TriggerActionChangesTransferObject> getProtocolTriggerActionChanges() {
