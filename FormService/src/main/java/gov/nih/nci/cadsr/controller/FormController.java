@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -39,40 +40,12 @@ public class FormController {
 
 	@Autowired
 	private FormServiceProperties props;
-	
+
 	@Autowired
 	private FormBuilderServiceImpl service;
 
 	@Autowired
 	private FormManager formManager;
-
-	@RequestMapping(value = "/helloworld", method = RequestMethod.GET)
-	public String getGreeting() throws RuntimeException {
-		ObjectMapper mapper = new ObjectMapper();
-		Form obj = new FormTransferObject();
-
-		// Object to JSON in file
-		try {
-			mapper.writeValue(new File("c:\\file2.json"), obj);
-		} catch (JsonGenerationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (JsonMappingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		String result = "";
-		if (result.isEmpty()) {
-			throw new RuntimeException();
-		} else {
-			logger.info("calling hello world");
-			return result;
-		}
-
-	}
 
 	@RequestMapping(value = "/forms", method = RequestMethod.GET)
 	@ResponseBody
@@ -113,32 +86,32 @@ public class FormController {
 	@RequestMapping(value = "/forms", method = RequestMethod.POST, consumes = "application/json")
 	@ResponseBody
 	public ResponseEntity<FormWrapper> createForm(@RequestBody FormWrapper form) {
-		
-    	InstructionTransferObject headerInstruction = new InstructionTransferObject();
-    	InstructionTransferObject footerInstruction = new InstructionTransferObject();
+
+		InstructionTransferObject headerInstruction = new InstructionTransferObject();
+		InstructionTransferObject footerInstruction = new InstructionTransferObject();
 
 		// assemble a new form instruction for having form header.
-	    int dispOrder = 0;
-	    if (StringUtils.doesValueExist(form.getHeaderInstructions())){
-	    	headerInstruction.setLongName(form.getLongName());
-	    	headerInstruction.setPreferredDefinition(form.getHeaderInstructions());
-	    	headerInstruction.setContext(form.getContext());
-	    	headerInstruction.setAslName("DRAFT NEW");
-	    	headerInstruction.setVersion(new Float(1.0));
-	    	headerInstruction.setCreatedBy(form.getCreatedBy());
-	    	headerInstruction.setDisplayOrder(1);
-	    }
-	    if (StringUtils.doesValueExist(form.getFooterInstructions())){
-	    	footerInstruction.setLongName(form.getLongName());
-	    	footerInstruction.setPreferredDefinition(form.getFooterInstructions());
-	    	footerInstruction.setContext(form.getContext());
-	    	footerInstruction.setAslName("DRAFT NEW");
-	    	footerInstruction.setVersion(new Float(1.0));
-	    	footerInstruction.setCreatedBy(form.getCreatedBy());
-	    	footerInstruction.setDisplayOrder(1);
-	    }
+		int dispOrder = 0;
+		if (StringUtils.doesValueExist(form.getHeaderInstructions())) {
+			headerInstruction.setLongName(form.getLongName());
+			headerInstruction.setPreferredDefinition(form.getHeaderInstructions());
+			headerInstruction.setContext(form.getContext());
+			headerInstruction.setAslName("DRAFT NEW");
+			headerInstruction.setVersion(new Float(1.0));
+			headerInstruction.setCreatedBy(form.getCreatedBy());
+			headerInstruction.setDisplayOrder(1);
+		}
+		if (StringUtils.doesValueExist(form.getFooterInstructions())) {
+			footerInstruction.setLongName(form.getLongName());
+			footerInstruction.setPreferredDefinition(form.getFooterInstructions());
+			footerInstruction.setContext(form.getContext());
+			footerInstruction.setAslName("DRAFT NEW");
+			footerInstruction.setVersion(new Float(1.0));
+			footerInstruction.setCreatedBy(form.getCreatedBy());
+			footerInstruction.setDisplayOrder(1);
+		}
 
-	    Form createdForm = null;
+		Form createdForm = null;
 
 		formManager.createFormComponent(form, headerInstruction, footerInstruction);
 		FormWrapper newForm = new FormWrapper();
@@ -156,68 +129,81 @@ public class FormController {
 		return response;
 	}
 	
+	@RequestMapping(value = "/forms/{formIdSeq}", method = RequestMethod.PUT, consumes = "application/json")
+	@ResponseBody
+	public String updateForm(@PathVariable String formIdSeq, @RequestBody CurrentForm form) {
+		
+		formManager.updateForm(formIdSeq, form);
+		
+		return null;
+	}
+
 	@RequestMapping(value = "/forms/testPassForm", method = RequestMethod.POST, consumes = "application/json")
 	@ResponseBody
 	public String testPassForm(@RequestBody CurrentForm form) {
 		
-		/** 
-		 * This value is where the form id will be stored.
-		 */
-		String formIdseq = form.getFormHeader().getFormIdseq();
-		
-		/**
-		 * Hacky solution for populating Module child-objects.
-		 * They can't be passed from client as they are interfaces (even in ModuleTransferObject).
-		 * This must occur for at least all added Modules, perhaps also needed for the updatedModules and deletedModules,
-		 * not sure. Would have to check for needed fields in queries in deleteModule and updateModule.
-		 * This logic should be isolated to its own utility method.
-		 */
-		for(ModuleTransferObject mod : form.getAddedModules()){
-			FormTransferObject f = new FormTransferObject();
-			ContextTransferObject c = new ContextTransferObject();
-			c.setConteIdseq(mod.getConteIdseq());
-			f.setContext(c);
-			f.setIdseq(form.getFormHeader().getFormIdseq());
-			f.setFormIdseq(form.getFormHeader().getFormIdseq());
-			mod.setForm(f);
-		}
-		
-		/**
-		 * If changes are made to the FormMetaData,
-		 * load all fields into a FormTransferObject and pass to updateForm() method.
-		 * Otherwise, if no changes, null may be passed.
-		 */
-		FormTransferObject formtr = new FormTransferObject();
-		
-		/**
-		 * updateForm() method expects generic Collections.
-		 * Converting Lists to Collections.
-		 * Also very hacky.
-		 */
-		Collection upMods = form.getUpdatedModules();
-		Collection delMods = form.getDeletedModules();
-		Collection addMods = form.getAddedModules();
-		Collection addProts = form.getAddedProtocols();
-		Collection delProts = form.getDeletedProtocols();
-		Collection protTrigs = form.getProtocolTriggerActionChanges();
-		
-		
-		/**
-		 * This can all be moved into a service class.
-		 */
-		service.updateForm(formIdseq, null, upMods, delMods, addMods, addProts, delProts, protTrigs, form.getInstructionChanges(), "guest");
-		
-		
-		//TODO: execute module change updates for all updated modules. This should address all Question changes as well
-		/**
-		 * The updateForm() method only updates changed modules' display order, and does not seem to address questions at all.
-		 * For these updates to occur for Modules and their child Questions, the updateModule() method must be called,
-		 * currently found in FormBuilderService.updateModule(moduleIdSeq, moduleChanges, username).
-		 * This method can either be called for each updated Modules after the updateForm, or the 
-		 * updateForm() method may be altered to include this call for each update Module (more efficient).
-		 */
-		for(ModuleChangesTransferObject mod : form.getUpdatedModules()){
-//			service.updateModule(moduleIdSeq, moduleChanges, username);
+		try{
+			/** 
+			 * This value is where the form id will be stored.
+			 */
+			String formIdseq = form.getFormHeader().getFormIdseq();
+			
+			/**
+			 * Hacky solution for populating Module child-objects.
+			 * They can't be passed from client as they are interfaces (even in ModuleTransferObject).
+			 * This must occur for at least all added Modules, perhaps also needed for the updatedModules and deletedModules,
+			 * not sure. Would have to check for needed fields in queries in deleteModule and updateModule.
+			 * This logic should be isolated to its own utility method.
+			 */
+			for(ModuleTransferObject mod : form.getAddedModules()){
+				FormTransferObject f = new FormTransferObject();
+				ContextTransferObject c = new ContextTransferObject();
+				c.setConteIdseq(mod.getConteIdseq());
+				f.setContext(c);
+				f.setIdseq(form.getFormHeader().getFormIdseq());
+				f.setFormIdseq(form.getFormHeader().getFormIdseq());
+				mod.setForm(f);
+			}
+			
+			/**
+			 * If changes are made to the FormMetaData,
+			 * load all fields into a FormTransferObject and pass to updateForm() method.
+			 * Otherwise, if no changes, null may be passed.
+			 */
+			FormTransferObject formtr = new FormTransferObject();
+			
+			/**
+			 * updateForm() method expects generic Collections.
+			 * Converting Lists to Collections.
+			 * Also very hacky.
+			 */
+			Collection upMods = form.getUpdatedModules();
+			Collection delMods = form.getDeletedModules();
+			Collection addMods = form.getAddedModules();
+			Collection addProts = form.getAddedProtocols();
+			Collection delProts = form.getDeletedProtocols();
+			Collection protTrigs = form.getProtocolTriggerActionChanges();
+			
+			
+			/**
+			 * This can all be moved into a service class.
+			 */
+			service.updateForm(formIdseq, null, upMods, delMods, addMods, addProts, delProts, protTrigs, form.getInstructionChanges(), "guest");
+			
+			
+			//TODO: execute module change updates for all updated modules. This should address all Question changes as well
+			/**
+			 * The updateForm() method only updates changed modules' display order, and does not seem to address questions at all.
+			 * For these updates to occur for Modules and their child Questions, the updateModule() method must be called,
+			 * currently found in FormBuilderService.updateModule(moduleIdSeq, moduleChanges, username).
+			 * This method can either be called for each updated Modules after the updateForm, or the 
+			 * updateForm() method may be altered to include this call for each update Module (more efficient).
+			 */
+			/*for(ModuleChangesTransferObject mod : form.getUpdatedModules()){
+	//			service.updateModule(moduleIdSeq, moduleChanges, username);
+			}*/
+		} catch(Exception e){
+			return e.toString() + " : " + e.getMessage();
 		}
 		
 		

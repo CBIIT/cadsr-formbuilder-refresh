@@ -608,7 +608,7 @@ public class FormBuilderServiceImpl implements FormBuilderService
         return module;
     }
 
-    public Module updateModule(String moduleIdSeq, ModuleChanges moduleChanges, String username)
+    public Module updateModule(String moduleIdSeq, ModuleChanges moduleChanges, String username)//XXX
     {
         ModuleDAO moduleDao = daoFactory.getModuleDAO();
         QuestionDAO questionDao = daoFactory.getQuestionDAO();
@@ -660,6 +660,7 @@ public class FormBuilderServiceImpl implements FormBuilderService
                            Collection protocolTriggerActionChanges,
                            FormInstructionChanges instructionChanges, String username)
     {
+    	System.out.println("IN updateForm()");
         ModuleDAO dao = daoFactory.getModuleDAO();
         QuestionDAO questionDAO = daoFactory.getQuestionDAO();
         QuestionInstructionDAO questInstrDAO = daoFactory.getQuestionInstructionDAO();

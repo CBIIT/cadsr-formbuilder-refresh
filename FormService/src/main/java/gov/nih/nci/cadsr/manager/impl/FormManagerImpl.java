@@ -8,16 +8,22 @@ import org.springframework.stereotype.Service;
 
 import gov.nih.nci.cadsr.domain.Instruction;
 import gov.nih.nci.cadsr.manager.FormManager;
+import gov.nih.nci.cadsr.model.CurrentForm;
 import gov.nih.nci.cadsr.model.FormWrapper;
+import gov.nih.nci.ncicb.cadsr.common.dto.ContextTransferObject;
 import gov.nih.nci.ncicb.cadsr.common.dto.FormTransferObject;
 import gov.nih.nci.ncicb.cadsr.common.dto.InstructionTransferObject;
+import gov.nih.nci.ncicb.cadsr.common.dto.ModuleChangesTransferObject;
+import gov.nih.nci.ncicb.cadsr.common.dto.ModuleTransferObject;
 import gov.nih.nci.ncicb.cadsr.common.exception.DMLException;
 import gov.nih.nci.ncicb.cadsr.common.persistence.dao.AbstractDAOFactoryFB;
 import gov.nih.nci.ncicb.cadsr.common.persistence.dao.ContextDAO;
 import gov.nih.nci.ncicb.cadsr.common.persistence.dao.FormDAO;
 import gov.nih.nci.ncicb.cadsr.common.persistence.dao.FormInstructionDAO;
 import gov.nih.nci.ncicb.cadsr.common.persistence.dao.jdbc.JDBCFormDAOFB;
+import gov.nih.nci.ncicb.cadsr.common.resource.Form;
 import gov.nih.nci.ncicb.cadsr.common.resource.NCIUser;
+import gov.nih.nci.ncicb.cadsr.formbuilder.ejb.impl.FormBuilderServiceImpl;
 
 @Service
 public class FormManagerImpl implements FormManager {
@@ -26,6 +32,8 @@ public class FormManagerImpl implements FormManager {
 	AbstractDAOFactoryFB daoFactory;
 	@Autowired
 	private JDBCFormDAOFB jd;
+	@Autowired
+	private FormBuilderServiceImpl service;
 
 	@Override
 	public Collection getAllForms(String formLongName, String protocolIdSeq, String contextIdSeq, String workflow,
@@ -96,38 +104,65 @@ public class FormManagerImpl implements FormManager {
 		form.setFormIdseq(id);
 
 	}
+	
+	public void updateForm(String formIdSeq, CurrentForm form){
+		prepareModules(formIdSeq, form);
+		
+		/**
+		 * updateForm() method expects generic Collections.
+		 * Converting Lists to Collections.
+		 * Also very hacky.
+		 */
+		Collection upMods = form.getUpdatedModules();
+		Collection delMods = form.getDeletedModules();
+		Collection addMods = form.getAddedModules();
+		Collection addProts = form.getAddedProtocols();
+		Collection delProts = form.getDeletedProtocols();
+		Collection protTrigs = form.getProtocolTriggerActionChanges();
+		
+		String username = form.getFormHeader().getCreatedBy();
+		
+		Form resultForm = service.updateForm(formIdSeq, null, upMods, delMods, addMods, addProts, delProts, protTrigs, form.getInstructionChanges(), username);
 
-	// @Override
-	// public void createFormComponent(FormTransferObject form) {
-	// FormDAO fdao = daoFactory.getFormDAO();
-	//
-	// FormTransferObject fn = new FormTransferObject();
-	//
-	// ContextTransferObject contextTransferObject = new
-	// ContextTransferObject();
-	// ProtocolTransferObject protocolTransferObject =new
-	// ProtocolTransferObject();
-	// contextTransferObject.setConteIdseq(form.getConteIdseq());
-	//
-	// fn.setContext(contextTransferObject);
-	// form.setContext(contextTransferObject);
-	//
-	// fdao.createFormComponent(form);
-	//
-	// }
-
-	/*
-	 * @Autowired private FormDao formDao;
+		/**
+		 * The updateForm() method only updates changed modules' display order, and does not seem to address questions at all.
+		 * For these updates to occur for Modules and their child Questions, the updateModule() method must be called,
+		 * currently found in FormBuilderService.updateModule(moduleIdSeq, moduleChanges, username).
+		 * This method can either be called for each updated Modules after the updateForm, or the 
+		 * updateForm() method may be altered to include this call for each update Module (more efficient).
+		 */
+		for(ModuleChangesTransferObject mod : form.getUpdatedModules()){
+			service.updateModule(mod.getModuleId(), mod, username);
+		}
+		
+	}
+	
+	/**
+	 * Hacky solution for populating Module child-objects.
+	 * They can't be passed from client as they are interfaces (even in ModuleTransferObject).
+	 * This must occur for at least all added Modules, perhaps also needed for the updatedModules and deletedModules,
+	 * not sure. Would have to check for needed fields in queries in deleteModule and updateModule.
+	 * This logic should be isolated to its own utility method.
 	 */
+	private void prepareModules(String formIdSeq, CurrentForm form){
+		
+		for(ModuleTransferObject mod : form.getAddedModules()){
+			FormTransferObject f = new FormTransferObject();
+			ContextTransferObject c = new ContextTransferObject();
+			
+			c.setConteIdseq(mod.getConteIdseq());
+			f.setContext(c);
+//			f.setIdseq(formIdSeq);
+			f.setFormIdseq(formIdSeq);
+			
+			mod.setForm(f);
+		}
+		
+		for(ModuleChangesTransferObject mod : form.getUpdatedModules()){
+//			ModuleTransferObject m = new ModuleTransferObject();
+			//XXX: might need some jimmy-jams here too
+		}
+	}
 
-	// @Override
-	/*
-	 * public List<Form> searchForm(String formLongName, String protocolIdSeq,
-	 * String workflow, String category, String type, String
-	 * classificationIdSeq, String publicId, String version) throws SQLException
-	 * { return formDao.searchForm(formLongName, protocolIdSeq, workflow,
-	 * category, type, classificationIdSeq, publicId, version);
-	 */
-	// }
 
 }

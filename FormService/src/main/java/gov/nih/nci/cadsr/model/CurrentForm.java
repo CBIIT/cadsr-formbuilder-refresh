@@ -1,6 +1,7 @@
 package gov.nih.nci.cadsr.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.context.annotation.Scope;
@@ -25,6 +26,18 @@ public class CurrentForm implements Serializable {
 	private List<String> deletedModules;
 	private FormInstructionChangesTransferObject instructionChanges;
 	private List<TriggerActionChangesTransferObject> protocolTriggerActionChanges; //XXX: These are skip patterns?
+	
+	public CurrentForm(){
+		formHeader = new FormMetaData();
+		addedProtocols = new ArrayList<ProtocolTransferObject>();
+		deletedProtocols = new ArrayList<String>();
+		addedModules = new ArrayList<ModuleTransferObject>();
+		updatedModules = new ArrayList<ModuleChangesTransferObject>();
+		deletedModules = new ArrayList<String>();
+		instructionChanges = new FormInstructionChangesTransferObject();
+		protocolTriggerActionChanges = new ArrayList<TriggerActionChangesTransferObject>();
+	}
+	
 	public FormMetaData getFormHeader() {
 		return formHeader;
 	}
