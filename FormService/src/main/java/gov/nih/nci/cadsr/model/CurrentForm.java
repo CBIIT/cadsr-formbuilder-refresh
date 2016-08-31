@@ -5,18 +5,24 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 
 import gov.nih.nci.cadsr.model.FormMetaData;
+import gov.nih.nci.cadsr.model.ModuleChangesWrapper;
 import gov.nih.nci.ncicb.cadsr.common.dto.FormInstructionChangesTransferObject;
+import gov.nih.nci.ncicb.cadsr.common.dto.FormTransferObject;
 import gov.nih.nci.ncicb.cadsr.common.dto.ModuleTransferObject;
 import gov.nih.nci.ncicb.cadsr.common.dto.ProtocolTransferObject;
 import gov.nih.nci.ncicb.cadsr.common.dto.TriggerActionChangesTransferObject;
 
 @Component
+//@Scope(proxyMode=ScopedProxyMode.TARGET_CLASS, value="session")
 public class CurrentForm implements Serializable {
 	
 	private FormMetaData formHeader;
+	private FormTransferObject fullForm;
 	private List<ProtocolTransferObject> addedProtocols;
 	private List<String> deletedProtocols;
 	private List<ModuleTransferObject> addedModules;
@@ -44,6 +50,14 @@ public class CurrentForm implements Serializable {
 	public void setFormHeader(FormMetaData formHeader) {
 		this.formHeader = formHeader;
 	}
+	public FormTransferObject getFullForm() {
+		return fullForm;
+	}
+
+	public void setFullForm(FormTransferObject fullForm) {
+		this.fullForm = fullForm;
+	}
+
 	public List<ProtocolTransferObject> getAddedProtocols() {
 		return addedProtocols;
 	}
