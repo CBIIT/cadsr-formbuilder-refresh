@@ -95,7 +95,7 @@ public class FormController {
 		
 		return new ResponseEntity<FormTransferObject>(fto, HttpStatus.OK);
 	}
-
+	
 	@RequestMapping(value = "/forms", method = RequestMethod.POST, consumes = "application/json")
 	@ResponseBody
 	public ResponseEntity<FormWrapper> createForm(@RequestBody FormWrapper form) {
@@ -142,6 +142,15 @@ public class FormController {
 		return response;
 	}
 
+	@RequestMapping(value = "/forms/sendCurr", method = RequestMethod.PUT, consumes = "application/json")
+	@ResponseBody
+	public ResponseEntity testSendCurrForm(@RequestBody CurrentForm form) {
+
+		ResponseEntity<CurrentForm> response = new ResponseEntity<CurrentForm>(form, HttpStatus.OK);
+		
+		return response;
+	}
+	
 	@RequestMapping(value = "/forms/{formIdSeq}", method = RequestMethod.PUT, consumes = "application/json")
 	@ResponseBody
 	public String updateForm(@PathVariable String formIdSeq, @RequestBody CurrentForm form) {
