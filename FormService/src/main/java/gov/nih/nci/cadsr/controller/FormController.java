@@ -2,7 +2,10 @@ package gov.nih.nci.cadsr.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
+
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,11 +26,13 @@ import gov.nih.nci.cadsr.FormServiceProperties;
 import gov.nih.nci.cadsr.manager.FormManager;
 import gov.nih.nci.cadsr.model.CurrentForm;
 import gov.nih.nci.cadsr.model.FormWrapper;
+import gov.nih.nci.cadsr.model.ModuleChangesWrapper;
 import gov.nih.nci.ncicb.cadsr.common.dto.ContextTransferObject;
 import gov.nih.nci.ncicb.cadsr.common.dto.FormTransferObject;
 import gov.nih.nci.ncicb.cadsr.common.dto.InstructionTransferObject;
 import gov.nih.nci.ncicb.cadsr.common.dto.ModuleChangesTransferObject;
 import gov.nih.nci.ncicb.cadsr.common.dto.ModuleTransferObject;
+import gov.nih.nci.ncicb.cadsr.common.dto.QuestionTransferObject;
 import gov.nih.nci.ncicb.cadsr.common.resource.Form;
 import gov.nih.nci.ncicb.cadsr.common.resource.NCIUser;
 import gov.nih.nci.ncicb.cadsr.common.util.StringUtils;
@@ -82,6 +87,14 @@ public class FormController {
 		return response;
 
 	}
+	
+	@RequestMapping(value = "/forms/{formIdSeq}", method = RequestMethod.GET)
+	@ResponseBody
+	public ResponseEntity getFullForm(@PathVariable String formIdSeq) {
+		FormTransferObject fto = formManager.getFullForm(formIdSeq);
+		
+		return new ResponseEntity<FormTransferObject>(fto, HttpStatus.OK);
+	}
 
 	@RequestMapping(value = "/forms", method = RequestMethod.POST, consumes = "application/json")
 	@ResponseBody
@@ -128,34 +141,48 @@ public class FormController {
 		ResponseEntity<FormWrapper> response = createSuccessFormResponse(newForm);
 		return response;
 	}
-	
+
 	@RequestMapping(value = "/forms/{formIdSeq}", method = RequestMethod.PUT, consumes = "application/json")
 	@ResponseBody
 	public String updateForm(@PathVariable String formIdSeq, @RequestBody CurrentForm form) {
-		
+
 		formManager.updateForm(formIdSeq, form);
-		
+
 		return null;
 	}
+
+	/*@RequestMapping(value = "/forms/testPassModule", method = RequestMethod.POST, consumes = "application/json")
+	@ResponseBody
+	public String testPassModule(@RequestBody ModuleChangesWrapper module) throws IllegalAccessException, InvocationTargetException {
+
+		// return
+		// ((QuestionTransferObject)module.getNewQuestions().get(0)).getLongName();
+
+		return module.getUpdatedModule().getLongName();
+
+		// return null;
+	}*/
 
 	@RequestMapping(value = "/forms/testPassForm", method = RequestMethod.POST, consumes = "application/json")
 	@ResponseBody
 	public String testPassForm(@RequestBody CurrentForm form) {
-		
-		try{
-			/** 
+
+		try {
+			/**
 			 * This value is where the form id will be stored.
 			 */
 			String formIdseq = form.getFormHeader().getFormIdseq();
-			
+
 			/**
-			 * Hacky solution for populating Module child-objects.
-			 * They can't be passed from client as they are interfaces (even in ModuleTransferObject).
-			 * This must occur for at least all added Modules, perhaps also needed for the updatedModules and deletedModules,
-			 * not sure. Would have to check for needed fields in queries in deleteModule and updateModule.
-			 * This logic should be isolated to its own utility method.
+			 * Hacky solution for populating Module child-objects. They can't be
+			 * passed from client as they are interfaces (even in
+			 * ModuleTransferObject). This must occur for at least all added
+			 * Modules, perhaps also needed for the updatedModules and
+			 * deletedModules, not sure. Would have to check for needed fields
+			 * in queries in deleteModule and updateModule. This logic should be
+			 * isolated to its own utility method.
 			 */
-			for(ModuleTransferObject mod : form.getAddedModules()){
+			for (ModuleTransferObject mod : form.getAddedModules()) {
 				FormTransferObject f = new FormTransferObject();
 				ContextTransferObject c = new ContextTransferObject();
 				c.setConteIdseq(mod.getConteIdseq());
@@ -164,18 +191,17 @@ public class FormController {
 				f.setFormIdseq(form.getFormHeader().getFormIdseq());
 				mod.setForm(f);
 			}
-			
+
 			/**
-			 * If changes are made to the FormMetaData,
-			 * load all fields into a FormTransferObject and pass to updateForm() method.
-			 * Otherwise, if no changes, null may be passed.
+			 * If changes are made to the FormMetaData, load all fields into a
+			 * FormTransferObject and pass to updateForm() method. Otherwise, if
+			 * no changes, null may be passed.
 			 */
 			FormTransferObject formtr = new FormTransferObject();
-			
+
 			/**
-			 * updateForm() method expects generic Collections.
-			 * Converting Lists to Collections.
-			 * Also very hacky.
+			 * updateForm() method expects generic Collections. Converting Lists
+			 * to Collections. Also very hacky.
 			 */
 			Collection upMods = form.getUpdatedModules();
 			Collection delMods = form.getDeletedModules();
@@ -183,30 +209,34 @@ public class FormController {
 			Collection addProts = form.getAddedProtocols();
 			Collection delProts = form.getDeletedProtocols();
 			Collection protTrigs = form.getProtocolTriggerActionChanges();
-			
-			
+
 			/**
 			 * This can all be moved into a service class.
 			 */
-			service.updateForm(formIdseq, null, upMods, delMods, addMods, addProts, delProts, protTrigs, form.getInstructionChanges(), "guest");
-			
-			
-			//TODO: execute module change updates for all updated modules. This should address all Question changes as well
+			service.updateForm(formIdseq, null, upMods, delMods, addMods, addProts, delProts, protTrigs,
+					form.getInstructionChanges(), "guest");
+
+			// TODO: execute module change updates for all updated modules. This
+			// should address all Question changes as well
 			/**
-			 * The updateForm() method only updates changed modules' display order, and does not seem to address questions at all.
-			 * For these updates to occur for Modules and their child Questions, the updateModule() method must be called,
-			 * currently found in FormBuilderService.updateModule(moduleIdSeq, moduleChanges, username).
-			 * This method can either be called for each updated Modules after the updateForm, or the 
-			 * updateForm() method may be altered to include this call for each update Module (more efficient).
+			 * The updateForm() method only updates changed modules' display
+			 * order, and does not seem to address questions at all. For these
+			 * updates to occur for Modules and their child Questions, the
+			 * updateModule() method must be called, currently found in
+			 * FormBuilderService.updateModule(moduleIdSeq, moduleChanges,
+			 * username). This method can either be called for each updated
+			 * Modules after the updateForm, or the updateForm() method may be
+			 * altered to include this call for each update Module (more
+			 * efficient).
 			 */
-			/*for(ModuleChangesTransferObject mod : form.getUpdatedModules()){
-	//			service.updateModule(moduleIdSeq, moduleChanges, username);
-			}*/
-		} catch(Exception e){
+			/*
+			 * for(ModuleChangesTransferObject mod : form.getUpdatedModules()){
+			 * // service.updateModule(moduleIdSeq, moduleChanges, username); }
+			 */
+		} catch (Exception e) {
 			return e.toString() + " : " + e.getMessage();
 		}
-		
-		
+
 		return "SUCCESS";
 	}
 

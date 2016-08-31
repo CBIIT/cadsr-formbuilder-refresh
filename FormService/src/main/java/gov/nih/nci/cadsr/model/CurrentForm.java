@@ -2,15 +2,13 @@ package gov.nih.nci.cadsr.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
-import org.springframework.context.annotation.Scope;
-import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 
 import gov.nih.nci.cadsr.model.FormMetaData;
 import gov.nih.nci.ncicb.cadsr.common.dto.FormInstructionChangesTransferObject;
-import gov.nih.nci.ncicb.cadsr.common.dto.ModuleChangesTransferObject;
 import gov.nih.nci.ncicb.cadsr.common.dto.ModuleTransferObject;
 import gov.nih.nci.ncicb.cadsr.common.dto.ProtocolTransferObject;
 import gov.nih.nci.ncicb.cadsr.common.dto.TriggerActionChangesTransferObject;
@@ -22,7 +20,7 @@ public class CurrentForm implements Serializable {
 	private List<ProtocolTransferObject> addedProtocols;
 	private List<String> deletedProtocols;
 	private List<ModuleTransferObject> addedModules;
-	private List<ModuleChangesTransferObject> updatedModules;
+	private List<ModuleChangesWrapper> updatedModules;
 	private List<String> deletedModules;
 	private FormInstructionChangesTransferObject instructionChanges;
 	private List<TriggerActionChangesTransferObject> protocolTriggerActionChanges; //XXX: These are skip patterns?
@@ -32,9 +30,11 @@ public class CurrentForm implements Serializable {
 		addedProtocols = new ArrayList<ProtocolTransferObject>();
 		deletedProtocols = new ArrayList<String>();
 		addedModules = new ArrayList<ModuleTransferObject>();
-		updatedModules = new ArrayList<ModuleChangesTransferObject>();
+		updatedModules = new ArrayList<ModuleChangesWrapper>();
 		deletedModules = new ArrayList<String>();
 		instructionChanges = new FormInstructionChangesTransferObject();
+		instructionChanges.setFormHeaderInstructionChanges(new HashMap());
+		instructionChanges.setFormFooterInstructionChanges(new HashMap());
 		protocolTriggerActionChanges = new ArrayList<TriggerActionChangesTransferObject>();
 	}
 	
@@ -62,10 +62,10 @@ public class CurrentForm implements Serializable {
 	public void setAddedModules(List<ModuleTransferObject> addedModules) {
 		this.addedModules = addedModules;
 	}
-	public List<ModuleChangesTransferObject> getUpdatedModules() {
+	public List<ModuleChangesWrapper> getUpdatedModules() {
 		return updatedModules;
 	}
-	public void setUpdatedModules(List<ModuleChangesTransferObject> updatedModules) {
+	public void setUpdatedModules(List<ModuleChangesWrapper> updatedModules) {
 		this.updatedModules = updatedModules;
 	}
 	public List<String> getDeletedModules() {

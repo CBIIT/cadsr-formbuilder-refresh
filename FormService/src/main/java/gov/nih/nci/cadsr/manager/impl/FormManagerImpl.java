@@ -1,15 +1,17 @@
 package gov.nih.nci.cadsr.manager.impl;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import gov.nih.nci.cadsr.domain.Instruction;
 import gov.nih.nci.cadsr.manager.FormManager;
 import gov.nih.nci.cadsr.model.CurrentForm;
 import gov.nih.nci.cadsr.model.FormWrapper;
+import gov.nih.nci.cadsr.model.ModuleChangesWrapper;
 import gov.nih.nci.ncicb.cadsr.common.dto.ContextTransferObject;
 import gov.nih.nci.ncicb.cadsr.common.dto.FormTransferObject;
 import gov.nih.nci.ncicb.cadsr.common.dto.InstructionTransferObject;
@@ -131,10 +133,18 @@ public class FormManagerImpl implements FormManager {
 		 * This method can either be called for each updated Modules after the updateForm, or the 
 		 * updateForm() method may be altered to include this call for each update Module (more efficient).
 		 */
-		for(ModuleChangesTransferObject mod : form.getUpdatedModules()){
-			service.updateModule(mod.getModuleId(), mod, username);
-		}
+//		for(ModuleChangesTransferObject mod : form.getUpdatedModules()){
+//			service.updateModule(mod.getModuleId(), mod, username);
+//		}
 		
+	}
+	
+	public FormTransferObject getFullForm(String formIdSeq){
+		Form form = service.getFormDetails(formIdSeq);
+		
+		FormTransferObject fto = (FormTransferObject)form;
+		
+		return fto;
 	}
 	
 	/**
@@ -143,24 +153,41 @@ public class FormManagerImpl implements FormManager {
 	 * This must occur for at least all added Modules, perhaps also needed for the updatedModules and deletedModules,
 	 * not sure. Would have to check for needed fields in queries in deleteModule and updateModule.
 	 * This logic should be isolated to its own utility method.
+	 * @throws InvocationTargetException 
+	 * @throws IllegalAccessException 
 	 */
 	private void prepareModules(String formIdSeq, CurrentForm form){
-		
-		for(ModuleTransferObject mod : form.getAddedModules()){
-			FormTransferObject f = new FormTransferObject();
-			ContextTransferObject c = new ContextTransferObject();
+		try{
 			
-			c.setConteIdseq(mod.getConteIdseq());
-			f.setContext(c);
-//			f.setIdseq(formIdSeq);
-			f.setFormIdseq(formIdSeq);
+			if(!form.getFormHeader().getLongName().isEmpty()){
+				FormTransferObject fto = new FormTransferObject();
+				BeanUtils.copyProperties(fto, form.getFormHeader());
+			}
 			
-			mod.setForm(f);
-		}
+			for(ModuleTransferObject mod : form.getAddedModules()){
+				FormTransferObject f = new FormTransferObject();
+				ContextTransferObject c = new ContextTransferObject();
+				
+				c.setConteIdseq(mod.getConteIdseq());
+				f.setContext(c);
+				f.setFormIdseq(formIdSeq);
+				
+				mod.setForm(f);
+			}
+			
+			/*for(ModuleWrapper mod : form.getAddedModules()){
+				ModuleTransferObject mto = new ModuleTransferObject();
+				BeanUtils.copyProperties(mto, mod);
+			}*/
+			
+			for(ModuleChangesWrapper mod : form.getUpdatedModules()){
+				ModuleChangesTransferObject mto = new ModuleChangesTransferObject();
+				BeanUtils.copyProperties(mto, mod);
+				
+			}
 		
-		for(ModuleChangesTransferObject mod : form.getUpdatedModules()){
-//			ModuleTransferObject m = new ModuleTransferObject();
-			//XXX: might need some jimmy-jams here too
+		} catch(Exception e){
+			e.printStackTrace();
 		}
 	}
 
