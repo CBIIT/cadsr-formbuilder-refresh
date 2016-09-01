@@ -10,7 +10,7 @@ export default class FormLayoutMain extends Component {
 	constructor(props){
 		super(props);
 		this.dispatchCreate = this.dispatchCreate.bind(this);
-		this.shouldShowFormMetaData = this.shouldShowFormMetaData.bind(this);
+		this.showEditForm = this.showEditForm.bind(this);
 		this.showChildComponents = this.showChildComponents.bind(this);
 		this.showCreateButton = this.showCreateButton.bind(this);
 		this.getActionMode = this.getActionMode.bind(this);
@@ -47,7 +47,8 @@ export default class FormLayoutMain extends Component {
 			);
 		}
 	}
-	shouldShowFormMetaData(){
+	showEditForm(){
+		/*TODO Create a separate component for this */
 		if(this.getActionMode() ===  'createForm' || this.getActionMode() === "editForm"){
 			return (
 				<div>
@@ -58,13 +59,17 @@ export default class FormLayoutMain extends Component {
 				</div>
 			);
 		}
+		else if(this.getActionMode() === 'createModule'){
+			return (
+				<FormModuleForm title="Create Module" />
+			);
+		}
 	}
 
 	render(){
 		return (
 			<section>
-				{this.shouldShowFormMetaData()}
-
+				{this.showEditForm()}
 				{this.showChildComponents()}
 			</section>
 		);

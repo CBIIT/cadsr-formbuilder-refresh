@@ -8,23 +8,22 @@ import Form from '../common/Form';
 export default class FormModuleForm extends Component {
 	constructor(props){
 		super(props);
-		this.dispatchSave = this.dispatchSave.bind(this);
+		this.dispatchData = this.dispatchData.bind(this);
 		// Default state
 		this.state = {
 			validatePristine: false,
 			disabled:         false
 		};
 	}
-	dispatchSave(data){
-		formChannel.trigger(EVENTS.FORM.CREATE_MODULE, data);
+	dispatchData(data){
+		formChannel.trigger(EVENTS.FORM.SET_MODULE_DATA, data);
 	}
-
 	render(){
 		return (
 			<Row>
-				<Form onSubmit={this.submitForm} layout={this.state.layout} validatePristine={this.state.validatePristine} disabled={this.state.disabled} ref="myform">
+				<Form onSubmit={this.dispatchData} validatePristine={this.state.validatePristine} disabled={this.state.disabled} ref="formModuleForm">
 					<fieldset name="Module Metadata">
-						<legend>Module Metadata</legend>
+						<legend>{this.props.title}</legend>
 						<Input name="name" id="name" value="" label="Module Name" type="text" help="This is a required text input." required/>
 						<Textarea rows={3} cols={40} name="instructions" label="Instructions" placeholder="This field requires 3 characters." validations="minLength:3" validationErrors={{
 							minLength: 'Please provide at least 3 characters.'
@@ -33,7 +32,7 @@ export default class FormModuleForm extends Component {
 						<List data={this.props.data} />
 */}
 					</fieldset>
-					<Button className="btn btn-primary" type="submit">Save</Button>
+					<Button className="btn btn-primary" type="submit">Create</Button>
 
 				</Form> </Row>
 		);

@@ -5,6 +5,7 @@ const EVENTS = {
 	FORM:   {
 		CREATE_FORM:                    'createForm',
 		CREATE_MODULE:                     "create:module",
+		SET_MODULE_DATA:                     "set:moduleData",
 		SET_FORM_LAYOUT:                'set:formLayout',
 		GET_FORM_CORE_DETAILS_CRITERIA: 'get:getDropDownOptionsSuccess',
 		SET_CORE_FORM_DETAILS:          "set:formMetadata"

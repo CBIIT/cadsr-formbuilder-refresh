@@ -22,7 +22,8 @@ const FormService = Marionette.Object.extend({
 	radioRequests: {
 		[EVENTS.FORM.SET_FORM_LAYOUT]:       'dispatchLayout',
 		[EVENTS.FORM.CREATE_MODULE]:         'dispatchLayout',
-		[EVENTS.FORM.SET_CORE_FORM_DETAILS]: 'handleFormMetadataSubmitData'
+		[EVENTS.FORM.SET_CORE_FORM_DETAILS]: 'handleFormMetadataSubmitData',
+		[EVENTS.FORM.SET_MODULE_DATA]: 'handleFormMetadataSubmitData'
 	},
 	initialize(options = {}) {
 		this.setupModels();
