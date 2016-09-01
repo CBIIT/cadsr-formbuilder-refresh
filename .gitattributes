@@ -256,6 +256,10 @@ FormService/src/main/resources/formservice-local.properties -text
 FormService/src/main/resources/formservice-qa.properties -text
 FormService/src/main/resources/log4j.properties -text
 FormService/src/main/resources/settings.xml -text
+FormService/src/main/resources/transforms/ConvertFormCartV1ExtendedToV2.xsl -text
+FormService/src/main/resources/transforms/ConvertFormCartV2ToDisplayObject.xsl -text
+FormService/src/main/resources/transforms/FinalFormCartTransformv33.xsl -text
+FormService/src/main/resources/transforms/remove-empty-nodes.xsl -text
 FormService/src/main/webapp/WEB-INF/web.xml -text
 FormService/src/test/java/gov/nih/nci/cadsr/client/FormServiceClient.java -text
 FormService/src/test/resources/applicationTestContext.xml -text
