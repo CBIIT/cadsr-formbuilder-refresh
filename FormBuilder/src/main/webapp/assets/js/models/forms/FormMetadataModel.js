@@ -17,7 +17,7 @@ const FormMetadataModel = Model.extend({
 		preferredDefinition:               '',
 		workflow:               'DRAFT NEW',
 		version:                '1.0',
-		instructions:           '',
+		headerInstructions:           '',
 		footerInstructions:     ''
 	},
 	urlRoot: ENDPOINT_URLS.FORM_CREATE
