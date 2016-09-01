@@ -41,7 +41,7 @@ export default class FormMetadataForm extends Component {
 						<Input name="longName" id="longName" value="" label="Module Name" type="text" help="This is a required text input." required/>
 						<Textarea rows={3} cols={40} name="preferredDefinition" label="Preferred Definition" placeholder="This field requires 3 characters." validations="minLength:3" validationErrors={{
 							minLength: 'Please provide at least 3 characters.'
-						}}/>
+						}} required/>
 						<Textarea rows={3} cols={40} name="headerInstructions" label="Header Instructions" placeholder="This field requires 3 characters." validations="minLength:3" validationErrors={{
 							minLength: 'Please provide at least 3 characters.'
 						}}/> <Textarea rows={3} cols={40} name="footerInstructions" label="
