@@ -5,7 +5,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.core.io.ByteArrayResource;
-
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
@@ -25,7 +26,7 @@ public class FormV2Controller {
 
 	FormV2Manager formV2Manager;
 
-	@RequestMapping(value = "/formDowload", method = RequestMethod.GET)
+	@RequestMapping(value = "/formDownload", method = RequestMethod.GET)
 	@ResponseBody
 	public ResponseEntity<ByteArrayResource> downloadFormXML(@RequestParam(value = "formIdSeq") String formIdSeq,
 			HttpServletRequest request
@@ -34,8 +35,15 @@ public class FormV2Controller {
 
 		final byte[] resource = formV2Manager.download(formIdSeq, request);
 		final ByteArrayResource byteResource = new ByteArrayResource(resource);
-
-		return ResponseEntity.ok().contentType(MediaType.APPLICATION_OCTET_STREAM).body(byteResource);
+		
+		HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.setContentType(MediaType.APPLICATION_XML);
+        responseHeaders.setContentDispositionFormData("attachment", "FormV2_" + formIdSeq + ".xml");
+        
+		
+		ResponseEntity response = new ResponseEntity(byteResource, responseHeaders, HttpStatus.OK);
+		
+		return response;
 
 	}
 
