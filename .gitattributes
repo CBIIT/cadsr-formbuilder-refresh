@@ -104,6 +104,7 @@ FormService/src/main/java/gov/nih/nci/cadsr/controller/ClassificationController.
 FormService/src/main/java/gov/nih/nci/cadsr/controller/ContextsController.java -text
 FormService/src/main/java/gov/nih/nci/cadsr/controller/ExampleController.java -text
 FormService/src/main/java/gov/nih/nci/cadsr/controller/FormController.java -text
+FormService/src/main/java/gov/nih/nci/cadsr/controller/FormV2Controller.java -text
 FormService/src/main/java/gov/nih/nci/cadsr/controller/LegacyController.java -text
 FormService/src/main/java/gov/nih/nci/cadsr/controller/ModuleController.java -text
 FormService/src/main/java/gov/nih/nci/cadsr/controller/ProtocolController.java -text
@@ -126,6 +127,7 @@ FormService/src/main/java/gov/nih/nci/cadsr/manager/ClassificationManager.java -
 FormService/src/main/java/gov/nih/nci/cadsr/manager/ContextsManager.java -text
 FormService/src/main/java/gov/nih/nci/cadsr/manager/ExampleManager.java -text
 FormService/src/main/java/gov/nih/nci/cadsr/manager/FormManager.java -text
+FormService/src/main/java/gov/nih/nci/cadsr/manager/FormV2Manager.java -text
 FormService/src/main/java/gov/nih/nci/cadsr/manager/ModuleManger.java -text
 FormService/src/main/java/gov/nih/nci/cadsr/manager/ProtocolManager.java -text
 FormService/src/main/java/gov/nih/nci/cadsr/manager/TypeManager.java -text
@@ -135,6 +137,7 @@ FormService/src/main/java/gov/nih/nci/cadsr/manager/impl/ClassificationManagerIm
 FormService/src/main/java/gov/nih/nci/cadsr/manager/impl/ContextsManagerImpl.java -text
 FormService/src/main/java/gov/nih/nci/cadsr/manager/impl/ExampleManagerImpl.java -text
 FormService/src/main/java/gov/nih/nci/cadsr/manager/impl/FormManagerImpl.java -text
+FormService/src/main/java/gov/nih/nci/cadsr/manager/impl/FormV2ManagerImpl.java -text
 FormService/src/main/java/gov/nih/nci/cadsr/manager/impl/ModuleMangerImpl.java -text
 FormService/src/main/java/gov/nih/nci/cadsr/manager/impl/ProtocolManagerImpl.java -text
 FormService/src/main/java/gov/nih/nci/cadsr/manager/impl/TypeManagerImpl.java -text
