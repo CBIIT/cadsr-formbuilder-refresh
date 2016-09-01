@@ -33,6 +33,8 @@ const AppLayoutView = View.extend({
 		this.showChildView('footer', footer);
 	},
 	showMainContent(contentView){
+		/* Clean out any previous view to prevent view stacking */
+		this.getRegion('main').empty();
 		this.showChildView('main', contentView);
 	}
 });

@@ -2,18 +2,19 @@ const EVENTS = {
 	APP:    {
 		SET_MAIN_CONTENT_LAYOUT: 'set:mainContentLayout'
 	},
-	FORM: {
-		CREATE_FORM: 'createForm',
-		SET_FORM_LAYOUT: 'set:formLayout',
+	FORM:   {
+		CREATE_FORM:                    'createForm',
+		CREATE_MODULE:                     "create:module",
+		SET_FORM_LAYOUT:                'set:formLayout',
 		GET_FORM_CORE_DETAILS_CRITERIA: 'get:getDropDownOptionsSuccess',
-		SET_CORE_FORM_DETAILS: "set:formMetadata"
+		SET_CORE_FORM_DETAILS:          "set:formMetadata"
 	},
 	SEARCH: {
-		SEND_SEARCH_LAYOUT: 'set:searchLayout',
-		SEND_SEARCH_INPUTS: 'send:searchInputs',
+		SEND_SEARCH_LAYOUT:       'set:searchLayout',
+		SEND_SEARCH_INPUTS:       'send:searchInputs',
 		RESULTS_COLLECTION_RESET: 'search:resultsCollectionReset'
 	},
-	USER: {
+	USER:   {
 		GET_USERNAME: 'get:userName'
 	}
 };
