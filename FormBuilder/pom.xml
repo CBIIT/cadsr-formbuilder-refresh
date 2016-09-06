@@ -68,6 +68,31 @@
 			<artifactId>cadsrutil</artifactId>
 			<version>1.0</version>
 		</dependency>
+		<dependency>
+			<groupId>nih.nci.cadsr</groupId>
+			<artifactId>objectcart-beans</artifactId>
+			<version>1.0.2</version>
+		</dependency>
+		<dependency>
+			<groupId>gov.nih.nci.caintegrator2</groupId>
+			<artifactId>caDSR-beans</artifactId>
+			<version>4.0</version>
+		</dependency>
+		<dependency>
+			<groupId>nih.nci.cadsr</groupId>
+			<artifactId>cadsrapi40-beans</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>nih.nci.cadsr</groupId>
+			<artifactId>sdk-client-framework</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>nih.nci.cadsr</groupId>
+			<artifactId>extension-client-framework</artifactId>
+			<version>1.0.2</version>
+		</dependency>
 
 	</dependencies>
 

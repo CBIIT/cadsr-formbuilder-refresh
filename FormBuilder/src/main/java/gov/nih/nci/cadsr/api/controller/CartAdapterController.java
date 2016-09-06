@@ -3,6 +3,7 @@ package gov.nih.nci.cadsr.api.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -12,9 +13,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import gov.nih.nci.cadsr.FormBuilderProperties;
 import gov.nih.nci.cadsr.model.session.SessionCarts;
+import gov.nih.nci.ncicb.cadsr.common.CaDSRConstants;
 import gov.nih.nci.ncicb.cadsr.common.dto.FormTransferObject;
 import gov.nih.nci.ncicb.cadsr.common.dto.ModuleTransferObject;
 import gov.nih.nci.ncicb.cadsr.common.dto.QuestionTransferObject;
+import gov.nih.nci.ncicb.cadsr.common.resource.NCIUser;
+import gov.nih.nci.ncicb.cadsr.common.util.CDEBrowserParams;
+import gov.nih.nci.ncicb.cadsr.objectCart.CDECart;
+import gov.nih.nci.ncicb.cadsr.objectCart.impl.CDECartOCImpl;
+import gov.nih.nci.objectCart.client.ObjectCartClient;
 
 /**
  * 
@@ -46,14 +53,55 @@ public class CartAdapterController {
 	@ResponseBody
 	public ResponseEntity getCDECart(@RequestParam(value = "username", required = true) String username) {
 
-		return null;
+		return new ResponseEntity(carts.getCdeCart(), HttpStatus.OK);
+		
 	}
 
 	@RequestMapping(value = "/formcart/{username}", method = RequestMethod.GET)
 	@ResponseBody
 	public ResponseEntity getFormCart(@RequestParam(value = "username", required = true) String username) {
 
-		return null;
+		return new ResponseEntity(carts.getFormCart(), HttpStatus.OK);
+		
+	}
+	
+	@RequestMapping(value = "/objcart/cdecart/{username}", method = RequestMethod.GET)
+	@ResponseBody
+	public ResponseEntity loadCDECart(@PathVariable String username) {
+
+		      CDEBrowserParams params = CDEBrowserParams.getInstance();
+		      String ocURL = params.getObjectCartUrl();
+		      //Get the cart in the session
+		      ObjectCartClient cartClient = null;
+		      
+		      try{
+				  if (!ocURL.equals(""))
+					  cartClient = new ObjectCartClient(ocURL);
+				  else
+			    	  cartClient = new ObjectCartClient();
+			      
+			      CDECart userCart = new CDECartOCImpl(cartClient, username,CaDSRConstants.CDE_CART);
+			      
+					return new ResponseEntity(userCart.getDataElements(), HttpStatus.OK);
+
+			      
+		      } catch(Exception e){
+		    	  e.printStackTrace();
+		    	  return new ResponseEntity(e.toString() + e.getMessage(), HttpStatus.OK);
+		      }
+		      
+//		      this.setSessionObject(request, CaDSRConstants.CDE_CART, userCart);
+		
+//		return null;
+		
+	}
+
+	@RequestMapping(value = "/objcart/formcart/{username}", method = RequestMethod.GET)
+	@ResponseBody
+	public ResponseEntity loadFormCart(@RequestParam(value = "username", required = true) String username) {
+
+		return new ResponseEntity(carts.getFormCart(), HttpStatus.OK);
+		
 	}
 
 	@RequestMapping(value = "/questions/{cdeid}", method = RequestMethod.GET)
@@ -66,7 +114,7 @@ public class CartAdapterController {
 
 	@RequestMapping(value = "/modules", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseEntity saveModuleToCart(@RequestBody ModuleTransferObject module) {
+	public ResponseEntity saveToModuleCart(@RequestBody ModuleTransferObject module) {
 
 		carts.getModuleCart().add(module);
 
@@ -75,8 +123,10 @@ public class CartAdapterController {
 
 	@RequestMapping(value = "/forms", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseEntity saveFormToCart(@RequestBody FormTransferObject form) {
+	public ResponseEntity saveToFormCart(@RequestBody FormTransferObject form) {
 
+		carts.getFormCart().add(form);
+		
 		return null;
 	}
 
