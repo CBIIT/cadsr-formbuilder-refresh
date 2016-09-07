@@ -31,7 +31,6 @@ export default class FormMetadataForm extends Component {
 		mappedOptions.unshift({value: '', label: 'Select...'});
 		return mappedOptions;
 	}
-
 	render(){
 		return (
 			<Row>
@@ -61,7 +60,7 @@ Footer Instructions"/> </Col> <Col sm={6}>
 						</FormGroup> </Col> </Row>
 
 					</fieldset>
-					<Button className="btn btn-primary" type="submit">Save</Button>
+					{this.props.children}
 
 				</Form> </Row>
 		);
@@ -69,6 +68,8 @@ Footer Instructions"/> </Col> <Col sm={6}>
 }
 
 FormMetadataForm.propTypes = {
+	children: PropTypes.node,
+	actionMode: PropTypes.string,
 	formMetadata: PropTypes.object.isRequired,
 	uiDropDownOptionsModel: PropTypes.object.isRequired
 };

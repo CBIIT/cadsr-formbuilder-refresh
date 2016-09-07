@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react';
+import {Col, Row} from 'react-bootstrap';
 import FormLayoutMain from './FormLayoutMain';
 import backboneReact from 'backbone-react-component';
 

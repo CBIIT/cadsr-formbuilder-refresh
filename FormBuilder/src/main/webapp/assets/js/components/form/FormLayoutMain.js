@@ -10,9 +10,8 @@ export default class FormLayoutMain extends Component {
 	constructor(props){
 		super(props);
 		this.dispatchCreate = this.dispatchCreate.bind(this);
-		this.showEditForm = this.showEditForm.bind(this);
 		this.showChildComponents = this.showChildComponents.bind(this);
-		this.showCreateButton = this.showCreateButton.bind(this);
+		this.showFormActionButtons = this.showFormActionButtons.bind(this);
 		this.getActionMode = this.getActionMode.bind(this);
 		this.state = {
 			clicked: false
@@ -22,7 +21,8 @@ export default class FormLayoutMain extends Component {
 		return this.props.formUIState.actionMode;
 	}
 	showChildComponents(){
-		if(this.getActionMode() === "editForm"){
+		const actionMode = this.getActionMode();
+		if(actionMode === "fullFormView"){
 		const FormModulesCollection = this.props.formModel.formModules;
 			return (
 				FormModulesCollection.map((moduleModel, index) =>{
@@ -30,7 +30,26 @@ export default class FormLayoutMain extends Component {
 				})
 			);
 		}
+		else if (actionMode ===  'createForm' || actionMode === "editForm"){
+			return (
+				<div>
+					<FormMetadataForm actionMode={actionMode} formMetadata={this.props.formModel.formMetadata.attributes} uiDropDownOptionsModel={this.props.uiDropDownOptionsModel} title="Crate New Form">
+						{this.showFormActionButtons(actionMode)}
+					</FormMetadataForm>
+				</div>
+			);
+		}
+		else if(actionMode === 'createModule'){
+			return (
+				<FormModuleForm title="Create Module" />
+			);
+		}
 	}
+
+	/**
+	 *
+	 * @param itemToCreate
+	 */
 	dispatchCreate(itemToCreate){
 		switch(itemToCreate){
 			case "module":
@@ -40,36 +59,26 @@ export default class FormLayoutMain extends Component {
 				console.error("itemToCreate doesn't work");
 		}
 	}
-	showCreateButton() {
-		if(this.getActionMode()  === "editForm"){
-			return (
-				<Button onClick={()=>this.dispatchCreate("module")} className="btn btn-primary" type="submit">Create Module</Button>
-			);
+	/**
+	 * Buttons based on the actionMode passed into the rendered form
+	 * @param actionModel
+	 * @returns {XML}
+	 */
+	showFormActionButtons(actionModel) {
+		switch(actionModel){
+			case "createForm":
+				return (
+					<Button className="btn btn-primary" type="submit">Save</Button>
+				);
+			default:
+				return (
+					<Button disabled className="btn btn-primary" type="submit">Save</Button>
+				);
 		}
 	}
-	showEditForm(){
-		/*TODO Create a separate component for this */
-		if(this.getActionMode() ===  'createForm' || this.getActionMode() === "editForm"){
-			return (
-				<div>
-					<FormMetadataForm formMetadata={this.props.formModel.formMetadata.attributes} uiDropDownOptionsModel={this.props.uiDropDownOptionsModel} title="Crate New Form"/>
-					<div>
-						{this.showCreateButton()}
-					</div>
-				</div>
-			);
-		}
-		else if(this.getActionMode() === 'createModule'){
-			return (
-				<FormModuleForm title="Create Module" />
-			);
-		}
-	}
-
 	render(){
 		return (
 			<section>
-				{this.showEditForm()}
 				{this.showChildComponents()}
 			</section>
 		);
