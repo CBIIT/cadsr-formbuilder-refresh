@@ -39,15 +39,9 @@ export default class FormMetadataForm extends Component {
 					<fieldset name="Module Metadata">
 						<legend>Form Details</legend>
 						<Input name="longName" id="longName" value="" label="Module Name" type="text" help="This is a required text input." required/>
-						<Textarea rows={3} cols={40} name="preferredDefinition" label="Preferred Definition" placeholder="This field requires 3 characters." validations="minLength:3" validationErrors={{
-							minLength: 'Please provide at least 3 characters.'
-						}} required/>
-						<Textarea rows={3} cols={40} name="headerInstructions" label="Header Instructions" placeholder="This field requires 3 characters." validations="minLength:3" validationErrors={{
-							minLength: 'Please provide at least 3 characters.'
-						}}/> <Textarea rows={3} cols={40} name="footerInstructions" label="
-Footer Instructions" placeholder="This field requires 3 characters." validations="minLength:3" validationErrors={{
-						minLength: 'Please provide at least 3 characters.'
-					}}/> <Select name="conteIdseq" label="Context" options={this.getOptions({
+						<Textarea rows={3} cols={40} name="preferredDefinition" label="Preferred Definition" required/>
+						<Textarea rows={3} cols={40} name="headerInstructions" label="Header Instructions" /> <Textarea rows={3} cols={40} name="footerInstructions" label="
+Footer Instructions" /> <Select name="conteIdseq" label="Context" options={this.getOptions({
 						options:   this.props.uiDropDownOptionsModel.contexts,
 						optionKey: 'contextIdSeq'
 					})} required/> <Select name="formCategory" label="Category" options={this.getOptions({
