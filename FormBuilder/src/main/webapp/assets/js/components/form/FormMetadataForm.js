@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import {Col, Row, Button} from 'react-bootstrap';
+import {Col, Row, Button, FormGroup, ControlLabel, FormControl} from 'react-bootstrap';
 import {Input, Textarea, Select} from 'formsy-react-components';
 import EVENTS from '../../constants/EVENTS';
 import {formChannel} from '../../channels/radioChannels';
@@ -38,17 +38,27 @@ export default class FormMetadataForm extends Component {
 				<Form onSubmit={this.dispatchData} validatePristine={this.state.validatePristine} disabled={this.state.disabled} ref="formMetata">
 					<fieldset name="Module Metadata">
 						<legend>Form Details</legend>
-						<Input name="longName" id="longName" value="" label="Module Name" type="text" help="This is a required text input." required/>
-						<Textarea rows={3} cols={40} name="preferredDefinition" label="Preferred Definition" required/>
-						<Textarea rows={3} cols={40} name="headerInstructions" label="Header Instructions" /> <Textarea rows={3} cols={40} name="footerInstructions" label="
-Footer Instructions" /> <Select name="conteIdseq" label="Context" options={this.getOptions({
-						options:   this.props.uiDropDownOptionsModel.contexts,
-						optionKey: 'contextIdSeq'
-					})} required/> <Select name="formCategory" label="Category" options={this.getOptions({
-						options: this.props.uiDropDownOptionsModel.formCategories
-					})} required/> <Select name="formType" label="Type" options={this.getOptions({
-						options: this.props.uiDropDownOptionsModel.formTypes
-					})} required/>
+						<Row> <Col sm={6}> <Input name="longName" id="longName" value="" label="
+Long Name" type="text" required/>
+							<Textarea rows={3} cols={40} name="preferredDefinition" label="Preferred Definition" required/>
+							<Textarea rows={3} cols={40} name="headerInstructions" label="Header Instructions"/>
+							<Textarea rows={3} cols={40} name="footerInstructions" label="
+Footer Instructions"/> </Col> <Col sm={6}>
+
+							<FormGroup> <ControlLabel>Workflow</ControlLabel>
+								<FormControl.Static>{this.props.formMetadata.workflow}</FormControl.Static>
+							</FormGroup>
+
+							<Select name="conteIdseq" label="Context" options={this.getOptions({
+								options:   this.props.uiDropDownOptionsModel.contexts,
+								optionKey: 'contextIdSeq'
+							})} required/> <Select name="formCategory" label="Category" options={this.getOptions({
+							options: this.props.uiDropDownOptionsModel.formCategories
+						})} required/> <Select name="formType" label="Type" options={this.getOptions({
+							options: this.props.uiDropDownOptionsModel.formTypes
+						})} required/> <FormGroup> <ControlLabel>Version</ControlLabel>
+							<FormControl.Static>{this.props.formMetadata.version}</FormControl.Static>
+						</FormGroup> </Col> </Row>
 
 					</fieldset>
 					<Button className="btn btn-primary" type="submit">Save</Button>
@@ -57,6 +67,11 @@ Footer Instructions" /> <Select name="conteIdseq" label="Context" options={this.
 		);
 	}
 }
+
+FormMetadataForm.propTypes = {
+	formMetadata: PropTypes.object.isRequired,
+	uiDropDownOptionsModel: PropTypes.object.isRequired
+};
 
 
 

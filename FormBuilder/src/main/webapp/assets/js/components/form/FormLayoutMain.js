@@ -52,7 +52,7 @@ export default class FormLayoutMain extends Component {
 		if(this.getActionMode() ===  'createForm' || this.getActionMode() === "editForm"){
 			return (
 				<div>
-					<FormMetadataForm naFormme="formMetadata" formMetadata={this.props.formModel.formMetaData} uiDropDownOptionsModel={this.props.uiDropDownOptionsModel} title="Crate New Form"/>
+					<FormMetadataForm formMetadata={this.props.formModel.formMetadata.attributes} uiDropDownOptionsModel={this.props.uiDropDownOptionsModel} title="Crate New Form"/>
 					<div>
 						{this.showCreateButton()}
 					</div>
