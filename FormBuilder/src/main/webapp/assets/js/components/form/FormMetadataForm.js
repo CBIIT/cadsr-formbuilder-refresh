@@ -55,8 +55,8 @@ Footer Instructions"/> </Col> <Col sm={6}>
 							})} required/> <Select name="formCategory" label="Category" options={this.getOptions({
 							options: this.props.uiDropDownOptionsModel.formCategories
 						})} required/> <Select name="formType" label="Type" options={this.getOptions({
-							options: this.props.uiDropDownOptionsModel.formTypes
-						})} required/> <FormGroup> <ControlLabel>Version</ControlLabel>
+							options: this.props.uiDropDownOptionsModel.formTypes})}  value={this.props.formMetadata.formType}
+						required/> <FormGroup> <ControlLabel>Version</ControlLabel>
 							<FormControl.Static>{this.props.formMetadata.version}</FormControl.Static>
 						</FormGroup> </Col> </Row>
 

@@ -12,7 +12,7 @@ const FormMetadataModel = Model.extend({
 			/* Note: Intentional misspelling. equates to contextIdseq */
 			conteIdseq: null
 		},
-		formType: '',
+		formType: 'CRF',
 		formCategory:           '',
 		preferredDefinition:               '',
 		workflow:               'DRAFT NEW',
