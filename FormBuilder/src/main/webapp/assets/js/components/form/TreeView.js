@@ -1,26 +1,22 @@
 import React, {Component, PropTypes} from 'react';
 import {Col, Row, Button, FormGroup, ControlLabel, FormControl} from 'react-bootstrap';
-
+import ROUTES from '../../constants/ROUTES';
+import formRouter from '../../routers/FormRouter';
 
 export default class TreeView extends Component {
 	constructor(props){
 		super(props);
-		this.dispatchCreate = this.dispatchCreate.bind(this);
+		this.dispatchCreateModule = this.dispatchCreateModule.bind(this);
 	}
-	dispatchCreate(actionModel = "module"){
-		switch(actionModel){
-			case "module":
-				formRouter.navigate(ROUTES.FORM.CREATE_MODULE, {trigger: true});
-				break;
-			default:
-		}
+
+	dispatchCreateModule(){
+		formRouter.navigate(ROUTES.FORM.CREATE_MODULE, {trigger: true});
 	}
-	getActionMode() {
-		return this.props.formUIState.actionMode;
-	}
+
 	render(){
 		return (
 			<div className="bordered-container tall-min-height">
+				<Button onClick={this.dispatchCreateModule} disabled={!this.props.canCreateModule} className="btn btn-primary" type="submit">New Module</Button>
 
 			</div>
 		);
@@ -28,5 +24,6 @@ export default class TreeView extends Component {
 }
 
 TreeView.propTypes = {
-	children: PropTypes.element
+	canCreateModule: PropTypes.bool,
+	children:        PropTypes.element
 };
