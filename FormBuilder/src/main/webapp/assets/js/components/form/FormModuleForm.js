@@ -1,4 +1,4 @@
-import React, {Component, propTypes} from 'react';
+import React, {Component, PropTypes} from 'react';
 import {Col, Row, Button} from 'react-bootstrap';
 import {Input, Textarea} from 'formsy-react-components';
 import EVENTS from '../../constants/EVENTS';
@@ -24,8 +24,8 @@ export default class FormModuleForm extends Component {
 				<Form onSubmit={this.dispatchData} validatePristine={this.state.validatePristine} disabled={this.state.disabled} ref="formModuleForm">
 					<fieldset name="Module Metadata">
 						<legend>{this.props.title}</legend>
-						<Input name="name" id="name" value="" label="Module Name" type="text" help="This is a required text input." required/>
-						<Textarea rows={3} cols={40} name="instructions" label="Instructions" placeholder="This field requires 3 characters." validations="minLength:3" validationErrors={{
+						<Input name="longName" id="longName" value={this.props.longName} label="Module Name" type="text" help="This is a required text input." required/>
+						<Textarea rows={3} cols={40} name="instructions" label="Instructions" placeholder="This field requires 3 characters." validations="minLength:3" value={this.props.instructions} validationErrors={{
 							minLength: 'Please provide at least 3 characters.'
 						}}/>
 {/*
@@ -38,3 +38,13 @@ export default class FormModuleForm extends Component {
 		);
 	}
 }
+
+FormModuleForm.defaultProps = {
+	longName: "",
+	instructions: ""
+};
+
+FormModuleForm.propTypes = {
+	longName: PropTypes.string,
+	instructions: PropTypes.string
+};

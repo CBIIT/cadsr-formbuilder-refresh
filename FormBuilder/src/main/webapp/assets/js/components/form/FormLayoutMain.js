@@ -26,7 +26,7 @@ export default class FormLayoutMain extends Component {
 		const FormModulesCollection = this.props.formModel.formModules;
 			return (
 				FormModulesCollection.map((moduleModel, index) =>{
-					return <FormModuleForm key={index} name={moduleModel.get("name")} instructions={moduleModel.get("name")}/>;
+					return <FormModuleForm key={index} name={moduleModel.get("longName")} instructions={moduleModel.get("instructions")}/>;
 				})
 			);
 		}

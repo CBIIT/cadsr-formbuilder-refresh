@@ -1,8 +1,9 @@
 import {Model} from 'backbone';
 
 const FormModuleModel = Model.extend({
+	idAttribute: "moduleIdSeq",
 	defaults: {
-		name: "",
+		longName: "",
 		instructions: ""
 	}
 });
