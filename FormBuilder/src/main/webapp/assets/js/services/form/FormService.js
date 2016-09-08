@@ -4,8 +4,10 @@ import React from 'react';
 import {render} from 'react-dom';
 import EVENTS from '../../constants/EVENTS';
 import ROUTES from '../../constants/ROUTES';
+import ENDPOINT_URLS from '../../constants/ENDPOINT_URLS';
 import {formChannel, userChannel} from '../../channels/radioChannels';
 import FormModel from '../../models/forms/FormModel';
+import FormModuleModel from '../../models/forms/FormModuleModel';
 import formUIStateModel from '../../models/forms/FormUIStateModel';
 import formRouter from  "../../routers/FormRouter";
 import DropDownOptionsCollection from '../../models/forms/DropDownOptionsCollection';
@@ -28,7 +30,7 @@ const FormService = Marionette.Object.extend({
 	initialize(options = {}) {
 		this.setupModels();
 	},
-	dispatchLayout({action, idSeq}) {
+	dispatchLayout({action, formIdSeq}) {
 		switch(action){
 			case "createForm":
 				formRouter.navigate(ROUTES.FORM.CREATE_FORM, {trigger: true});
@@ -50,6 +52,10 @@ const FormService = Marionette.Object.extend({
 			case "editQuestion":
 				this.formUIStateModel.set({actionMode: action});
 
+				break;
+			case "viewFormFullView":
+				this.formUIStateModel.set({actionMode: action});
+				formRouter.navigate("forms/viewform/:formIdSeq", {trigger: false});
 				break;
 			default:
 				console.error("no valid action provided");
