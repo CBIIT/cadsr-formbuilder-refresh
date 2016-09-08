@@ -35,8 +35,8 @@ export default class FormMetadataForm extends Component {
 		return (
 			<Row>
 				<Form onSubmit={this.dispatchData} validatePristine={this.state.validatePristine} disabled={this.state.disabled} ref="formMetata">
-					<fieldset name="Module Metadata">
-						<legend>Form Details</legend>
+					<fieldset name={this.props.mainHeadingTitle}>
+						<legend>{this.props.mainHeadingTitle}</legend>
 						<Row> <Col sm={6}> <Input name="longName" id="longName" value="" label="
 Long Name" type="text" required/>
 							<Textarea rows={3} cols={40} name="preferredDefinition" label="Preferred Definition" required/>
@@ -68,6 +68,7 @@ Footer Instructions"/> </Col> <Col sm={6}>
 }
 
 FormMetadataForm.propTypes = {
+	mainHeadingTitle: PropTypes.string.isRequired,
 	children: PropTypes.node,
 	actionMode: PropTypes.string,
 	formMetadata: PropTypes.object.isRequired,

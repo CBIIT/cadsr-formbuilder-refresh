@@ -31,9 +31,10 @@ export default class FormLayoutMain extends Component {
 			);
 		}
 		else if (actionMode ===  'createForm' || actionMode === "editForm"){
+			const metaDataFormHeadingTitle = actionMode === 'createForm' ? 'Create New Form' : 'Edit Form';
 			return (
 				<div>
-					<FormMetadataForm actionMode={actionMode} formMetadata={this.props.formModel.formMetadata.attributes} uiDropDownOptionsModel={this.props.uiDropDownOptionsModel} title="Crate New Form">
+					<FormMetadataForm actionMode={actionMode} formMetadata={this.props.formModel.formMetadata.attributes} uiDropDownOptionsModel={this.props.uiDropDownOptionsModel} mainHeadingTitle={metaDataFormHeadingTitle}>
 						{this.showFormActionButtons(actionMode)}
 					</FormMetadataForm>
 				</div>
@@ -60,11 +61,11 @@ export default class FormLayoutMain extends Component {
 		switch(actionModel){
 			case "createForm":
 				return (
-					<Button className="btn btn-primary" type="submit">Save</Button>
+					<Button className="btn btn-primary" type="submit">Create Form</Button>
 				);
 			default:
 				return (
-					<Button disabled className="btn btn-primary" type="submit">Save</Button>
+					<Button disabled className="btn btn-primary" type="submit">Create Form</Button>
 				);
 		}
 	}
