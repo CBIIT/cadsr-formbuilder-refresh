@@ -23,7 +23,7 @@ const FormService = Marionette.Object.extend({
 		[EVENTS.FORM.SET_FORM_LAYOUT]:       'dispatchLayout',
 		[EVENTS.FORM.CREATE_MODULE]:         'dispatchLayout',
 		[EVENTS.FORM.SET_CORE_FORM_DETAILS]: 'handleFormMetadataSubmitData',
-		[EVENTS.FORM.ADD_MODULE_DATA]: 'handleSetModule'
+		[EVENTS.FORM.SET_NEW_MODULE]: 'handleSetModule'
 	},
 	initialize(options = {}) {
 		this.setupModels();
