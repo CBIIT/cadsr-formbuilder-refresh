@@ -67,6 +67,7 @@ FormBuilder/src/main/webapp/assets/js/views/search/form-search/FormSearchView.js
 FormBuilder/src/main/webapp/assets/js/views/search/form-search/LatestVersionOnlSelectorView.js -text
 FormBuilder/src/main/webapp/assets/js/views/search/form-search/SearchPreferencesView.js -text
 FormBuilder/src/main/webapp/assets/js/views/search/form-search/SearchResultsView.js -text
+FormBuilder/src/main/webapp/assets/styles/partials/footer.scss -text
 FormBuilder/src/main/webapp/assets/styles/partials/global-colors-mixins.scss -text
 FormBuilder/src/main/webapp/assets/styles/partials/header.scss -text
 FormBuilder/src/main/webapp/assets/styles/partials/helper_classes.scss -text
