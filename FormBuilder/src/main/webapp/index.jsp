@@ -10,7 +10,8 @@
 </head>
 <body>
 
-	<h1>CaDSR FormBuilder</h1>
+<%--TODO accessible main heading with proper wording--%>
+	<h1 class="sr-only">NCI CaDSR FormBuilder</h1>
     <div id="app">
 	</div>
 	<script>
