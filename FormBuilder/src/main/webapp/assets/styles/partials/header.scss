@@ -1,0 +1,228 @@
+@import "global-colors-mixins";
+
+.navbar {
+  margin-bottom: 0;
+}
+
+.top-navbar-text,
+.top-navbar-text a {
+  font-size: .67rem;
+  color: #ffffff;
+}
+
+@media (min-width: 768px) {
+  .main-logo-wrapper {
+    padding-left: 0;
+  }
+}
+
+#main-logo {
+  display: inline-block;
+  width: 108px;
+  height: 20px;
+  &:hover, &focus {
+  }
+}
+
+.app-nav {
+  nav {
+    padding-top: 8px;
+  }
+  li {
+    font-size: 0.875rem !important;
+  }
+  &.banner {
+    @media (min-width: 1024px) {
+      background-size: cover;
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  .app-nav {
+    .container {
+      padding: 0 15px;
+      margin: auto;
+      width: 100%;
+      max-width: 960px;
+      > .nav {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        &:before, &:after {
+          display: none;
+        }
+      }
+    }
+  }
+}
+
+.navbar-nav {
+  display: flex;
+  > li > a {
+    &:hover, &:focus {
+      background-color: #ffffff;
+      color: $dfBlue;
+    }
+  }
+  .dropdown-menu {
+    padding: 0;
+    background-color: $paleGrey;
+    a {
+      color: $darkGrey;
+    }
+    li {
+      a {
+        &:hover, &:focus {
+          background-color: $activeBlue;
+          color: #ffffff;
+        }
+      }
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  .navbar-nav {
+    padding-top: 15px;
+    > li {
+      display: flex;
+      align-items: center;
+      margin-right: 1px;
+      background: rgba(0, 0, 0, 0.6);
+      &:last-child a {
+        border-right: none;
+      }
+    }
+    > a {
+      color: #FFFFFF;
+      &:focus, &:hover {
+        color: $dfBlue;
+      }
+    }
+    .pe-is-i-angle-down:before {
+      padding: 0 4px;
+    }
+    li {
+      color: #ffffff;
+      a {
+        color: #ffffff;
+        padding: 5px 7px;
+      }
+    }
+
+  }
+}
+
+@media (min-width: 766px) and (max-width: 900px) {
+  .navbar-nav li a {
+    padding-left: 2px;
+    padding-right: 2px;
+  }
+}
+
+@media (max-width: 766px) {
+  .navbar-toggle {
+    background: rgba(0, 0, 0, 0.6);
+    color: #ffffff;
+    padding: 14px 10px;
+    margin-bottom: 0;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+    &:not(.collapsed) {
+      background-color: #ffffff;
+
+      .icon-bar {
+        background-color: $dfBlue;
+      }
+    }
+  }
+  .navbar-nav {
+    margin-left: 7px;
+    flex-direction: column;
+    background-color: #ffffff;
+    border-left: 1px solid #ccc;
+    > li {
+      margin-right: 1px;
+      border-bottom: 1px solid $lightGrey;
+      &:last-child a {
+        border-right: none;
+      }
+    }
+    > a {
+      color: #FFFFFF;
+      &:focus, &:hover {
+        color: $dfBlue;
+      }
+    }
+    .pe-is-i-angle-down:before {
+      padding: 0 4px;
+    }
+    li {
+      a {
+        color: $dfTextColor !important;
+        padding: 7px 7px;
+      }
+
+      &.dropdown {
+        &.open {
+          .dropdown-toggle {
+            background-color: $lightGrey;
+            .pe-is-i-angle-down {
+              transform: rotateZ(180deg);
+            }
+          }
+          .dropdown-menu {
+            li {
+              border-bottom: 1px solid #ffffff;
+              &:last-child {
+                border-bottom: none;
+              }
+            }
+            a {
+              background-color: #EEEEEE;
+            }
+          }
+        }
+      }
+      &.active.open > a {
+        background-color: $lightGrey !important;
+      }
+    }
+
+  }
+}
+
+/* Dimensions should be width: 182px; height: 45px;*/
+.application-logo {
+  width: 182px;
+  height: 45px;
+  display: inline-block;
+  color: #FFFFFF;
+  font-size: 1.5rem;
+  font-weight: 700;
+  &:hover, &:active, &:focus, &:visited {
+    color: #FFFFFF;
+    text-decoration: none;
+  }
+  &.logo-image {
+    background: transparent url(../images/nci-logo-full.svg) no-repeat;
+    color: transparent;
+    font-size: inherit;
+    font-weight: 700;
+    &:hover, &:focus {
+      background-color: transparent !important;
+    }
+  }
+}
+
+@media (min-width: 766px) and (max-width: 900px) {
+  .application-logo {
+    width: 300px;
+    height: 29px;
+  }
+}
+
+.navbar-toggle .icon-bar {
+  background-color: #ffffff;
+}
