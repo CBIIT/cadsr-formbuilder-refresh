@@ -1,4 +1,3 @@
-
 @import "global-colors-mixins";
 
 /*-----------Semantic Helper Classes<<<-----------*/
@@ -6,30 +5,39 @@
 .tall-top-spacing {
   @include tall-top-spacing(!important);
 }
+
 .medium-top-spacing {
-@include medium-top-spacing(!important);
+  @include medium-top-spacing(!important);
 }
+
 .short-top-spacing {
   @include short-top-spacing(!important);
 }
+
 .tall-bottom-spacing {
   @include tall-bottom-spacing(!important);
 }
+
 .medium-bottom-spacing {
   @include medium-bottom-spacing(!important);
 }
+
 .short-bottom-spacing {
   @include short-bottom-spacing(!important);
 }
+
 .top-padding {
   @include top-padding
 }
+
 .right-padding {
-@include right-padding
+  @include right-padding
 }
+
 .bottom-padding {
   @include bottom-padding
 }
+
 .left-padding {
   @include left-padding
 }
@@ -45,12 +53,15 @@
 .top-margin {
   @include top-margin
 }
+
 .right-margin {
   @include right-margin
 }
+
 .bottom-margin {
   @include bottom-margin
 }
+
 .left-margin {
   @include left-margin
 }
@@ -80,11 +91,22 @@
   @include top-margin;
 }
 
-.full-height {
-  height: 100%;
+.tall-min-height {
+  min-height:   570px;
 }
 
+.eq-height-wrapper {
+  display: flex;
+  > .eq-height-item {
+    display: flex;
+    > * {
+      width: 100%;
+    }
+  }
+}
 
 .block {
   display: block;
 }
+
+

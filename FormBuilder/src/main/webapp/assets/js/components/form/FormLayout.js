@@ -23,14 +23,14 @@ export default class FormLayout extends Component {
 
 	render(){
 		return (
-			<Row>
-				<Col lg={2} >
+			<Row className="eq-height-wrapper">
+				<Col lg={2} className="eq-height-item">
 					<TreeView/>
 				</Col>
-				<Col lg={8} >
+				<Col lg={8} className="eq-height-item">
 					<FormLayoutMain formUIState={this.state.formUIState} formModel={this.props.formModel.toJSON()} uiDropDownOptionsModel={this.props.uiDropDownOptionsModel}/>
 				</Col>
-				<Col lg={2}>
+				<Col lg={2} className="eq-height-item">
 					<SidePanel />
 				</Col>
 			</Row>

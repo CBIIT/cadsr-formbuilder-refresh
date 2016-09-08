@@ -7,7 +7,7 @@ export default class NavigationMenu extends Component {
 
 	render(){
 		return (
-			<div className="bordered-container">
+			<div className="bordered-container tall-min-height">
 				<h4>Placeholder Carts Panel heading</h4>
 			</div>
 		);

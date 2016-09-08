@@ -20,7 +20,7 @@ export default class TreeView extends Component {
 	}
 	render(){
 		return (
-			<div className="bordered-container full-height">
+			<div className="bordered-container tall-min-height">
 
 			</div>
 		);
