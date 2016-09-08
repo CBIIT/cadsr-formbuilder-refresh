@@ -21,8 +21,14 @@ export default class FormLayout extends Component {
 	componentWillUnmount () {
 		backboneReact.off(this);
 	}
+
+	/**
+	 *
+	 * @returns {boolean}
+	 */
 	canCreateModule() {
-		return this.state.formUIState.actionMode === "editForm";
+		/*TODO come up with a more reliable way to check for this */
+		return this.state.formUIState.actionMode === "editForm" || this.state.formUIState.actionMode === 'viewFormFullView';
 	}
 	render(){
 		return (
