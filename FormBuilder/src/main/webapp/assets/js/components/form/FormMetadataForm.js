@@ -67,6 +67,10 @@ Footer Instructions"/> </Col> <Col sm={6}>
 	}
 }
 
+FormMetadataForm.defaultProps = {
+	mainHeadingTitle: "Edit Form"
+};
+
 FormMetadataForm.propTypes = {
 	mainHeadingTitle: PropTypes.string.isRequired,
 	children: PropTypes.node,

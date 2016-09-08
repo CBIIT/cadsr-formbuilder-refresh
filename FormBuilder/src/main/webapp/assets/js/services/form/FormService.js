@@ -78,10 +78,27 @@ const FormService = Marionette.Object.extend({
 		}).execute();
 	},
 	handleSetModule(data) {
-		this.formModel.get('formModules').add(data);
-		this.dispatchLayout({action: 'editForm'});
-		/*Update the URL but don't trigger a backbone view change. React will handle this via dispatchLayout */
-		formRouter.navigate(ROUTES.FORM.SET_NEW_MODULE, {trigger: false});
+		const newModule = new FormModuleModel(data),
+			formIdSeq = this.formModel.get("formIdseq");
+		newModule.url = `${ENDPOINT_URLS.FORM_CREATE}/${formIdSeq}/modules`;
+
+		this.formModel.get('formModules').add(newModule);
+		this.dispatchLayout({action: 'viewFormFullView'});
+
+		/* Module save to backend */
+		/*newModule.save(null, {
+			success: (model) =>{
+				this.formModel.get('formModules').add(newModule);
+				 this.formModel.get('formModules').add(newModule);
+				 this.dispatchLayout({action: 'viewFormFullView'});
+
+				alert("Form created. formIdseq is: " + formIdseq);
+			},
+			error:   (model, response) =>{
+
+			}
+		});*/
+
 	},
 	handleFormMetadataSubmitData(data) {
 		/*TODO handle context a better way. */
@@ -100,11 +117,11 @@ const FormService = Marionette.Object.extend({
 				this.formModel.set({
 					formIdseq: formIdseq
 				});
-				this.formUIStateModel.set({actionMode: 'editForm'});
+				this.formUIStateModel.set({actionMode: 'viewFormFullView'});
 
 				alert("Form created. formIdseq is: " + formIdseq);
 			},
-			error: (model, response) =>{
+			error:   (model, response) =>{
 				/*TODO: of course this is too basic. Improve error handling */
 				alert("error");
 			}

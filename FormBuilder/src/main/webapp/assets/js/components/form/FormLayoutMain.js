@@ -25,9 +25,13 @@ export default class FormLayoutMain extends Component {
 		if(actionMode === "viewFormFullView"){
 		const FormModulesCollection = this.props.formModel.formModules;
 			return (
-				FormModulesCollection.map((moduleModel, index) =>{
-					return <FormModuleForm key={index} longName={moduleModel.get("longName")} instructions={moduleModel.get("instructions")}/>;
-				})
+			<div>
+				<FormMetadataForm actionMode={actionMode} formMetadata={this.props.formModel.formMetadata.attributes} uiDropDownOptionsModel={this.props.uiDropDownOptionsModel}>
+					{this.showFormActionButtons(actionMode)}
+				</FormMetadataForm>
+				{FormModulesCollection.map((moduleModel, index) =>(
+					<FormModuleForm key={index} name={moduleModel.get("longName")} instructions={moduleModel.get("instructions")}/>))}
+			</div>
 			);
 		}
 		else if (actionMode ===  'createForm' || actionMode === "editForm"){
