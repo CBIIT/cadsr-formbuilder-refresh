@@ -22,11 +22,11 @@ export default class FormLayoutMain extends Component {
 	}
 	showChildComponents(){
 		const actionMode = this.getActionMode();
-		if(actionMode === "fullFormView"){
+		if(actionMode === "viewFormFullView"){
 		const FormModulesCollection = this.props.formModel.formModules;
 			return (
 				FormModulesCollection.map((moduleModel, index) =>{
-					return <FormModuleForm key={index} name={moduleModel.get("longName")} instructions={moduleModel.get("instructions")}/>;
+					return <FormModuleForm key={index} longName={moduleModel.get("longName")} instructions={moduleModel.get("instructions")}/>;
 				})
 			);
 		}
