@@ -23,7 +23,7 @@ const FormService = Marionette.Object.extend({
 		[EVENTS.FORM.SET_FORM_LAYOUT]:       'dispatchLayout',
 		[EVENTS.FORM.CREATE_MODULE]:         'dispatchLayout',
 		[EVENTS.FORM.SET_CORE_FORM_DETAILS]: 'handleFormMetadataSubmitData',
-		[EVENTS.FORM.SET_MODULE_DATA]: 'handleFormMetadataSubmitData'
+		[EVENTS.FORM.ADD_MODULE_DATA]: 'handleSetModule'
 	},
 	initialize(options = {}) {
 		this.setupModels();
@@ -71,8 +71,11 @@ const FormService = Marionette.Object.extend({
 			userName: userChannel.request(EVENTS.USER.GET_USERNAME)
 		}).execute();
 	},
-	handleAddModule(data) {
+	handleSetModule(data) {
 		this.formModel.get('formModules').add(data);
+		this.dispatchLayout({action: 'editForm'});
+		/*Update the URL but don't trigger a backbone view change. React will handle this via dispatchLayout */
+		formRouter.navigate(ROUTES.FORM.SET_NEW_MODULE, {trigger: false});
 	},
 	handleFormMetadataSubmitData(data) {
 		/*TODO handle context a better way. */
@@ -95,7 +98,7 @@ const FormService = Marionette.Object.extend({
 
 				alert("Form created. formIdseq is: " + formIdseq);
 			},
-			error:   function(model, response){
+			error: (model, response) =>{
 				/*TODO: of course this is too basic. Improve error handling */
 				alert("error");
 			}

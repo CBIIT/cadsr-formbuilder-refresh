@@ -16,7 +16,7 @@ export default class FormModuleForm extends Component {
 		};
 	}
 	dispatchData(data){
-		formChannel.trigger(EVENTS.FORM.SET_MODULE_DATA, data);
+		formChannel.request(EVENTS.FORM.SET_NEW_MODULE, data);
 	}
 	render(){
 		return (
@@ -32,7 +32,7 @@ export default class FormModuleForm extends Component {
 						<List data={this.props.data} />
 */}
 					</fieldset>
-					<Button className="btn btn-primary" type="submit">Create</Button>
+					<Button className="btn btn-primary" type="submit">Create New Module</Button>
 
 				</Form> </Row>
 		);
