@@ -6,10 +6,10 @@ import {formChannel} from '../../channels/radioChannels';
 import formRouter from '../../routers/FormRouter';
 import FormModuleForm from './FormModuleForm';
 
+
 export default class FormLayoutMain extends Component {
 	constructor(props){
 		super(props);
-		this.dispatchCreate = this.dispatchCreate.bind(this);
 		this.showChildComponents = this.showChildComponents.bind(this);
 		this.showFormActionButtons = this.showFormActionButtons.bind(this);
 		this.getActionMode = this.getActionMode.bind(this);
@@ -50,15 +50,7 @@ export default class FormLayoutMain extends Component {
 	 *
 	 * @param itemToCreate
 	 */
-	dispatchCreate(itemToCreate){
-		switch(itemToCreate){
-			case "module":
-				formRouter.navigate(ROUTES.FORM.CREATE_MODULE, {trigger: true});
-				break;
-			default:
-				console.error("itemToCreate doesn't work");
-		}
-	}
+
 	/**
 	 * Buttons based on the actionMode passed into the rendered form
 	 * @param actionModel
