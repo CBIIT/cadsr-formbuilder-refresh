@@ -30,6 +30,8 @@ FormBuilder/src/main/webapp/assets/js/components/form/FormLayout.js -text
 FormBuilder/src/main/webapp/assets/js/components/form/FormLayoutMain.js -text
 FormBuilder/src/main/webapp/assets/js/components/form/FormMetadataForm.js -text
 FormBuilder/src/main/webapp/assets/js/components/form/FormModuleForm.js -text
+FormBuilder/src/main/webapp/assets/js/components/form/SidePanel.js -text
+FormBuilder/src/main/webapp/assets/js/components/form/TreeView.js -text
 FormBuilder/src/main/webapp/assets/js/constants/ENDPOINT_URLS.js -text
 FormBuilder/src/main/webapp/assets/js/constants/EVENTS.js -text
 FormBuilder/src/main/webapp/assets/js/constants/ROUTES.js -text
@@ -64,6 +66,10 @@ FormBuilder/src/main/webapp/assets/js/views/search/form-search/FormSearchView.js
 FormBuilder/src/main/webapp/assets/js/views/search/form-search/LatestVersionOnlSelectorView.js -text
 FormBuilder/src/main/webapp/assets/js/views/search/form-search/SearchPreferencesView.js -text
 FormBuilder/src/main/webapp/assets/js/views/search/form-search/SearchResultsView.js -text
+FormBuilder/src/main/webapp/assets/styles/partials/global-colors-mixins.scss -text
+FormBuilder/src/main/webapp/assets/styles/partials/helper_classes.scss -text
+FormBuilder/src/main/webapp/assets/styles/partials/sideBar.scss -text
+FormBuilder/src/main/webapp/assets/styles/partials/text_image_containers.scss -text
 FormBuilder/src/main/webapp/assets/styles/styles.scss -text
 FormBuilder/src/main/webapp/assets/templates/app-layout/app-layout.html -text
 FormBuilder/src/main/webapp/assets/templates/app-layout/footer.html -text

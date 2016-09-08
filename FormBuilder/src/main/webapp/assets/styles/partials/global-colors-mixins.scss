@@ -1,0 +1,107 @@
+/* Color Variables */
+$dfTextColor: #323232;
+$darkGrey: #525252;
+$lightGrey: #d0d0d0;
+$paleGrey : #eeeeee;
+
+$dfBlue: #064e6e;
+$activeBlue: #0086c8;
+
+@mixin normalizedLineHeight {
+  // Used Mostly for text containers where mixed heading sizes would be used.
+  line-height: 40px;
+}
+
+@mixin defaultParagraphStyles {
+  font-size: 1rem;
+  line-height: 1.25;
+  margin-bottom: 0;
+  margin-top: 15px;
+  font-weight: 400;
+}
+
+@mixin standard-border {
+  border: 1px solid $lightGrey;
+}
+
+/* Spacing */
+@mixin short-top-spacing($important: null) {
+  margin-top: 10px $important;
+}
+
+@mixin medium-top-spacing($important: null) {
+  margin-top: 20px $important;
+}
+
+@mixin tall-top-spacing($important: null) {
+  margin-top: 50px $important;
+}
+
+@mixin tall-bottom-spacing($important: null) {
+  margin-bottom: 50px $important;
+}
+
+@mixin medium-bottom-spacing($important: null) {
+  margin-bottom: 20px $important;
+}
+
+@mixin short-bottom-spacing($important: null) {
+  margin-bottom: 10px $important;
+}
+
+@mixin top-padding($important: null) {
+  padding-top: 15px $important;
+}
+
+@mixin right-padding($important: null) {
+  padding-right: 15px $important;
+}
+
+@mixin bottom-padding($important: null) {
+  padding-bottom: 15px $important;
+}
+
+@mixin left-padding($important: null) {
+  padding-left: 15px $important;
+}
+
+@mixin add-padding($important:null) {
+  @include top-padding($important);
+  @include right-padding($important);
+  @include bottom-padding($important);
+  @include left-padding($important);
+}
+
+@mixin top-margin {
+  margin-top: 15px;
+}
+
+@mixin right-margin {
+  margin-right: 15px;
+}
+
+@mixin bottom-margin {
+  margin-bottom: 15px;
+}
+
+@mixin left-margin {
+  margin-left: 15px;
+}
+
+@mixin center-hv-td-content {
+  vertical-align: middle;
+  text-align: center;
+}
+
+@mixin center-align {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+$h1selectors: "h1, .h1";
+$h2selectors: "h2, .h2";
+$h3selectors: "h3, .h3";
+$h4selectors: "h4, .h4";
+
+$allHeadingSelectors: "#{$h1selectors}, #{$h2selectors}, #{$h3selectors}, #{$h4selectors}";
