@@ -25,9 +25,7 @@ export default class FormModuleForm extends Component {
 					<fieldset name="Module Metadata">
 						<legend>{this.props.mainHeadingTitle}</legend>
 						<Input name="longName" id="longName" value={this.props.longName} label="Module Name" type="text" help="This is a required text input." required/>
-						<Textarea rows={3} cols={40} name="instructions" label="Instructions" placeholder="This field requires 3 characters." validations="minLength:3" value={this.props.instructions} validationErrors={{
-							minLength: 'Please provide at least 3 characters.'
-						}}/>
+						<Textarea rows={3} cols={40} name="instructions" label="Instructions" value={this.props.instructions} />
 {/*
 						<List data={this.props.data} />
 */}
