@@ -27,6 +27,7 @@ FormBuilder/src/main/webapp/assets/js/App.js -text
 FormBuilder/src/main/webapp/assets/js/channels/radioChannels.js -text
 FormBuilder/src/main/webapp/assets/js/commands/GetFormMetadataCriteriaCommand.js -text
 FormBuilder/src/main/webapp/assets/js/commands/GetSearchFormCriteriaCommand.js -text
+FormBuilder/src/main/webapp/assets/js/components/common/ButtonsGroup.js -text
 FormBuilder/src/main/webapp/assets/js/components/common/Form.js -text
 FormBuilder/src/main/webapp/assets/js/components/form/FormLayout.js -text
 FormBuilder/src/main/webapp/assets/js/components/form/FormLayoutMain.js -text

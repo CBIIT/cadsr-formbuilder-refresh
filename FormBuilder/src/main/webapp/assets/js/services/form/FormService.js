@@ -83,7 +83,7 @@ const FormService = Marionette.Object.extend({
 		newModule.url = `${ENDPOINT_URLS.FORM_CREATE}/${formIdSeq}/modules`;
 
 		this.formModel.get('formModules').add(newModule);
-		this.dispatchLayout({action: 'viewFormFullView'});
+		this.formUIStateModel.set({actionMode: 'editModule'});
 
 		/* Module save to backend */
 		/*newModule.save(null, {

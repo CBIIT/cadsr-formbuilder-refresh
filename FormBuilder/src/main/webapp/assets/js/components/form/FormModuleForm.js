@@ -23,7 +23,7 @@ export default class FormModuleForm extends Component {
 			<Row>
 				<Form onSubmit={this.dispatchData} validatePristine={this.state.validatePristine} disabled={this.state.disabled} ref="formModuleForm">
 					<fieldset name="Module Metadata">
-						<legend>{this.props.title}</legend>
+						<legend>{this.props.mainHeadingTitle}</legend>
 						<Input name="longName" id="longName" value={this.props.longName} label="Module Name" type="text" help="This is a required text input." required/>
 						<Textarea rows={3} cols={40} name="instructions" label="Instructions" placeholder="This field requires 3 characters." validations="minLength:3" value={this.props.instructions} validationErrors={{
 							minLength: 'Please provide at least 3 characters.'
@@ -32,7 +32,7 @@ export default class FormModuleForm extends Component {
 						<List data={this.props.data} />
 */}
 					</fieldset>
-					<Button className="btn btn-primary" type="submit">Create New Module</Button>
+					{this.props.children}
 
 				</Form> </Row>
 		);
@@ -46,5 +46,6 @@ FormModuleForm.defaultProps = {
 
 FormModuleForm.propTypes = {
 	longName: PropTypes.string,
-	instructions: PropTypes.string
+	instructions: PropTypes.string,
+	mainHeadingTitle: PropTypes.string
 };

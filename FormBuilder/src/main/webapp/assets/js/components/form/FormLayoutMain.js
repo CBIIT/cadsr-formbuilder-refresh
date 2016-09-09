@@ -5,7 +5,7 @@ import ROUTES from '../../constants/ROUTES';
 import {formChannel} from '../../channels/radioChannels';
 import formRouter from '../../routers/FormRouter';
 import FormModuleForm from './FormModuleForm';
-
+import ButtonsGroup from '../common/ButtonsGroup';
 
 export default class FormLayoutMain extends Component {
 	constructor(props){
@@ -17,24 +17,25 @@ export default class FormLayoutMain extends Component {
 			clicked: false
 		};
 	}
-	getActionMode() {
+
+	getActionMode(){
 		return this.props.formUIState.actionMode;
 	}
+
 	showChildComponents(){
 		const actionMode = this.getActionMode();
 		if(actionMode === "viewFormFullView"){
-		const FormModulesCollection = this.props.formModel.formModules;
+			const FormModulesCollection = this.props.formModel.formModules;
 			return (
-			<div>
-				<FormMetadataForm actionMode={actionMode} formMetadata={this.props.formModel.formMetadata.attributes} uiDropDownOptionsModel={this.props.uiDropDownOptionsModel}>
-					{this.showFormActionButtons(actionMode)}
-				</FormMetadataForm>
-				{FormModulesCollection.map((moduleModel, index) =>(
+				<div>
+					<FormMetadataForm actionMode={actionMode} formMetadata={this.props.formModel.formMetadata.attributes} uiDropDownOptionsModel={this.props.uiDropDownOptionsModel}>
+						{this.showFormActionButtons(actionMode)}
+					</FormMetadataForm> {FormModulesCollection.map((moduleModel, index) =>(
 					<FormModuleForm key={index} name={moduleModel.get("longName")} instructions={moduleModel.get("instructions")}/>))}
-			</div>
+				</div>
 			);
 		}
-		else if (actionMode ===  'createForm' || actionMode === "editForm"){
+		else if(actionMode === 'createForm' || actionMode === "editForm"){
 			const metaDataFormHeadingTitle = actionMode === 'createForm' ? 'Create New Form' : 'Edit Form';
 			return (
 				<div>
@@ -45,8 +46,25 @@ export default class FormLayoutMain extends Component {
 			);
 		}
 		else if(actionMode === 'createModule'){
+			const buttons = [
+				{
+					name: "Create Module",
+					type: "submit"
+				}
+			];
 			return (
-				<FormModuleForm title="Create Module" />
+				<FormModuleForm mainHeadingTitle="Create Module"> <ButtonsGroup buttons={buttons}/> </FormModuleForm>
+			);
+		}
+		else if(actionMode === 'editModule'){
+			const buttons = [
+				{
+					name: "Save",
+					type: "submit"
+				}
+			];
+			return (
+				<FormModuleForm mainHeadingTitle="Edit Module"> <ButtonsGroup buttons={buttons}/> </FormModuleForm>
 			);
 		}
 	}
@@ -56,12 +74,8 @@ export default class FormLayoutMain extends Component {
 	 * @param itemToCreate
 	 */
 
-	/**
-	 * Buttons based on the actionMode passed into the rendered form
-	 * @param actionModel
-	 * @returns {XML}
-	 */
-	showFormActionButtons(actionModel) {
+
+	showFormActionButtons(actionModel){
 		switch(actionModel){
 			case "createForm":
 				return (
@@ -73,6 +87,7 @@ export default class FormLayoutMain extends Component {
 				);
 		}
 	}
+
 	render(){
 		return (
 			<section>
@@ -86,9 +101,9 @@ FormLayoutMain.propTypes = {
 	router:      PropTypes.shape({
 		routes: PropTypes.object.isRequired
 	}),
-	formModel: PropTypes.shape({
+	formModel:   PropTypes.shape({
 		formMetaData: PropTypes.object.isRequired,
-		formModules: PropTypes.object.isRequired
+		formModules:  PropTypes.object.isRequired
 
 	}),
 	formUIState: PropTypes.shape({
