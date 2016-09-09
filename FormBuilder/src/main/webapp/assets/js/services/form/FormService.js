@@ -64,7 +64,7 @@ const FormService = Marionette.Object.extend({
 	constructLayout(){
 		/*Entry point for React. Backbone Views Keep Out */
 		render(
-			<FormLayout formModel={this.formModel} uiDropDownOptionsModel={this.uiDropDownOptionsModel.toJSON()} formUIState={this.formUIStateModel}/>, document.getElementById('main'));
+			<FormLayout formModel={this.formModel.toJSON()} uiDropDownOptionsModel={this.uiDropDownOptionsModel.toJSON()} formUIState={this.formUIStateModel}/>, document.getElementById('main'));
 
 	},
 	fetchFormMetaDataCriteria() {
@@ -87,17 +87,17 @@ const FormService = Marionette.Object.extend({
 
 		/* Module save to backend */
 		/*newModule.save(null, {
-			success: (model) =>{
-				this.formModel.get('formModules').add(newModule);
-				 this.formModel.get('formModules').add(newModule);
-				 this.dispatchLayout({action: 'viewFormFullView'});
+		 success: (model) =>{
+		 this.formModel.get('formModules').add(newModule);
+		 this.formModel.get('formModules').add(newModule);
+		 this.dispatchLayout({action: 'viewFormFullView'});
 
-				alert("Form created. formIdseq is: " + formIdseq);
-			},
-			error:   (model, response) =>{
+		 alert("Form created. formIdseq is: " + formIdseq);
+		 },
+		 error:   (model, response) =>{
 
-			}
-		});*/
+		 }
+		 });*/
 
 	},
 	handleFormMetadataSubmitData(data) {
