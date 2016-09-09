@@ -16,6 +16,7 @@ export default class TreeView extends Component {
 	render(){
 		return (
 			<div className="bordered-container tall-min-height">
+				<p>{this.props.formName}</p>
 				<Button onClick={this.dispatchCreateModule} disabled={!this.props.canCreateModule} className="btn btn-primary" type="submit">New Module</Button>
 
 			</div>
