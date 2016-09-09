@@ -56,7 +56,6 @@ const FormService = Marionette.Object.extend({
 				break;
 			case "viewFormFullView":
 				this.formUIStateModel.set({actionMode: action});
-				formRouter.navigate("forms/viewform/:formIdSeq", {trigger: false});
 				break;
 			default:
 				console.error("no valid action provided");
@@ -106,6 +105,7 @@ const FormService = Marionette.Object.extend({
 		this.formUIStateModel.set({
 			actionMode: 'viewFormFullView'
 		});
+		formRouter.navigate(ROUTES.FORM.VIEW_FORM, {trigger: false});
 	},
 	handleFormMetadataSubmitData(data) {
 		/*TODO handle context a better way. */
