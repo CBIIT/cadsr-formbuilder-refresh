@@ -51,7 +51,7 @@ export default class FormLayout extends Component {
 		return this.state.formUIState.activeEditItems.toJSON();
 	}
 	getFormModules() {
-		return this.getFormModel().formModules.toJSON();
+		return this.getFormModel().formModules.models;
 	}
 	getMainPanelComponents(){
 		const actionMode = this.getActionMode();
@@ -90,7 +90,7 @@ export default class FormLayout extends Component {
 				}
 			];
 			return (
-				<FormModuleForm mainHeadingTitle="Create Module"> <ButtonsGroup buttons={buttons}/> </FormModuleForm>
+				<FormModuleForm actionMode={actionMode} mainHeadingTitle="Create Module"> <ButtonsGroup buttons={buttons}/> </FormModuleForm>
 			);
 		}
 		else if(actionMode === 'editModule'){
@@ -101,7 +101,7 @@ export default class FormLayout extends Component {
 				}
 			];
 			return (
-				<FormModuleForm mainHeadingTitle="Edit Module" > <ButtonsGroup buttons={buttons}/> </FormModuleForm>
+				<FormModuleForm actionMode={actionMode} mainHeadingTitle="Edit Module" > <ButtonsGroup buttons={buttons}/> </FormModuleForm>
 			);
 		}
 	}
@@ -110,7 +110,7 @@ export default class FormLayout extends Component {
 		return (
 			<Row className="eq-height-wrapper">
 				<Col lg={2} className="eq-height-item">
-					<TreeView formName={this.getFormMetaData().longName} canCreateModule={this.canCreateModule()}/>
+					<TreeView list={this.getFormModules()} formName={this.getFormMetaData().longName} canCreateModule={this.canCreateModule()}/>
 				</Col>
 				<Col lg={8} className="eq-height-item">
 					<FormLayoutMain>

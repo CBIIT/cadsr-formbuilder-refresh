@@ -15,9 +15,18 @@ export default class FormModuleForm extends Component {
 			disabled:         false
 		};
 	}
+
 	dispatchData(data){
-		formChannel.request(EVENTS.FORM.SET_NEW_MODULE, data);
+		const actionMode = this.props.actionMode;
+		if(actionMode === "editModule"){
+			formChannel.request(EVENTS.FORM.SET_MODULE, data);
+		}
+		else if(actionMode === "createModule"){
+			formChannel.request(EVENTS.FORM.SET_NEW_MODULE, data);
+		}
+
 	}
+
 	render(){
 		return (
 			<Row>
@@ -25,10 +34,9 @@ export default class FormModuleForm extends Component {
 					<fieldset name="Module Metadata">
 						<legend>{this.props.mainHeadingTitle}</legend>
 						<Input name="longName" id="longName" value={this.props.longName} label="Module Name" type="text" help="This is a required text input." required/>
-						<Textarea rows={3} cols={40} name="instructions" label="Instructions" value={this.props.instructions} />
-{/*
-						<List data={this.props.data} />
-*/}
+						<Textarea rows={3} cols={40} name="instructions" label="Instructions" value={this.props.instructions}/> {/*
+					 <List data={this.props.data} />
+					 */}
 					</fieldset>
 					{this.props.children}
 
@@ -38,12 +46,12 @@ export default class FormModuleForm extends Component {
 }
 
 FormModuleForm.defaultProps = {
-	longName: "",
+	longName:     "",
 	instructions: ""
 };
 
 FormModuleForm.propTypes = {
-	longName: PropTypes.string,
-	instructions: PropTypes.string,
+	longName:         PropTypes.string,
+	instructions:     PropTypes.string,
 	mainHeadingTitle: PropTypes.string
 };

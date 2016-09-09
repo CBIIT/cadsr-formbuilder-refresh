@@ -25,7 +25,8 @@ const FormService = Marionette.Object.extend({
 		[EVENTS.FORM.SET_FORM_LAYOUT]:       'dispatchLayout',
 		[EVENTS.FORM.CREATE_MODULE]:         'dispatchLayout',
 		[EVENTS.FORM.SET_CORE_FORM_DETAILS]: 'handleFormMetadataSubmitData',
-		[EVENTS.FORM.SET_NEW_MODULE]: 'handleSetModule'
+		[EVENTS.FORM.SET_NEW_MODULE]: 'handleAddModule',
+		[EVENTS.FORM.SET_MODULE]: 'handleSetModule'
 	},
 	initialize(options = {}) {
 		this.setupModels();
@@ -77,13 +78,14 @@ const FormService = Marionette.Object.extend({
 			userName: userChannel.request(EVENTS.USER.GET_USERNAME)
 		}).execute();
 	},
-	handleSetModule(data) {
-		const newModule = new FormModuleModel(data),
-			formIdSeq = this.formModel.get("formIdseq");
-		newModule.url = `${ENDPOINT_URLS.FORM_CREATE}/${formIdSeq}/modules`;
+	handleAddModule(data) {
+		const newModule = new FormModuleModel(data);
 
 		this.formModel.get('formModules').add(newModule);
-		this.formUIStateModel.set({actionMode: 'editModule'});
+		this.formUIStateModel.set({
+			actionMode:   'editModule',
+			activeEditItems: newModule
+		});
 
 		/* Module save to backend */
 		/*newModule.save(null, {
@@ -99,6 +101,11 @@ const FormService = Marionette.Object.extend({
 		 }
 		 });*/
 
+	},
+	handleSetModule(data) {
+		this.formUIStateModel.set({
+			actionMode: 'viewFormFullView'
+		});
 	},
 	handleFormMetadataSubmitData(data) {
 		/*TODO handle context a better way. */
