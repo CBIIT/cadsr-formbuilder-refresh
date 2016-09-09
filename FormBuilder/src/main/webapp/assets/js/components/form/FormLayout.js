@@ -8,7 +8,6 @@ import FormModuleForm from './FormModuleForm';
 import ButtonsGroup from '../common/ButtonsGroup';
 import FormMetadataForm from './FormMetadataForm';
 
-
 export default class FormLayout extends Component {
 	constructor(props){
 		super(props);
@@ -19,21 +18,25 @@ export default class FormLayout extends Component {
 		this.getEditItems = this.getEditItems.bind(this);
 		this.getMainPanelComponents = this.getMainPanelComponents.bind(this);
 	}
+
 	componentWillMount(){
 		/* watch for changes on these backbone models/collections and re-render */
 		backboneReact.on(this, {
 			models: {
-				formUIState: this.props.formUIState}
+				formUIState: this.props.formUIState
+			}
 		});
 	}
-	componentWillUnmount () {
+
+	componentWillUnmount(){
 		backboneReact.off(this);
 	}
+
 	/**
 	 *
 	 * @returns {boolean}
 	 */
-	canCreateModule() {
+	canCreateModule(){
 		/*TODO come up with a more reliable way to check for this */
 		return this.getActionMode() === "editForm" || this.getActionMode() === 'viewFormFullView';
 	}
@@ -41,27 +44,37 @@ export default class FormLayout extends Component {
 	getActionMode(){
 		return this.state.formUIState.actionMode;
 	}
-	getFormMetaData() {
+
+	getFormMetaData(){
 		return this.props.formModel.formMetadata.attributes;
 	}
-	getFormModel() {
+
+	getFormModel(){
 		return this.props.formModel;
 	}
-	getEditItems() {
+
+	getEditItems(){
 		return this.state.formUIState.activeEditItems.toJSON();
 	}
-	getFormModules() {
+
+	getFormModules(){
 		return this.getFormModel().formModules.models;
 	}
+
 	getMainPanelComponents(){
 		const actionMode = this.getActionMode();
 		if(actionMode === "viewFormFullView"){
-			const FormModulesCollection = this.getFormModules();
+			const buttons = [
+					{
+						name: "Save",
+						type: "submit"
+					}
+				];
 			return (
 				<div>
-					<FormMetadataForm actionMode={actionMode} formMetadata={this.props.formModel.formMetadata.attributes} uiDropDownOptionsModel={this.props.uiDropDownOptionsModel}>
-					</FormMetadataForm> {FormModulesCollection.map((moduleModel, index) =>(
+					<FormMetadataForm actionMode={actionMode} formMetadata={this.props.formModel.formMetadata.attributes} uiDropDownOptionsModel={this.props.uiDropDownOptionsModel}> </FormMetadataForm> {this.getFormModules().map((moduleModel, index) =>(
 					<FormModuleForm key={index} longName={moduleModel.get("longName")} instructions={moduleModel.get("instructions")}/>))}
+					<ButtonsGroup handleFormSaveClicked={this.dispatchSaveForm} buttons={buttons}/>
 				</div>
 			);
 		}
@@ -77,8 +90,7 @@ export default class FormLayout extends Component {
 			return (
 				<div>
 					<FormMetadataForm actionMode={actionMode} formMetadata={this.props.formModel.formMetadata.attributes} uiDropDownOptionsModel={this.props.uiDropDownOptionsModel} mainHeadingTitle={metaDataFormHeadingTitle}>
-						<ButtonsGroup buttons={buttons}/>
-					</FormMetadataForm>
+						<ButtonsGroup buttons={buttons}/> </FormMetadataForm>
 				</div>
 			);
 		}
@@ -90,7 +102,8 @@ export default class FormLayout extends Component {
 				}
 			];
 			return (
-				<FormModuleForm actionMode={actionMode} mainHeadingTitle="Create Module"> <ButtonsGroup buttons={buttons}/> </FormModuleForm>
+				<FormModuleForm actionMode={actionMode} mainHeadingTitle="Create Module">
+					<ButtonsGroup buttons={buttons}/> </FormModuleForm>
 			);
 		}
 		else if(actionMode === 'editModule'){
@@ -101,31 +114,24 @@ export default class FormLayout extends Component {
 				}
 			];
 			return (
-				<FormModuleForm actionMode={actionMode} mainHeadingTitle="Edit Module" > <ButtonsGroup buttons={buttons}/> </FormModuleForm>
+				<FormModuleForm actionMode={actionMode} mainHeadingTitle="Edit Module">
+					<ButtonsGroup buttons={buttons}/> </FormModuleForm>
 			);
 		}
 	}
 
 	render(){
 		return (
-			<Row className="eq-height-wrapper">
-				<Col lg={2} className="eq-height-item">
-					<TreeView list={this.getFormModules()} formName={this.getFormMetaData().longName} canCreateModule={this.canCreateModule()}/>
-				</Col>
-				<Col lg={8} className="eq-height-item">
-					<FormLayoutMain>
-						{this.getMainPanelComponents()}
-					</FormLayoutMain>
-				</Col>
-				<Col lg={2} className="eq-height-item">
-					<SidePanel />
-				</Col>
-			</Row>
+			<Row className="eq-height-wrapper"> <Col lg={2} className="eq-height-item">
+				<TreeView list={this.getFormModules()} formName={this.getFormMetaData().longName} canCreateModule={this.canCreateModule()}/>
+			</Col> <Col lg={8} className="eq-height-item"> <FormLayoutMain>
+				{this.getMainPanelComponents()}
+			</FormLayoutMain> </Col> <Col lg={2} className="eq-height-item"> <SidePanel /> </Col> </Row>
 		);
 	}
 }
 
 FormLayout.propTypes = {
-	formUIState: PropTypes.object.isRequired,
+	formUIState:            PropTypes.object.isRequired,
 	uiDropDownOptionsModel: PropTypes.object.isRequired
 };
