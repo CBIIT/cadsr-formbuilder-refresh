@@ -57,9 +57,8 @@ export default class FormLayout extends Component {
 	}
 
 	getEditItems(){
-		return this.state.formUIState.activeEditItems.toJSON();
+		return this.state.formUIState.editItem;
 	}
-
 	getFormModules(){
 		return this.getFormModel().formModules.models;
 	}
@@ -113,14 +112,16 @@ export default class FormLayout extends Component {
 			);
 		}
 		else if(actionMode === 'editModule'){
+			const moduleEditing = this.getEditItems();
 			const buttons = [
 				{
 					name: "Save",
 					type: "submit"
 				}
 			];
+			/*Passing in moduleId here might not be necessary but currently the most straightforward way I can think of when there will be an array of modules (parent module, repetition) to edit and gather each one's id from the form when saving */
 			return (
-				<FormModuleForm actionMode={actionMode} mainHeadingTitle="Edit Module">
+				<FormModuleForm moduleId={moduleEditing.id} longName={moduleEditing.longName} instructions={moduleEditing.longName} actionMode={actionMode} mainHeadingTitle="Edit Module">
 					<ButtonsGroup buttons={buttons}/> </FormModuleForm>
 			);
 		}
@@ -138,6 +139,12 @@ export default class FormLayout extends Component {
 }
 
 FormLayout.propTypes = {
-	formUIState:            PropTypes.object.isRequired,
-	uiDropDownOptionsModel: PropTypes.object.isRequired
+	formUIState: PropTypes.shape({
+		actionMode: PropTypes.string.isRequired
+	}),
+	uiDropDownOptionsModel: PropTypes.object.isRequired,
+	formModel:   PropTypes.shape({
+		formMetaData: PropTypes.object.isRequired,
+		formModules:  PropTypes.object.isRequired
+	})
 };
