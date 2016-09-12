@@ -19,12 +19,12 @@ export default class FormModuleForm extends Component {
 	dispatchData(data){
 		const actionMode = this.props.actionMode;
 		if(actionMode === "editModule"){
-			formChannel.request(EVENTS.FORM.SET_MODULE, data);
+			const newData = Object.assign({}, data, {id: this.props.moduleId});
+			formChannel.request(EVENTS.FORM.SET_MODULE, newData);
 		}
 		else if(actionMode === "createModule"){
 			formChannel.request(EVENTS.FORM.SET_NEW_MODULE, data);
 		}
-
 	}
 
 	render(){

@@ -79,28 +79,15 @@ const FormService = Marionette.Object.extend({
 		}).execute();
 	},
 	handleAddModule(data) {
-		const newModule = new FormModuleModel(data);
+		const newModuleModel = this.formModel.get('formModules').add(new FormModuleModel(data));
+		/* just pass in a POJO including the model's cid into the view */
+		const newModule = Object.assign({}, newModuleModel.attributes, {id: newModuleModel.cid});
 
-		this.formModel.get('formModules').add(newModule);
 		this.formUIStateModel.set({
 			actionMode:   'editModule',
-			activeEditItems: newModule
+			/*TODO: Prepare for when editing a module with repetitions, this will be an array containing the module and its associated repetitioned modules */
+			editItem: newModule
 		});
-
-		/* Module save to backend */
-		/*newModule.save(null, {
-		 success: (model) =>{
-		 this.formModel.get('formModules').add(newModule);
-		 this.formModel.get('formModules').add(newModule);
-		 this.dispatchLayout({action: 'viewFormFullView'});
-
-		 alert("Form created. formIdseq is: " + formIdseq);
-		 },
-		 error:   (model, response) =>{
-
-		 }
-		 });*/
-
 	},
 	handleSaveForm() {
 		this.formModel.save(null, {
@@ -113,9 +100,14 @@ const FormService = Marionette.Object.extend({
 			}
 		});
 	},
-	handleSetModule() {
+	handleSetModule(data) {
+		const module = this.formModel.get('formModules').get(data.id);
+		const moduleAttributes = _.omit(data, "id");
+		module.set(moduleAttributes);
+
 		this.formUIStateModel.set({
-			actionMode: 'viewFormFullView'
+			actionMode: 'viewFormFullView',
+			editItem: null
 		});
 		formRouter.navigate(ROUTES.FORM.VIEW_FORM, {trigger: false});
 	},
