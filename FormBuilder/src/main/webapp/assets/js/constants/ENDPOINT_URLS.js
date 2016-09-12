@@ -10,6 +10,7 @@ const ENDPOINT_URLS = {
 	CONTEXTS:   `${formBuilderHost}/FormBuilder/api/v1/contexts`,
 	FORM_SEARCH: `${formBuilderHost}/FormBuilder/api/v1/forms`,
 	FORM_CREATE: `${formBuilderHost}/FormBuilder/api/v1/forms`,
+	FORM_SAVE: `${formBuilderHost}/FormBuilder/api/v1/forms`,
 	TYPES:      `${formBuilderHost}/FormBuilder/api/v1/types`,
 	WORKFLOWS:  `${formBuilderHost}/FormBuilder/api/v1/workflows`
 };

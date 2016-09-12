@@ -26,7 +26,8 @@ const FormService = Marionette.Object.extend({
 		[EVENTS.FORM.CREATE_MODULE]:         'dispatchLayout',
 		[EVENTS.FORM.SET_CORE_FORM_DETAILS]: 'handleFormMetadataSubmitData',
 		[EVENTS.FORM.SET_NEW_MODULE]: 'handleAddModule',
-		[EVENTS.FORM.SET_MODULE]: 'handleSetModule'
+		[EVENTS.FORM.SET_MODULE]: 'handleSetModule',
+		[EVENTS.FORM.SAVE_FORM]: 'handleSaveForm'
 	},
 	initialize(options = {}) {
 		this.setupModels();
@@ -101,7 +102,18 @@ const FormService = Marionette.Object.extend({
 		 });*/
 
 	},
-	handleSetModule(data) {
+	handleSaveForm() {
+		this.formModel.save(null, {
+			success: () =>{
+				alert("form saved");
+			},
+			error:   (model, response) =>{
+				/*TODO: of course this is too basic. Improve error handling */
+				alert("error");
+			}
+		});
+	},
+	handleSetModule() {
 		this.formUIStateModel.set({
 			actionMode: 'viewFormFullView'
 		});

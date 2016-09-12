@@ -7,6 +7,8 @@ import SidePanel from './SidePanel';
 import FormModuleForm from './FormModuleForm';
 import ButtonsGroup from '../common/ButtonsGroup';
 import FormMetadataForm from './FormMetadataForm';
+import EVENTS from '../../constants/EVENTS';
+import {formChannel} from '../../channels/radioChannels';
 
 export default class FormLayout extends Component {
 	constructor(props){
@@ -17,6 +19,7 @@ export default class FormLayout extends Component {
 		this.getActionMode = this.getActionMode.bind(this);
 		this.getEditItems = this.getEditItems.bind(this);
 		this.getMainPanelComponents = this.getMainPanelComponents.bind(this);
+		this.handleFormSaveClicked = this.handleFormSaveClicked.bind(this);
 	}
 
 	componentWillMount(){
@@ -60,21 +63,24 @@ export default class FormLayout extends Component {
 	getFormModules(){
 		return this.getFormModel().formModules.models;
 	}
-
+	handleFormSaveClicked () {
+		formChannel.request(EVENTS.FORM.SAVE_FORM);
+	}
 	getMainPanelComponents(){
 		const actionMode = this.getActionMode();
 		if(actionMode === "viewFormFullView"){
 			const buttons = [
 					{
 						name: "Save",
-						type: "submit"
+						type: "submit",
+						onClick: "handleFormSaveClicked"
 					}
 				];
 			return (
 				<div>
 					<FormMetadataForm actionMode={actionMode} formMetadata={this.props.formModel.formMetadata.attributes} uiDropDownOptionsModel={this.props.uiDropDownOptionsModel}> </FormMetadataForm> {this.getFormModules().map((moduleModel, index) =>(
 					<FormModuleForm key={index} longName={moduleModel.get("longName")} instructions={moduleModel.get("instructions")}/>))}
-					<ButtonsGroup handleFormSaveClicked={this.dispatchSaveForm} buttons={buttons}/>
+					<ButtonsGroup handleFormSaveClicked={this.handleFormSaveClicked} buttons={buttons}/>
 				</div>
 			);
 		}
