@@ -60,7 +60,10 @@ export default class FormLayout extends Component {
 		return this.state.formUIState.editItem;
 	}
 	getFormModules(){
-		return this.getFormModel().formModules.models;
+		/* Return list of modules with its backbone model's cid included */
+		return this.getFormModel().formModules.models.map(model =>{
+			return Object.assign({}, model.attributes, {cid: model.cid});
+	});
 	}
 	handleFormSaveClicked () {
 		formChannel.request(EVENTS.FORM.SAVE_FORM);
@@ -78,7 +81,7 @@ export default class FormLayout extends Component {
 			return (
 				<div>
 					<FormMetadataForm actionMode={actionMode} formMetadata={this.props.formModel.formMetadata.attributes} uiDropDownOptionsModel={this.props.uiDropDownOptionsModel}> </FormMetadataForm> {this.getFormModules().map((moduleModel, index) =>(
-					<FormModuleForm key={index} longName={moduleModel.get("longName")} instructions={moduleModel.get("instructions")}/>))}
+					<FormModuleForm key={index} longName={moduleModel.longName} instructions={moduleModel.instructions}/>))}
 					<ButtonsGroup handleFormSaveClicked={this.handleFormSaveClicked} buttons={buttons}/>
 				</div>
 			);
@@ -121,7 +124,7 @@ export default class FormLayout extends Component {
 			];
 			/*Passing in moduleId here might not be necessary but currently the most straightforward way I can think of when there will be an array of modules (parent module, repetition) to edit and gather each one's id from the form when saving */
 			return (
-				<FormModuleForm moduleId={moduleEditing.id} longName={moduleEditing.longName} instructions={moduleEditing.longName} actionMode={actionMode} mainHeadingTitle="Edit Module">
+				<FormModuleForm moduleId={moduleEditing.id} longName={moduleEditing.instructions} instructions={moduleEditing.longName} actionMode={actionMode} mainHeadingTitle="Edit Module">
 					<ButtonsGroup buttons={buttons}/> </FormModuleForm>
 			);
 		}
@@ -130,7 +133,7 @@ export default class FormLayout extends Component {
 	render(){
 		return (
 			<Row className="eq-height-wrapper"> <Col lg={2} className="eq-height-item">
-				<TreeView list={this.getFormModules()} formName={this.getFormMetaData().longName} canCreateModule={this.canCreateModule()}/>
+				<TreeView list={this.getFormModules()} formIdSeq={this.getFormModel().formIdseq} formName={this.getFormMetaData().longName} canCreateModule={this.canCreateModule()}/>
 			</Col> <Col lg={8} className="eq-height-item"> <FormLayoutMain>
 				{this.getMainPanelComponents()}
 			</FormLayoutMain> </Col> <Col lg={2} className="eq-height-item"> <SidePanel /> </Col> </Row>

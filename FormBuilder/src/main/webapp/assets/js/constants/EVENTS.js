@@ -10,7 +10,8 @@ const EVENTS = {
 		SET_MODULE:                     "set:module",
 		SET_FORM_LAYOUT:                'set:formLayout',
 		GET_FORM_CORE_DETAILS_CRITERIA: 'get:getDropDownOptionsSuccess',
-		SET_CORE_FORM_DETAILS:          "set:formMetadata"
+		SET_CORE_FORM_DETAILS:          "set:formMetadata",
+		VIEW_MODULE:                     "view:module",
 	},
 	SEARCH: {
 		SEND_SEARCH_LAYOUT:       'set:searchLayout',

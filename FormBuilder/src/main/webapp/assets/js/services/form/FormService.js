@@ -27,7 +27,8 @@ const FormService = Marionette.Object.extend({
 		[EVENTS.FORM.SET_CORE_FORM_DETAILS]: 'handleFormMetadataSubmitData',
 		[EVENTS.FORM.SET_NEW_MODULE]: 'handleAddModule',
 		[EVENTS.FORM.SET_MODULE]: 'handleSetModule',
-		[EVENTS.FORM.SAVE_FORM]: 'handleSaveForm'
+		[EVENTS.FORM.SAVE_FORM]: 'handleSaveForm',
+		[EVENTS.FORM.VIEW_MODULE]: 'setModuleView'
 	},
 	initialize(options = {}) {
 		this.setupModels();
@@ -65,7 +66,7 @@ const FormService = Marionette.Object.extend({
 	constructLayout(){
 		/*Entry point for React. Backbone Views Keep Out */
 		render(
-			<FormLayout formModel={this.formModel.toJSON()} uiDropDownOptionsModel={this.uiDropDownOptionsModel.toJSON()} formUIState={this.formUIStateModel}/>, document.getElementById('main'));
+			<FormLayout formModel={this.formModel.attributes} uiDropDownOptionsModel={this.uiDropDownOptionsModel.toJSON()} formUIState={this.formUIStateModel}/>, document.getElementById('main'));
 
 	},
 	fetchFormMetaDataCriteria() {
@@ -114,6 +115,12 @@ const FormService = Marionette.Object.extend({
 			editItem: null
 		});
 		formRouter.navigate(ROUTES.FORM.VIEW_FORM, {trigger: false});
+	},
+	setModuleView(id) {
+		const moduleModel = this.formModel.get('formModules').get(id);
+		const moduleToEdit = Object.assign({}, moduleModel.attributes, {id: id});
+		this.formUIStateModel.set({editItem: moduleToEdit});
+		this.dispatchLayout({action: "editModule"});
 	},
 	handleFormMetadataSubmitData(data) {
 		/*TODO handle context a better way. */

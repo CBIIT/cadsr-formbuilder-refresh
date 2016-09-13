@@ -20,16 +20,6 @@ export default class FormLayoutMain extends Component {
 	}
 }
 
-FormLayoutMain.propTypes = {
-	router:      PropTypes.shape({
-		routes: PropTypes.object.isRequired
-	}),
-	formModel:   PropTypes.shape({
-		formMetaData: PropTypes.object.isRequired,
-		formModules:  PropTypes.object.isRequired
-
-	}),
-	formUIState: PropTypes.shape({
-		actionMode: PropTypes.string.isRequired
-	})
+FormLayoutMain.propTypes= {
+	children: PropTypes.node
 };
