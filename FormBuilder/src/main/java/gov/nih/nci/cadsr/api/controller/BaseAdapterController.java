@@ -1,7 +1,5 @@
 package gov.nih.nci.cadsr.api.controller;
 
-import javax.net.ssl.SSLEngineResult.Status;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -13,7 +11,6 @@ import org.springframework.web.client.RestTemplate;
 
 import gov.nih.nci.cadsr.FormBuilderConstants;
 import gov.nih.nci.cadsr.FormBuilderProperties;
-import gov.nih.nci.cadsr.model.session.CurrentForm;
 
 public abstract class BaseAdapterController {
 

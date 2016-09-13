@@ -10,10 +10,12 @@ public class BBFormMetaData {
 	private String preferredDefinition;
 	private BBContext context;
 	private List<BBProtocol> protocols;
-	private String aslName;
+	private String workflow;
 	private String formCategory;
 	private String formType;
-	private float version;
+	private Float version;
+	private String headerInstructions;
+	private String footerInstructions;
 	
 	
 	public String getFormIdseq() {
@@ -52,11 +54,11 @@ public class BBFormMetaData {
 	public void setProtocols(List<BBProtocol> protocols) {
 		this.protocols = protocols;
 	}
-	public String getAslName() {
-		return aslName;
+	public String getWorkflow() {
+		return workflow;
 	}
-	public void setAslName(String aslName) {
-		this.aslName = aslName;
+	public void setWorkflow(String workflow) {
+		this.workflow = workflow;
 	}
 	public String getFormCategory() {
 		return formCategory;
@@ -70,11 +72,23 @@ public class BBFormMetaData {
 	public void setFormType(String formType) {
 		this.formType = formType;
 	}
-	public float getVersion() {
+	public Float getVersion() {
 		return version;
 	}
-	public void setVersion(float version) {
+	public void setVersion(Float version) {
 		this.version = version;
+	}
+	public String getHeaderInstructions() {
+		return headerInstructions;
+	}
+	public void setHeaderInstructions(String headerInstructions) {
+		this.headerInstructions = headerInstructions;
+	}
+	public String getFooterInstructions() {
+		return footerInstructions;
+	}
+	public void setFooterInstructions(String footerInstructions) {
+		this.footerInstructions = footerInstructions;
 	}
 
 }

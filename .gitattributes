@@ -17,11 +17,6 @@ FormBuilder/src/main/java/gov/nih/nci/cadsr/model/BBProtocol.java -text
 FormBuilder/src/main/java/gov/nih/nci/cadsr/model/BBQuestion.java -text
 FormBuilder/src/main/java/gov/nih/nci/cadsr/model/BBQuestionRepetition.java -text
 FormBuilder/src/main/java/gov/nih/nci/cadsr/model/BBValidValue.java -text
-FormBuilder/src/main/java/gov/nih/nci/cadsr/model/FormMetaData.java -text
-FormBuilder/src/main/java/gov/nih/nci/cadsr/model/FormWrapper.java -text
-FormBuilder/src/main/java/gov/nih/nci/cadsr/model/ModuleChangesWrapper.java -text
-FormBuilder/src/main/java/gov/nih/nci/cadsr/model/UpdateFormWrapper.java -text
-FormBuilder/src/main/java/gov/nih/nci/cadsr/model/session/CurrentForm.java -text
 FormBuilder/src/main/java/gov/nih/nci/cadsr/model/session/SessionCarts.java -text
 FormBuilder/src/main/resources/application-config-client.xml -text
 FormBuilder/src/main/resources/applicationContext.xml -text

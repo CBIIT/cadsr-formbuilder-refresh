@@ -6,9 +6,9 @@ public class BBQuestion {
 	
 	private String quesIdseq;
 	private List<BBValidValue> validValues;
-	private int order;
+	private int displayOrder;
 	private String deIdseq;
-	private BBDataElement dataElement;
+	private BBDataElement bbdataElement;
 	private String instructions;
 	private String defaultValue;
 	private List<BBQuestionRepetition> questionRepetitions;
@@ -29,11 +29,11 @@ public class BBQuestion {
 	public void setValidValues(List<BBValidValue> validValues) {
 		this.validValues = validValues;
 	}
-	public int getOrder() {
-		return order;
+	public int getDisplayOrder() {
+		return displayOrder;
 	}
-	public void setOrder(int order) {
-		this.order = order;
+	public void setDisplayOrder(int displayOrder) {
+		this.displayOrder = displayOrder;
 	}
 	public String getDeIdseq() {
 		return deIdseq;
@@ -41,11 +41,11 @@ public class BBQuestion {
 	public void setDeIdseq(String deIdseq) {
 		this.deIdseq = deIdseq;
 	}
-	public BBDataElement getDataElement() {
-		return dataElement;
+	public BBDataElement getbbDataElement() {
+		return bbdataElement;
 	}
-	public void setDataElement(BBDataElement dataElement) {
-		this.dataElement = dataElement;
+	public void setbbDataElement(BBDataElement bbdataElement) {
+		this.bbdataElement = bbdataElement;
 	}
 	public String getInstructions() {
 		return instructions;
