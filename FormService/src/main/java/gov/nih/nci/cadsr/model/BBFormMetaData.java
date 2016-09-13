@@ -1,122 +1,92 @@
 package gov.nih.nci.cadsr.model;
 
-import java.util.ArrayList;
 import java.util.List;
-import gov.nih.nci.ncicb.cadsr.common.dto.ContextTransferObject;
-import gov.nih.nci.ncicb.cadsr.common.dto.ProtocolTransferObject;
 
-public class FormWrapper {
+public class BBFormMetaData {
 	
-private String formIdseq;
+	private String formIdseq;
 	private String createdBy;
 	private String longName;
 	private String preferredDefinition;
-	private ContextTransferObject context;
-	private List<ProtocolTransferObject> protocolTransferObjects;
-	private String aslName;
+	private BBContext context;
+	private List<BBProtocol> protocols;
+	private String workflow;
 	private String formCategory;
 	private String formType;
-	private float version;
+	private Float version;
 	private String headerInstructions;
 	private String footerInstructions;
-
+	
+	
 	public String getFormIdseq() {
 		return formIdseq;
 	}
-
 	public void setFormIdseq(String formIdseq) {
 		this.formIdseq = formIdseq;
 	}
-
-	public List<ProtocolTransferObject> getProtocolTransferObjects() {
-		return protocolTransferObjects;
-	}
-
-	public void setProtocolTransferObjects(List<ProtocolTransferObject> protocolTransferObjects) {
-		this.protocolTransferObjects = protocolTransferObjects;
-	}
-
-	public void setProtocolTransferObjects(ArrayList<ProtocolTransferObject> protocolTransferObjects) {
-		this.protocolTransferObjects = protocolTransferObjects;
-	}
-
 	public String getCreatedBy() {
 		return createdBy;
-
 	}
-
 	public void setCreatedBy(String createdBy) {
 		this.createdBy = createdBy;
 	}
-
 	public String getLongName() {
 		return longName;
 	}
-
 	public void setLongName(String longName) {
 		this.longName = longName;
 	}
-
 	public String getPreferredDefinition() {
 		return preferredDefinition;
 	}
-
 	public void setPreferredDefinition(String preferredDefinition) {
 		this.preferredDefinition = preferredDefinition;
 	}
-
-	public ContextTransferObject getContext() {
+	public BBContext getContext() {
 		return context;
 	}
-
-	public void setContext(ContextTransferObject context) {
+	public void setContext(BBContext context) {
 		this.context = context;
 	}
-
-	public String getAslName() {
-		return aslName;
+	public List<BBProtocol> getProtocols() {
+		return protocols;
 	}
-
-	public void setAslName(String aslName) {
-		this.aslName = aslName;
+	public void setProtocols(List<BBProtocol> protocols) {
+		this.protocols = protocols;
 	}
-
+	public String getWorkflow() {
+		return workflow;
+	}
+	public void setWorkflow(String workflow) {
+		this.workflow = workflow;
+	}
 	public String getFormCategory() {
 		return formCategory;
 	}
-
 	public void setFormCategory(String formCategory) {
 		this.formCategory = formCategory;
 	}
-
 	public String getFormType() {
 		return formType;
 	}
-
 	public void setFormType(String formType) {
 		this.formType = formType;
 	}
-
-	public float getVersion() {
+	public Float getVersion() {
 		return version;
 	}
-
-	public void setVersion(float version) {
+	public void setVersion(Float version) {
 		this.version = version;
 	}
-
 	public String getHeaderInstructions() {
 		return headerInstructions;
 	}
-
 	public void setHeaderInstructions(String headerInstructions) {
 		this.headerInstructions = headerInstructions;
 	}
-
 	public String getFooterInstructions() {
 		return footerInstructions;
 	}
-
 	public void setFooterInstructions(String footerInstructions) {
 		this.footerInstructions = footerInstructions;
 	}

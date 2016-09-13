@@ -5,8 +5,8 @@ import java.util.Collection;
 import gov.nih.nci.ncicb.cadsr.common.dto.FormTransferObject;
 import gov.nih.nci.ncicb.cadsr.common.dto.InstructionTransferObject;
 import gov.nih.nci.ncicb.cadsr.common.resource.NCIUser;
-import gov.nih.nci.cadsr.model.CurrentForm;
-import gov.nih.nci.cadsr.model.FormWrapper;
+import gov.nih.nci.cadsr.model.BBForm;
+import gov.nih.nci.cadsr.model.BBFormMetaData;
 
 public interface FormManager {
 	/*
@@ -19,10 +19,16 @@ public interface FormManager {
 			String categoryName, String type, String classificationIdSeq, String publicId, String version,
 			String moduleLongName, String cdePublicId, NCIUser user, String contextRestriction);
 
-	public void createFormComponent(FormWrapper form, InstructionTransferObject headerInstruction, InstructionTransferObject footerInstruction);
-	
-	public void updateForm(String formIdSeq, CurrentForm form);
+	public BBFormMetaData createFormComponent(BBFormMetaData form, InstructionTransferObject headerInstruction, InstructionTransferObject footerInstruction);
 	
 	public FormTransferObject getFullForm(String formIdSeq);
+	
+	public InstructionTransferObject buildHeaderInstructions(BBFormMetaData form);
+	
+	public InstructionTransferObject buildFooterInstructions(BBFormMetaData form);
+	
+	public String updateForm(BBForm form);
+	
+	public BBForm testTranslateDBFormToBBForm(String formIdSeq);
 	
 }

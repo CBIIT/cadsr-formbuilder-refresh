@@ -90,11 +90,11 @@
 			<version>${hibernate.version}</version> </dependency> -->
 
 		<!-- Log4j -->
-		<dependency>
+		<!-- <dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
 			<version>${log4j.version}</version>
-		</dependency>
+		</dependency> -->
 
 		<!-- Database Drivers -->
 		<dependency>

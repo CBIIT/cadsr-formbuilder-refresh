@@ -1,22 +1,34 @@
 package gov.nih.nci.cadsr.manager.impl;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.apache.log4j.Logger;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import gov.nih.nci.cadsr.manager.FormManager;
-import gov.nih.nci.cadsr.model.CurrentForm;
-import gov.nih.nci.cadsr.model.FormWrapper;
+import gov.nih.nci.cadsr.model.BBForm;
+import gov.nih.nci.cadsr.model.BBFormMetaData;
+import gov.nih.nci.cadsr.model.BBModule;
+import gov.nih.nci.cadsr.model.BBProtocol;
+import gov.nih.nci.cadsr.model.BBQuestion;
+import gov.nih.nci.cadsr.model.BBValidValue;
 import gov.nih.nci.cadsr.model.ModuleChangesWrapper;
 import gov.nih.nci.ncicb.cadsr.common.dto.ContextTransferObject;
+import gov.nih.nci.ncicb.cadsr.common.dto.FormInstructionChangesTransferObject;
 import gov.nih.nci.ncicb.cadsr.common.dto.FormTransferObject;
+import gov.nih.nci.ncicb.cadsr.common.dto.FormValidValueTransferObject;
 import gov.nih.nci.ncicb.cadsr.common.dto.InstructionTransferObject;
 import gov.nih.nci.ncicb.cadsr.common.dto.ModuleChangesTransferObject;
 import gov.nih.nci.ncicb.cadsr.common.dto.ModuleTransferObject;
+import gov.nih.nci.ncicb.cadsr.common.dto.ProtocolTransferObject;
+import gov.nih.nci.ncicb.cadsr.common.dto.QuestionTransferObject;
+import gov.nih.nci.ncicb.cadsr.common.dto.TriggerActionChangesTransferObject;
 import gov.nih.nci.ncicb.cadsr.common.exception.DMLException;
 import gov.nih.nci.ncicb.cadsr.common.persistence.dao.AbstractDAOFactoryFB;
 import gov.nih.nci.ncicb.cadsr.common.persistence.dao.ContextDAO;
@@ -73,123 +85,287 @@ public class FormManagerImpl implements FormManager {
 	}
 
 	@Override
-	public void createFormComponent(FormWrapper form, InstructionTransferObject headerInstruction, InstructionTransferObject footerInstruction) {
+	public BBFormMetaData createFormComponent(BBFormMetaData form, InstructionTransferObject headerInstruction,
+			InstructionTransferObject footerInstruction) {
 		FormDAO fdao = daoFactory.getFormDAO();
 		FormTransferObject formTransferObject = new FormTransferObject();
-		
 
 		formTransferObject.setCreatedBy(form.getCreatedBy());
 		formTransferObject.setLongName(form.getLongName());
 		formTransferObject.setPreferredDefinition(form.getPreferredDefinition());
-		formTransferObject.setContext(form.getContext());
-		formTransferObject.setAslName(form.getAslName());
+		ContextTransferObject c = new ContextTransferObject();
+		c.setConteIdseq(form.getContext().getConteIdseq());
+		formTransferObject.setContext(c);
+		formTransferObject.setAslName(form.getWorkflow());
 		formTransferObject.setFormCategory(form.getFormCategory());
 		formTransferObject.setFormType(form.getFormType());
 		formTransferObject.setVersion(form.getVersion());
-		formTransferObject.setProtocols(form.getProtocolTransferObjects());
+		List<ProtocolTransferObject> protocols = new ArrayList<ProtocolTransferObject>();
+		for(BBProtocol bbprot : form.getProtocols()){
+			ProtocolTransferObject pto = new ProtocolTransferObject();
+			pto.setProtoIdseq(bbprot.getProtoIdseq());
+			protocols.add(pto);
+		}
+		formTransferObject.setProtocols(protocols);
+		
 		String id = fdao.createFormComponent(formTransferObject);
-		//throw new RuntimeException("******" + formTransferObject.getFormIdseq());
 		
-		if (headerInstruction != null)
-        {
-            FormInstructionDAO fidao1 = daoFactory.getFormInstructionDAO();
-            fidao1.createInstruction(headerInstruction, id);
-        }
+		if (headerInstruction.getPreferredDefinition() != null && headerInstruction.getPreferredDefinition() != "") {
+			FormInstructionDAO fidao1 = daoFactory.getFormInstructionDAO();
+			fidao1.createInstruction(headerInstruction, id);
+		}
 
-        if (footerInstruction != null)
-        {
-            FormInstructionDAO fidao2 = daoFactory.getFormInstructionDAO();
-            fidao2
-            .createFooterInstruction(footerInstruction, id);
-        }
-		
+		if (footerInstruction.getPreferredDefinition() != null && footerInstruction.getPreferredDefinition() != "") {
+			FormInstructionDAO fidao2 = daoFactory.getFormInstructionDAO();
+			fidao2.createFooterInstruction(footerInstruction, id);
+		}
+
 		form.setFormIdseq(id);
+		
+		return form;
 
 	}
-	
-	public void updateForm(String formIdSeq, CurrentForm form){
-		prepareModules(formIdSeq, form);
-		
-		/**
-		 * updateForm() method expects generic Collections.
-		 * Converting Lists to Collections.
-		 * Also very hacky.
-		 */
-		Collection upMods = form.getUpdatedModules();
-		Collection delMods = form.getDeletedModules();
-		Collection addMods = form.getAddedModules();
-		Collection addProts = form.getAddedProtocols();
-		Collection delProts = form.getDeletedProtocols();
-		Collection protTrigs = form.getProtocolTriggerActionChanges();
-		
-		String username = form.getFormHeader().getCreatedBy();
-		
-		Form resultForm = service.updateForm(formIdSeq, null, upMods, delMods, addMods, addProts, delProts, protTrigs, form.getInstructionChanges(), username);
 
-		/**
-		 * The updateForm() method only updates changed modules' display order, and does not seem to address questions at all.
-		 * For these updates to occur for Modules and their child Questions, the updateModule() method must be called,
-		 * currently found in FormBuilderService.updateModule(moduleIdSeq, moduleChanges, username).
-		 * This method can either be called for each updated Modules after the updateForm, or the 
-		 * updateForm() method may be altered to include this call for each update Module (more efficient).
-		 */
-//		for(ModuleChangesTransferObject mod : form.getUpdatedModules()){
-//			service.updateModule(mod.getModuleId(), mod, username);
-//		}
-		
-	}
-	
-	public FormTransferObject getFullForm(String formIdSeq){
+
+	public FormTransferObject getFullForm(String formIdSeq) {
 		Form form = service.getFormDetails(formIdSeq);
-		
-		FormTransferObject fto = (FormTransferObject)form;
-		
+
+		FormTransferObject fto = (FormTransferObject) form;
+
 		return fto;
 	}
-	
+
 	/**
-	 * Hacky solution for populating Module child-objects.
-	 * They can't be passed from client as they are interfaces (even in ModuleTransferObject).
-	 * This must occur for at least all added Modules, perhaps also needed for the updatedModules and deletedModules,
-	 * not sure. Would have to check for needed fields in queries in deleteModule and updateModule.
-	 * This logic should be isolated to its own utility method.
-	 * @throws InvocationTargetException 
-	 * @throws IllegalAccessException 
+	 * Hacky solution for populating Module child-objects. They can't be passed
+	 * from client as they are interfaces (even in ModuleTransferObject). This
+	 * must occur for at least all added Modules, perhaps also needed for the
+	 * updatedModules and deletedModules, not sure. Would have to check for
+	 * needed fields in queries in deleteModule and updateModule. This logic
+	 * should be isolated to its own utility method.
+	 * 
+	 * @throws InvocationTargetException
+	 * @throws IllegalAccessException
 	 */
-	private void prepareModules(String formIdSeq, CurrentForm form){
-		try{
-			
-			if(!form.getFormHeader().getLongName().isEmpty()){
+	/*private void prepareModules(String formIdSeq, CurrentForm form) {
+		try {
+
+			if (!form.getFormHeader().getLongName().isEmpty()) {
 				FormTransferObject fto = new FormTransferObject();
-				BeanUtils.copyProperties(fto, form.getFormHeader());
+				BeanUtils.copyProperties(form.getFormHeader(), fto);
 			}
-			
-			for(ModuleTransferObject mod : form.getAddedModules()){
+
+			for (ModuleTransferObject mod : form.getAddedModules()) {
 				FormTransferObject f = new FormTransferObject();
 				ContextTransferObject c = new ContextTransferObject();
-				
+
 				c.setConteIdseq(mod.getConteIdseq());
 				f.setContext(c);
 				f.setFormIdseq(formIdSeq);
-				
+
 				mod.setForm(f);
 			}
+
 			
-			/*for(ModuleWrapper mod : form.getAddedModules()){
-				ModuleTransferObject mto = new ModuleTransferObject();
-				BeanUtils.copyProperties(mto, mod);
-			}*/
-			
-			for(ModuleChangesWrapper mod : form.getUpdatedModules()){
+			 * for(ModuleWrapper mod : form.getAddedModules()){
+			 * ModuleTransferObject mto = new ModuleTransferObject();
+			 * BeanUtils.copyProperties(mto, mod); }
+			 
+
+			for (ModuleChangesWrapper mod : form.getUpdatedModules()) {
 				ModuleChangesTransferObject mto = new ModuleChangesTransferObject();
-				BeanUtils.copyProperties(mto, mod);
-				
+				BeanUtils.copyProperties(mod, mto);
+
 			}
-		
-		} catch(Exception e){
+
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}*/
+
+	public InstructionTransferObject buildHeaderInstructions(BBFormMetaData form) {
+
+		InstructionTransferObject instruction = new InstructionTransferObject();
+
+		instruction.setLongName(form.getLongName());
+		instruction.setPreferredDefinition(form.getHeaderInstructions());
+		ContextTransferObject c = new ContextTransferObject();
+		c.setConteIdseq(form.getContext().getConteIdseq());
+		instruction.setContext(c);
+		instruction.setAslName("DRAFT NEW");
+		instruction.setVersion(new Float(1.0));
+		instruction.setCreatedBy(form.getCreatedBy());
+		instruction.setDisplayOrder(1);
+
+		return instruction;
+
 	}
 
+	public InstructionTransferObject buildFooterInstructions(BBFormMetaData form) {
+
+		InstructionTransferObject instruction = new InstructionTransferObject();
+
+		instruction.setLongName(form.getLongName());
+		instruction.setPreferredDefinition(form.getFooterInstructions());
+		ContextTransferObject c = new ContextTransferObject();
+		c.setConteIdseq(form.getContext().getConteIdseq());
+		instruction.setContext(c);
+		instruction.setAslName("DRAFT NEW");
+		instruction.setVersion(new Float(1.0));
+		instruction.setCreatedBy(form.getCreatedBy());
+		instruction.setDisplayOrder(2);
+
+		return instruction;
+
+	}
+
+	public String updateForm(BBForm form) {
+
+		// FormTransferObject formHeader = adaptFormHeader(form);
+
+		// List<ModuleTransferObject> addedMods
+		FormTransferObject formHeader = new FormTransferObject();
+		Collection addedMods = new ArrayList<ModuleTransferObject>();
+		Collection updatedMods = new ArrayList<ModuleTransferObject>();
+		Collection deletedMods = new ArrayList<ModuleTransferObject>();
+		Collection addedProts = new ArrayList<ProtocolTransferObject>();
+		Collection deletedProts = new ArrayList<ProtocolTransferObject>();
+		Collection protTrigs = new ArrayList<TriggerActionChangesTransferObject>();
+		FormInstructionChangesTransferObject instChanges = new FormInstructionChangesTransferObject();
+		String username = "";
+		String formIdSeq = form.getFormMetadata().getFormIdseq();
+
+		try {
+
+			adaptModels(form, formHeader, addedMods, updatedMods, deletedMods, addedProts, deletedProts, protTrigs,
+					instChanges, username, formIdSeq);
+
+		} catch (IllegalAccessException | InvocationTargetException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		Form resultForm = service.updateForm(formIdSeq, formHeader, updatedMods, deletedMods, addedMods, addedProts,
+				deletedProts, protTrigs, instChanges, username);
+
+		return "SUCCESS";
+	}
+
+	private void adaptModels(BBForm form, FormTransferObject formHeader, Collection addedMods, Collection updatedMods,
+			Collection deletedMods, Collection addedProts, Collection deletedProts, Collection protTrigs,
+			FormInstructionChangesTransferObject instChanges, String username, String formIdSeq)
+			throws IllegalAccessException, InvocationTargetException {
+		FormDAO fdao = daoFactory.getFormDAO();
+
+		formIdSeq = form.getFormMetadata().getFormIdseq();
+		username = form.getFormMetadata().getCreatedBy();
+
+		// List oldModules = (List)fdao.getModulesInAForm(formIdSeq); //TODO:
+		// Need to confirm this is correct
+		BeanUtils.copyProperties(form.getFormMetadata(), formHeader, "context", "protocols");
+		System.out.println("HEY TEST ME!" + form.getFormMetadata().getFormType());
+		System.out.println("HEY TEST ME!2" + formHeader.getFormType());
+		ContextTransferObject formContext = new ContextTransferObject();
+		formContext.setConteIdseq(form.getFormMetadata().getContext().getConteIdseq());
+		formHeader.setContext(formContext);
+		formHeader.setAslName(form.getFormMetadata().getWorkflow());
+		if(formHeader.getPreferredName() == null){
+			formHeader.setPreferredName(form.getFormMetadata().getLongName());
+		}
+		
+		
+		for (BBModule module : form.getFormModules()) {
+			ModuleTransferObject m = new ModuleTransferObject();
+			FormTransferObject f = new FormTransferObject();
+			ContextTransferObject c = new ContextTransferObject();
+
+			c.setConteIdseq(form.getFormMetadata().getContext().getConteIdseq());
+			f.setContext(c);
+			f.setFormIdseq(formIdSeq);
+
+			// BeanUtils.copyProperties(m, module); //XXX:setInstructions
+			// doesn't match
+			m.setModuleIdseq(module.getModuleIdseq());
+			m.setLongName(module.getLongName());
+			InstructionTransferObject instr = new InstructionTransferObject();
+			instr.setVersion(form.getFormMetadata().getVersion());
+			instr.setLongName(form.getFormMetadata().getLongName());
+			instr.setAslName(form.getFormMetadata().getWorkflow());
+			instr.setContext(c);
+			instr.setCreatedBy(username);
+			instr.setPreferredDefinition(module.getInstructions());
+			m.setInstruction(instr);
+			m.setNumberOfRepeats(module.getRepetitions());
+			m.setDisplayOrder(module.getDispOrder());
+			m.setQuestions(module.getQuestions());
+
+			m.setForm(f);
+			m.setModuleIdseq(module.getModuleIdseq());
+			m.setVersion(form.getFormMetadata().getVersion());
+			m.setPreferredName("preff-name");
+			m.setPreferredDefinition(form.getFormMetadata().getPreferredDefinition());
+			m.setAslName(form.getFormMetadata().getWorkflow());
+			m.setCreatedBy(form.getFormMetadata().getCreatedBy());
+
+			if (module.getModuleIdseq() != null || module.getModuleIdseq() != "") {
+				addedMods.add(m);
+			} else if (module.isEdited() && !module.getModuleIdseq().isEmpty()) {
+				updatedMods.add(m);
+			}
+			// else if(!oldModules.contains(m)){
+			// deletedMods.add(m);
+			// }
+		}
+
+		instChanges.setFormHeaderInstructionChanges(new HashMap());
+		instChanges.setFormFooterInstructionChanges(new HashMap());
+
+	}
+
+	public BBForm testTranslateDBFormToBBForm(String formIdSeq) {
+		BBForm bbform = new BBForm();
+		BBFormMetaData bbmeta = new BBFormMetaData();
+		FormTransferObject fullform = getFullForm(formIdSeq);
+
+		long startTime = System.currentTimeMillis();
+
+		BeanUtils.copyProperties(fullform, bbform);
+		BeanUtils.copyProperties(fullform, bbmeta, "context", "protocols");
+		bbform.setFormMetadata(bbmeta);
+		bbform.setFormModules(new ArrayList<BBModule>());
+
+		for (Object module : fullform.getModules()) {
+			ModuleTransferObject mto = (ModuleTransferObject) module;
+			BBModule bbmod = new BBModule();
+			BeanUtils.copyProperties(mto, bbmod);
+
+			bbform.getFormModules().add(bbmod);
+
+			bbmod.setQuestions(new ArrayList<BBQuestion>());
+
+			for (Object question : mto.getQuestions()) {
+				QuestionTransferObject qto = (QuestionTransferObject) question;
+				BBQuestion bbques = new BBQuestion();
+				BeanUtils.copyProperties(qto, bbques);
+
+				bbmod.getQuestions().add(bbques);
+
+				bbques.setValidValues(new ArrayList<BBValidValue>());
+
+				for (Object validVal : qto.getValidValues()) {
+					FormValidValueTransferObject vvto = (FormValidValueTransferObject) validVal;
+					BBValidValue bbval = new BBValidValue();
+					BeanUtils.copyProperties(vvto, bbval);
+
+					bbques.getValidValues().add(bbval);
+				}
+			}
+		}
+
+		long endTime = System.currentTimeMillis();
+		System.out.println("Translation Time: " + (endTime - startTime));
+
+		return bbform;
+
+	}
 
 }

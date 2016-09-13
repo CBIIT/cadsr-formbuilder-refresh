@@ -9,24 +9,22 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
-import gov.nih.nci.cadsr.model.CurrentForm;
-import gov.nih.nci.cadsr.model.FormMetaData;
 import gov.nih.nci.ncicb.cadsr.common.dto.FormInstructionChangesTransferObject;
 import gov.nih.nci.ncicb.cadsr.common.dto.ModuleTransferObject;
 
 public class FormServiceClient {
 	
 	private static final String DEFAULT_REMOTE_SERVICE_HOST = "http://localhost:8080/";
-	public static final String FORMSERVICE_BASE_URL = "FormService3/api/v1/";
+	public static final String FORMSERVICE_BASE_URL = "FormService/api/v1/";
 	public static final String FORMSERVICE_FORMS = "forms";
 	
-	public static String saveTestForm(){
+	/*public static String saveTestForm(){
 		
-		/**
+		*//**
 		 * Populating the Wrapper object used to track changes to a Form
 		 * This object will be sent from the FormBuilder Adapter Api.
 		 * Interface fields cannot be passed from client to server.
-		 */
+		 *//*
 		CurrentForm form = new CurrentForm();
 		
 		FormMetaData formMeta = new FormMetaData();
@@ -75,10 +73,10 @@ public class FormServiceClient {
 		String response = restTemplate.postForObject(uri, entity, String.class);
 		
 		return response;
-	}
+	}*/
 	
 	public static void main(String args[]){
-		System.out.println(saveTestForm());
+//		System.out.println(saveTestForm());
 	}
 
 }
