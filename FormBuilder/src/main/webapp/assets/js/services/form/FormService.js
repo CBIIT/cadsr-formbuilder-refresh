@@ -104,6 +104,9 @@ const FormService = Marionette.Object.extend({
 		const module = this.formModel.get('formModules').get(data.id);
 		const moduleAttributes = _.omit(data, "id");
 		module.set(moduleAttributes);
+		if(module.get("moduleIdSeq") && !module.get("isEdited")) {
+			module.set("isEdited", true);
+		}
 
 		this.formUIStateModel.set({
 			actionMode: 'viewFormFullView',
