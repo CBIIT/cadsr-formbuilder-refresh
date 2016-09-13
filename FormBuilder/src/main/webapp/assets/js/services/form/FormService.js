@@ -91,6 +91,7 @@ const FormService = Marionette.Object.extend({
 	},
 	handleSaveForm() {
 		this.formModel.save(null, {
+			dataType: 'text',
 			success: () =>{
 				alert("form saved");
 			},
