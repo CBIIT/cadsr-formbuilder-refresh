@@ -1,17 +1,35 @@
 import Backbone from 'backbone';
+import $ from 'jquery';
 import {View} from 'backbone.marionette';
-import {Grid, Extension} from "backgrid";
+import {Grid, Extension, UriCell} from "backgrid";
 import template from '../../../../templates/search/form-search/search-results-layout.html';
 import SelectAllHeaderCell from 'backgrid-select-all';
 /* backgridPaginator is just meant to give the import a namespace but isn't used by name below */
 import  backgridPaginator from 'backgrid-paginator';
 
+/* Cell which displays a link based on a column's module value for the anchor value and another model attribute for the href. View can be extended to set:
+ *   Credit: http://can-we-code-it.blogspot.com/2015/06/a-backgrid-cell-for-displaying-link-to.html
+ */
+const CustomURICell = UriCell.extend({
+	render () {
+		this.$el.empty();
+		const rawValue = this.model.get(this.column.get("name"));
+		const formattedValue = this.formatter.fromRaw(rawValue, this.model);
+		this.$el.append($("<a>", {
+			href:   `${this.hrefPrefix}${this.model.attributes[this.uri]}`,
+			title:  this.title || formattedValue,
+			target: '_self'
+		}).text(formattedValue));
+		this.delegateEvents();
+		return this;
+	}
+});
+
 const columns = [{
-	/* same as search query formLongName */
 	name:     "longName",
 	label:    "Long Name",
 	editable: false,
-	cell:     "string"
+	cell:     CustomURICell.extend({uri: 'formIdseq', hrefPrefix: "#forms/"}),
 }, {
 	name:     "contextName",
 	label:    "Context",
