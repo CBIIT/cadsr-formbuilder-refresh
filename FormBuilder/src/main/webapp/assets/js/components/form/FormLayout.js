@@ -59,25 +59,28 @@ export default class FormLayout extends Component {
 	getEditItems(){
 		return this.state.formUIState.editItem;
 	}
+
 	getFormModules(){
 		/* Return list of modules with its backbone model's cid included */
 		return this.getFormModel().formModules.models.map(model =>{
 			return Object.assign({}, model.attributes, {cid: model.cid});
-	});
+		});
 	}
-	handleFormSaveClicked () {
+
+	handleFormSaveClicked(){
 		formChannel.request(EVENTS.FORM.SAVE_FORM);
 	}
+
 	getMainPanelComponents(){
 		const actionMode = this.getActionMode();
 		if(actionMode === "viewFormFullView"){
 			const buttons = [
-					{
-						name: "Save",
-						type: "submit",
-						onClick: "handleFormSaveClicked"
-					}
-				];
+				{
+					name:    "Save",
+					type:    "submit",
+					onClick: "handleFormSaveClicked"
+				}
+			];
 			return (
 				<div>
 					<FormMetadataForm actionMode={actionMode} formMetadata={this.props.formModel.formMetadata.attributes} uiDropDownOptionsModel={this.props.uiDropDownOptionsModel}> </FormMetadataForm> {this.getFormModules().map((moduleModel, index) =>(
@@ -124,7 +127,7 @@ export default class FormLayout extends Component {
 			];
 			/*Passing in moduleId here might not be necessary but currently the most straightforward way I can think of when there will be an array of modules (parent module, repetition) to edit and gather each one's id from the form when saving */
 			return (
-				<FormModuleForm moduleId={moduleEditing.id} longName={moduleEditing.instructions} instructions={moduleEditing.longName} actionMode={actionMode} mainHeadingTitle="Edit Module">
+				<FormModuleForm moduleId={moduleEditing.id} longName={moduleEditing.longName} instructions={moduleEditing.instructions} actionMode={actionMode} mainHeadingTitle="Edit Module">
 					<ButtonsGroup buttons={buttons}/> </FormModuleForm>
 			);
 		}
@@ -142,11 +145,11 @@ export default class FormLayout extends Component {
 }
 
 FormLayout.propTypes = {
-	formUIState: PropTypes.shape({
+	formUIState:            PropTypes.shape({
 		actionMode: PropTypes.string.isRequired
 	}),
 	uiDropDownOptionsModel: PropTypes.object.isRequired,
-	formModel:   PropTypes.shape({
+	formModel:              PropTypes.shape({
 		formMetaData: PropTypes.object.isRequired,
 		formModules:  PropTypes.object.isRequired
 	})
