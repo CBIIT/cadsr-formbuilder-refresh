@@ -24,6 +24,7 @@ export default class TreeView extends Component {
 			<div className="bordered-container tall-min-height">
 				<p>{this.props.formName}</p>
 				<Button onClick={this.dispatchCreateModule} disabled={!this.props.canCreateModule} className="btn btn-primary" type="submit">New Module</Button>
+				<p>Modules</p>
 				<List onClickCallback={this.dispatchNavigateToModule} itemKey={"id"} itemTextKey={"longName"} data={this.props.list} />
 			</div>
 		);

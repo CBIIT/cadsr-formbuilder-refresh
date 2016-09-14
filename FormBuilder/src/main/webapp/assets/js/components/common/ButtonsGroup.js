@@ -13,3 +13,16 @@ const ButtonsGroup = (props) =>{
 };
 
 export default ButtonsGroup;
+
+Button.propTypes = {
+	onClick: PropTypes.string
+};
+
+ButtonsGroup.propTypes = {
+	buttons: PropTypes.arrayOf(React.PropTypes.shape({
+		name:      PropTypes.string.isRequired,
+		type:      PropTypes.string,
+		className: PropTypes.string,
+		onClick:   PropTypes.string
+	})).isRequired
+};

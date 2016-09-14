@@ -5,7 +5,9 @@ const List = (props) =>{
 	const createListItem = (item, index) => {
 		return (
 			<li key={index}>
-				<Button onClick={() => {props.onClickCallback(item.cid)}}>{item[props.itemTextKey]}</Button>
+				<Button bsClass="button-link" onClick={() =>{
+					props.onClickCallback(item.cid)
+				}}>{item[props.itemTextKey]}</Button>
 			</li>
 		);
 	};

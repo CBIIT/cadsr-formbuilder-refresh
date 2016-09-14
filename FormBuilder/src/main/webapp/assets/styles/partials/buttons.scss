@@ -1,0 +1,9 @@
+.button-link {
+  border: none;
+  padding: 0;
+  color: #337ab7;
+  background-color: transparent;
+  &:hover, &:focus {
+    text-decoration: underline;
+  }
+}
