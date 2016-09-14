@@ -136,7 +136,7 @@ public class FormController {
 	 * 
 	 */
 	
-	@RequestMapping(value = "/forms/performancetest", method = RequestMethod.GET)
+	/*@RequestMapping(value = "/forms/performancetest", method = RequestMethod.GET)
 	@ResponseBody
 	public ResponseEntity<String> getFormsTest() {
 		
@@ -156,7 +156,7 @@ public class FormController {
 		}
 
 		return new ResponseEntity(sb.toString(), HttpStatus.OK);
-	}
+	}*/
 
 	@RequestMapping(value = "/forms/performancetest/{formIdSeq}", method = RequestMethod.GET)
 	@ResponseBody
