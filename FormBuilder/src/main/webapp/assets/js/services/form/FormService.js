@@ -25,10 +25,10 @@ const FormService = Marionette.Object.extend({
 		[EVENTS.FORM.SET_FORM_LAYOUT]:       'dispatchLayout',
 		[EVENTS.FORM.CREATE_MODULE]:         'dispatchLayout',
 		[EVENTS.FORM.SET_CORE_FORM_DETAILS]: 'handleFormMetadataSubmitData',
-		[EVENTS.FORM.SET_NEW_MODULE]: 'handleAddModule',
-		[EVENTS.FORM.SET_MODULE]: 'handleSetModule',
-		[EVENTS.FORM.SAVE_FORM]: 'handleSaveForm',
-		[EVENTS.FORM.VIEW_MODULE]: 'setModuleView'
+		[EVENTS.FORM.SET_NEW_MODULE]:        'handleAddModule',
+		[EVENTS.FORM.SET_MODULE]:            'handleSetModule',
+		[EVENTS.FORM.SAVE_FORM]:             'handleSaveForm',
+		[EVENTS.FORM.VIEW_MODULE]:           'setModuleView'
 	},
 	initialize(options = {}) {
 		this.setupModels();
@@ -81,22 +81,15 @@ const FormService = Marionette.Object.extend({
 	},
 	handleAddModule(data) {
 		const newModuleModel = this.formModel.get('formModules').add(new FormModuleModel(data));
-		/* just pass in a POJO including the model's cid into the view */
-		const newModule = Object.assign({}, newModuleModel.attributes, {id: newModuleModel.cid});
-
-		this.formUIStateModel.set({
-			actionMode:   'editModule',
-			/*TODO: Prepare for when editing a module with repetitions, this will be an array containing the module and its associated repetitioned modules */
-			editItem: newModule
-		});
+		this.setModuleView(newModuleModel.cid);
 	},
 	handleSaveForm() {
 		this.formModel.save(null, {
 			dataType: 'text',
-			success: () =>{
+			success:  () =>{
 				alert("form saved");
 			},
-			error:   (model, response) =>{
+			error:    (model, response) =>{
 				/*TODO: of course this is too basic. Improve error handling */
 				alert("error");
 			}
@@ -106,19 +99,24 @@ const FormService = Marionette.Object.extend({
 		const module = this.formModel.get('formModules').get(data.id);
 		const moduleAttributes = _.omit(data, "id");
 		module.set(moduleAttributes);
-		if(module.get("moduleIdSeq") && !module.get("isEdited")) {
+		if(module.get("moduleIdSeq") && !module.get("isEdited")){
 			module.set("isEdited", true);
 		}
 
 		this.formUIStateModel.set({
 			actionMode: 'viewFormFullView',
-			editItem: null
+			editItem:   null
 		});
 		formRouter.navigate(ROUTES.FORM.VIEW_FORM, {trigger: false});
 	},
 	setModuleView(id) {
 		const moduleModel = this.formModel.get('formModules').get(id);
-		const moduleToEdit = Object.assign({}, moduleModel.attributes, {id: id});
+		/* just pass in a POJO including the model's cid into the view */
+		const moduleToEdit = Object.assign({}, moduleModel.attributes, {
+			isEdited: true,
+			id:       id
+		});
+		/*TODO: Prepare for when editing a module with repetitions, this will be an array containing the module and its associated repetitioned modules */
 		this.formUIStateModel.set({editItem: moduleToEdit});
 		this.dispatchLayout({action: "editModule"});
 	},
