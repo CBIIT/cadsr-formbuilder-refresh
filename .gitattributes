@@ -17,6 +17,16 @@ FormBuilder/src/main/java/gov/nih/nci/cadsr/model/BBProtocol.java -text
 FormBuilder/src/main/java/gov/nih/nci/cadsr/model/BBQuestion.java -text
 FormBuilder/src/main/java/gov/nih/nci/cadsr/model/BBQuestionRepetition.java -text
 FormBuilder/src/main/java/gov/nih/nci/cadsr/model/BBValidValue.java -text
+FormBuilder/src/main/java/gov/nih/nci/cadsr/model/CartCDE.java -text
+FormBuilder/src/main/java/gov/nih/nci/cadsr/model/CartObject.java -text
+FormBuilder/src/main/java/gov/nih/nci/cadsr/model/CartObjectNew.java -text
+FormBuilder/src/main/java/gov/nih/nci/cadsr/model/Context.java -text
+FormBuilder/src/main/java/gov/nih/nci/cadsr/model/Field.java -text
+FormBuilder/src/main/java/gov/nih/nci/cadsr/model/HttpQuery.java -text
+FormBuilder/src/main/java/gov/nih/nci/cadsr/model/Item.java -text
+FormBuilder/src/main/java/gov/nih/nci/cadsr/model/QueryResponse.java -text
+FormBuilder/src/main/java/gov/nih/nci/cadsr/model/XMLConverter.java -text
+FormBuilder/src/main/java/gov/nih/nci/cadsr/model/XmlFormat.java -text
 FormBuilder/src/main/java/gov/nih/nci/cadsr/model/session/SessionCarts.java -text
 FormBuilder/src/main/resources/application-config-client.xml -text
 FormBuilder/src/main/resources/applicationContext.xml -text
