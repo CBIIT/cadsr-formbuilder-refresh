@@ -1,6 +1,8 @@
 package gov.nih.nci.cadsr.controller;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,8 @@ import gov.nih.nci.cadsr.FormServiceProperties;
 import gov.nih.nci.cadsr.manager.FormManager;
 import gov.nih.nci.cadsr.model.BBForm;
 import gov.nih.nci.cadsr.model.BBFormMetaData;
+import gov.nih.nci.ncicb.cadsr.common.dto.FormTransferObject;
+import gov.nih.nci.ncicb.cadsr.common.dto.FormV2TransferObject;
 import gov.nih.nci.ncicb.cadsr.common.dto.InstructionTransferObject;
 import gov.nih.nci.ncicb.cadsr.common.resource.NCIUser;
 import gov.nih.nci.ncicb.cadsr.formbuilder.ejb.impl.FormBuilderServiceImpl;
@@ -71,22 +75,22 @@ public class FormController {
 		return response;
 
 	}
-	
+
 	@RequestMapping(value = { "/forms/{formIdSeq}" }, method = RequestMethod.PUT, consumes = "application/json")
 	public ResponseEntity updateForm(@RequestBody BBForm form) {
-		//adapt object model
-		
-		try{
-			
+		// adapt object model
+
+		try {
+
 			return new ResponseEntity(formManager.updateForm(form), HttpStatus.OK);
-			
-		} catch(Exception e){
+
+		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity(e.toString() + " : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		
+
 	}
-	
+
 	@RequestMapping(value = "/forms", method = RequestMethod.POST, consumes = "application/json")
 	@ResponseBody
 	public ResponseEntity<BBFormMetaData> createForm(@RequestBody BBFormMetaData form) {
@@ -97,26 +101,28 @@ public class FormController {
 		// assemble a new form instruction for having form header.
 		int dispOrder = 0;
 		if (form.getHeaderInstructions() != null) {
-			
+
 			headerInstruction = formManager.buildHeaderInstructions(form);
-			
+
 		}
 		if (form.getFooterInstructions() != null) {
-			
+
 			footerInstruction = formManager.buildFooterInstructions(form);
 		}
-		
+
 		BBFormMetaData newForm = formManager.createFormComponent(form, headerInstruction, footerInstruction);
-		
+
 		ResponseEntity<BBFormMetaData> response = new ResponseEntity(newForm, HttpStatus.OK);
-		
+
 		return response;
 	}
-	
+
 	@RequestMapping(value = { "/forms/{formIdSeq}" }, method = RequestMethod.GET)
 	public BBForm testTranslateDBFormToBBForm(@PathVariable String formIdSeq) {
-		
-		return formManager.testTranslateDBFormToBBForm(formIdSeq);
+
+		FormTransferObject fullForm = formManager.getFullForm(formIdSeq);
+
+		return formManager.testTranslateDBFormToBBForm(fullForm);
 	}
 
 	private ResponseEntity<Collection> createSuccessResponse(final Collection formList) {
@@ -124,9 +130,48 @@ public class FormController {
 		return new ResponseEntity<Collection>(formList, HttpStatus.OK);
 	}
 
-	/*private ResponseEntity<FormWrapper> createSuccessFormResponse(final FormWrapper formList) {
+	/**
+	 * 
+	 * Performance Test Methods
+	 * 
+	 */
+	
+	@RequestMapping(value = "/forms/performancetest", method = RequestMethod.GET)
+	@ResponseBody
+	public ResponseEntity<String> getFormsTest() {
+		
+		Collection FormList;
+		List<String> formids = new ArrayList<String>();
+		StringBuilder sb = new StringBuilder();
 
-		return new ResponseEntity<FormWrapper>(formList, HttpStatus.OK);
-	}*/
+		FormList = formManager.getAllForms("*", null, null, null, null, null,
+				null, null, null, null, null, null, null);
+		for(Object form : FormList){
+			FormTransferObject fto = (FormTransferObject)form;
+			formids.add(fto.getFormIdseq());
+		}
+		
+		for(String id : formids){
+			sb.append(formManager.getFormPerformanceTest(id));
+		}
+
+		return new ResponseEntity(sb.toString(), HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/forms/performancetest/{formIdSeq}", method = RequestMethod.GET)
+	@ResponseBody
+	public ResponseEntity<String> getFormTest(@PathVariable String formIdSeq) {
+		
+		String testResult = formManager.getFormPerformanceTest(formIdSeq);
+
+		return new ResponseEntity(testResult, HttpStatus.OK);
+	}
+
+	/*
+	 * private ResponseEntity<FormWrapper> createSuccessFormResponse(final
+	 * FormWrapper formList) {
+	 * 
+	 * return new ResponseEntity<FormWrapper>(formList, HttpStatus.OK); }
+	 */
 
 }

@@ -9,7 +9,10 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import gov.nih.nci.cadsr.manager.FormManager;
 import gov.nih.nci.cadsr.model.BBForm;
@@ -18,13 +21,12 @@ import gov.nih.nci.cadsr.model.BBModule;
 import gov.nih.nci.cadsr.model.BBProtocol;
 import gov.nih.nci.cadsr.model.BBQuestion;
 import gov.nih.nci.cadsr.model.BBValidValue;
-import gov.nih.nci.cadsr.model.ModuleChangesWrapper;
 import gov.nih.nci.ncicb.cadsr.common.dto.ContextTransferObject;
 import gov.nih.nci.ncicb.cadsr.common.dto.FormInstructionChangesTransferObject;
 import gov.nih.nci.ncicb.cadsr.common.dto.FormTransferObject;
+import gov.nih.nci.ncicb.cadsr.common.dto.FormV2TransferObject;
 import gov.nih.nci.ncicb.cadsr.common.dto.FormValidValueTransferObject;
 import gov.nih.nci.ncicb.cadsr.common.dto.InstructionTransferObject;
-import gov.nih.nci.ncicb.cadsr.common.dto.ModuleChangesTransferObject;
 import gov.nih.nci.ncicb.cadsr.common.dto.ModuleTransferObject;
 import gov.nih.nci.ncicb.cadsr.common.dto.ProtocolTransferObject;
 import gov.nih.nci.ncicb.cadsr.common.dto.QuestionTransferObject;
@@ -36,6 +38,7 @@ import gov.nih.nci.ncicb.cadsr.common.persistence.dao.FormDAO;
 import gov.nih.nci.ncicb.cadsr.common.persistence.dao.FormInstructionDAO;
 import gov.nih.nci.ncicb.cadsr.common.persistence.dao.jdbc.JDBCFormDAOFB;
 import gov.nih.nci.ncicb.cadsr.common.resource.Form;
+import gov.nih.nci.ncicb.cadsr.common.resource.FormV2;
 import gov.nih.nci.ncicb.cadsr.common.resource.NCIUser;
 import gov.nih.nci.ncicb.cadsr.formbuilder.ejb.impl.FormBuilderServiceImpl;
 
@@ -134,53 +137,23 @@ public class FormManagerImpl implements FormManager {
 
 		return fto;
 	}
+	
+	public FormV2TransferObject getFullFormV2(String formIdSeq) {
+		FormV2 formv2 = service.getFormDetailsV2(formIdSeq);
 
-	/**
-	 * Hacky solution for populating Module child-objects. They can't be passed
-	 * from client as they are interfaces (even in ModuleTransferObject). This
-	 * must occur for at least all added Modules, perhaps also needed for the
-	 * updatedModules and deletedModules, not sure. Would have to check for
-	 * needed fields in queries in deleteModule and updateModule. This logic
-	 * should be isolated to its own utility method.
-	 * 
-	 * @throws InvocationTargetException
-	 * @throws IllegalAccessException
-	 */
-	/*private void prepareModules(String formIdSeq, CurrentForm form) {
-		try {
+		FormV2TransferObject fto = (FormV2TransferObject) formv2;
 
-			if (!form.getFormHeader().getLongName().isEmpty()) {
-				FormTransferObject fto = new FormTransferObject();
-				BeanUtils.copyProperties(form.getFormHeader(), fto);
-			}
+		return fto;
+	}
+	
+	public FormTransferObject getFormRow(String formIdSeq) {
+		Form formRow = service.getFormRow(formIdSeq);
 
-			for (ModuleTransferObject mod : form.getAddedModules()) {
-				FormTransferObject f = new FormTransferObject();
-				ContextTransferObject c = new ContextTransferObject();
+		FormTransferObject fto = (FormTransferObject) formRow;
 
-				c.setConteIdseq(mod.getConteIdseq());
-				f.setContext(c);
-				f.setFormIdseq(formIdSeq);
+		return fto;
+	}
 
-				mod.setForm(f);
-			}
-
-			
-			 * for(ModuleWrapper mod : form.getAddedModules()){
-			 * ModuleTransferObject mto = new ModuleTransferObject();
-			 * BeanUtils.copyProperties(mto, mod); }
-			 
-
-			for (ModuleChangesWrapper mod : form.getUpdatedModules()) {
-				ModuleChangesTransferObject mto = new ModuleChangesTransferObject();
-				BeanUtils.copyProperties(mod, mto);
-
-			}
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}*/
 
 	public InstructionTransferObject buildHeaderInstructions(BBFormMetaData form) {
 
@@ -262,8 +235,6 @@ public class FormManagerImpl implements FormManager {
 		// List oldModules = (List)fdao.getModulesInAForm(formIdSeq); //TODO:
 		// Need to confirm this is correct
 		BeanUtils.copyProperties(form.getFormMetadata(), formHeader, "context", "protocols");
-		System.out.println("HEY TEST ME!" + form.getFormMetadata().getFormType());
-		System.out.println("HEY TEST ME!2" + formHeader.getFormType());
 		ContextTransferObject formContext = new ContextTransferObject();
 		formContext.setConteIdseq(form.getFormMetadata().getContext().getConteIdseq());
 		formHeader.setContext(formContext);
@@ -321,10 +292,10 @@ public class FormManagerImpl implements FormManager {
 
 	}
 
-	public BBForm testTranslateDBFormToBBForm(String formIdSeq) {
+	public BBForm testTranslateDBFormToBBForm(FormTransferObject fullform) {
 		BBForm bbform = new BBForm();
 		BBFormMetaData bbmeta = new BBFormMetaData();
-		FormTransferObject fullform = getFullForm(formIdSeq);
+//		FormTransferObject fullform = getFullForm(formIdSeq);
 
 		long startTime = System.currentTimeMillis();
 
@@ -366,6 +337,63 @@ public class FormManagerImpl implements FormManager {
 
 		return bbform;
 
+	}
+	
+	/**
+	 * 
+	 * Performance Test Methods
+	 * 
+	 */
+	
+	public String getFormPerformanceTest(@PathVariable String formIdSeq) {
+
+		long startTimer1 = System.currentTimeMillis();
+
+		FormTransferObject fullForm = this.getFullForm(formIdSeq);
+
+		long endTimer1 = System.currentTimeMillis();
+		String retrieveFromDBTime = "" + (endTimer1 - startTimer1);
+
+		String numModules = "" + fullForm.getModules().size();
+		String numCdes = "" + fullForm.getCDEIdList().size();
+
+		long startTimer2 = System.currentTimeMillis();
+
+		BBForm simpleForm = this.testTranslateDBFormToBBForm(fullForm);
+
+		long endTimer2 = System.currentTimeMillis();
+		String translateObjectTime = "" + (endTimer2 - startTimer2);
+
+		StringBuilder sb = new StringBuilder();
+		sb.append("Form ID: " + fullForm.getFormIdseq() + "\n");
+		sb.append("Form Long Name: " + fullForm.getLongName() + "\n");
+		sb.append("\t# of Modules: " + numModules + "\n");
+		sb.append("\t# of CDE's: " + numCdes + "\n");
+		sb.append("Time(ms) to retrieve from DB: " + retrieveFromDBTime + "\n");
+		sb.append("Time(ms) to translate to simple object: " + translateObjectTime + "\n");
+		
+		/*
+		long startTimer3 = System.currentTimeMillis();
+
+		FormV2TransferObject fullFormV2 = formManager.getFullFormV2(formIdSeq);
+
+		long endTimer3 = System.currentTimeMillis();
+		String retrieveV2FromDBTime = "" + (endTimer3 - startTimer3);
+		*/
+
+		long startTimer4 = System.currentTimeMillis();
+
+		FormTransferObject formRow = this.getFormRow(formIdSeq);
+
+		long endTimer4 = System.currentTimeMillis();
+		String retrieveRowFromDBTime = "" + (endTimer4 - startTimer4);
+		
+//		sb.append("Time(ms) to retrieve V2 from DB: " + retrieveV2FromDBTime + "\n");
+		sb.append("Time(ms) to retrieve V2 from DB: N/A \n");
+		sb.append("Time(ms) to retrieve header-only (metadata) from DB: " + retrieveRowFromDBTime + "\n");
+		sb.append("-------------------------------------------------------------------\n\n");
+
+		return sb.toString();
 	}
 
 }

@@ -3,6 +3,7 @@ package gov.nih.nci.cadsr.manager;
 import java.util.Collection;
 
 import gov.nih.nci.ncicb.cadsr.common.dto.FormTransferObject;
+import gov.nih.nci.ncicb.cadsr.common.dto.FormV2TransferObject;
 import gov.nih.nci.ncicb.cadsr.common.dto.InstructionTransferObject;
 import gov.nih.nci.ncicb.cadsr.common.resource.NCIUser;
 import gov.nih.nci.cadsr.model.BBForm;
@@ -22,6 +23,8 @@ public interface FormManager {
 	public BBFormMetaData createFormComponent(BBFormMetaData form, InstructionTransferObject headerInstruction, InstructionTransferObject footerInstruction);
 	
 	public FormTransferObject getFullForm(String formIdSeq);
+	public FormV2TransferObject getFullFormV2(String formIdSeq);
+	public FormTransferObject getFormRow(String formIdSeq);
 	
 	public InstructionTransferObject buildHeaderInstructions(BBFormMetaData form);
 	
@@ -29,6 +32,14 @@ public interface FormManager {
 	
 	public String updateForm(BBForm form);
 	
-	public BBForm testTranslateDBFormToBBForm(String formIdSeq);
+	public BBForm testTranslateDBFormToBBForm(FormTransferObject fullForm);
+	
+	/**
+	 * 
+	 * Performance Test Methods
+	 * 
+	 */
+	
+	public String getFormPerformanceTest(String formIdSeq);
 	
 }
