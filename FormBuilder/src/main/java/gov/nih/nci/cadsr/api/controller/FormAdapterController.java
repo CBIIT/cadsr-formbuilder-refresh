@@ -20,6 +20,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import gov.nih.nci.cadsr.FormBuilderConstants;
 import gov.nih.nci.cadsr.FormBuilderProperties;
+import gov.nih.nci.cadsr.model.BBForm;
 
 /**
  * 
@@ -147,6 +148,10 @@ public class FormAdapterController {
 		RestTemplate restTemplate = new RestTemplate();
 		restTemplate.put(uri, entity);
 
+//		BBForm fullForm = (BBForm)getFullForm(formIdSeq).getBody();
+		
+//		return new ResponseEntity(fullForm, HttpStatus.OK);
+		
 		return new ResponseEntity("SUCCESS", HttpStatus.OK);
 	}
 
@@ -154,6 +159,38 @@ public class FormAdapterController {
 	@ResponseBody
 	public String getloggedinuser() {
 		return SecurityContextHolder.getContext().getAuthentication().getName();
+	}
+	
+	/**
+	 * 
+	 * Performance Test Methods
+	 * 
+	 */
+	
+	@RequestMapping(value = "/performancetest", method = RequestMethod.GET)
+	@ResponseBody
+	public ResponseEntity<String> getFormsTest() {
+
+		String base_uri = props.getFormServiceApiUrl() + FormBuilderConstants.FORMSERVICE_BASE_URL
+				+ FormBuilderConstants.FORMSERVICE_FORMS + "/" + FormBuilderConstants.FORMSERVICE_FORMS_PERFORMANCE;
+
+		RestTemplate restTemplate = new RestTemplate();
+		ResponseEntity<String> response = restTemplate.getForEntity(base_uri, String.class);
+
+		return response;
+	}
+	
+	@RequestMapping(value = "/performancetest/{formIdSeq}", method = RequestMethod.GET)
+	@ResponseBody
+	public ResponseEntity<String> getFormTest(@PathVariable String formIdSeq) {
+
+		String base_uri = props.getFormServiceApiUrl() + FormBuilderConstants.FORMSERVICE_BASE_URL
+				+ FormBuilderConstants.FORMSERVICE_FORMS + "/" + FormBuilderConstants.FORMSERVICE_FORMS_PERFORMANCE + "/" + formIdSeq;
+
+		RestTemplate restTemplate = new RestTemplate();
+		ResponseEntity<String> response = restTemplate.getForEntity(base_uri, String.class);
+
+		return response;
 	}
 
 }
