@@ -167,7 +167,7 @@ public class FormAdapterController {
 	 * 
 	 */
 	
-	@RequestMapping(value = "/performancetest", method = RequestMethod.GET)
+	/*@RequestMapping(value = "/performancetest", method = RequestMethod.GET)
 	@ResponseBody
 	public ResponseEntity<String> getFormsTest() {
 
@@ -178,7 +178,7 @@ public class FormAdapterController {
 		ResponseEntity<String> response = restTemplate.getForEntity(base_uri, String.class);
 
 		return response;
-	}
+	}*/
 	
 	@RequestMapping(value = "/performancetest/{formIdSeq}", method = RequestMethod.GET)
 	@ResponseBody
