@@ -12,11 +12,11 @@ const FormModel = Model.extend({
 	},
 	urlRoot:     ENDPOINT_URLS.FORMS,
 	parse(response){
-		const returnResponse = typeof response === "string" ? JSON.parse(response) : response;
+		const returnedResponse = typeof response === "string" ? JSON.parse(response) : response;
 		/*marshalling nested objects/arrays into it's own collection to map to Backbone's nested model/collection  */
-		returnResponse.formMetadata = new FormMetadata(returnResponse.formModules);
-		returnResponse.formModules = new FormModulesCollection(returnResponse.formModules);
-		return returnResponse;
+		returnedResponse.formMetadata = new FormMetadata(returnedResponse.formMetadata);
+		returnedResponse.formModules = new FormModulesCollection(returnedResponse.formModules);
+		return returnedResponse;
 
 	}
 });
