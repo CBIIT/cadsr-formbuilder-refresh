@@ -1,7 +1,7 @@
 const ROUTES = {
 	FORM: {
-		CREATE_FORM: 'forms/create',
-		VIEW_FORM: 'forms/viewform/',
+		CREATE_FORM:   'form/create',
+		VIEW_FORM:     'forms/:formIdSeq',
 		CREATE_MODULE: 'forms/modules/create'
 	},
 	SEARCH: {

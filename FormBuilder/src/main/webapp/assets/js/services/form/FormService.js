@@ -37,6 +37,11 @@ const FormService = Marionette.Object.extend({
 		switch(action){
 			case "createForm":
 				formRouter.navigate(ROUTES.FORM.CREATE_FORM, {trigger: true});
+				if(!this.formModel.isNew()){
+					/* TODO make sure no more than two instances of FormModel exist. One for a form being edited and another for a form being viewed */
+					delete this.formModel;
+					this.formModel = new FormModel();
+				}
 				this.formUIStateModel.set({actionMode: action});
 				this.fetchFormMetaDataCriteria();
 				break;
@@ -58,6 +63,7 @@ const FormService = Marionette.Object.extend({
 				break;
 			case "viewFormFullView":
 				this.formUIStateModel.set({actionMode: action});
+				this.fetchForm({formIdSeq: formIdSeq});
 				break;
 			default:
 				console.error("no valid action provided");
@@ -68,6 +74,13 @@ const FormService = Marionette.Object.extend({
 		render(
 			<FormLayout formModel={this.formModel.attributes} uiDropDownOptionsModel={this.uiDropDownOptionsModel.toJSON()} formUIState={this.formUIStateModel}/>, document.getElementById('main'));
 
+	},
+	fetchForm({formIdSeq}) {
+		this.formModel.set({formIdseq: formIdSeq});
+		/*TODO add catch() for error handling */
+		this.formModel.fetch().then(() =>{
+			this.constructLayout();
+		});
 	},
 	fetchFormMetaDataCriteria() {
 		formChannel.on(EVENTS.FORM.GET_FORM_CORE_DETAILS_CRITERIA, () =>{
