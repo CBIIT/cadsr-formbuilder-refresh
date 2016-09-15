@@ -11,7 +11,6 @@ export default class FormModuleForm extends Component {
 		this.dispatchData = this.dispatchData.bind(this);
 		// Default state
 		this.state = {
-			validatePristine: false,
 			disabled:         false
 		};
 	}
@@ -30,7 +29,7 @@ export default class FormModuleForm extends Component {
 	render(){
 		return (
 			<Row>
-				<Form onSubmit={this.dispatchData} validatePristine={this.state.validatePristine} disabled={this.state.disabled} ref="formModuleForm">
+				<Form onSubmit={this.dispatchData} validatePristine={this.state.validatePristine} disabled={this.props.disabled} ref="formModuleForm">
 					<fieldset name="Module Metadata">
 						<legend>{this.props.mainHeadingTitle}</legend>
 						<Input name="longName" id="longName" value={this.props.longName} label="Module Name" type="text" help="This is a required text input." required/>

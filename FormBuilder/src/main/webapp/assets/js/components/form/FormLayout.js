@@ -83,8 +83,8 @@ export default class FormLayout extends Component {
 			];
 			return (
 				<div>
-					<FormMetadataForm actionMode={actionMode} formMetadata={this.props.formModel.formMetadata.attributes} uiDropDownOptionsModel={this.props.uiDropDownOptionsModel}> </FormMetadataForm> {this.getFormModules().map((moduleModel, index) =>(
-					<FormModuleForm key={index} longName={moduleModel.longName} instructions={moduleModel.instructions}/>))}
+					<FormMetadataForm disabled={true} actionMode={actionMode} formMetadata={this.getFormMetaData()} uiDropDownOptionsModel={this.props.uiDropDownOptionsModel}> </FormMetadataForm> {this.getFormModules().map((moduleModel, index) =>(
+					<FormModuleForm disabled={true} key={index} longName={moduleModel.longName} instructions={moduleModel.instructions}/>))}
 					<ButtonsGroup handleFormSaveClicked={this.handleFormSaveClicked} buttons={buttons}/>
 				</div>
 			);
@@ -100,7 +100,7 @@ export default class FormLayout extends Component {
 			];
 			return (
 				<div>
-					<FormMetadataForm actionMode={actionMode} formMetadata={this.props.formModel.formMetadata.attributes} uiDropDownOptionsModel={this.props.uiDropDownOptionsModel} mainHeadingTitle={metaDataFormHeadingTitle}>
+					<FormMetadataForm actionMode={actionMode} formMetadata={this.getFormMetaData()} uiDropDownOptionsModel={this.props.uiDropDownOptionsModel} mainHeadingTitle={metaDataFormHeadingTitle}>
 						<ButtonsGroup buttons={buttons}/> </FormMetadataForm>
 				</div>
 			);
