@@ -174,7 +174,6 @@ public class CartAdapterController {
 	}
 */
 	
-
 	@RequestMapping(value = "/objcart/cdecart2/{username}", method = RequestMethod.GET)
 	@ResponseBody
 	public ResponseEntity loadCDECart2(@PathVariable String username) throws XmlMappingException, IOException,
@@ -204,35 +203,35 @@ public class CartAdapterController {
 
 		List<Item> items = new ArrayList<Item>();
 		if (!cartContents.isEmpty()) {
+			String date = null;
 			for (CartObjectNew cartObj : cartContents) {
+				Item item = null;
 				for (Field field : cartObj.getFields()) {
-					//JAXBElement<Item> item=null;
 
-					
-					
+					if (field.getName().equalsIgnoreCase("dateAdded")) {
+						date = field.getValue();
+
+					}
+
 					if (field.getName().equalsIgnoreCase("Data")) {
-						
 						XMLInputFactory xif = XMLInputFactory.newInstance();
 						XMLStreamReader xsr = xif.createXMLStreamReader(new StringReader(field.getValue()));
 						xsr.nextTag(); // Advance to CDECartItemTransferObject
-					    xsr.nextTag(); // Advance to item tag
+						xsr.nextTag(); // Advance to item tag
 						JAXBContext jc = JAXBContext.newInstance(Item.class);
 						Unmarshaller unmarshaller = jc.createUnmarshaller();
 						JAXBElement<Item> je = unmarshaller.unmarshal(xsr, Item.class);
-						items.add(je.getValue());
+						item = je.getValue();
+
 					}
-					
-				/*	if (field.getName().equalsIgnoreCase("dateAdded")) {
-						String data = field.getValue();
-						item.getValue().setDateAdded(data);
-					}*/
-					}
+				}
+				item.setDateAdded(date);
+				items.add(item);
 			}
 
 		}
 
 		return new ResponseEntity<List<Item>>(items, HttpStatus.OK);
-
 
 	}
 
