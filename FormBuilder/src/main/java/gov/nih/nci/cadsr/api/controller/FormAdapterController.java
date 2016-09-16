@@ -36,7 +36,7 @@ import gov.nih.nci.cadsr.model.session.TestSessionObject;
 @RequestMapping(value = "/forms")
 public class FormAdapterController {
 	
-	private static final Logger logger = Logger.getLogger(FormAdapterController.class);
+//	private static final Logger logger = Logger.getLogger(FormAdapterController.class);
 
 
 	@Autowired
@@ -225,7 +225,7 @@ public class FormAdapterController {
 		sb.append("Time(ms) for full transport to front-end: " + transportTime);
 		sb.append("-----------------------------END-------------------------------\n\n");
 
-		logger.info(sb.toString());
+//		logger.info(sb.toString());
 
 		return new ResponseEntity(sb.toString(), HttpStatus.OK);
 	}
