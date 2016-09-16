@@ -1,6 +1,7 @@
 package gov.nih.nci.cadsr.api.controller;
 
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -21,6 +22,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import gov.nih.nci.cadsr.FormBuilderConstants;
 import gov.nih.nci.cadsr.FormBuilderProperties;
 import gov.nih.nci.cadsr.model.BBForm;
+import gov.nih.nci.cadsr.model.session.TestSessionObject;
 
 /**
  * 
@@ -33,9 +35,15 @@ import gov.nih.nci.cadsr.model.BBForm;
 @RestController
 @RequestMapping(value = "/forms")
 public class FormAdapterController {
+	
+	private static final Logger logger = Logger.getLogger(FormAdapterController.class);
+
 
 	@Autowired
 	private FormBuilderProperties props;
+	
+	@Autowired
+	private TestSessionObject sessionObject;
 
 	@RequestMapping(method = RequestMethod.GET)
 	@ResponseBody
@@ -154,6 +162,22 @@ public class FormAdapterController {
 		
 		return new ResponseEntity("SUCCESS", HttpStatus.OK);
 	}
+	
+	@RequestMapping(value = { "/workingCopy" }, method = RequestMethod.POST, consumes = "application/json")
+	@ResponseBody
+	public ResponseEntity loadWorkingCopy(@RequestBody BBForm workingCopy){
+		
+		sessionObject.setWorkingCopy(workingCopy);
+		
+		return new ResponseEntity(HttpStatus.OK);
+		
+	}
+	
+	@RequestMapping(value = { "/workingCopy" }, method = RequestMethod.GET, consumes = "application/json")
+	@ResponseBody
+	public ResponseEntity<BBForm> getWorkingCopy(){
+		return new ResponseEntity(sessionObject.getWorkingCopy(), HttpStatus.OK);
+	}
 
 	@RequestMapping(value = { "/username" }, method = RequestMethod.GET)
 	@ResponseBody
@@ -188,9 +212,22 @@ public class FormAdapterController {
 				+ FormBuilderConstants.FORMSERVICE_FORMS + "/" + FormBuilderConstants.FORMSERVICE_FORMS_PERFORMANCE + "/" + formIdSeq;
 
 		RestTemplate restTemplate = new RestTemplate();
+		
+		long startTimer = System.currentTimeMillis();
+		
 		ResponseEntity<String> response = restTemplate.getForEntity(base_uri, String.class);
+		
+		long endTimer = System.currentTimeMillis();
+		String transportTime = "" + (endTimer - startTimer);
+		
+		StringBuilder sb = new StringBuilder(response.getBody());
+		
+		sb.append("Time(ms) for full transport to front-end: " + transportTime);
+		sb.append("-----------------------------END-------------------------------\n\n");
 
-		return response;
+		logger.info(sb.toString());
+
+		return new ResponseEntity(sb.toString(), HttpStatus.OK);
 	}
 
 }
