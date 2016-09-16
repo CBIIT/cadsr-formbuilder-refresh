@@ -47,6 +47,7 @@ FormBuilder/src/main/webapp/assets/js/components/common/List.js -text
 FormBuilder/src/main/webapp/assets/js/components/form/FormLayout.js -text
 FormBuilder/src/main/webapp/assets/js/components/form/FormLayoutMain.js -text
 FormBuilder/src/main/webapp/assets/js/components/form/FormMetadataForm.js -text
+FormBuilder/src/main/webapp/assets/js/components/form/FormMetadataStatic.js -text
 FormBuilder/src/main/webapp/assets/js/components/form/FormModuleForm.js -text
 FormBuilder/src/main/webapp/assets/js/components/form/SidePanel.js -text
 FormBuilder/src/main/webapp/assets/js/components/form/TreeView.js -text

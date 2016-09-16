@@ -7,6 +7,7 @@ import SidePanel from './SidePanel';
 import FormModuleForm from './FormModuleForm';
 import ButtonsGroup from '../common/ButtonsGroup';
 import FormMetadataForm from './FormMetadataForm';
+import FormMetadataStatic from './FormMetadataStatic';
 import EVENTS from '../../constants/EVENTS';
 import {formChannel} from '../../channels/radioChannels';
 
@@ -83,7 +84,7 @@ export default class FormLayout extends Component {
 			];
 			return (
 				<div>
-					<FormMetadataForm disabled={true} actionMode={actionMode} formMetadata={this.getFormMetaData()} uiDropDownOptionsModel={this.props.uiDropDownOptionsModel}> </FormMetadataForm> {this.getFormModules().map((moduleModel, index) =>(
+					<FormMetadataStatic formMetadata={this.getFormMetaData()}/> {this.getFormModules().map((moduleModel, index) =>(
 					<FormModuleForm disabled={true} key={index} longName={moduleModel.longName} instructions={moduleModel.instructions}/>))}
 					<ButtonsGroup handleFormSaveClicked={this.handleFormSaveClicked} buttons={buttons}/>
 				</div>
