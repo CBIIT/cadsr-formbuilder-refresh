@@ -1,0 +1,34 @@
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/security
+	http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+
+
+	<!--Web Services with the pattern “/api/v1/secure/” will be secured -->
+	<http auto-config="true">
+		<!-- <intercept-url pattern="/**" access="ROLE_USER" /> -->
+		<session-management>
+			<concurrency-control max-sessions="1" />
+		</session-management>
+	</http>
+
+	<!-- The username and password to be provided is “vpUser” and “vp123” -->
+	<authentication-manager>
+		<authentication-provider>
+			<user-service>
+				<user name="guest" password="Nci_gue5t" authorities="ROLE_USER" />
+			</user-service>
+		</authentication-provider>
+	</authentication-manager>
+
+	<!-- <authentication-manager alias="authenticationManager">
+		<authentication-provider ref="customAuthenticationProvider" />
+	</authentication-manager>
+
+	Bean implementing AuthenticationProvider of Spring Security
+	<beans:bean id="customAuthenticationProvider" class="gov.nih.nci.cadsr.authentication.CustomAuthenticationProvider">
+	</beans:bean>
+ -->
+</beans:beans>
