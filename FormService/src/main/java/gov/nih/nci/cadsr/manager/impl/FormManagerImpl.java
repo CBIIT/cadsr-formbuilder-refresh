@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import gov.nih.nci.cadsr.manager.FormManager;
+import gov.nih.nci.cadsr.model.BBContext;
 import gov.nih.nci.cadsr.model.BBForm;
 import gov.nih.nci.cadsr.model.BBFormMetaData;
 import gov.nih.nci.cadsr.model.BBModule;
@@ -301,6 +302,41 @@ public class FormManagerImpl implements FormManager {
 
 		BeanUtils.copyProperties(fullform, bbform);
 		BeanUtils.copyProperties(fullform, bbmeta, "context", "protocols");
+		
+		BBContext bbcontext = new BBContext();
+		bbcontext.setConteIdseq(fullform.getConteIdseq());
+		bbcontext.setName(fullform.getContextName());
+		bbcontext.setDescription(fullform.getContext().getDescription());
+		
+		List<BBProtocol> bbprotocols = new ArrayList<BBProtocol>();
+		for(Object obj : fullform.getProtocols()){
+			ProtocolTransferObject protocol = (ProtocolTransferObject)obj;
+			
+			BBProtocol bbprotocol = new BBProtocol();
+			bbprotocol.setLongName(protocol.getLongName());
+			bbprotocol.setProtoIdseq(protocol.getProtoIdseq());
+			
+			bbprotocols.add(bbprotocol);
+			
+		}
+		
+		bbmeta.setProtocols(bbprotocols);
+		bbmeta.setWorkflow(fullform.getAslName());
+		bbmeta.setContext(bbcontext);
+		
+		if(fullform.getInstruction() != null){
+			bbmeta.setHeaderInstructions(fullform.getInstruction().getPreferredDefinition());
+		}
+		else{
+			bbmeta.setHeaderInstructions("");
+		}
+		if(fullform.getFooterInstruction() != null){
+			bbmeta.setFooterInstructions(fullform.getFooterInstruction().getPreferredDefinition());
+		}
+		else{
+			bbmeta.setFooterInstructions("");
+		}
+		
 		bbform.setFormMetadata(bbmeta);
 		bbform.setFormModules(new ArrayList<BBModule>());
 
@@ -379,18 +415,19 @@ public class FormManagerImpl implements FormManager {
 
 		long endTimer3 = System.currentTimeMillis();
 		String retrieveV2FromDBTime = "" + (endTimer3 - startTimer3);
-		*/
-
+		
 		long startTimer4 = System.currentTimeMillis();
 
 		FormTransferObject formRow = this.getFormRow(formIdSeq);
 
 		long endTimer4 = System.currentTimeMillis();
 		String retrieveRowFromDBTime = "" + (endTimer4 - startTimer4);
+		*/
 		
 //		sb.append("Time(ms) to retrieve V2 from DB: " + retrieveV2FromDBTime + "\n");
 		sb.append("Time(ms) to retrieve V2 from DB: N/A \n");
-		sb.append("Time(ms) to retrieve header-only (metadata) from DB: " + retrieveRowFromDBTime + "\n");
+//		sb.append("Time(ms) to retrieve header-only (metadata) from DB: " + retrieveRowFromDBTime + "\n");
+		sb.append("Time(ms) to retrieve header-only (metadata) from DB: N/A \n");
 		sb.append("-------------------------------------------------------------------\n\n");
 
 		return sb.toString();
