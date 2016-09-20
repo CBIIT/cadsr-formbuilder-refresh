@@ -34,7 +34,7 @@ const FormService = Marionette.Object.extend({
 	initialize(options = {}) {
 		this.setupModels();
 	},
-	dispatchLayout({action, formIdseq}) {
+	dispatchLayout({action, formIdseq = this.formModel.get('formIdseq')}) {
 		switch(action){
 			case "createForm":
 				formRouter.navigate(ROUTES.FORM.CREATE_FORM, {trigger: true});

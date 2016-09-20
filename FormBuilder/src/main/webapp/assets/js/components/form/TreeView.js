@@ -7,7 +7,9 @@ import List from '../common/List';
 export default class TreeView extends Component {
 	constructor(props){
 		super(props);
+		/* Consider moving dispatching/Backbone radio functionality to FormLayout and notifying FormLayout via callbacks passed through props */
 		this.dispatchCreateModule = this.dispatchCreateModule.bind(this);
+		this.dispatchNavigateFullFormView = this.dispatchNavigateFullFormView.bind(this);
 		this.dispatchNavigateToModule = this.dispatchNavigateToModule.bind(this);
 		this.showNewModuleButton = this.showNewModuleButton.bind(this);
 	}
@@ -18,6 +20,10 @@ export default class TreeView extends Component {
 
 	dispatchNavigateToModule(id){
 		formChannel.request(EVENTS.FORM.VIEW_MODULE, id);
+	}
+
+	dispatchNavigateFullFormView(){
+		formChannel.request(EVENTS.FORM.SET_FORM_LAYOUT, {action: 'viewFormFullView'});
 	}
 
 	showNewModuleButton(){
@@ -31,7 +37,8 @@ export default class TreeView extends Component {
 	render(){
 		return (
 			<div className="bordered-container tall-min-height">
-				<p>{this.props.formName}</p>                {this.showNewModuleButton()}                <p>Modules</p>
+				<Button onClick={this.dispatchNavigateFullFormView} className="button-link">View Full Form</Button>
+				<p>Modules</p>				{this.showNewModuleButton()}
 				<List onClickCallback={this.dispatchNavigateToModule} itemKey={"id"} itemTextKey={"longName"} data={this.props.list}/>
 			</div>
 		);
