@@ -120,7 +120,8 @@ FormBuilder/src/main/webapp/frontend-tools/npm -text
 FormBuilder/src/main/webapp/frontend-tools/npm.cmd -text
 FormBuilder/src/main/webapp/frontend-tools/webpack -text
 FormBuilder/src/main/webapp/frontend-tools/webpack.cmd -text
-FormBuilder/src/main/webapp/frontend-tools/webpack.config.dev.js -text
+FormBuilder/src/main/webapp/frontend-tools/webpack.config.deployment.js -text
+FormBuilder/src/main/webapp/frontend-tools/webpack.config.development.js -text
 FormBuilder/src/main/webapp/index.jsp -text
 FormBuilder/src/main/webapp/package.json -text
 FormService/deploy.cli -text

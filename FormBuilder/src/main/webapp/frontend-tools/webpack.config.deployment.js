@@ -1,14 +1,10 @@
-// For info on how we're generating bundles with hashed filenames for cache busting: https://medium.com/@okonetchnikov/long-term-caching-of-static-assets-with-webpack-1ecb139adb95#.w99i89nsz
+/*This Config uses minification to significantly reduce the file size of assets and sets React to use production mode */
 import webpack from 'webpack';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import autoprefixer from 'autoprefixer';
 
-/*
- import WebpackMd5Hash from 'webpack-md5-hash';
- */
-
 const GLOBALS = {
-  'process.env.NODE_ENV': JSON.stringify('development'),
+  'process.env.NODE_ENV': JSON.stringify('production'),
   __DEV__:                true
 };
 
@@ -36,20 +32,18 @@ export default {
 
     new ExtractTextPlugin('style.css'),
     // Eliminate duplicate packages when generating bundle
-    new webpack.optimize.DedupePlugin()
+    new webpack.optimize.DedupePlugin(),
     // Minify JS
-    /*
-     new webpack.optimize.UglifyJsPlugin()
-     */
+    new webpack.optimize.UglifyJsPlugin()
   ],
   module:  {
     loaders: [
       {
-        test:   /\.js$/,
+        test:    /\.js$/,
         exclude: /node_modules/,
-        loader: 'babel',
+        loader:  'babel',
         /* use these presets (specified in .babelrc */
-        query:  {presets: ['es2015', 'react']}
+        query:   {presets: ['es2015', 'react']}
       },
       /*Underscore templates */
       {
@@ -66,8 +60,10 @@ export default {
       {test: /\.svg(\?v=\d+.\d+.\d+)?$/, loader: 'url?limit=10000&mimetype=image/svg+xml&name=[name].[ext]'},
       {test: /\.(jpe?g|png|gif)$/i, loader: 'file?name=[name].[ext]'},
       {test: /\.ico$/, loader: 'file?name=[name].[ext]'},
-      {test: /(\.css|\.scss)$/,
-        loader: ExtractTextPlugin.extract('css?sourceMap!sass?sourceMap!postcss')}
+      {
+        test:   /(\.css|\.scss)$/,
+        loader: ExtractTextPlugin.extract('css?sourceMap!sass?sourceMap!postcss')
+      }
     ]
   },
   /*used to add CSS vendor prefixes on SCSS transpilation to CSS rather than adding them manually in the SCSS source */
