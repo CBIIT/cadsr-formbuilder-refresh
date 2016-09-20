@@ -10,8 +10,8 @@ const FormRouter = Router.extend({
 		[ROUTES.FORM.CREATE_MODULE]: 'setCreateModule'
 
 	},
-	setViewFormLayout (formIdSeq) {
-		formChannel.request(EVENTS.FORM.SET_FORM_LAYOUT, {action: "viewFormFullView", formIdSeq});
+	setViewFormLayout (formIdseq) {
+		formChannel.request(EVENTS.FORM.SET_FORM_LAYOUT, {action: "viewFormFullView", formIdseq});
 	},
 	setCreateFormLayout () {
 		formChannel.request(EVENTS.FORM.SET_FORM_LAYOUT, {action:'createForm'});

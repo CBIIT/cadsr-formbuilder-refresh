@@ -10,7 +10,7 @@ const FormModel = Model.extend({
 		formMetadata: new FormMetadata(),
 		formModules:  new FormModulesCollection()
 	},
-	urlRoot:     ENDPOINT_URLS.FORMS,
+	urlRoot:     ENDPOINT_URLS.FORMS_DB,
 	parse(response){
 		const returnedResponse = typeof response === "string" ? JSON.parse(response) : response;
 		/*marshalling nested objects/arrays into it's own collection to map to Backbone's nested model/collection  */

@@ -22,6 +22,7 @@ import FormLayout from '../../components/form/FormLayout';
 const FormService = Marionette.Object.extend({
 	channelName:   'form',
 	radioRequests: {
+		[EVENTS.FORM.EDIT_FORM]:             'handleSetFormEditable',
 		[EVENTS.FORM.SET_FORM_LAYOUT]:       'dispatchLayout',
 		[EVENTS.FORM.CREATE_MODULE]:         'dispatchLayout',
 		[EVENTS.FORM.SET_CORE_FORM_DETAILS]: 'handleFormMetadataSubmitData',
@@ -33,7 +34,7 @@ const FormService = Marionette.Object.extend({
 	initialize(options = {}) {
 		this.setupModels();
 	},
-	dispatchLayout({action, formIdSeq}) {
+	dispatchLayout({action, formIdseq}) {
 		switch(action){
 			case "createForm":
 				formRouter.navigate(ROUTES.FORM.CREATE_FORM, {trigger: true});
@@ -49,10 +50,6 @@ const FormService = Marionette.Object.extend({
 				this.formUIStateModel.set({actionMode: action});
 
 				break;
-			case "editForm":
-				this.formUIStateModel.set({actionMode: action});
-
-				break;
 			case "editModule":
 				this.formUIStateModel.set({actionMode: action});
 
@@ -63,7 +60,9 @@ const FormService = Marionette.Object.extend({
 				break;
 			case "viewFormFullView":
 				this.formUIStateModel.set({actionMode: action});
-				this.fetchForm({formIdSeq: formIdSeq});
+				if(formIdseq !== this.formModel.get('formIdseq')){
+					this.fetchForm({formIdseq: formIdseq});
+				}
 				break;
 			default:
 				console.error("no valid action provided");
@@ -75,8 +74,8 @@ const FormService = Marionette.Object.extend({
 			<FormLayout formModel={this.formModel.attributes} uiDropDownOptionsModel={this.uiDropDownOptionsModel.toJSON()} formUIState={this.formUIStateModel}/>, document.getElementById('main'));
 
 	},
-	fetchForm({formIdSeq}) {
-		this.formModel.set({formIdseq: formIdSeq});
+	fetchForm({formIdseq}) {
+		this.formModel.set({formIdseq: formIdseq});
 		/*TODO add catch() for error handling */
 		this.formModel.fetch().then(() =>{
 			this.constructLayout();
@@ -95,6 +94,10 @@ const FormService = Marionette.Object.extend({
 	handleAddModule(data) {
 		const newModuleModel = this.formModel.get('formModules').add(new FormModuleModel(data));
 		this.setModuleView(newModuleModel.cid);
+	},
+	handleSetFormEditable() {
+		/*Auth and permssions checks for for editing a for can go here*/
+		this.formUIStateModel.set({isEditing: true});
 	},
 	handleSaveForm() {
 		this.formModel.save(null, {
@@ -120,7 +123,7 @@ const FormService = Marionette.Object.extend({
 			actionMode: 'viewFormFullView',
 			editItem:   null
 		});
-		formRouter.navigate(ROUTES.FORM.VIEW_FORM, {trigger: false});
+		formRouter.navigate(`forms/${this.formModel.get("formIdseq")}`, {trigger: false});
 	},
 	setModuleView(id) {
 		const moduleModel = this.formModel.get('formModules').get(id);
@@ -150,8 +153,11 @@ const FormService = Marionette.Object.extend({
 				this.formModel.set({
 					formIdseq: formIdseq
 				});
-				this.formUIStateModel.set({actionMode: 'viewFormFullView'});
-
+				formRouter.navigate(`forms/${formIdseq}`, {trigger: false});
+				this.formUIStateModel.set({
+					isEditing:  true,
+					actionMode: 'viewFormFullView'
+				});
 				alert("Form created. formIdseq is: " + formIdseq);
 			},
 			error:   (model, response) =>{

@@ -20,7 +20,7 @@ const FormMetadataModel = Model.extend({
 		headerInstructions:           '',
 		footerInstructions:     ''
 	},
-	urlRoot: ENDPOINT_URLS.FORM_CREATE
+	urlRoot:  ENDPOINT_URLS.FORMS_DB
 });
 
 export default FormMetadataModel;

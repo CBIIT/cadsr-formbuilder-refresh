@@ -15,12 +15,14 @@ export default class FormLayout extends Component {
 	constructor(props){
 		super(props);
 		this.canCreateModule = this.canCreateModule.bind(this);
+		this.dispatchCancelButtonClicked = this.dispatchCancelButtonClicked.bind(this);
+		this.dispatchEditFormClicked = this.dispatchEditFormClicked.bind(this);
+		this.dispatchSaveFormClicked = this.dispatchSaveFormClicked.bind(this);
 		this.getFormModel = this.getFormModel.bind(this);
 		this.getFormModules = this.getFormModules.bind(this);
 		this.getActionMode = this.getActionMode.bind(this);
 		this.getEditItems = this.getEditItems.bind(this);
 		this.getMainPanelComponents = this.getMainPanelComponents.bind(this);
-		this.handleFormSaveClicked = this.handleFormSaveClicked.bind(this);
 	}
 
 	componentWillMount(){
@@ -42,7 +44,11 @@ export default class FormLayout extends Component {
 	 */
 	canCreateModule(){
 		/*TODO come up with a more reliable way to check for this */
-		return this.getActionMode() === "editForm" || this.getActionMode() === 'viewFormFullView';
+		return this.shouldShowFormEditControls() === true && this.getActionMode() === 'viewFormFullView';
+	}
+
+	shouldShowFormEditControls(){
+		return this.state.formUIState.isEditing === true;
 	}
 
 	getActionMode(){
@@ -68,29 +74,63 @@ export default class FormLayout extends Component {
 		});
 	}
 
-	handleFormSaveClicked(){
+	dispatchCancelButtonClicked(){
+		console.log("cancel button clicked");
+	}
+
+	dispatchEditFormClicked(){
+		formChannel.request(EVENTS.FORM.EDIT_FORM);
+	}
+
+	dispatchSaveFormClicked(){
 		formChannel.request(EVENTS.FORM.SAVE_FORM);
 	}
 
 	getMainPanelComponents(){
 		const actionMode = this.getActionMode();
-		if(actionMode === "viewFormFullView"){
+		if(actionMode === "viewFormFullView" && !this.shouldShowFormEditControls()){
 			const buttons = [
 				{
-					name:    "Save",
-					type:    "submit",
-					onClick: "handleFormSaveClicked"
+					name:    "Edit Form",
+					onClick: "dispatchEditFormClicked"
 				}
 			];
 			return (
 				<div>
+					<Row><Col lg={9}></Col>
+						<Col lg={3}><ButtonsGroup dispatchEditFormClicked={this.dispatchEditFormClicked} buttons={buttons}/></Col>
+					</Row>
+
 					<FormMetadataStatic formMetadata={this.getFormMetaData()}/> {this.getFormModules().map((moduleModel, index) =>(
 					<FormModuleForm disabled={true} key={index} longName={moduleModel.longName} instructions={moduleModel.instructions}/>))}
-					<ButtonsGroup handleFormSaveClicked={this.handleFormSaveClicked} buttons={buttons}/>
+
 				</div>
 			);
 		}
-		else if(actionMode === 'createForm' || actionMode === "editForm"){
+		else if(actionMode === "viewFormFullView" && this.shouldShowFormEditControls()){
+			const buttons = [
+				{
+					name:    "Cancel",
+					onClick: "dispatchCancelButtonClicked"
+				},
+				{
+					name:    "Update",
+					onClick: "dispatchSaveFormClicked"
+				}
+			];
+			return (
+				<div>
+					<Row> <Col lg={9}><p>Viewing Full Form</p>
+					</Col><Col lg={3}><ButtonsGroup dispatchCancelButtonClicked={this.dispatchCancelButtonClicked()} dispatchSaveFormClicked={this.dispatchSaveFormClicked} buttons={buttons}/></Col>
+					</Row>
+
+					<FormMetadataStatic formMetadata={this.getFormMetaData()}/> {this.getFormModules().map((moduleModel, index) =>(
+					<FormModuleForm disabled={true} key={index} longName={moduleModel.longName} instructions={moduleModel.instructions}/>))}
+
+				</div>
+			);
+		}
+		else if(actionMode === 'createForm'){
 			const metaDataFormHeadingTitle = actionMode === 'createForm' ? 'Create New Form' : 'Edit Form',
 				submitButtonText = (actionMode === 'createForm') ? 'Create Form' : 'Save Form';
 			const buttons = [
