@@ -65,6 +65,8 @@ FormBuilder/src/main/webapp/assets/js/models/forms/FormModel.js -text
 FormBuilder/src/main/webapp/assets/js/models/forms/FormModuleModel.js -text
 FormBuilder/src/main/webapp/assets/js/models/forms/FormModulesColllection.js -text
 FormBuilder/src/main/webapp/assets/js/models/forms/FormUIStateModel.js -text
+FormBuilder/src/main/webapp/assets/js/models/forms/QuestionsColllection.js -text
+FormBuilder/src/main/webapp/assets/js/models/forms/QuestionsModel.js -text
 FormBuilder/src/main/webapp/assets/js/models/search/SearchModel.js -text
 FormBuilder/src/main/webapp/assets/js/models/search/form-search/FormSearchModel.js -text
 FormBuilder/src/main/webapp/assets/js/models/search/form-search/SearchResultModel.js -text
