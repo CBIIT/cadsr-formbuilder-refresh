@@ -1,7 +1,5 @@
 import React, {Component, PropTypes} from 'react';
 import {Col, Row, Button, FormGroup, ControlLabel, FormControl} from 'react-bootstrap';
-import ROUTES from '../../constants/ROUTES';
-import formRouter from '../../routers/FormRouter';
 import EVENTS from '../../constants/EVENTS';
 import {formChannel} from '../../channels/radioChannels';
 import List from '../common/List';
@@ -15,7 +13,7 @@ export default class TreeView extends Component {
 	}
 
 	dispatchCreateModule(){
-		formRouter.navigate(ROUTES.FORM.CREATE_MODULE, {trigger: true});
+		formChannel.request(EVENTS.FORM.CREATE_MODULE, {action: 'createModule'});
 	}
 
 	dispatchNavigateToModule(id){

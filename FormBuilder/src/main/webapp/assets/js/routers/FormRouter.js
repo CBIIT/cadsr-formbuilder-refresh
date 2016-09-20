@@ -5,19 +5,14 @@ import {formChannel} from '../channels/radioChannels';
 
 const FormRouter = Router.extend({
 	routes: {
-		[ROUTES.FORM.VIEW_FORM]: 'setViewFormLayout',
-		[ROUTES.FORM.CREATE_FORM]: 'setCreateFormLayout',
-		[ROUTES.FORM.CREATE_MODULE]: 'setCreateModule'
-
+		[ROUTES.FORM.VIEW_FORM]:   'setViewFormLayout',
+		[ROUTES.FORM.CREATE_FORM]: 'setCreateFormLayout'
 	},
 	setViewFormLayout (formIdseq) {
 		formChannel.request(EVENTS.FORM.SET_FORM_LAYOUT, {action: "viewFormFullView", formIdseq});
 	},
 	setCreateFormLayout () {
 		formChannel.request(EVENTS.FORM.SET_FORM_LAYOUT, {action:'createForm'});
-	},
-	setCreateModule(idSeq) {
-		formChannel.request(EVENTS.FORM.SET_FORM_LAYOUT, {idSeq, action:'createModule'});
 	}
 });
 const formRouter = new FormRouter;
