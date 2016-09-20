@@ -102,7 +102,7 @@ export default class FormLayout extends Component {
 					</Row>
 
 					<FormMetadataStatic formMetadata={this.getFormMetaData()}/> {this.getFormModules().map((moduleModel, index) =>(
-					<FormModuleForm disabled={true} key={index} longName={moduleModel.longName} instructions={moduleModel.instructions}/>))}
+					<FormModuleForm questions={JSON.stringify(moduleModel.questions)} disabled={true} key={index} longName={moduleModel.longName} instructions={moduleModel.instructions}/>))}
 
 				</div>
 			);
@@ -125,7 +125,7 @@ export default class FormLayout extends Component {
 					</Row>
 
 					<FormMetadataStatic formMetadata={this.getFormMetaData()}/> {this.getFormModules().map((moduleModel, index) =>(
-					<FormModuleForm disabled={true} key={index} longName={moduleModel.longName} instructions={moduleModel.instructions}/>))}
+					<FormModuleForm disabled={true} key={index} questions={JSON.stringify(moduleModel.questions)} longName={moduleModel.longName} instructions={moduleModel.instructions}/>))}
 
 				</div>
 			);
