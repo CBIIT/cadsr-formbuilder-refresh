@@ -59,6 +59,8 @@ FormBuilder/src/main/webapp/assets/js/constants/ROUTES.js -text
 FormBuilder/src/main/webapp/assets/js/helpers/urlHelpers.js -text
 FormBuilder/src/main/webapp/assets/js/main.js -text
 FormBuilder/src/main/webapp/assets/js/models/AppModel.js -text
+FormBuilder/src/main/webapp/assets/js/models/carts/CDECollection.js -text
+FormBuilder/src/main/webapp/assets/js/models/carts/CDEModel.js -text
 FormBuilder/src/main/webapp/assets/js/models/forms/DropDownOptionModel.js -text
 FormBuilder/src/main/webapp/assets/js/models/forms/DropDownOptionsCollection.js -text
 FormBuilder/src/main/webapp/assets/js/models/forms/FormMetadataModel.js -text
@@ -72,8 +74,10 @@ FormBuilder/src/main/webapp/assets/js/models/search/SearchModel.js -text
 FormBuilder/src/main/webapp/assets/js/models/search/form-search/FormSearchModel.js -text
 FormBuilder/src/main/webapp/assets/js/models/search/form-search/SearchResultModel.js -text
 FormBuilder/src/main/webapp/assets/js/models/search/form-search/SearchResultsCollection.js -text
+FormBuilder/src/main/webapp/assets/js/routers/CartsRouter.js -text
 FormBuilder/src/main/webapp/assets/js/routers/FormRouter.js -text
 FormBuilder/src/main/webapp/assets/js/routers/SearchRouter.js -text
+FormBuilder/src/main/webapp/assets/js/services/carts/CartsService.js -text
 FormBuilder/src/main/webapp/assets/js/services/form/FormService.js -text
 FormBuilder/src/main/webapp/assets/js/services/search/SearchService.js -text
 FormBuilder/src/main/webapp/assets/js/services/user/UserService.js -text
