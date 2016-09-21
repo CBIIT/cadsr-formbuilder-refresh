@@ -5,7 +5,7 @@ import {render} from 'react-dom';
 import EVENTS from '../../constants/EVENTS';
 import ROUTES from '../../constants/ROUTES';
 import ENDPOINT_URLS from '../../constants/ENDPOINT_URLS';
-import {formChannel, userChannel} from '../../channels/radioChannels';
+import {formChannel, appChannel} from '../../channels/radioChannels';
 import FormModel from '../../models/forms/FormModel';
 import FormModuleModel from '../../models/forms/FormModuleModel';
 import formUIStateModel from '../../models/forms/FormUIStateModel';
@@ -15,7 +15,7 @@ import GetFormMetadataCriteriaCommand from '../../commands/GetFormMetadataCriter
 import FormLayout from '../../components/form/FormLayout';
 
 /**
- * This is a service that maintains the state of a form
+ * This is a service that maintains the state of a form, modules, and questions. We may want to break out module-specific and question-specific functionality into their own modules
  */
 /*TODO move common methods out into a mixin/HOF or baseController/baseService */
 
@@ -39,7 +39,6 @@ const FormService = Marionette.Object.extend({
 			case "createForm":
 				formRouter.navigate(ROUTES.FORM.CREATE_FORM, {trigger: true});
 				if(!this.formModel.isNew()){
-					/* TODO make sure no more than two instances of FormModel exist. One for a form being edited and another for a form being viewed */
 					delete this.formModel;
 					this.formModel = new FormModel();
 				}
@@ -88,7 +87,7 @@ const FormService = Marionette.Object.extend({
 
 		new GetFormMetadataCriteriaCommand({
 			model:    this.uiDropDownOptionsModel,
-			userName: userChannel.request(EVENTS.USER.GET_USERNAME)
+			userName: appChannel.request(EVENTS.USER.GET_USERNAME)
 		}).execute();
 	},
 	handleAddModule(data) {
@@ -99,7 +98,7 @@ const FormService = Marionette.Object.extend({
 		/*Auth and permssions checks for for editing a for can go here*/
 		this.formUIStateModel.set({isEditing: true});
 	},
-	handleSaveForm() {
+	handleSaveForm({persistToDB = false}) {
 		this.formModel.save(null, {
 			dataType: 'text',
 			success:  () =>{
@@ -144,7 +143,7 @@ const FormService = Marionette.Object.extend({
 		this.formModel.get('formMetadata').set(data);
 		this.formModel.get('formMetadata').set({
 			context:   {conteIdseq: context},
-			createdBy: userChannel.request(EVENTS.USER.GET_USERNAME)
+			createdBy: appChannel.request(EVENTS.USER.GET_USERNAME)
 		});
 
 		this.formModel.get('formMetadata').save(null, {
