@@ -1,6 +1,7 @@
 /*This Config is meant for an unminified build and sets React to use development mode */
 import webpack from 'webpack';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
+import path from 'path';
 import autoprefixer from 'autoprefixer';
 
 const GLOBALS = {
@@ -16,9 +17,12 @@ export default {
   entry:   ['./assets/js/main', './assets/styles/styles.scss'],
   target:  'web', // necessary per https://webpack.github.io/docs/testing.html#compile-and-test
   output:  {
-    path:       './dist',
+    path:       path.resolve(__dirname, 'dist'), // Note: Physical files are only output by the production build task `npm run build`.
     publicPath: '/', // Use absolute paths to avoid the way that URLs are resolved by Chrome when they're parsed from a dynamically loaded CSS blob. Note: Only necessary in Dev.
     filename:   'bundle.js'
+  },
+  devServer: {
+    contentBase: path.resolve(__dirname, '../dist')
   },
   plugins: [
     // Optimize the order that items are bundled. This assures the hash is deterministic.
