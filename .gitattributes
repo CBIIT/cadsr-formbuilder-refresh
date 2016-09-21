@@ -73,7 +73,7 @@ FormBuilder/src/main/webapp/assets/js/models/search/form-search/FormSearchModel.
 FormBuilder/src/main/webapp/assets/js/models/search/form-search/SearchResultModel.js -text
 FormBuilder/src/main/webapp/assets/js/models/search/form-search/SearchResultsCollection.js -text
 FormBuilder/src/main/webapp/assets/js/routers/FormRouter.js -text
-FormBuilder/src/main/webapp/assets/js/routers/search/SearchRouter.js -text
+FormBuilder/src/main/webapp/assets/js/routers/SearchRouter.js -text
 FormBuilder/src/main/webapp/assets/js/services/form/FormService.js -text
 FormBuilder/src/main/webapp/assets/js/services/search/SearchService.js -text
 FormBuilder/src/main/webapp/assets/js/services/user/UserService.js -text

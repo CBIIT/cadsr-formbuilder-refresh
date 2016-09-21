@@ -1,7 +1,7 @@
 import Marionette from "backbone.marionette";
 import EVENTS from '../../constants/EVENTS';
 import {appChannel, searchChannel} from '../../channels/radioChannels';
-import SearchRouter from  "../../routers/search/SearchRouter";
+import SearchRouter from  "../../routers/SearchRouter";
 import SearchLayoutView from '../../views/search/SearchLayoutView';
 import FormSearchModel from '../../models/search/form-search/FormSearchModel';
 import urlHelpers from '../../helpers/urlHelpers';

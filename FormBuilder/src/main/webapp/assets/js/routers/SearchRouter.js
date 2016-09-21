@@ -1,7 +1,7 @@
 import * as Backbone from 'backbone';
-import EVENTS from '../../constants/EVENTS';
-import ROUTES from '../../constants/ROUTES';
-import {searchChannel} from '../../channels/radioChannels';
+import EVENTS from '../constants/EVENTS';
+import ROUTES from '../constants/ROUTES';
+import {searchChannel} from '../channels/radioChannels';
 
 const SearchRouter = Backbone.Router.extend({
 	routes: {
