@@ -1,14 +1,12 @@
 package gov.nih.nci.cadsr.api.controller;
 
 
-//import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,7 +20,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import gov.nih.nci.cadsr.FormBuilderConstants;
 import gov.nih.nci.cadsr.FormBuilderProperties;
 import gov.nih.nci.cadsr.model.BBForm;
-import gov.nih.nci.cadsr.model.session.TestSessionObject;
+import gov.nih.nci.cadsr.model.session.SessionObject;
 
 /**
  * 
@@ -36,14 +34,11 @@ import gov.nih.nci.cadsr.model.session.TestSessionObject;
 @RequestMapping(value = "/forms")
 public class FormAdapterController {
 	
-//	private static final Logger logger = Logger.getLogger(FormAdapterController.class);
-
-
 	@Autowired
 	private FormBuilderProperties props;
 	
 	@Autowired
-	private TestSessionObject sessionObject;
+	private SessionObject sessionObject;
 
 	@RequestMapping(method = RequestMethod.GET)
 	@ResponseBody
@@ -156,10 +151,6 @@ public class FormAdapterController {
 		RestTemplate restTemplate = new RestTemplate();
 		restTemplate.put(uri, entity);
 
-//		BBForm fullForm = (BBForm)getFullForm(formIdSeq).getBody();
-		
-//		return new ResponseEntity(fullForm, HttpStatus.OK);
-		
 		return new ResponseEntity("SUCCESS", HttpStatus.OK);
 	}
 	
@@ -179,12 +170,6 @@ public class FormAdapterController {
 		return new ResponseEntity(sessionObject.getWorkingCopy(), HttpStatus.OK);
 	}
 
-	@RequestMapping(value = { "/username" }, method = RequestMethod.GET)
-	@ResponseBody
-	public String getloggedinuser() {
-		return SecurityContextHolder.getContext().getAuthentication().getName();
-	}
-	
 	/**
 	 * 
 	 * Performance Test Methods
@@ -224,8 +209,6 @@ public class FormAdapterController {
 		
 		sb.append("Time(ms) for full transport to front-end: " + transportTime);
 		sb.append("-----------------------------END-------------------------------\n\n");
-
-//		logger.info(sb.toString());
 
 		return new ResponseEntity(sb.toString(), HttpStatus.OK);
 	}

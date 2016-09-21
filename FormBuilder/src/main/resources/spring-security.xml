@@ -14,21 +14,25 @@
 		</session-management>
 	</http>
 
-	<!-- The username and password to be provided is “vpUser” and “vp123” -->
-	<authentication-manager>
+	<!-- <authentication-manager>
 		<authentication-provider>
 			<user-service>
 				<user name="guest" password="Nci_gue5t" authorities="ROLE_USER" />
+				<user name="user1" password="user1" authorities="ROLE_USER" />
+				<user name="user2" password="user2" authorities="ROLE_USER" />
 			</user-service>
 		</authentication-provider>
-	</authentication-manager>
+	</authentication-manager> -->
 
-	<!-- <authentication-manager alias="authenticationManager">
-		<authentication-provider ref="customAuthenticationProvider" />
+	<authentication-manager>
+		<authentication-provider ref="cadsrAuthenticationProvider" />
 	</authentication-manager>
+	
+	<beans:bean id="userDetailsService"
+		class="gov.nih.nci.cadsr.authentication.CadsrUserDetailsService" />
 
-	Bean implementing AuthenticationProvider of Spring Security
-	<beans:bean id="customAuthenticationProvider" class="gov.nih.nci.cadsr.authentication.CustomAuthenticationProvider">
+	<!-- Bean implementing AuthenticationProvider of Spring Security -->
+	<beans:bean id="cadsrAuthenticationProvider" class="gov.nih.nci.cadsr.authentication.CadsrAuthenticationProvider">
 	</beans:bean>
- -->
+	
 </beans:beans>

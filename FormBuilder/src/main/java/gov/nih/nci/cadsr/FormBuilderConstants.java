@@ -9,6 +9,7 @@ public class FormBuilderConstants {
 	public static final String FORMSERVICE_TYPES = "types";
 	public static final String FORMSERVICE_WORKFLOWS = "workflows";
 //	public static final String FORMSERVICE_LOGIN = "login";
+	public static final String FORMSERVICE_USERS = "users";
 	public static final String FORMSERVICE_FORMS_PERFORMANCE = "performancetest";
 
 }
