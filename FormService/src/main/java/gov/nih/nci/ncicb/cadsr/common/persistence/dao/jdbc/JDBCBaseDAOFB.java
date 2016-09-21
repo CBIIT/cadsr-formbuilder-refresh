@@ -9,6 +9,7 @@ import java.util.Map;
 
 import javax.sql.DataSource;
 
+import org.apache.commons.dbcp.BasicDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.SqlOutParameter;
 import org.springframework.jdbc.core.SqlParameter;
@@ -29,7 +30,7 @@ public class JDBCBaseDAOFB extends BaseDAOFB implements PersistenceConstants, Er
 	private GUIDGenerator idGen = null;
 	
 	@Autowired
-	private DataSource dataSource;
+	private BasicDataSource dataSource;
 
 	public JDBCBaseDAOFB()
 	{
@@ -285,11 +286,11 @@ public class JDBCBaseDAOFB extends BaseDAOFB implements PersistenceConstants, Er
 		}
 	}
 
-	public DataSource getDataSource() {
+	public BasicDataSource getDataSource() {
 		return dataSource;
 	}
 
-	public void setDataSource(DataSource dataSource) {
+	public void setDataSource(BasicDataSource dataSource) {
 		this.dataSource = dataSource;
 		idGen = new GUIDGenerator(this.dataSource);
 	}

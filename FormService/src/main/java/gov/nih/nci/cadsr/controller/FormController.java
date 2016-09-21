@@ -161,9 +161,19 @@ public class FormController {
 	@RequestMapping(value = "/forms/performancetest/{formIdSeq}", method = RequestMethod.GET)
 	@ResponseBody
 	public ResponseEntity<String> getFormTest(@PathVariable String formIdSeq) {
+//		long startTimer = System.currentTimeMillis();
 		
 		String testResult = formManager.getFormPerformanceTest(formIdSeq);
-
+		
+//		long endTimer = System.currentTimeMillis();
+//		String transportTime = "" + (endTimer - startTimer);
+//		
+//		StringBuilder sb = new StringBuilder(testResult);
+//		
+//		sb.append("Time(ms) for full transport to front-end: " + transportTime);
+//		sb.append("-----------------------------END-------------------------------\n\n");
+//
+//		logger.info(sb.toString());
 		return new ResponseEntity(testResult, HttpStatus.OK);
 	}
 

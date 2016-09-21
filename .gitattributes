@@ -143,6 +143,7 @@ FormService/src/main/java/gov/nih/nci/cadsr/controller/LegacyController.java -te
 FormService/src/main/java/gov/nih/nci/cadsr/controller/ModuleController.java -text
 FormService/src/main/java/gov/nih/nci/cadsr/controller/ProtocolController.java -text
 FormService/src/main/java/gov/nih/nci/cadsr/controller/TypeController.java -text
+FormService/src/main/java/gov/nih/nci/cadsr/controller/UserController.java -text
 FormService/src/main/java/gov/nih/nci/cadsr/controller/WorkFlowController.java -text
 FormService/src/main/java/gov/nih/nci/cadsr/dao/CategoryDao.java -text
 FormService/src/main/java/gov/nih/nci/cadsr/dao/ClassificationTrDao.java -text
@@ -186,6 +187,7 @@ FormService/src/main/java/gov/nih/nci/cadsr/model/BBModule.java -text
 FormService/src/main/java/gov/nih/nci/cadsr/model/BBProtocol.java -text
 FormService/src/main/java/gov/nih/nci/cadsr/model/BBQuestion.java -text
 FormService/src/main/java/gov/nih/nci/cadsr/model/BBQuestionRepetition.java -text
+FormService/src/main/java/gov/nih/nci/cadsr/model/BBUser.java -text
 FormService/src/main/java/gov/nih/nci/cadsr/model/BBValidValue.java -text
 FormService/src/main/java/gov/nih/nci/cadsr/model/Category.java -text
 FormService/src/main/java/gov/nih/nci/cadsr/model/Context.java -text

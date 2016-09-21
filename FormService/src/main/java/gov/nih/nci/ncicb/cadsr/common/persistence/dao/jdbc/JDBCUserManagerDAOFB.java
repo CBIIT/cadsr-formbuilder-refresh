@@ -18,8 +18,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import javax.sql.DataSource;
-
+import org.apache.commons.dbcp.BasicDataSource;
+import org.apache.commons.dbcp.BasicDataSourceFactory;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -74,7 +74,10 @@ public class JDBCUserManagerDAOFB extends JDBCBaseDAOFB implements UserManagerDA
 		boolean validUser = false;
 		Connection conn = null;
 		try {
-			conn = getDataSource().getConnection(userName, password);
+			BasicDataSource bds = getDataSource();
+			bds.setUsername(userName);
+			bds.setPassword(password);
+			conn = bds.getConnection();
 
 			// The Query below is to make sure connection db is established
 			// In some case it was noticed that just making the connection did
@@ -121,7 +124,7 @@ public class JDBCUserManagerDAOFB extends JDBCBaseDAOFB implements UserManagerDA
 
 	// inner class
 	class UserGroupQuery extends MappingSqlQuery {
-		UserGroupQuery(DataSource ds) {
+		UserGroupQuery(BasicDataSource ds) {
 			super(
 					ds,
 					"SELECT COUNT(*) from USER_BR_VIEW_EXT where UA_NAME=UPPER(?) AND BRL_NAME=UPPER(?)");
@@ -140,7 +143,7 @@ public class JDBCUserManagerDAOFB extends JDBCBaseDAOFB implements UserManagerDA
 	// inner class end    
 	// inner class
 	class UserQuery extends MappingSqlQuery {
-		UserQuery(DataSource ds) {
+		UserQuery(BasicDataSource ds) {
 			super(ds, "SELECT *  from USER_ACCOUNTS_VIEW where UA_NAME=UPPER(?)");
 			declareParameter(new SqlParameter("UA_NAME", Types.VARCHAR));
 			compile();
@@ -160,7 +163,7 @@ public class JDBCUserManagerDAOFB extends JDBCBaseDAOFB implements UserManagerDA
 	}
 	//Check if the user is enable
 	class UserEnabledQuery extends MappingSqlQuery {
-		UserEnabledQuery(DataSource ds) {
+		UserEnabledQuery(BasicDataSource ds) {
 			super(ds, "SELECT ENABLED_IND  from USER_ACCOUNTS_VIEW where UA_NAME like UPPER(?)");
 			declareParameter(new SqlParameter("UA_NAME", Types.VARCHAR));
 			compile();
@@ -179,7 +182,7 @@ public class JDBCUserManagerDAOFB extends JDBCBaseDAOFB implements UserManagerDA
 		Map out = new HashMap();
 		List results = new ArrayList();
 
-		public ContextsQuery(DataSource ds) {
+		public ContextsQuery(BasicDataSource ds) {
 			super(ds, "cadsr_security_util.get_contexts_list");
 			declareParameter(new SqlParameter("p_ua_name", Types.VARCHAR));
 			declareParameter(new SqlParameter("p_actl_name", Types.VARCHAR));

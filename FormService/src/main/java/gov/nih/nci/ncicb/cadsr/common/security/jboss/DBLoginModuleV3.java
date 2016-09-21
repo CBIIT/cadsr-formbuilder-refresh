@@ -19,6 +19,7 @@ import javax.security.auth.login.FailedLoginException;
 import javax.security.auth.login.LoginException;
 import javax.sql.DataSource;
 
+import org.apache.commons.dbcp.BasicDataSource;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jboss.security.SimpleGroup;
@@ -60,7 +61,7 @@ public class DBLoginModuleV3 extends AbstractServerLoginModule
             {
             	JDBCUserManagerDAOFB umDao = new JDBCUserManagerDAOFB();
             	Context envContext = new InitialContext();
-                DataSource ds = (DataSource)envContext.lookup(_jndiName);
+                BasicDataSource ds = (BasicDataSource)envContext.lookup(_jndiName);
             	umDao.setDataSource(ds);
                 userManagerDAO = umDao;
             }
