@@ -64,6 +64,7 @@ FormBuilder/src/main/webapp/assets/js/constants/ROUTES.js -text
 FormBuilder/src/main/webapp/assets/js/helpers/urlHelpers.js -text
 FormBuilder/src/main/webapp/assets/js/main.js -text
 FormBuilder/src/main/webapp/assets/js/models/AppModel.js -text
+FormBuilder/src/main/webapp/assets/js/models/carts/CDECartModel.js -text
 FormBuilder/src/main/webapp/assets/js/models/carts/CDECollection.js -text
 FormBuilder/src/main/webapp/assets/js/models/carts/CDEModel.js -text
 FormBuilder/src/main/webapp/assets/js/models/forms/DropDownOptionModel.js -text

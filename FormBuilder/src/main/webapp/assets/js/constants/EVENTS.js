@@ -24,7 +24,11 @@ const EVENTS = {
 		RESULTS_COLLECTION_RESET: 'search:resultsCollectionReset'
 	},
 	USER:   {
-		GET_USERNAME: 'get:userName'
+		GET_USERNAME:  'get:userName',
+		LOGIN_SUCCESS: "loginSuccess"
+	},
+	CARTS:  {
+		GET_CART_DATA: 'get:cartData'
 	}
 };
 

@@ -43,6 +43,7 @@ const FormService = Marionette.Object.extend({
 					this.formModel = new FormModel();
 				}
 				this.formUIStateModel.set({actionMode: action});
+				this.getCartData();
 				this.fetchFormMetaDataCriteria();
 				break;
 			case "createModule":
@@ -79,6 +80,9 @@ const FormService = Marionette.Object.extend({
 		this.formModel.fetch().then(() =>{
 			this.constructLayout();
 		});
+	},
+	getCartData() {
+		return appChannel.request(EVENTS.USER.GET_CART_DATA);
 	},
 	fetchFormMetaDataCriteria() {
 		formChannel.on(EVENTS.FORM.GET_FORM_CORE_DETAILS_CRITERIA, () =>{

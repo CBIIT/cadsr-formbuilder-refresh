@@ -16,14 +16,20 @@ const CartsService = Marionette.Object.extend({
 		 appChannel.on(EVENTS.USER.LOGIN_SUCCESS, () => this.setupModels());
 		 */
 		this.setupModels();
+		appChannel.reply(EVENTS.CARTS.GET_CART_DATA, () => this.fetchCarts());
 	},
 	fetchCarts() {
-		this.cdeCartModel.fetch({}).then(()=>{
+		/* TODO Turn this into a promise */
+		this.cdeCartModel.fetch({}).then(() =>{
 			console.log("CDE cart fetch success!");
+			return {
+				cdeCartModel: this.cdeCartModel
+			};
 		}).catch((error) =>{
 			console.log(error);
 		});
 	},
+
 	setupModels() {
 		const user = appChannel.request(EVENTS.USER.GET_USERNAME);
 

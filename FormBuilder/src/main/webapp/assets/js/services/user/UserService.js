@@ -13,6 +13,11 @@ const UserService = Marionette.Object.extend({
 		'isLoggedIn': 'isUserLoggedIn'
 	},
 	initialize() {
+		/* Auth isn't ready yet.  this trigger will be moved out of init once auth is setup on the FE */
+		appChannel.trigger(EVENTS.USER.LOGIN_SUCCESS, () =>{
+			console.log("login success");
+		});
+
 		appChannel.reply(EVENTS.USER.GET_USERNAME, this.getUserName);
 	},
 	getUserName () {
