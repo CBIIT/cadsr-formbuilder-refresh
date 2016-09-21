@@ -5,7 +5,10 @@
   "scripts": {
     "clean-dist": "npm run remove-dist && mkdir dist",
     "remove-dist": "rimraf ./dist",
-    "lint": "esw webpack.config.*",
+    "prestart-dev": "npm run remove-dist",
+    "start-dev": "npm-run-all --parallel start-webpack-dev-server lint:watch",
+    "start-webpack-dev-server": "babel-node frontend-tools/webpackDevServer.js",
+    "lint": "esw webpack.config.* assets",
     "lint:watch": "npm run lint -- --watch",
     "prebuild": "npm run clean-dist",
     "build": "babel-node frontend-tools/build.js"
@@ -61,6 +64,7 @@
     "style-loader": "^0.13.1",
     "underscore-template-loader": "0.7.3",
     "url-loader": "^0.5.7",
-    "webpack": "1.13.1"
+    "webpack": "1.13.1",
+    "webpack-dev-middleware": "^1.8.1"
   }
 }

@@ -2,7 +2,7 @@
 // Allowing console calls below since this is a build file.
 /* eslint-disable no-console */
 import webpack from 'webpack';
-/* changing the confg to reference the "development" webpack config instead can be done here*/
+/* changing the config to reference the "development" webpack config instead can be done here*/
 import config from './webpack.config.deployment';
 
 console.log('Generating minified bundle via Webpack. This will take a moment...');
