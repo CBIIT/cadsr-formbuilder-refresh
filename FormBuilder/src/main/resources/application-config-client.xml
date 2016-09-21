@@ -14,13 +14,13 @@ L-->
 			<map>
 				 <entry key="APPLICATION_SERVICE_BEAN" value="objectCartApplicationService"/> 
 				<entry key="AUTHENTICATION_SERVICE_BEAN" value-ref="objectCartAuthenticationProvider"/>
-				<entry key="APPLICATION_SERVICE_URL"  value="http://cbvapp-d1008.nci.nih.gov:19080/objectCart"/>
+				<entry key="APPLICATION_SERVICE_URL"  value="http://nciws-d715-v.nci.nih.gov:18080/objcart103"/>
 				<!-- <entry key="APPLICATION_SERVICE_CONFIG"  value-ref="objectCartApplicationServiceConfig"/> -->
 			</map>
 		</constructor-arg>
 	</bean>
 	
-	 <bean id="interceptor" class="gov.nih.nci.system.client.proxy.ApplicationServiceProxy" singleton="true">
+	 <bean id="interceptor" class="gov.nih.nci.system.client.proxy.ApplicationServiceProxy">
 		<property name="proxyFactory">
 			<bean class="gov.nih.nci.system.client.proxy.ProxyHelperImpl"/>
 		</property>
@@ -29,7 +29,7 @@ L-->
 	<bean id="objectCartApplicationService" class="org.springframework.aop.framework.ProxyFactoryBean">
 		<property name="target">
 			<bean class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
-				<property name="serviceUrl" value="http://cbvapp-d1008.nci.nih.gov:19080/objectCart/http/applicationService"/>
+				<property name="serviceUrl" value="http://nciws-d715-v.nci.nih.gov:18080/objcart103/http/applicationService"/>
 				<property name="serviceInterface" value="gov.nih.nci.objectCart.applicationService.ObjectCartService"/>
 				<property name="httpInvokerRequestExecutor">
 					<bean class="org.acegisecurity.context.httpinvoker.AuthenticationSimpleHttpInvokerRequestExecutor"/>
@@ -43,7 +43,7 @@ L-->
 	<bean id="objectCartAuthenticationProvider" class="org.acegisecurity.providers.rcp.RemoteAuthenticationProvider">
 		<property name="remoteAuthenticationManager">
 			<bean class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
-			    <property name="serviceUrl" value="http://cbvapp-d1008.nci.nih.gov:19080/objectCart/http/remoteAuthenticationManager"/>
+			    <property name="serviceUrl" value="http://nciws-d715-v.nci.nih.gov:18080/objcart103/http/remoteAuthenticationManager"/>
 			    <property name="serviceInterface" value="org.acegisecurity.providers.rcp.RemoteAuthenticationManager"/>
 			</bean>
 		</property>
@@ -83,6 +83,6 @@ L-->
 				&lt;alias alias=&quot;objectCartAuthenticationProvider&quot; name=&quot;authenticationProvider&quot;/&gt;
 			</value>
 		</constructor-arg>
-	</bean> 
+	</bean>
 
 </beans>

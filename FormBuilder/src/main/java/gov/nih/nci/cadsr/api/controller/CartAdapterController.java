@@ -54,10 +54,14 @@ import gov.nih.nci.ncicb.cadsr.common.CaDSRConstants;
 import gov.nih.nci.ncicb.cadsr.common.dto.FormTransferObject;
 import gov.nih.nci.ncicb.cadsr.common.dto.ModuleTransferObject;
 import gov.nih.nci.ncicb.cadsr.common.dto.QuestionTransferObject;
+import gov.nih.nci.ncicb.cadsr.common.resource.FormV2;
 import gov.nih.nci.ncicb.cadsr.objectCart.CDECart;
 import gov.nih.nci.ncicb.cadsr.objectCart.CDECartItemTransferObject;
 import gov.nih.nci.ncicb.cadsr.objectCart.impl.CDECartOCImpl;
 import gov.nih.nci.objectCart.client.ObjectCartClient;
+import gov.nih.nci.objectCart.client.ObjectCartException;
+import gov.nih.nci.objectCart.domain.Cart;
+import gov.nih.nci.objectCart.domain.CartObject;
 
 /**
  * 
@@ -267,6 +271,37 @@ public class CartAdapterController {
 		carts.getFormCart().add(form);
 
 		return null;
+	}
+	
+	@RequestMapping(value = "/forms/{cartId}/{formIdSeq}", method = RequestMethod.GET)
+	@ResponseBody
+	public Cart saveFormToOC(@PathVariable String cartId, @PathVariable String formIdSeq) throws ObjectCartException {
+
+		
+		ObjectCartClient cartClient = new ObjectCartClient();
+		
+		//XXX:This should retrieve an existing Cart, but throws a strange error. Hibernate version mismatch???
+		//XXX:Cannot access HTTP invoker remote service at [http://nciws-d715-v.nci.nih.gov:18080/objcart103/http/applicationService]; nested exception is java.io.InvalidClassException: org.hibernate.collection.AbstractPersistentCollection; local class incompatible: stream classdesc serialVersionUID = 7602608801868099635, local class serialVersionUID = -5723701046347946317
+		//XXX:However, successfully creates a new cart.
+		Cart cart = cartClient.createCart("username", "formCart");
+		
+		//TODO:Get the FormV2 version of a Form and translate it to a CartObject that can be saved.
+//		FormV2 formv2 = getFormV2FromDB(formIdSeq);
+//		CartObject cObject = translateCartObject(formv2);
+		
+		CartObject cObject = new CartObject();
+		
+		//TODO:Actually save the Form to the ObjectCart
+//		cartClient.storeObject(cart, cObject);
+		
+		//Get FormV2 from DB based on formIdSeq
+		//Translate to CartObject (see FormAction.java ln 748)
+		//Get/Create instance of ObjectCartClient
+		//Get cart Id - should already have it
+		//Call ObjectCartClient.storeObjectCollection(oCart, cartObjects);
+		
+		return cart;
+
 	}
 
 	@RequestMapping(value = "/modules", method = RequestMethod.DELETE)
