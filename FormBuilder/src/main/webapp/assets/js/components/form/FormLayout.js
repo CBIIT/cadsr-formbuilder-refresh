@@ -83,7 +83,7 @@ export default class FormLayout extends Component {
 	}
 
 	dispatchSaveFormClicked(){
-		formChannel.request(EVENTS.FORM.SAVE_FORM);
+		formChannel.request(EVENTS.FORM.SAVE_FORM, {persistToDB: true});
 	}
 
 	getMainPanelComponents(){
