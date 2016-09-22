@@ -50,14 +50,21 @@ public class UserAdapterController {
 	@ResponseBody
 	public boolean getLoggedIn() {
 		
-		return !SecurityContextHolder.getContext().getAuthentication().getName().equals("anonymousUser");
+		CadsrUserDetails userDetails =
+				 (CadsrUserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		
+		return !userDetails.getUsername().equals("anonymousUser");
 		
 	}
 
 	@RequestMapping(value = { "/username" }, method = RequestMethod.GET)
 	@ResponseBody
 	public String getloggedinuser() {
-		return SecurityContextHolder.getContext().getAuthentication().getName();
+		
+		CadsrUserDetails userDetails =
+				 (CadsrUserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		
+		return userDetails.getUsername();
 	}
 	
 	@RequestMapping(value = { "/details" }, method = RequestMethod.GET)
