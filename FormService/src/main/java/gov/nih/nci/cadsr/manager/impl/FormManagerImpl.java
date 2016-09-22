@@ -124,9 +124,11 @@ public class FormManagerImpl implements FormManager {
 			fidao2.createFooterInstruction(footerInstruction, id);
 		}
 
-		form.setFormIdseq(id);
+		//return full form that's been newly created from the DB
+		BBFormMetaData newForm = testTranslateDBFormToBBForm(getFullForm(id)).getFormMetadata();
 		
-		return form;
+		
+		return newForm;
 
 	}
 
