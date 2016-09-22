@@ -6,6 +6,17 @@ public class BBContext {
 	private String name;
 	private String description;
 	
+	public BBContext(){
+		this.conteIdseq = "";
+		this.name = "";
+		this.description = "";
+	}
+	
+	public BBContext(String conteIdseq, String name, String description){
+		this.conteIdseq = conteIdseq;
+		this.name = name;
+		this.description = description;
+	}
 	
 	public String getConteIdseq() {
 		return conteIdseq;
