@@ -24,12 +24,12 @@ const GetSearchFormCriteriaCommand = Marionette.Object.extend({
 						url: ENDPOINT_URLS.WORKFLOWS
 					}).then(() =>{
 						searchChannel.trigger('model:getDropDownOptionsSuccess');
-					}).fail((error) =>{
+					}).catch((error) =>{
 						console.log(error);
 						appChannel.trigger('request:fail');
-					})
-				})
-			})
+					});
+				});
+			});
 		});
 
 		/*

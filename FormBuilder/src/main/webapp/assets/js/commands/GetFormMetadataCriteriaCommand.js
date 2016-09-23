@@ -19,11 +19,11 @@ const GetFormMetadataCriteriaCommand = Marionette.Object.extend({
 					url: ENDPOINT_URLS.TYPES
 				}).then(() =>{
 					formChannel.trigger(EVENTS.FORM.GET_FORM_CORE_DETAILS_CRITERIA);
-				}).fail((error) =>{
+				}).catch((error) =>{
 					console.log(error);
 					appChannel.trigger('request:fail');
-				})
-			})
+				});
+			});
 		});
 
 		/*
