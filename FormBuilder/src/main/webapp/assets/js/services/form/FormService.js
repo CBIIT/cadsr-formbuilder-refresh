@@ -51,15 +51,12 @@ const FormService = Marionette.Object.extend({
 				break;
 			case "createModule":
 				this.formUIStateModel.set({actionMode: action});
-				this.getCartData();
 				break;
 			case "editModule":
 				this.formUIStateModel.set({actionMode: action});
-				this.getCartData();
 				break;
 			case "editQuestion":
 				this.formUIStateModel.set({actionMode: action});
-				this.getCartData();
 				break;
 			case "viewFormFullView":
 				this.formUIStateModel.set({actionMode: action});
