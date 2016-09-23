@@ -31,7 +31,10 @@ const FormService = Marionette.Object.extend({
 		[EVENTS.FORM.SAVE_FORM]:             'handleSaveForm',
 		[EVENTS.FORM.VIEW_MODULE]:           'setModuleView'
 	},
-	initialize(options = {}) {
+	/* Stores cart data retrieved from carService */
+	carts:         null,
+	initialize({app}) {
+		this.app = app;
 		this.setupModels();
 	},
 	dispatchLayout({action, formIdseq = this.formModel.get('formIdseq')}) {
@@ -42,27 +45,28 @@ const FormService = Marionette.Object.extend({
 					delete this.formModel;
 					this.formModel = new FormModel();
 				}
-				this.formUIStateModel.set({actionMode: action});
 				this.getCartData();
+				this.formUIStateModel.set({actionMode: action});
 				this.fetchFormMetaDataCriteria();
 				break;
 			case "createModule":
 				this.formUIStateModel.set({actionMode: action});
-
+				this.getCartData();
 				break;
 			case "editModule":
 				this.formUIStateModel.set({actionMode: action});
-
+				this.getCartData();
 				break;
 			case "editQuestion":
 				this.formUIStateModel.set({actionMode: action});
-
+				this.getCartData();
 				break;
 			case "viewFormFullView":
 				this.formUIStateModel.set({actionMode: action});
 				if(formIdseq !== this.formModel.get('formIdseq')){
 					this.fetchForm({formIdseq: formIdseq});
 				}
+				this.getCartData();
 				break;
 			default:
 				console.error("no valid action provided");
@@ -71,7 +75,7 @@ const FormService = Marionette.Object.extend({
 	constructLayout(){
 		/*Entry point for React. Backbone Views Keep Out */
 		render(
-			<FormLayout formModel={this.formModel.attributes} uiDropDownOptionsModel={this.uiDropDownOptionsModel.toJSON()} formUIState={this.formUIStateModel}/>, document.getElementById('main'));
+			<FormLayout carts={this.carts} formModel={this.formModel.attributes} uiDropDownOptionsModel={this.uiDropDownOptionsModel.toJSON()} formUIState={this.formUIStateModel}/>, document.getElementById('main'));
 
 	},
 	fetchForm({formIdseq}) {
@@ -82,7 +86,12 @@ const FormService = Marionette.Object.extend({
 		});
 	},
 	getCartData() {
-		return appChannel.request(EVENTS.USER.GET_CART_DATA);
+		/*Only retrieve carts if user actually exists */
+		if(appChannel.request(EVENTS.USER.GET_USERNAME)){
+			return this.app.cartsService.fetchCarts().then((carts)=>{
+				this.carts = carts;
+			});
+		}
 	},
 	fetchFormMetaDataCriteria() {
 		formChannel.on(EVENTS.FORM.GET_FORM_CORE_DETAILS_CRITERIA, () =>{
@@ -99,7 +108,7 @@ const FormService = Marionette.Object.extend({
 		this.setModuleView(newModuleModel.cid);
 	},
 	handleSetFormEditable() {
-		/*Auth and permssions checks for for editing a for can go here*/
+		/*Auth and permssions checks for for editing a form can go here*/
 		this.formUIStateModel.set({isEditing: true});
 	},
 	handleSaveForm({persistToDB = false}) {

@@ -7,13 +7,21 @@ import UserService from  "./services/user/UserService";
 
 app.on('start', function(){
 
-	app.formService = new FormService();
+	app.formService = new FormService({
+		app: app
+	});
 
-	app.searchService = new SearchService();
+	app.searchService = new SearchService({
+		app: app
+	});
 
-	app.userService = new UserService();
+	app.userService = new UserService({
+		app: app
+	});
 
-	app.CartsService = new CartsService();
+	app.cartsService = new CartsService({
+		app: app
+	});
 
 	Backbone.history.start();
 });

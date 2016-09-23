@@ -16,28 +16,37 @@ const CartsService = Marionette.Object.extend({
 		 appChannel.on(EVENTS.USER.LOGIN_SUCCESS, () => this.setupModels());
 		 */
 		this.setupModels();
-		appChannel.reply(EVENTS.CARTS.GET_CART_DATA, () => this.fetchCarts());
 	},
+	/**
+	 *
+	 * @returns {Promise.<TResult>}
+	 */
 	fetchCarts() {
-		/* TODO Turn this into a promise */
-		this.cdeCartModel.fetch({}).then(() =>{
-			console.log("CDE cart fetch success!");
-			return {
-				cdeCartModel: this.cdeCartModel
-			};
-		}).catch((error) =>{
+		const cdeCartCollection = this.cdeCartCollection;
+		/* TODO refactor to handle array of carts */
+		const p = new Promise(
+			(resolve, reject) =>{
+				cdeCartCollection.fetch().then(() =>{
+					resolve({
+						cdeCartCollection: cdeCartCollection
+					});
+				}).catch((error) =>{
+					console.log(error);
+				});
+			}
+		);
+		return p.then((collection)=>{
+			return collection;
+		}).catch((error)=>{
 			console.log(error);
 		});
 	},
-
 	setupModels() {
 		const user = appChannel.request(EVENTS.USER.GET_USERNAME);
 
-		this.cdeCartModel = new CDECollection({
+		this.cdeCartCollection = new CDECollection({
 			url: `${ENDPOINT_URLS.CDE_CART}/${user}`
 		});
-
-		this.fetchCarts();
 	}
 });
 
