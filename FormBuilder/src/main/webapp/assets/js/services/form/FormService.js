@@ -111,7 +111,7 @@ const FormService = Marionette.Object.extend({
 		/*Auth and permssions checks for for editing a form can go here*/
 		this.formUIStateModel.set({isEditing: true});
 	},
-	handleSaveForm({persistToDB = false}) {
+	handleSaveForm({persistToDB = false} = {}) {
 		this.formModel.save(null, {
 			dataType: 'text',
 			success:  () =>{
@@ -130,12 +130,7 @@ const FormService = Marionette.Object.extend({
 		if(module.get("moduleIdSeq") && !module.get("isEdited")){
 			module.set("isEdited", true);
 		}
-
-		this.formUIStateModel.set({
-			actionMode: 'viewFormFullView',
-			editItem:   null
-		});
-		formRouter.navigate(`forms/${this.formModel.get("formIdseq")}`, {trigger: false});
+		this.handleSaveForm();
 	},
 	setModuleView(id) {
 		const moduleModel = this.formModel.get('formModules').get(id);
