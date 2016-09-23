@@ -7,6 +7,7 @@ Styleguide 2
 */
 @import "global-colors-mixins";
 
+/*
 @mixin blueButton {
   background-color: $activeBlue;
   border-bottom: 1px solid #b2b2b2;
@@ -70,7 +71,7 @@ Styleguide 2
   font-family: 'Hind', sans-serif;
   @media (max-width: 767px) {
     margin-bottom: 5px;
-    /* Bootstrap . btn-block class */
+    !* Bootstrap . btn-block class *!
     display: block;
     width: 100%;
     margin-right: 0;
@@ -250,7 +251,7 @@ button.btn {
   .btn {
     border-bottom: #919191;
   }
-}
+}*/
 
 .button-link {
   border: none;
