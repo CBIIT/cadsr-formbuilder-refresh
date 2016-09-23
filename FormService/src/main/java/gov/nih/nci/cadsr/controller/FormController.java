@@ -23,8 +23,16 @@ import gov.nih.nci.cadsr.model.BBFormMetaData;
 import gov.nih.nci.ncicb.cadsr.common.dto.FormTransferObject;
 import gov.nih.nci.ncicb.cadsr.common.dto.FormV2TransferObject;
 import gov.nih.nci.ncicb.cadsr.common.dto.InstructionTransferObject;
+
+import gov.nih.nci.ncicb.cadsr.common.resource.FormV2;
+
 import gov.nih.nci.ncicb.cadsr.common.resource.NCIUser;
 import gov.nih.nci.ncicb.cadsr.formbuilder.ejb.impl.FormBuilderServiceImpl;
+import gov.nih.nci.ncicb.cadsr.formbuilder.struts.common.FormConverterUtil;
+import gov.nih.nci.objectCart.client.ObjectCartClient;
+import gov.nih.nci.objectCart.client.ObjectCartException;
+import gov.nih.nci.objectCart.domain.Cart;
+import gov.nih.nci.objectCart.domain.CartObject;
 
 @RestController
 public class FormController {
@@ -160,6 +168,7 @@ public class FormController {
 
 	@RequestMapping(value = "/forms/performancetest/{formIdSeq}", method = RequestMethod.GET)
 	@ResponseBody
+
 	public ResponseEntity<String> getFormTest(@PathVariable String formIdSeq) {
 //		long startTimer = System.currentTimeMillis();
 		
@@ -183,5 +192,65 @@ public class FormController {
 	 * 
 	 * return new ResponseEntity<FormWrapper>(formList, HttpStatus.OK); }
 	 */
+	@RequestMapping(value = "/forms/{cartId}/{formIdSeq}", method = RequestMethod.GET)
+	@ResponseBody
+	public ResponseEntity<Cart> saveFormToOC(@PathVariable String cartId, @PathVariable String formIdSeq)
+			throws ObjectCartException {
+		ObjectCartClient cartClient = new ObjectCartClient();
+		String str = formIdSeq;
+		String[] id = str.split(",");
+		Cart cart = cartClient.createCart("betty", "formCart");
+		// TODO:Get the FormV2 version of a Form and translate it to a
+		// CartObject that can be saved.
+		CartObject cObject = new CartObject();
+		for (String i : id) {
+			FormV2 formV2 = formManager.getFullFormV2(i);
+			try {
+				cObject = translateCartObject(formV2);
+				cartClient.storeObject(cart, cObject);
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+		}
+		// TODO:Actually save the Form to the ObjectCart
+		ResponseEntity<Cart> response = new ResponseEntity(cart, HttpStatus.OK);
+		return response;
+	}
+
+	public ResponseEntity<String> getFormTest1(@PathVariable String formIdSeq) {
+//		long startTimer = System.currentTimeMillis();
+		
+		String testResult = formManager.getFormPerformanceTest(formIdSeq);
+		
+//		long endTimer = System.currentTimeMillis();
+//		String transportTime = "" + (endTimer - startTimer);
+//		
+//		StringBuilder sb = new StringBuilder(testResult);
+//		
+//		sb.append("Time(ms) for full transport to front-end: " + transportTime);
+//		sb.append("-----------------------------END-------------------------------\n\n");
+//
+//		logger.info(sb.toString());
+		return new ResponseEntity(testResult, HttpStatus.OK);
+
+	}
+		  private CartObject translateCartObject(FormV2 crf) throws Exception {
+				CartObject ob = new CartObject();
+				ob.setType(FormConverterUtil.instance().getCartObjectType());
+				ob.setDisplayText(Integer.toString(crf.getPublicId()) + "v" + Float.toString(crf.getVersion()));
+				ob.setNativeId(crf.getFormIdseq());
+				
+				String convertedForm = FormConverterUtil.instance().convertFormToV2(crf);		
+				ob.setData(convertedForm);
+				return ob;	  
+		  }
+
+	/*
+	 * private ResponseEntity<FormWrapper> createSuccessFormResponse(final
+	 * FormWrapper formList) {
+	 * 
+	 * return new ResponseEntity<FormWrapper>(formList, HttpStatus.OK); }
+	 */
+
 
 }
