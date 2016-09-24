@@ -280,11 +280,17 @@ public class FormManagerImpl implements FormManager {
 				instr.setVersion(form.getFormMetadata().getVersion());
 				instr.setLongName(form.getFormMetadata().getLongName());
 				instr.setAslName(form.getFormMetadata().getWorkflow());
+				instr.setDisplayOrder(1);
 			}
 //			BeanUtils.copyProperties(module.getInstructions(), instr, "context");
 			instr.setContext(c);
 			instr.setCreatedBy(username);
-			instr.setPreferredDefinition(module.getInstructions());
+			if(module.getInstructions() == null){
+				instr.setPreferredDefinition("");
+			}
+			else{
+				instr.setPreferredDefinition(module.getInstructions());
+			}
 			m.setInstruction(instr);
 			System.out.println(m.getInstruction().getIdseq());
 			m.setNumberOfRepeats(module.getRepetitions());
@@ -326,7 +332,14 @@ public class FormManagerImpl implements FormManager {
 			modChange.setModuleId(mto.getModuleIdseq());
 			modChange.setUpdatedModule(mto);
 			modChange.setInstructionChanges(new InstructionChangesTransferObject());
-			modChange.getInstructionChanges().setUpdatedInstruction(mto.getInstruction());
+			if(mto.getInstruction().getIdseq() == null){
+				modChange.getInstructionChanges().setNewInstruction(mto.getInstruction());
+			}
+			else{
+				modChange.getInstructionChanges().setUpdatedInstruction(mto.getInstruction());
+			}
+			
+			modChange.getInstructionChanges().setParentId(mto.getModuleIdseq());
 			
 			service.updateModule(mto.getModuleIdseq(), modChange, mto.getCreatedBy());
 			
