@@ -9,13 +9,14 @@ public class BBDataElement {
 	private String deIdseq;
 	private String CDEId;
 	private String conteIdseq;
-	private Float version;
+	private String version;
 	private String registrationstatus;
 	private String preferredname;
 	private String preferreddefinition;
 	private String workflow;
 	private String dateadded;
-	
+	private String usingContexts;
+	private boolean isPublished;
 	
 	public String getLongname() {
 		return longname;
@@ -59,10 +60,10 @@ public class BBDataElement {
 	public void setConteIdseq(String conteIdseq) {
 		this.conteIdseq = conteIdseq;
 	}
-	public Float getVersion() {
+	public String getVersion() {
 		return version;
 	}
-	public void setVersion(Float version) {
+	public void setVersion(String version) {
 		this.version = version;
 	}
 	public String getRegistrationstatus() {
@@ -94,6 +95,18 @@ public class BBDataElement {
 	}
 	public void setDateadded(String dateadded) {
 		this.dateadded = dateadded;
+	}
+	public String getUsingContexts() {
+		return usingContexts;
+	}
+	public void setUsingContexts(String usingContexts) {
+		this.usingContexts = usingContexts;
+	}
+	public boolean isPublished() {
+		return isPublished;
+	}
+	public void setPublished(boolean isPublished) {
+		this.isPublished = isPublished;
 	}
 
 }
