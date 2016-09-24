@@ -107,21 +107,28 @@ const FormService = Marionette.Object.extend({
 	handleAddModule(data) {
 		const newModuleModel = this.formModel.get('formModules').add(new FormModuleModel(data));
 		this.setModuleView(newModuleModel.cid);
+		this.handleSaveForm({message: "Module Added"});
 	},
 	handleSetFormEditable() {
 		/*Auth and permssions checks for for editing a form can go here*/
 		this.formUIStateModel.set({isEditing: true});
 	},
-	handleSaveForm({persistToDB = false} = {}) {
-		this.formModel.save(null, {
-			dataType: 'text',
-			success:  () =>{
-				alert("form saved");
-			},
-			error:    (model, response) =>{
-				/*TODO: of course this is too basic. Improve error handling */
-				alert("error");
+	handleSaveForm({persistToDB = false, message = "Form Saved"} = {}) {
+		const p = new Promise(
+			(resolve, reject) =>{
+				this.formModel.save(null, {
+					dataType: 'text'
+				}).then(() =>{
+					resolve();
+				}).catch((error) =>{
+					reject(error);
+				});
 			}
+		);
+		return p.then(()=>{
+			alert(message);
+		}).catch((error)=>{
+			console.log(error);
 		});
 	},
 	handleSetModule(data) {
@@ -132,7 +139,7 @@ const FormService = Marionette.Object.extend({
 		if(module.get("moduleIdseq") && !module.get("isEdited")){
 			module.set("isEdited", true);
 		}
-		this.handleSaveForm();
+		this.handleSaveForm({message: "Module Saved"});
 	},
 	setModuleView(id) {
 		const moduleModel = this.formModel.get('formModules').get(id);
