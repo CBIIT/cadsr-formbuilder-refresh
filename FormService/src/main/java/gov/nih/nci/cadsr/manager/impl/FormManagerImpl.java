@@ -18,6 +18,7 @@ import gov.nih.nci.cadsr.manager.FormManager;
 import gov.nih.nci.cadsr.model.BBContext;
 import gov.nih.nci.cadsr.model.BBForm;
 import gov.nih.nci.cadsr.model.BBFormMetaData;
+import gov.nih.nci.cadsr.model.BBInstructions;
 import gov.nih.nci.cadsr.model.BBModule;
 import gov.nih.nci.cadsr.model.BBProtocol;
 import gov.nih.nci.cadsr.model.BBQuestion;
@@ -27,7 +28,9 @@ import gov.nih.nci.ncicb.cadsr.common.dto.FormInstructionChangesTransferObject;
 import gov.nih.nci.ncicb.cadsr.common.dto.FormTransferObject;
 import gov.nih.nci.ncicb.cadsr.common.dto.FormV2TransferObject;
 import gov.nih.nci.ncicb.cadsr.common.dto.FormValidValueTransferObject;
+import gov.nih.nci.ncicb.cadsr.common.dto.InstructionChangesTransferObject;
 import gov.nih.nci.ncicb.cadsr.common.dto.InstructionTransferObject;
+import gov.nih.nci.ncicb.cadsr.common.dto.ModuleChangesTransferObject;
 import gov.nih.nci.ncicb.cadsr.common.dto.ModuleTransferObject;
 import gov.nih.nci.ncicb.cadsr.common.dto.ProtocolTransferObject;
 import gov.nih.nci.ncicb.cadsr.common.dto.QuestionTransferObject;
@@ -37,6 +40,7 @@ import gov.nih.nci.ncicb.cadsr.common.persistence.dao.AbstractDAOFactoryFB;
 import gov.nih.nci.ncicb.cadsr.common.persistence.dao.ContextDAO;
 import gov.nih.nci.ncicb.cadsr.common.persistence.dao.FormDAO;
 import gov.nih.nci.ncicb.cadsr.common.persistence.dao.FormInstructionDAO;
+import gov.nih.nci.ncicb.cadsr.common.persistence.dao.ModuleInstructionDAO;
 import gov.nih.nci.ncicb.cadsr.common.persistence.dao.jdbc.JDBCFormDAOFB;
 import gov.nih.nci.ncicb.cadsr.common.resource.Form;
 import gov.nih.nci.ncicb.cadsr.common.resource.FormV2;
@@ -222,6 +226,10 @@ public class FormManagerImpl implements FormManager {
 
 		Form resultForm = service.updateForm(formIdSeq, formHeader, updatedMods, deletedMods, addedMods, addedProts,
 				deletedProts, protTrigs, instChanges, username);
+		
+		updateModules(updatedMods);
+		
+		
 
 		return "SUCCESS";
 	}
@@ -231,6 +239,7 @@ public class FormManagerImpl implements FormManager {
 			FormInstructionChangesTransferObject instChanges, String username, String formIdSeq)
 			throws IllegalAccessException, InvocationTargetException {
 		FormDAO fdao = daoFactory.getFormDAO();
+		ModuleInstructionDAO moduleInstrDao = daoFactory.getModuleInstructionDAO();
 
 		formIdSeq = form.getFormMetadata().getFormIdseq();
 		username = form.getFormMetadata().getCreatedBy();
@@ -261,13 +270,23 @@ public class FormManagerImpl implements FormManager {
 			m.setModuleIdseq(module.getModuleIdseq());
 			m.setLongName(module.getLongName());
 			InstructionTransferObject instr = new InstructionTransferObject();
-			instr.setVersion(form.getFormMetadata().getVersion());
-			instr.setLongName(form.getFormMetadata().getLongName());
-			instr.setAslName(form.getFormMetadata().getWorkflow());
+			List dbinstructions = moduleInstrDao.getInstructions(module.getModuleIdseq());
+			System.out.println("TEST # of instructions for " + module.getLongName() + ": " + dbinstructions.size());
+			if(dbinstructions.size() > 0){
+				m.setInstructions(dbinstructions);
+				instr = (InstructionTransferObject)m.getInstruction();
+			}
+			else{
+				instr.setVersion(form.getFormMetadata().getVersion());
+				instr.setLongName(form.getFormMetadata().getLongName());
+				instr.setAslName(form.getFormMetadata().getWorkflow());
+			}
+//			BeanUtils.copyProperties(module.getInstructions(), instr, "context");
 			instr.setContext(c);
 			instr.setCreatedBy(username);
 			instr.setPreferredDefinition(module.getInstructions());
 			m.setInstruction(instr);
+			System.out.println(m.getInstruction().getIdseq());
 			m.setNumberOfRepeats(module.getRepetitions());
 			m.setDisplayOrder(module.getDispOrder());
 			m.setQuestions(module.getQuestions());
@@ -281,8 +300,10 @@ public class FormManagerImpl implements FormManager {
 			m.setCreatedBy(form.getFormMetadata().getCreatedBy());
 
 			if (module.getModuleIdseq() == null || module.getModuleIdseq() == "") {
+				System.out.println("This is a new module! name=" + module.getLongName() + " id=" + module.getModuleIdseq());
 				addedMods.add(m);
-			} else if (module.isEdited() && !module.getModuleIdseq().isEmpty()) {
+			} else if (module.getIsEdited()) {
+				System.out.println("THIS MOD IS EDITABLE: " + module.getLongName());
 				updatedMods.add(m);
 			}
 			// else if(!oldModules.contains(m)){
@@ -293,6 +314,23 @@ public class FormManagerImpl implements FormManager {
 		instChanges.setFormHeaderInstructionChanges(new HashMap());
 		instChanges.setFormFooterInstructionChanges(new HashMap());
 
+	}
+	
+	private void updateModules(Collection mods){
+		System.out.println("IN MANAGER UPDATE MODULES");
+		
+		for(Object mod : mods){
+			ModuleTransferObject mto = (ModuleTransferObject)mod;
+			
+			ModuleChangesTransferObject modChange = new ModuleChangesTransferObject();
+			modChange.setModuleId(mto.getModuleIdseq());
+			modChange.setUpdatedModule(mto);
+			modChange.setInstructionChanges(new InstructionChangesTransferObject());
+			modChange.getInstructionChanges().setUpdatedInstruction(mto.getInstruction());
+			
+			service.updateModule(mto.getModuleIdseq(), modChange, mto.getCreatedBy());
+			
+		}
 	}
 
 	public BBForm testTranslateDBFormToBBForm(FormTransferObject fullform) {
@@ -345,7 +383,15 @@ public class FormManagerImpl implements FormManager {
 		for (Object module : fullform.getModules()) {
 			ModuleTransferObject mto = (ModuleTransferObject) module;
 			BBModule bbmod = new BBModule();
-			BeanUtils.copyProperties(mto, bbmod);
+			BeanUtils.copyProperties(mto, bbmod, "instructions");
+			
+//			BBInstructions bbinst = new BBInstructions();
+//			if(mto.getInstruction() != null){
+//				BeanUtils.copyProperties(mto.getInstruction(), bbinst, "context");
+//			}
+			if(mto.getInstruction() != null){
+				bbmod.setInstructions(mto.getInstruction().getPreferredDefinition());
+			}
 
 			bbform.getFormModules().add(bbmod);
 
