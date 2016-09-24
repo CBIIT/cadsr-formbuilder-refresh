@@ -128,6 +128,7 @@ const FormService = Marionette.Object.extend({
 		}).execute();
 	},
 	handleAddModule(data) {
+		this.formModel.get('formModules').add(new FormModuleModel(data));
 		this.saveForm().then(() =>{
 			alert("Module Added");
 		});
