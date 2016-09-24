@@ -280,7 +280,7 @@ public class FormManagerImpl implements FormManager {
 			m.setAslName(form.getFormMetadata().getWorkflow());
 			m.setCreatedBy(form.getFormMetadata().getCreatedBy());
 
-			if (module.getModuleIdseq() != null || module.getModuleIdseq() != "") {
+			if (module.getModuleIdseq() == null || module.getModuleIdseq() == "") {
 				addedMods.add(m);
 			} else if (module.isEdited() && !module.getModuleIdseq().isEmpty()) {
 				updatedMods.add(m);
