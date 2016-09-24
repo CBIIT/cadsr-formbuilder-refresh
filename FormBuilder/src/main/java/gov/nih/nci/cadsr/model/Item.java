@@ -10,19 +10,19 @@ import javax.xml.bind.annotation.XmlTransient;
 public class Item {
 
 	String idSeq;
-	String longCDEName;
-	String preferredDefinition;
-	String contextName;
-	String registrationStatus;
-	String prefferdName;
-	String aslName;
+	String longcdename;
+	String preferreddefinition;
+	String contextname;
+	String registrationstatus;
+	String preferredname;
+	String workflow;
 	String version;
 	boolean isPublished;
 	List<Context> context;
 	String vdIdseq;
 	String usingContexts;
 	String deIdseq;
-	String dateAdded;
+	String dateadded;
 
 	public String getIdSeq() {
 		return idSeq;
@@ -33,58 +33,58 @@ public class Item {
 		this.idSeq = idSeq;
 	}
 
-	public String getLongCDEName() {
-		return longCDEName;
+	public String getLongcdename() {
+		return longcdename;
 	}
 
 	@XmlElement(name = "long-cDEName")
-	public void setLongCDEName(String longCDEName) {
-		this.longCDEName = longCDEName;
+	public void setLongcdename(String longcdename) {
+		this.longcdename = longcdename;
 	}
 
-	public String getPreferredDefinition() {
-		return preferredDefinition;
+	public String getPreferreddefinition() {
+		return preferreddefinition;
 	}
 
 	@XmlElement(name = "preferred-definition")
-	public void setPreferredDefinition(String preferredDefinition) {
-		this.preferredDefinition = preferredDefinition;
+	public void setPreferreddefinition(String preferredDefinition) {
+		this.preferreddefinition = preferredDefinition;
 	}
 
-	public String getContextName() {
-		return contextName;
+	public String getContextname() {
+		return contextname;
 	}
 
 	@XmlElement(name = "context-name")
-	public void setContextName(String contextName) {
-		this.contextName = contextName;
+	public void setContextname(String contextName) {
+		this.contextname = contextName;
 	}
 
-	public String getRegistrationStatus() {
-		return registrationStatus;
+	public String getRegistrationstatus() {
+		return registrationstatus;
 	}
 
 	@XmlElement(name = "registration-status")
-	public void setRegistrationStatus(String registrationStatus) {
-		this.registrationStatus = registrationStatus;
+	public void setRegistrationstatus(String registrationStatus) {
+		this.registrationstatus = registrationStatus;
 	}
 
-	public String getPrefferdName() {
-		return prefferdName;
+	public String getPreferredname() {
+		return preferredname;
 	}
 
 	@XmlElement(name = "preferred-name")
-	public void setPrefferdName(String prefferdName) {
-		this.prefferdName = prefferdName;
+	public void setPreferredname(String preferredname) {
+		this.preferredname = preferredname;
 	}
 
-	public String getAslName() {
-		return aslName;
+	public String getWorkflow() {
+		return workflow;
 	}
 
 	@XmlElement(name = "asl-name")
-	public void setAslName(String aslName) {
-		this.aslName = aslName;
+	public void setWorkflow(String aslName) {
+		this.workflow = aslName;
 	}
 
 	public String getVersion() {
@@ -96,11 +96,11 @@ public class Item {
 		this.version = version;
 	}
 
-	public boolean isPublished() {
+	public boolean getIsPublished() {
 		return isPublished;
 	}
 	@XmlElement(name = "is-published")
-	public void setPublished(boolean isPublished) {
+	public void setIsPublished(boolean isPublished) {
 		this.isPublished = isPublished;
 	}
 
@@ -136,12 +136,12 @@ public class Item {
 		this.context = context;
 	}
 
-	public String getDateAdded() {
-		return dateAdded;
+	public String getDateadded() {
+		return dateadded;
 	}
 	@XmlTransient
-	public void setDateAdded(String dateAdded) {
-		this.dateAdded = dateAdded;
+	public void setDateadded(String dateAdded) {
+		this.dateadded = dateAdded;
 	}
 	
 

@@ -16,7 +16,7 @@ import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
-
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -222,13 +222,24 @@ public class CartAdapterController {
 
 					}
 				}
-				item.setDateAdded(date);
+				item.setDateadded(date);
 				items.add(item);
 			}
 
 		}
+		
+		List<BBDataElement> dataElements = new ArrayList<BBDataElement>();
+		for(Item item : items){
+			BBDataElement element = new BBDataElement();
+			BeanUtils.copyProperties(item, element);
+			
+			element.setConteIdseq(item.getContext().get(0).getConteIdseq());
+			
+			dataElements.add(element);
+		}
 
-		return new ResponseEntity<List<Item>>(items, HttpStatus.OK);
+//		return new ResponseEntity<List<Item>>(items, HttpStatus.OK);
+		return new ResponseEntity(dataElements, HttpStatus.OK);
 
 	}
 
@@ -333,7 +344,7 @@ public class CartAdapterController {
 		cde.setLongname("Lab Collection Time");
 		cde.setContextname("CCR");
 		cde.setConteIdseq("A5599257-A08F-41D1-E034-080020C9C0E0");
-		cde.setVersion(3F);
+		cde.setVersion("3");
 		cde.setCDEId("2003580");
 		cde.setRegistrationstatus("Standard");
 		cde.setWorkflow("RELEASED");
