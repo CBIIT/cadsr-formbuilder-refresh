@@ -6,8 +6,9 @@ const ButtonsGroup = (props) =>{
 	 * http://stackoverflow.com/questions/29103096/dynamic-attribute-in-reactjs#answer-39543045
 	 * */
 	const createButton = ({type = "button", className = "btn btn-primary", name, onClick = "", disabled = false}, index) =>{
-		return
-			<Button disabled={disabled} onClick={onClick ? props[onClick] : ''} type={type} className={className} key={index}>{name}</Button>;
+		return (
+			<Button disabled={disabled} onClick={onClick ? props[onClick] : ''} type={type} className={className} key={index}>{name}</Button>
+		);
 	};
 
 	return (
