@@ -35,8 +35,9 @@ export default class TreeView extends Component {
 	showNavFormMetadataButton(){
 		if(this.props.shouldShowFormMeatadataLink){
 			return (
-				<Button onClick={this.dispatchNavigateFormMetadata} className="button-link">Form Details</Button>
-
+				<li>
+					<Button onClick={this.dispatchNavigateFormMetadata} className="button-link">Form Details</Button>
+				</li>
 			);
 		}
 	}
