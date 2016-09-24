@@ -102,7 +102,7 @@ export default class FormLayout extends Component {
 		if(actionMode === "viewFormFullView" && !this.shouldShowFormEditControls()){
 			const buttons = [
 				{
-					name:    "Lock for Editing",
+					name:    "Edit Form",
 					onClick: "dispatchEditFormClicked"
 				}
 			];
