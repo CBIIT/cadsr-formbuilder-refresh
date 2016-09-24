@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import List from '../common/List';
 
-export default class NavigationMenu extends Component {
+export default class SidePanel extends Component {
 	constructor(props){
 		super(props);
 	}
@@ -16,10 +16,10 @@ export default class NavigationMenu extends Component {
 	}
 }
 
-NavigationMenu.defaultProps = {
+SidePanel.defaultProps = {
 	cdeList: []
 };
 
-NavigationMenu.propTypes = {
+SidePanel.propTypes = {
 	cdeList: PropTypes.array
 };
