@@ -60,10 +60,11 @@ export default class TreeView extends Component {
 						<Button onClick={this.dispatchNavigateFullFormView} className="button-link">View Full Form</Button>
 					</li>
 					{this.showNavFormMetadataButton()}
-					<li>
-						<p>Modules</p>                {this.showNewModuleButton()}
+					<li className="short-bottom-spacing">
+						<p className="short-bottom-spacing short-top-spacing border-bottom">Modules</p>
 						<List onClickCallback={this.dispatchNavigateToModule} itemKey={"id"} itemTextKey={"longName"} data={this.props.list}/>
 					</li>
+					{this.showNewModuleButton()}
 				</ul>
 
 			</div>

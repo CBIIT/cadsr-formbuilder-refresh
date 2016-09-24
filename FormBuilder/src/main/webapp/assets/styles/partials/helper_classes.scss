@@ -70,6 +70,10 @@
   margin: 0 !important;
 }
 
+.border-bottom {
+  border-bottom: 1px solid $darkGrey;
+}
+
 .right-algin {
   @include center-align;
 }
@@ -92,7 +96,7 @@
 }
 
 .tall-min-height {
-  min-height:   570px;
+  min-height: 570px;
 }
 
 .eq-height-wrapper {
