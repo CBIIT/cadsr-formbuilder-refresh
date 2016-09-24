@@ -65,6 +65,8 @@ const FormService = Marionette.Object.extend({
 			case "viewFormFullView":
 				this.formUIStateModel.set({actionMode: action});
 				if(formIdseq !== this.formModel.get('formIdseq')){
+					/* IF going to view a different form, make sure edit controls are turned off */
+					this.formUIStateModel.set({isEditing: false});
 					this.fetchForm({formIdseq: formIdseq});
 				}
 				this.getCartData();
