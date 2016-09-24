@@ -10,7 +10,9 @@ export default class SidePanel extends Component {
 		return (
 			<div className="bordered-container tall-min-height">
 				<p>CDE Cart</p>
-				<List itemKey={"cdeid"} itemTextKey={"longname"} data={this.props.cdeList}/>
+				<div className="bordered-container">
+					<List itemKey={"deIdseq"} itemTextKey={"longcdename"} data={this.props.cdeList}/>
+				</div>
 			</div>
 		);
 	}

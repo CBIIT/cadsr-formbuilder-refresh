@@ -8,8 +8,7 @@ const ENDPOINT_URLS = {
 	FORMS_WORKING_COPY: `${formBuilderHost}/FormBuilder/api/v1/forms/workingCopy`,
 	TYPES:              `${formBuilderHost}/FormBuilder/api/v1/types`,
 	WORKFLOWS:          `${formBuilderHost}/FormBuilder/api/v1/workflows`,
-	/*TODO Make sure to update endpoint from "Dummy" version*/
-	CDE_CART:           `${formBuilderHost}/FormBuilder/api/v1/carts/dummy/objcart/cdecart`
+	CDE_CART:           `${formBuilderHost}/FormBuilder/api/v1/carts/objcart/cdecart`
 };
 
 /*Make immutable */
