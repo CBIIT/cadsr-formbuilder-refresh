@@ -171,9 +171,9 @@ public class CartAdapterController {
 	}
 */
 	
-	@RequestMapping(value = "/objcart/cdecart2/{username}", method = RequestMethod.GET)
+	@RequestMapping(value = "/objcart/cdecart/{username}", method = RequestMethod.GET)
 	@ResponseBody
-	public ResponseEntity loadCDECart2(@PathVariable String username) throws XmlMappingException, IOException,
+	public ResponseEntity loadCDECart(@PathVariable String username) throws XmlMappingException, IOException,
 			SAXException, ParserConfigurationException, JAXBException, XMLStreamException {
 
 		String ocURL = "http://objcart2-dev.nci.nih.gov/objcart103";
