@@ -162,7 +162,8 @@ const FormService = Marionette.Object.extend({
 				}).then(() =>{
 					resolve();
 				}).catch((error) =>{
-					reject(error);
+					alert("error");
+					console.log(error);
 				});
 			}
 		);
