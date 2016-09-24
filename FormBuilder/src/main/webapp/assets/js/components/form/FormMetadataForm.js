@@ -51,7 +51,7 @@ Footer Instructions"/> </Col> <Col sm={6}>
 							<Select name="conteIdseq" label="Context" options={this.getOptions({
 								options:   this.props.uiDropDownOptionsModel.contexts,
 								optionKey: 'contextIdSeq'
-							})} value={this.props.formMetadata.context} required/>
+							})} value={this.props.formMetadata.context.conteIdseq} required/>
 							<Select name="formCategory" label="Category" options={this.getOptions({
 							options: this.props.uiDropDownOptionsModel.formCategories
 							})} value={this.props.formMetadata.formCategory}/>
