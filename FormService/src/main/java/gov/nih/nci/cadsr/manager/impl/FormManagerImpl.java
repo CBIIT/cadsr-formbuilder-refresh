@@ -18,7 +18,6 @@ import gov.nih.nci.cadsr.manager.FormManager;
 import gov.nih.nci.cadsr.model.BBContext;
 import gov.nih.nci.cadsr.model.BBForm;
 import gov.nih.nci.cadsr.model.BBFormMetaData;
-import gov.nih.nci.cadsr.model.BBInstructions;
 import gov.nih.nci.cadsr.model.BBModule;
 import gov.nih.nci.cadsr.model.BBProtocol;
 import gov.nih.nci.cadsr.model.BBQuestion;
