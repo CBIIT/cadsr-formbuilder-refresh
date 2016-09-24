@@ -18,6 +18,7 @@ export default class FormLayout extends Component {
 		this.dispatchCancelButtonClicked = this.dispatchCancelButtonClicked.bind(this);
 		this.dispatchEditFormClicked = this.dispatchEditFormClicked.bind(this);
 		this.dispatchSaveFormClicked = this.dispatchSaveFormClicked.bind(this);
+		this.getCartList = this.getCartList.bind(this);
 		this.getFormModel = this.getFormModel.bind(this);
 		this.getFormModules = this.getFormModules.bind(this);
 		this.getActionMode = this.getActionMode.bind(this);
@@ -67,9 +68,18 @@ export default class FormLayout extends Component {
 		return this.state.formUIState.editItem;
 	}
 
+	getCartList({name}){
+		if(this.props.carts[name]){
+			return this.props.carts[name].models.map(model =>{
+				return Object.assign({}, model.attributes, {id: model.id});
+			});
+		}
+	}
+
 	getFormModules(){
 		/* Return list of modules with its backbone model's cid included */
 		return this.getFormModel().formModules.models.map(model =>{
+			/* Getting cid vs moduleIdseq becauswe new modules don't have a moduleIdseq */
 			return Object.assign({}, model.attributes, {cid: model.cid});
 		});
 	}
@@ -178,7 +188,8 @@ export default class FormLayout extends Component {
 				<TreeView list={this.getFormModules()} formIdSeq={this.getFormModel().formIdseq} formName={this.getFormMetaData().longName} canCreateModule={this.canCreateModule()} shouldShowFormMeatadataLink={this.shouldShowFormEditControls()}/>
 			</Col> <Col lg={8} className="eq-height-item"> <FormLayoutMain>
 				{this.getMainPanelComponents()}
-			</FormLayoutMain> </Col> <Col lg={2} className="eq-height-item"> <SidePanel /> </Col> </Row>
+			</FormLayoutMain> </Col> <Col lg={2} className="eq-height-item">
+				<SidePanel cdeList={this.getCartList({name: "cdeCartCollection"})}/></Col> </Row>
 		);
 	}
 }

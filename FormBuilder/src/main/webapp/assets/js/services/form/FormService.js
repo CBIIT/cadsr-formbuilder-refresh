@@ -110,6 +110,8 @@ const FormService = Marionette.Object.extend({
 		});
 	},
 	getCartData() {
+		this.carts = {};
+
 		/*Only retrieve carts if user actually exists */
 		if(appChannel.request(EVENTS.USER.GET_USERNAME)){
 			return this.app.cartsService.fetchCarts().then((carts)=>{

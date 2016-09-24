@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react';
+import List from '../common/List';
 
 export default class NavigationMenu extends Component {
 	constructor(props){
@@ -8,12 +9,17 @@ export default class NavigationMenu extends Component {
 	render(){
 		return (
 			<div className="bordered-container tall-min-height">
-				<h4>Placeholder Carts Panel heading</h4>
+				<p>CDE Cart</p>
+				<List itemKey={"cdeid"} itemTextKey={"longname"} data={this.props.cdeList}/>
 			</div>
 		);
 	}
 }
 
+NavigationMenu.defaultProps = {
+	cdeList: []
+};
+
 NavigationMenu.propTypes = {
-	children: PropTypes.element
+	cdeList: PropTypes.array
 };
