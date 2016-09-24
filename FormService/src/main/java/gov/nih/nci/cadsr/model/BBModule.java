@@ -1,5 +1,6 @@
 package gov.nih.nci.cadsr.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class BBModule {
@@ -11,6 +12,16 @@ public class BBModule {
 	private int dispOrder;
 	private List<BBQuestion> questions;
 	private boolean isEdited = false;
+	
+	public BBModule(){
+		moduleIdseq = "";
+		longName = "";
+		instructions = "";
+		repetitions = 0;
+		dispOrder = 0;
+		questions = new ArrayList<BBQuestion>();
+		isEdited = false;
+	}
 	
 	
 	public String getModuleIdseq() {
@@ -49,7 +60,7 @@ public class BBModule {
 	public void setQuestions(List<BBQuestion> questions) {
 		this.questions = questions;
 	}
-	public boolean isEdited() {
+	public boolean getIsEdited() {
 		return isEdited;
 	}
 	public void setEdited(boolean isEdited) {
