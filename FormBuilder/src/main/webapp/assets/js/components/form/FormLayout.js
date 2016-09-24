@@ -92,7 +92,7 @@ export default class FormLayout extends Component {
 		if(actionMode === "viewFormFullView" && !this.shouldShowFormEditControls()){
 			const buttons = [
 				{
-					name:    "Edit Form",
+					name:    "Lock for Editing",
 					onClick: "dispatchEditFormClicked"
 				}
 			];
@@ -111,11 +111,7 @@ export default class FormLayout extends Component {
 		else if(actionMode === "viewFormFullView" && this.shouldShowFormEditControls()){
 			const buttons = [
 				{
-					name:    "Cancel",
-					onClick: "dispatchCancelButtonClicked"
-				},
-				{
-					name:    "Update",
+					name:    "Save",
 					onClick: "dispatchSaveFormClicked"
 				}
 			];
