@@ -107,13 +107,32 @@ const FormService = Marionette.Object.extend({
 	handleAddModule(data) {
 		const newModuleModel = this.formModel.get('formModules').add(new FormModuleModel(data));
 		this.setModuleView(newModuleModel.cid);
-		this.handleSaveForm({message: "Module Added"});
+		this.saveForm().then(() =>{
+			alert("Module Added");
+		});
+		this.formUIStateModel.set({
+			editItem:   null,
+			actionMode: 'viewFormFullView'
+		});
+	},
+	handleSaveForm() {
+		this.saveForm({successMessage: "Form Saved"});
 	},
 	handleSetFormEditable() {
 		/*Auth and permssions checks for for editing a form can go here*/
 		this.formUIStateModel.set({isEditing: true});
 	},
-	handleSaveForm({persistToDB = false, message = "Form Saved"} = {}) {
+	handleSetModule(data) {
+		const module = this.formModel.get('formModules').get(data.id);
+		/* Removing the cid we used to track the module via the UI, so it doesn't get added as an attibute of the module when setting the rest of the data */
+		const moduleAttributes = _.omit(data, "id");
+		module.set(moduleAttributes);
+		if(module.get("moduleIdseq") && !module.get("isEdited")){
+			module.set("isEdited", true);
+		}
+		this.saveForm({successMessage: "Module Saved"});
+	},
+	saveForm({persistToDB = false, successMessage} = {}) {
 		const p = new Promise(
 			(resolve, reject) =>{
 				this.formModel.save(null, {
@@ -126,20 +145,10 @@ const FormService = Marionette.Object.extend({
 			}
 		);
 		return p.then(()=>{
-			alert(message);
+			if(successMessage) alert(successMessage);
 		}).catch((error)=>{
 			console.log(error);
 		});
-	},
-	handleSetModule(data) {
-		const module = this.formModel.get('formModules').get(data.id);
-		/* Removing the cid we used to track the module via the UI, so it doesn't get added as an attibute of the module when setting the rest of the data */
-		const moduleAttributes = _.omit(data, "id");
-		module.set(moduleAttributes);
-		if(module.get("moduleIdseq") && !module.get("isEdited")){
-			module.set("isEdited", true);
-		}
-		this.handleSaveForm({message: "Module Saved"});
 	},
 	setModuleView(id) {
 		const moduleModel = this.formModel.get('formModules').get(id);
