@@ -126,9 +126,10 @@ const FormService = Marionette.Object.extend({
 	},
 	handleSetModule(data) {
 		const module = this.formModel.get('formModules').get(data.id);
+		/* Removing the cid we used to track the module via the UI, so it doesn't get added as an attibute of the module when setting the rest of the data */
 		const moduleAttributes = _.omit(data, "id");
 		module.set(moduleAttributes);
-		if(module.get("moduleIdSeq") && !module.get("isEdited")){
+		if(module.get("moduleIdseq") && !module.get("isEdited")){
 			module.set("isEdited", true);
 		}
 		this.handleSaveForm();
