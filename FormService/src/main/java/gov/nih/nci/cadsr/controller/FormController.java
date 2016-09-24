@@ -192,27 +192,33 @@ public class FormController {
 	 * 
 	 * return new ResponseEntity<FormWrapper>(formList, HttpStatus.OK); }
 	 */
-	@RequestMapping(value = "/forms/{cartId}/{formIdSeq}", method = RequestMethod.GET)
+	@RequestMapping(value = "/forms/objcart/{username}/{formIdSeq}", method = RequestMethod.GET)
 	@ResponseBody
-	public ResponseEntity<Cart> saveFormToOC(@PathVariable String cartId, @PathVariable String formIdSeq)
+	public ResponseEntity<Cart> saveFormToOC(@PathVariable String username, @PathVariable String formIdSeq)
 			throws ObjectCartException {
+		
 		ObjectCartClient cartClient = new ObjectCartClient();
+		
 		String str = formIdSeq;
 		String[] id = str.split(",");
-		Cart cart = cartClient.createCart("betty", "formCart");
+		
+		Cart cart = cartClient.createCart(username, "formCart");
+		
 		// TODO:Get the FormV2 version of a Form and translate it to a
 		// CartObject that can be saved.
 		CartObject cObject = new CartObject();
 		for (String i : id) {
 			FormV2 formV2 = formManager.getFullFormV2(i);
 			try {
+				
 				cObject = translateCartObject(formV2);
 				cartClient.storeObject(cart, cObject);
+				
 			} catch (Exception e1) {
-				e1.printStackTrace();
+				return new ResponseEntity(e1.getMessage(), HttpStatus.BAD_REQUEST);
 			}
 		}
-		// TODO:Actually save the Form to the ObjectCart
+		
 		ResponseEntity<Cart> response = new ResponseEntity(cart, HttpStatus.OK);
 		return response;
 	}

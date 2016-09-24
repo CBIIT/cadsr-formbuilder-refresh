@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ExceptionControllerAdvice {
 	private static final Logger logger = Logger.getLogger(ExceptionControllerAdvice.class);
 
-	@ExceptionHandler(RuntimeException.class)
+	/*@ExceptionHandler(RuntimeException.class)
 	@ResponseBody
 	private ResponseEntity<ErrorResponse> createErrorResponse(final Exception badReq) {
 		ErrorResponse error = new ErrorResponse();
@@ -20,6 +20,6 @@ public class ExceptionControllerAdvice {
 		error.setMessage(badReq.getMessage());
 		logger.error("Exception occured :", badReq);
 		return new ResponseEntity<ErrorResponse>(error, HttpStatus.BAD_REQUEST);
-	}
+	}*/
 
 }
