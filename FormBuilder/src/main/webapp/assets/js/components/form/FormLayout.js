@@ -86,6 +86,7 @@ export default class FormLayout extends Component {
 		formChannel.request(EVENTS.FORM.SAVE_FORM, {persistToDB: true});
 	}
 
+	/* TODO Should we move all this logic into FormLayoutMain? This component is getting big but by moving this we also need to copy or pass in many the dispach/getter methods   */
 	getMainPanelComponents(){
 		const actionMode = this.getActionMode();
 		if(actionMode === "viewFormFullView" && !this.shouldShowFormEditControls()){
@@ -130,9 +131,9 @@ export default class FormLayout extends Component {
 				</div>
 			);
 		}
-		else if(actionMode === 'createForm'){
+		else if(actionMode === 'createForm' || actionMode === 'editFormMetadata'){
 			const metaDataFormHeadingTitle = actionMode === 'createForm' ? 'Create New Form' : 'Edit Form',
-				submitButtonText = (actionMode === 'createForm') ? 'Create Form' : 'Save Form';
+				submitButtonText = (actionMode === 'createForm') ? 'Create Form' : 'Save';
 			const buttons = [
 				{
 					name: submitButtonText,
@@ -177,7 +178,7 @@ export default class FormLayout extends Component {
 	render(){
 		return (
 			<Row className="eq-height-wrapper"> <Col lg={2} className="eq-height-item">
-				<TreeView list={this.getFormModules()} formIdSeq={this.getFormModel().formIdseq} formName={this.getFormMetaData().longName} canCreateModule={this.canCreateModule()}/>
+				<TreeView list={this.getFormModules()} formIdSeq={this.getFormModel().formIdseq} formName={this.getFormMetaData().longName} canCreateModule={this.canCreateModule()} shouldShowFormMeatadataLink={this.shouldShowFormEditControls()}/>
 			</Col> <Col lg={8} className="eq-height-item"> <FormLayoutMain>
 				{this.getMainPanelComponents()}
 			</FormLayoutMain> </Col> <Col lg={2} className="eq-height-item"> <SidePanel /> </Col> </Row>

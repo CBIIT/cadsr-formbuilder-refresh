@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import {Col, Row, Button, FormGroup, ControlLabel, FormControl} from 'react-bootstrap';
+import {Button} from 'react-bootstrap';
 import EVENTS from '../../constants/EVENTS';
 import {formChannel} from '../../channels/radioChannels';
 import List from '../common/List';
@@ -10,8 +10,10 @@ export default class TreeView extends Component {
 		/* Consider moving dispatching/Backbone radio functionality to FormLayout and notifying FormLayout via callbacks passed through props */
 		this.dispatchCreateModule = this.dispatchCreateModule.bind(this);
 		this.dispatchNavigateFullFormView = this.dispatchNavigateFullFormView.bind(this);
+		this.dispatchNavigateFormMetadata = this.dispatchNavigateFormMetadata.bind(this);
 		this.dispatchNavigateToModule = this.dispatchNavigateToModule.bind(this);
 		this.showNewModuleButton = this.showNewModuleButton.bind(this);
+		this.showNavFormMetadataButton = this.showNavFormMetadataButton.bind(this);
 	}
 
 	dispatchCreateModule(){
@@ -26,10 +28,25 @@ export default class TreeView extends Component {
 		formChannel.request(EVENTS.FORM.SET_FORM_LAYOUT, {action: 'viewFormFullView'});
 	}
 
+	dispatchNavigateFormMetadata(){
+		formChannel.request(EVENTS.FORM.SET_FORM_LAYOUT, {action: 'editFormMetadata'});
+	}
+
+	showNavFormMetadataButton(){
+		if(this.props.shouldShowFormMeatadataLink){
+			return (
+				<Button onClick={this.dispatchNavigateFormMetadata} className="button-link">Form Details</Button>
+
+			);
+		}
+	}
+
 	showNewModuleButton(){
 		if(this.props.canCreateModule){
 			return (
-				<Button onClick={this.dispatchCreateModule} className="btn btn-primary" type="submit">New Module</Button>
+				<li>
+					<Button onClick={this.dispatchCreateModule} className="btn btn-primary" type="submit">New Module</Button>
+				</li>
 			);
 		}
 	}
@@ -37,15 +54,24 @@ export default class TreeView extends Component {
 	render(){
 		return (
 			<div className="bordered-container tall-min-height">
-				<Button onClick={this.dispatchNavigateFullFormView} className="button-link">View Full Form</Button>
-				<p>Modules</p>				{this.showNewModuleButton()}
-				<List onClickCallback={this.dispatchNavigateToModule} itemKey={"id"} itemTextKey={"longName"} data={this.props.list}/>
+				<ul className="list-unstyled">
+					<li>
+						<Button onClick={this.dispatchNavigateFullFormView} className="button-link">View Full Form</Button>
+					</li>
+					{this.showNavFormMetadataButton()}
+					<li>
+						<p>Modules</p>                {this.showNewModuleButton()}
+						<List onClickCallback={this.dispatchNavigateToModule} itemKey={"id"} itemTextKey={"longName"} data={this.props.list}/>
+					</li>
+				</ul>
+
 			</div>
 		);
 	}
 }
 
 TreeView.propTypes = {
-	canCreateModule: PropTypes.bool,
-	children:        PropTypes.element
+	shouldShowFormMeatadataLink: PropTypes.bool,
+	canCreateModule:             PropTypes.bool,
+	children:                    PropTypes.element
 };

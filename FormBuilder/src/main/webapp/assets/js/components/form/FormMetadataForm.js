@@ -75,6 +75,7 @@ FormMetadataForm.defaultProps = {
 };
 
 FormMetadataForm.propTypes = {
+	disabled:               PropTypes.bool,
 	mainHeadingTitle:       PropTypes.string.isRequired,
 	children:               PropTypes.node,
 	actionMode:             PropTypes.string,

@@ -40,13 +40,13 @@ const FormService = Marionette.Object.extend({
 	dispatchLayout({action, formIdseq = this.formModel.get('formIdseq')}) {
 		switch(action){
 			case "createForm":
+				this.formUIStateModel.set({actionMode: action});
 				formRouter.navigate(ROUTES.FORM.CREATE_FORM, {trigger: true});
 				if(!this.formModel.isNew()){
 					delete this.formModel;
 					this.formModel = new FormModel();
 				}
 				this.getCartData();
-				this.formUIStateModel.set({actionMode: action});
 				this.fetchFormMetaDataCriteria();
 				break;
 			case "createModule":
@@ -57,6 +57,10 @@ const FormService = Marionette.Object.extend({
 				break;
 			case "editQuestion":
 				this.formUIStateModel.set({actionMode: action});
+				break;
+			case "editFormMetadata":
+				this.formUIStateModel.set({actionMode: action});
+				this.fetchFormMetaDataCriteria();
 				break;
 			case "viewFormFullView":
 				this.formUIStateModel.set({actionMode: action});
