@@ -163,13 +163,14 @@ export default class FormLayout extends Component {
 			const moduleEditing = this.getEditItems();
 			const buttons = [
 				{
-					name: "Save",
-					type: "submit"
+					name:     "Save",
+					type:     "submit",
+					disabled: !this.shouldShowFormEditControls()
 				}
 			];
 			/*Passing in moduleId here might not be necessary but currently the most straightforward way I can think of when there will be an array of modules (parent module, repetition) to edit and gather each one's id from the form when saving */
 			return (
-				<FormModuleForm moduleId={moduleEditing.id} longName={moduleEditing.longName} instructions={moduleEditing.instructions} actionMode={actionMode} mainHeadingTitle="Edit Module">
+				<FormModuleForm disabled={!this.shouldShowFormEditControls()} moduleId={moduleEditing.id} longName={moduleEditing.longName} instructions={moduleEditing.instructions} actionMode={actionMode} mainHeadingTitle="Edit Module">
 					<ButtonsGroup buttons={buttons}/> </FormModuleForm>
 			);
 		}
