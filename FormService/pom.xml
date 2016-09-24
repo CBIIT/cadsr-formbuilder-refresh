@@ -90,11 +90,8 @@
 			<version>${hibernate.version}</version> </dependency> -->
 
 		<!-- Log4j -->
-		<!-- <dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-			<version>${log4j.version}</version>
-		</dependency> -->
+		<!-- <dependency> <groupId>log4j</groupId> <artifactId>log4j</artifactId> 
+			<version>${log4j.version}</version> </dependency> -->
 
 		<!-- Database Drivers -->
 		<dependency>
@@ -235,18 +232,18 @@
 		</dependency>
 		<!-- hibernate dependency -->
 		<dependency>
-    <groupId>org.hibernate</groupId>
-    <artifactId>hibernate</artifactId>
-    <version>3.2.0.ga</version>
-</dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate</artifactId>
+			<version>3.2.0.ga</version>
+		</dependency>
 
-<dependency>
+		<dependency>
 			<groupId>org.acegisecurity</groupId>
 			<artifactId>acegi-security</artifactId>
 			<version>1.0.7</version>
 		</dependency>
-		
-			<dependency>
+
+		<dependency>
 			<groupId>org.acegisecurity</groupId>
 			<artifactId>acegi-security</artifactId>
 			<version>1.0.4</version>
