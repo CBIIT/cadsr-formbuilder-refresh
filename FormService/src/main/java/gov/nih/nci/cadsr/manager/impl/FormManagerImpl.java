@@ -284,8 +284,8 @@ public class FormManagerImpl implements FormManager {
 //			BeanUtils.copyProperties(module.getInstructions(), instr, "context");
 			instr.setContext(c);
 			instr.setCreatedBy(username);
-			if(module.getInstructions() == null){
-				instr.setPreferredDefinition("");
+			if(module.getInstructions() == null || module.getInstructions().equals("")){
+				instr.setPreferredDefinition(" ");
 			}
 			else{
 				instr.setPreferredDefinition(module.getInstructions());
