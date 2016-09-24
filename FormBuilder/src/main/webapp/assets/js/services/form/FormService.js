@@ -79,6 +79,27 @@ const FormService = Marionette.Object.extend({
 			<FormLayout carts={this.carts} formModel={this.formModel.attributes} uiDropDownOptionsModel={this.uiDropDownOptionsModel.toJSON()} formUIState={this.formUIStateModel}/>, document.getElementById('main'));
 
 	},
+	createForm() {
+		/* TODO turn this into a promise like in saveForm() */
+		this.formModel.get('formMetadata').save(null, {
+			success: (model) =>{
+				let formIdseq = model.get("formIdseq");
+				this.formModel.set({
+					formIdseq: formIdseq
+				});
+				formRouter.navigate(`forms/${formIdseq}`, {trigger: false});
+				this.formUIStateModel.set({
+					isEditing:  true,
+					actionMode: 'viewFormFullView'
+				});
+				alert("Form created. formIdseq is: " + formIdseq);
+			},
+			error:   (model, response) =>{
+				/*TODO: of course this is too basic. Improve error handling */
+				alert("error");
+			}
+		});
+	},
 	fetchForm({formIdseq}) {
 		this.formModel.set({formIdseq: formIdseq});
 		/*TODO add catch() for error handling */
@@ -168,28 +189,18 @@ const FormService = Marionette.Object.extend({
 
 		this.formModel.get('formMetadata').set(data);
 		this.formModel.get('formMetadata').set({
-			context:   {conteIdseq: context},
-			createdBy: appChannel.request(EVENTS.USER.GET_USERNAME)
+			context: {conteIdseq: context}
 		});
+		if(this.formModel.isNew()){
+			this.formModel.get('formMetadata').set({
+				createdBy: appChannel.request(EVENTS.USER.GET_USERNAME)
+			});
+			this.createForm();
+		}
+		else{
+			this.saveForm({successMessage: "Form Details Saved"});
+		}
 
-		this.formModel.get('formMetadata').save(null, {
-			success: (model) =>{
-				let formIdseq = model.get("formIdseq");
-				this.formModel.set({
-					formIdseq: formIdseq
-				});
-				formRouter.navigate(`forms/${formIdseq}`, {trigger: false});
-				this.formUIStateModel.set({
-					isEditing:  true,
-					actionMode: 'viewFormFullView'
-				});
-				alert("Form created. formIdseq is: " + formIdseq);
-			},
-			error:   (model, response) =>{
-				/*TODO: of course this is too basic. Improve error handling */
-				alert("error");
-			}
-		});
 	},
 	setupModels() {
 		/* Should only contain data to populate the form UI's immutable data */
