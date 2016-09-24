@@ -12,7 +12,6 @@ export default class TreeView extends Component {
 		this.dispatchNavigateFullFormView = this.dispatchNavigateFullFormView.bind(this);
 		this.dispatchNavigateFormMetadata = this.dispatchNavigateFormMetadata.bind(this);
 		this.dispatchNavigateToModule = this.dispatchNavigateToModule.bind(this);
-		this.showNewModuleButton = this.showNewModuleButton.bind(this);
 		this.showNavFormMetadataButton = this.showNavFormMetadataButton.bind(this);
 	}
 
@@ -41,17 +40,6 @@ export default class TreeView extends Component {
 			);
 		}
 	}
-
-	showNewModuleButton(){
-		if(this.props.canCreateModule){
-			return (
-				<li>
-					<Button onClick={this.dispatchCreateModule} className="btn btn-primary" type="submit">New Module</Button>
-				</li>
-			);
-		}
-	}
-
 	render(){
 		return (
 			<div className="bordered-container tall-min-height">
@@ -64,7 +52,9 @@ export default class TreeView extends Component {
 						<p className="short-bottom-spacing short-top-spacing border-bottom">Modules</p>
 						<List onClickCallback={this.dispatchNavigateToModule} itemKey={"id"} itemTextKey={"longName"} data={this.props.list}/>
 					</li>
-					{this.showNewModuleButton()}
+					<li>
+						<Button disabled={!this.props.canCreateModule} onClick={this.dispatchCreateModule} className="btn btn-primary" type="submit">New Module</Button>
+					</li>
 				</ul>
 
 			</div>

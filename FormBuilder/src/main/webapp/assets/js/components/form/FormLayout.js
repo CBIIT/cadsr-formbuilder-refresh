@@ -45,7 +45,7 @@ export default class FormLayout extends Component {
 	 */
 	canCreateModule(){
 		/*TODO come up with a more reliable way to check for this */
-		return this.shouldShowFormEditControls() === true && this.getActionMode() === 'viewFormFullView';
+		return this.shouldShowFormEditControls() === true && this.getActionMode() !== 'createModule';
 	}
 
 	shouldShowFormEditControls(){
