@@ -156,7 +156,7 @@ export default class FormLayout extends Component {
 		else if(actionMode === 'createModule'){
 			const buttons = [
 				{
-					name: "Create Module",
+					name: "Save",
 					type: "submit"
 				}
 			];
