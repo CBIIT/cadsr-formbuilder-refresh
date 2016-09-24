@@ -18,7 +18,10 @@ import javax.xml.stream.XMLStreamReader;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.oxm.XmlMappingException;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,8 +31,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 import org.xml.sax.SAXException;
 
+import gov.nih.nci.cadsr.FormBuilderConstants;
 import gov.nih.nci.cadsr.FormBuilderProperties;
 import gov.nih.nci.cadsr.model.CartObjectNew;
 import gov.nih.nci.cadsr.model.Field;
@@ -264,39 +269,18 @@ public class CartAdapterController {
 	@RequestMapping(value = "/forms/{username}/{formIdseq}", method = RequestMethod.GET)
 	@ResponseBody
 	public ResponseEntity saveFormToOC(@PathVariable String username, @PathVariable String formIdseq) {
-		System.out.println("IN WEB SERVICE");
 
-		Cart cart = null;
-		
-		try{
-		ObjectCartClient cartClient = new ObjectCartClient();
-		
-		//XXX:This should retrieve an existing Cart, but throws a strange error. Hibernate version mismatch???
-		//XXX:Cannot access HTTP invoker remote service at [http://nciws-d715-v.nci.nih.gov:18080/objcart103/http/applicationService]; nested exception is java.io.InvalidClassException: org.hibernate.collection.AbstractPersistentCollection; local class incompatible: stream classdesc serialVersionUID = 7602608801868099635, local class serialVersionUID = -5723701046347946317
-		//XXX:However, successfully creates a new cart.
-		cart = cartClient.createCart(username, "formCart");
-		}catch(Exception e){
-			e.printStackTrace();
-			return new ResponseEntity(e.toString() + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-		
-		//TODO:Get the FormV2 version of a Form and translate it to a CartObject that can be saved.
-//		FormV2 formv2 = getFormV2FromDB(formIdSeq);
-//		CartObject cObject = translateCartObject(formv2);
-		
-//		CartObject cObject = new CartObject();
-		
-		//TODO:Actually save the Form to the ObjectCart
-//		cartClient.storeObject(cart, cObject);
-		
-		//Get FormV2 from DB based on formIdSeq
-		//Translate to CartObject (see FormAction.java ln 748)
-		//Get/Create instance of ObjectCartClient
-		//Get cart Id - should already have it
-		//Call ObjectCartClient.storeObjectCollection(oCart, cartObjects);
-		
-		return new ResponseEntity(cart.getName(), HttpStatus.OK);
+		String uri = props.getFormServiceApiUrl() + FormBuilderConstants.FORMSERVICE_BASE_URL
+				+ FormBuilderConstants.FORMSERVICE_FORMS + "/objcart" + "/" + username + "/" + formIdseq;
 
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+
+		RestTemplate restTemplate = new RestTemplate();
+		ResponseEntity<Cart> response = restTemplate.getForEntity(uri, Cart.class);
+
+		return response;
+		
 	}
 
 	@RequestMapping(value = "/modules", method = RequestMethod.DELETE)
