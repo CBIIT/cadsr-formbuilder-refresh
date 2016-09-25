@@ -9,7 +9,6 @@ export default class TreeView extends Component {
 		super(props);
 		/* Consider moving dispatching/Backbone radio functionality to FormLayout and notifying FormLayout via callbacks passed through props */
 		this.dispatchCreateModule = this.dispatchCreateModule.bind(this);
-		this.dispatchNavigateFullFormView = this.dispatchNavigateFullFormView.bind(this);
 		this.dispatchNavigateFormMetadata = this.dispatchNavigateFormMetadata.bind(this);
 		this.dispatchNavigateToModule = this.dispatchNavigateToModule.bind(this);
 		this.showNavFormMetadataButton = this.showNavFormMetadataButton.bind(this);
@@ -21,10 +20,6 @@ export default class TreeView extends Component {
 
 	dispatchNavigateToModule(id){
 		formChannel.request(EVENTS.FORM.VIEW_MODULE, id);
-	}
-
-	dispatchNavigateFullFormView(){
-		formChannel.request(EVENTS.FORM.SET_FORM_LAYOUT, {action: 'viewFormFullView'});
 	}
 
 	dispatchNavigateFormMetadata(){
@@ -44,9 +39,6 @@ export default class TreeView extends Component {
 		return (
 			<div className="bordered-container tall-min-height">
 				<ul className="list-unstyled">
-					<li>
-						<Button onClick={this.dispatchNavigateFullFormView} className="button-link">View Full Form</Button>
-					</li>
 					{this.showNavFormMetadataButton()}
 					<li className="short-bottom-spacing">
 						<p className="short-bottom-spacing short-top-spacing border-bottom">Modules</p>

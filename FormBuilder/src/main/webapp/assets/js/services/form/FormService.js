@@ -22,6 +22,7 @@ import FormLayout from '../../components/form/FormLayout';
 const FormService = Marionette.Object.extend({
 	channelName:   'form',
 	radioRequests: {
+		[EVENTS.FORM.CANCEL_EDIT_FORM]:      'handleCancelEditForm',
 		[EVENTS.FORM.EDIT_FORM]:             'handleSetFormEditable',
 		[EVENTS.FORM.SET_FORM_LAYOUT]:       'dispatchLayout',
 		[EVENTS.FORM.CREATE_MODULE]:         'dispatchLayout',
@@ -138,6 +139,9 @@ const FormService = Marionette.Object.extend({
 			editItem:   null,
 			actionMode: 'viewFormFullView'
 		});
+	},
+	handleCancelEditForm() {
+		this.formUIStateModel.set({isEditing: false});
 	},
 	handleSaveForm() {
 		this.saveForm({successMessage: "Form Saved"});

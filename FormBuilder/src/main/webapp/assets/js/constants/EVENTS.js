@@ -7,6 +7,7 @@ const EVENTS = {
 		SET_MAIN_CONTENT_LAYOUT: 'set:mainContentLayout'
 	},
 	FORM:   {
+		CANCEL_EDIT_FORM:               'cancelEditForm',
 		CREATE_FORM:                    'createForm',
 		EDIT_FORM:                      'editForm',
 		CREATE_MODULE:                  "create:module",
