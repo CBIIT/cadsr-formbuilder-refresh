@@ -36,6 +36,7 @@ export default class FormGlobalToolbar extends Component {
 				},
 				{
 					name:      "View Full Form",
+					onClick:   "dispatchNavigateFullFormView",
 					className: (this.props.actionMode === "viewFormFullView") ? 'hidden' : ""
 				},
 			];
