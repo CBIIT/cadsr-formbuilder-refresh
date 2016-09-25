@@ -674,7 +674,11 @@ public class FormBuilderServiceImpl implements FormBuilderService
         if (formHeader != null)
         {
             formHeader.setModifiedBy(username);
-            formdao.updateFormComponent(formHeader);
+            try{
+            	formdao.updateFormComponent(formHeader);
+            }catch (Exception e){
+            	e.printStackTrace();
+            }
         }
         if ((addedModules != null) && !addedModules.isEmpty())
         {
