@@ -4,6 +4,7 @@ import FormModuleForm from './FormModuleForm';
 import ButtonsGroup from '../common/ButtonsGroup';
 import FormMetadataForm from './FormMetadataForm';
 import FormMetadataStatic from './FormMetadataStatic';
+import FormGlobalToolbar from './FormGlobalToolbar';
 import EVENTS from '../../constants/EVENTS';
 import {formChannel} from '../../channels/radioChannels';
 
@@ -11,27 +12,15 @@ export default class FormLayoutMain extends Component {
 	constructor(props){
 		super(props);
 		this.getMainPanelComponents = this.getMainPanelComponents.bind(this);
-		this.dispatchCancelButtonClicked = this.dispatchCancelButtonClicked.bind(this);
-		this.dispatchEditFormClicked = this.dispatchEditFormClicked.bind(this);
+
 		this.dispatchSaveFormClicked = this.dispatchSaveFormClicked.bind(this);
-		this.getToolbarItems = this.getToolbarItems.bind(this);
+		this.showGlobalToolbar = this.showGlobalToolbar.bind(this);
 
 		this.state = {
 			clicked: false
 		};
 	}
 
-	dispatchCancelButtonClicked(){
-		formChannel.request(EVENTS.FORM.CANCEL_EDIT_FORM);
-	}
-
-	dispatchEditFormClicked(){
-		formChannel.request(EVENTS.FORM.EDIT_FORM);
-	}
-
-	dispatchNavigateFullFormView(){
-		formChannel.request(EVENTS.FORM.SET_FORM_LAYOUT, {action: 'viewFormFullView'});
-	}
 
 	dispatchSaveFormClicked(){
 		formChannel.request(EVENTS.FORM.SAVE_FORM, {persistToDB: true});
@@ -116,39 +105,18 @@ export default class FormLayoutMain extends Component {
 		}
 	}
 
-	getToolbarItems(){
-		if(this.props.shouldShowFormEditControls){
-			return [
-				{
-					name:    "Cancel",
-					onClick: "dispatchCancelButtonClicked"
-				},
-				{
-					name:    "View Full Form",
-					onClick: "dispatchNavigateFullFormView"
-				},
-			];
-		}
-		else{
-
-			return [
-				{
-					name:    "Edit Form",
-					onClick: "dispatchEditFormClicked"
-				},
-				{
-					name:    "View Full Form",
-					onClick: "dispatchNavigateFullFormView"
-				},
-			];
+	showGlobalToolbar(){
+		const displayFullFormViewButton = this.props.actionMode !== "viewFormFullView";
+		if(this.props.actionMode !== "createForm"){
+			return (
+				<FormGlobalToolbar actionMode={this.props.actionMode} displayFullFormViewButton={displayFullFormViewButton} shouldShowFormEditControls={this.props.shouldShowFormEditControls}/>
+			);
 		}
 	}
 	render(){
 		return (
 			<section>
-				<Row> <Col lg={9}></Col>
-					<Col lg={3}><ButtonsGroup dispatchCancelButtonClicked={this.dispatchCancelButtonClicked} dispatchEditFormClicked={this.dispatchEditFormClicked} dispatchNavigateFullFormView={this.dispatchNavigateFullFormView} buttons={this.getToolbarItems()}/></Col>
-				</Row> {this.getMainPanelComponents()}
+				{this.showGlobalToolbar()} {this.getMainPanelComponents()}
 			</section>
 		);
 	}
