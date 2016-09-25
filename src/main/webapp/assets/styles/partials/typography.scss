@@ -1,0 +1,235 @@
+@import "global-colors-mixins";
+
+/* ------- BEGIN LAYOUT  --------------- */
+/*
+Colors and typography
+
+This section describes base colors and typography
+
+Styleguide 1.0
+*/
+@media (min-width: 768px) {
+  #main-content.container {
+    padding: 0 15px;
+    margin: auto;
+    width: 100%;
+    max-width: 960px;
+  }
+}
+
+#main-content.container {
+  padding-bottom: 117px;
+}
+
+.section {
+  @include medium-bottom-spacing;
+}
+
+/* ------- END  LAYOUT  --------------- */
+
+/*/ Base font size that all "rem" units are based from
+Add media query for different base font size for desktop, tablet, phone if desired
+/*/
+html {
+  font-size: 16px;
+}
+
+body {
+  font-family: 'Hind', sans-serif;
+  color: $dfTextColor;
+}
+
+p {
+  @include defaultParagraphStyles
+}
+
+#{$allHeadingSelectors} {
+  color: $dfBlue;
+  margin-bottom: 0;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
+  margin-top: 50px;
+}
+
+#{$h1selectors} {
+  font-size: 2rem;
+  line-height: 1.33;
+}
+
+#{$h2selectors} {
+  font-size: 1.5rem;
+  line-height: 1.25;
+}
+
+#{$h3selectors} {
+  font-size: 1.25rem;
+  line-height: 1.25;
+}
+
+@mixin h4Styles {
+  font-size: 1rem;
+  line-height: 1.25;
+}
+
+#{$h4selectors} {
+  @include h4Styles;
+}
+
+ul, ol {
+  margin: 15px 0 0 0;
+  &.list-inline.piped-list {
+    li:not(:last-child):after {
+      content: "|";
+      display: inline;
+      padding-left: 1rem;
+    }
+    @media (max-width: 767px) {
+      // Only works if another class with display:flex is added, like .center-align
+      flex-wrap: wrap;
+    }
+  }
+}
+
+li {
+  padding-left: .125rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  ul, ol {
+    margin-top: 0;
+  }
+}
+
+li, div, body, button {
+  font-family: 'Hind', sans-serif;
+  color: $dfTextColor;
+}
+
+a {
+  font-family: 'Hind', sans-serif;
+  color: $activeBlue;
+  text-decoration: none;
+  &:hover {
+    color: $activeBlue;
+  }
+  &:visited {
+    color: #551A8A;
+  }
+  &.disabled {
+    cursor: not-allowed;
+  }
+}
+
+.bold {
+  font-weight: 600;
+}
+
+.success-text {
+  color: $dfGreen;
+}
+
+.kicker-link {
+  font-weight: 700;
+  &:not(.no-ellipsis):before {
+    content: "...\00a0";
+    display: inline-block;
+    color: $dfTextColor;
+    padding-right: 1rem;
+  }
+  &:after {
+    content: "\00a0 >";
+    display: inline-block;
+  }
+  &:focus, &:hover {
+    &:after {
+      text-decoration: underline;
+    }
+  }
+}
+
+.fill-blue, .fill-dark-grey {
+  .kicker-link {
+    &:before, &:after {
+      color: #FFFFFF;
+    }
+  }
+}
+
+.page_title {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
+  margin-top: 50px;
+  font-size: 2rem;
+  line-height: 1.33;
+  color: $dfBlue;
+}
+
+.page-with-side-content {
+  .page_title {
+    margin-top: 0;
+  }
+}
+
+.col-md-3, .col-md
+  /* Meant for Into Paragraph Text but can be used with other elements */
+.p-large-font {
+  font-size: 1.25rem;
+  line-height: 1.25;
+}
+
+.glyphicon {
+  color: $dfTextColor;
+}
+
+[class^="pe-is-i-"], [class*=" pe-is-i-"] {
+  font-size: 1rem;
+  &.large {
+    font-size: 2.5rem;
+  }
+}
+
+hr {
+  height: 1px;
+  border: 0;
+  background: #bcbec0;
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+
+hr.nobottom {
+  margin-bottom: 0;
+}
+
+img.article {
+  margin: 50px 0;
+  width: 100%;
+}
+
+.breadcrumb {
+  margin-top: 0;
+  padding-left: 0;
+  background-color: transparent;
+  li {
+    font-size: .875rem;
+    padding-left: 0;
+    &:not(:first-child):before {
+      content: ">\00a0" !important;
+      color: #333333 !important;
+    }
+  }
+  a:visited {
+    color: $dfTextColor;
+  }
+}
+
+@media (max-width: 767px) {
+  .breadcrumb {
+    display: none;
+  }
+}
+
+// Small Column Widths with headings should use H4 styles so the font size isn't disproportionately big
+.col-md-3, .col-md-2, .col-md-1 {
+  #{$allHeadingSelectors} {
+    @include h4Styles;
+  }
+}

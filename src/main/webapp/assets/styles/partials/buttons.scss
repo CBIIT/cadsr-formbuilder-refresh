@@ -1,0 +1,265 @@
+/*
+Buttons
+
+This section describes button styles
+
+Styleguide 2
+*/
+@import "global-colors-mixins";
+
+/*
+@mixin blueButton {
+  background-color: $activeBlue;
+  border-bottom: 1px solid #b2b2b2;
+  &:hover, &:focus {
+    background-color: #00699c;
+  }
+  // If it's a link styled as a button
+  &:visited {
+    color: #FFFFFF;
+  }
+}
+
+@mixin whiteButton {
+  border-width: 1px;
+  border-style: solid;
+  border-top-color: #dedede;
+  border-right-color: $lightGrey;
+  border-bottom-color: $lightGrey;
+  border-left-color: $lightGrey;
+  background-color: #FFFFFF;
+  box-shadow: 0 1px 0 #b2b2b2;
+  background-color: #ffffff;
+  color: $darkGrey;
+  &:hover, &:focus {
+    background-color: $dfBlue;
+  }
+  // If it's a link styled as a button
+  &:visited {
+    color: $darkGrey;
+  }
+}
+
+@mixin greyButton {
+  border-bottom: 1px solid #f3f3f3;
+  border-bottom: 1px solid #b2b2b2;
+  color: $darkGrey;
+  background-color: $paleGrey;
+  &:hover, &:focus {
+    background-color: #8b8b8b;
+  }
+  // If it's a link styled as a button
+  &:visited {
+    color: $darkGrey;
+  }
+}
+
+@mixin orangeButton {
+  background-color: $dfOrange;
+  border-top: 1px solid #faab63;
+  &:hover, &:focus {
+    background-color: #e56d02;
+    border-top: 1px solid #ed994e;
+  }
+}
+
+.btn {
+  @include left-margin;
+  @include right-margin;
+  color: white;
+  border-radius: 0;
+  font-family: 'Hind', sans-serif;
+  @media (max-width: 767px) {
+    margin-bottom: 5px;
+    !* Bootstrap . btn-block class *!
+    display: block;
+    width: 100%;
+    margin-right: 0;
+  }
+}
+
+.btn {
+  &:hover {
+    color: #FFFFFF;
+    background-color: $dfBlue;
+  }
+  // If it's a link styled as a button
+  &.btn-default {
+    &:visited {
+      color: $dfTextColor;
+    }
+  }
+  &.btn-primary {
+    &:visited {
+      color: #FFFFFF;
+    }
+  }
+}
+
+.btn-default, .btn-formNav {
+  border-bottom: 1px solid #f3f3f3;
+  border-bottom: 1px solid #b2b2b2;
+  color: $darkGrey;
+  background-color: $paleGrey;
+}
+
+.btn-default:hover {
+  color: #FFFFFF !important;
+}
+
+.btn {
+  &.blue {
+    @include blueButton;
+  }
+  &.orange {
+    @include orangeButton;
+  }
+  &.red {
+    background-color: $dfRed;
+    border-top: 1px solid #eb6c6c;
+    border-bottom: 1px solid #b2b2b2;
+    &:hover, &:focus {
+      background-color: #b90404;
+      border-top: 1px solid #4dabd9;
+    }
+  }
+  &.green {
+    background-color: $dfGreen;
+    border-top: 1px solid #73bf4d;
+    border-bottom: 1px solid #b2b2b2;
+    &:hover, &:focus {
+      background-color: #2a7e00;
+      border-top: 1px solid #6aa54d;
+    }
+  }
+  &.grey {
+    @include greyButton;
+  }
+  &.white {
+    @include whiteButton;
+  }
+  &:hover, &:focus {
+    color: #FFFFFF;
+  }
+}
+
+.btn-formNav {
+  @include right-margin;
+  @media (max-width: 767px) {
+    margin-right: 0;
+  }
+}
+
+// Buttons
+//
+// Buttons can and should be clicked.
+//
+// markup: <button class="btn {$modifiers}">
+//
+// :hover - Highlight the button when hovered.
+// .formprev - Prevous
+//
+// Styleguide 2.1
+button.btn {
+  &.formprev, &.formnext, &.submit, &.command {
+    color: #FFFFFF;
+  }
+  &.formprev, &.formnext, &.submit {
+    border-bottom: 1px solid #b2b2b2;
+    position: relative;
+  }
+  &.formprev, &.formnext {
+    @include blueButton;
+    background-color: $activeBlue;
+  }
+  &.formprev {
+    @include left-margin;
+    &:disabled {
+      background-color: #c8d8e0;
+    }
+  }
+  &.formnext, &.submit {
+    @include right-margin;
+  }
+
+  &.submit {
+    @include orangeButton;
+  }
+  &.formprev {
+    &:before {
+      content: "";
+      border-top: 16px solid transparent;
+      border-bottom: 16px solid transparent;
+      border-right: 9px solid $activeBlue;
+      position: absolute;
+      left: -10px;
+      top: 0;
+    }
+    &:hover:before, &:focus:before {
+      border-right: 9px solid #00699c;
+    }
+    &:disabled:before {
+      border-right: 9px solid #c8d8e0;
+    }
+  }
+  &.formnext:after, &.submit:after {
+    content: "";
+    border-top: 16px solid transparent;
+    border-bottom: 16px solid transparent;
+    border-left: 9px solid;
+    position: absolute;
+    right: -9px;
+    top: 0;
+  }
+  &.formnext {
+    &:after {
+      border-left-color: $activeBlue;
+    }
+    &:hover:after {
+      border-left: 9px solid #00699c;
+    }
+  }
+  &.submit {
+    &:after {
+      border-left: 9px solid $dfOrange;
+    }
+    &:hover:after {
+      border-left-color: #e56d02;
+
+    }
+  }
+  &.command {
+    border-bottom: 1px solid #b2b2b2;
+    border-bottom: 1px solid #51839a;
+    background-color: $dfBlue;
+  }
+  &.formreset {
+    @include whiteButton;
+  }
+}
+
+.dropdown-toggle .glyphicon {
+  color: #fff;
+}
+
+.dropdown-menu > li > a:hover {
+  background-color: $dfBlue;
+  color: #fff;
+}
+
+.fill-light-grey {
+  .btn {
+    border-bottom: #919191;
+  }
+}*/
+
+.button-link {
+  border: none;
+  padding: 0;
+  color: #337ab7;
+  background-color: transparent;
+  text-align: left;
+  &:hover, &:focus {
+    text-decoration: underline;
+  }
+}
