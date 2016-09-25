@@ -14,6 +14,7 @@ export default class FormLayout extends Component {
 		this.getFormModules = this.getFormModules.bind(this);
 		this.getActionMode = this.getActionMode.bind(this);
 		this.getEditItems = this.getEditItems.bind(this);
+		this.showTreeNav = this.showTreeNav.bind(this);
 	}
 
 	componentWillMount(){
@@ -73,10 +74,19 @@ export default class FormLayout extends Component {
 			return Object.assign({}, model.attributes, {cid: model.cid});
 		});
 	}
+
+	showTreeNav(){
+		if(this.getActionMode() !== "createForm"){
+			return (
+				<TreeView list={this.getFormModules()} formIdSeq={this.getFormModel().formIdseq} formName={this.getFormMetaData().longName} canCreateModule={this.canCreateModule()}/>
+			);
+		}
+	}
+
 	render(){
 		return (
 			<Row className="eq-height-wrapper"> <Col lg={2} className="eq-height-item">
-				<TreeView list={this.getFormModules()} formIdSeq={this.getFormModel().formIdseq} formName={this.getFormMetaData().longName} canCreateModule={this.canCreateModule()}/>
+				{this.showTreeNav()}
 			</Col> <Col lg={8} className="eq-height-item">
 				<FormLayoutMain uiDropDownOptionsModel={this.props.uiDropDownOptionsModel} shouldShowFormEditControls={this.shouldShowFormEditControls()} actionMode={this.getActionMode()} formMetadata={this.getFormMetaData()} editItems={this.getEditItems()} formModules={this.getFormModules()}/>
 			</Col> <Col lg={2} className="eq-height-item">
