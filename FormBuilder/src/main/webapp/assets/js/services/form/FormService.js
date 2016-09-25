@@ -131,13 +131,10 @@ const FormService = Marionette.Object.extend({
 		}).execute();
 	},
 	handleAddModule(data) {
-		this.formModel.get('formModules').add(new FormModuleModel(data));
+		const newModuleModel = this.formModel.get('formModules').add(new FormModuleModel(data));
 		this.saveForm().then(() =>{
 			alert("Module Added");
-		});
-		this.formUIStateModel.set({
-			editItem:   null,
-			actionMode: 'viewFormFullView'
+			this.setModuleView(newModuleModel.cid);
 		});
 	},
 	handleCancelEditForm() {
