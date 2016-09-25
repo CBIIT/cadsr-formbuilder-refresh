@@ -57,7 +57,8 @@ export default class FormLayoutMain extends Component {
 				</div>
 			);
 		}
-		else if(actionMode === 'createForm' || actionMode === 'editFormMetadata'){
+
+		else if(actionMode === 'createForm' || (actionMode === 'editFormMetadata' && this.props.shouldShowFormEditControls)){
 			const metaDataFormHeadingTitle = actionMode === 'createForm' ? 'Create New Form' : 'Edit Form',
 				submitButtonText = (actionMode === 'createForm') ? 'Create Form' : 'Save';
 			const buttons = [
@@ -71,6 +72,19 @@ export default class FormLayoutMain extends Component {
 					<FormMetadataForm actionMode={actionMode} formMetadata={this.props.formMetadata} uiDropDownOptionsModel={this.props.uiDropDownOptionsModel} mainHeadingTitle={metaDataFormHeadingTitle}>
 						<ButtonsGroup buttons={buttons}/> </FormMetadataForm>
 				</div>
+			);
+		}
+		else if(actionMode === 'editFormMetadata' && !this.props.shouldShowFormEditControls){
+			const metaDataFormHeadingTitle = actionMode === 'createForm' ? 'Create New Form' : 'Edit Form',
+				submitButtonText = (actionMode === 'createForm') ? 'Create Form' : 'Save';
+			const buttons = [
+				{
+					name: submitButtonText,
+					type: "submit"
+				}
+			];
+			return (
+				<FormMetadataStatic formMetadata={this.props.formMetadata}/>
 			);
 		}
 		else if(actionMode === 'createModule'){

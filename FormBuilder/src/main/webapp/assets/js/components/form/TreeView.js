@@ -11,7 +11,9 @@ export default class TreeView extends Component {
 		this.dispatchCreateModule = this.dispatchCreateModule.bind(this);
 		this.dispatchNavigateFormMetadata = this.dispatchNavigateFormMetadata.bind(this);
 		this.dispatchNavigateToModule = this.dispatchNavigateToModule.bind(this);
+		/*
 		this.showNavFormMetadataButton = this.showNavFormMetadataButton.bind(this);
+		 */
 	}
 
 	dispatchCreateModule(){
@@ -26,6 +28,7 @@ export default class TreeView extends Component {
 		formChannel.request(EVENTS.FORM.SET_FORM_LAYOUT, {action: 'editFormMetadata'});
 	}
 
+	/*
 	showNavFormMetadataButton(){
 		if(this.props.shouldShowFormMeatadataLink){
 			return (
@@ -34,12 +37,14 @@ export default class TreeView extends Component {
 				</li>
 			);
 		}
-	}
+	 }*/
 	render(){
 		return (
 			<div className="bordered-container tall-min-height">
 				<ul className="list-unstyled">
-					{this.showNavFormMetadataButton()}
+					<li>
+						<Button onClick={this.dispatchNavigateFormMetadata} className="button-link">Form Details</Button>
+					</li>
 					<li className="short-bottom-spacing">
 						<p className="short-bottom-spacing short-top-spacing border-bottom">Modules</p>
 						<List onClickCallback={this.dispatchNavigateToModule} itemKey={"id"} itemTextKey={"longName"} data={this.props.list}/>
