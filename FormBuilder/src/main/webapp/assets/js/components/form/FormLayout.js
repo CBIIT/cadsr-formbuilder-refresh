@@ -21,8 +21,12 @@ export default class FormLayout extends Component {
 	componentWillMount(){
 		/* watch for changes on these backbone models/collections and re-render */
 		backboneReact.on(this, {
-			models: {
-				formUIState: this.props.formUIState
+			models:      {
+				formUIState: this.props.formUIState,
+				carts:       this.props.carts
+			},
+			collections: {
+				formModules: this.props.formModel.formModules
 			}
 		});
 	}
@@ -84,6 +88,7 @@ export default class FormLayout extends Component {
 		}
 
 	}
+
 	showTreeNav(){
 		if(this.getActionMode() !== "createForm"){
 			return (
