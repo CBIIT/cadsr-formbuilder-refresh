@@ -228,9 +228,11 @@ public class FormManagerImpl implements FormManager {
 		
 		updateModules(updatedMods);
 		
-		
+		if(addedMods.size() > 0){
+			return ((ModuleTransferObject)addedMods.iterator().next()).getModuleIdseq();
+		}
 
-		return "SUCCESS";
+		return "SUCCESS!";
 	}
 
 	private void adaptModels(BBForm form, FormTransferObject formHeader, Collection addedMods, Collection updatedMods,
