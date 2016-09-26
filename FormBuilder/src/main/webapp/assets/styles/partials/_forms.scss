@@ -1,4 +1,3 @@
-@import "global-colors-mixins";
 
 .form_nav, .form_content {
   list-style: none;
@@ -232,7 +231,7 @@
     -webkit-appearance: none; /*REMOVES DEFAULT CHROME & SAFARI STYLE*/
     -moz-appearance: none; /*REMOVES DEFAULT FIREFOX STYLE*/
     appearance: none;
-    background: url(../images/dropdown.png) no-repeat right center;
+    //background: url(../images/dropdown.png) no-repeat right center;
     cursor: pointer;
     background-size: contain;
     option {
@@ -269,7 +268,7 @@
     border-radius: 0;
   }
   .date {
-    background: transparent url(../images/icons/calendar.png) no-repeat center right;
+    //background: transparent url(../images/icons/calendar.png) no-repeat center right;
     background-size: 18px 21px;
     padding-right: 9px;
     background-origin: content-box;

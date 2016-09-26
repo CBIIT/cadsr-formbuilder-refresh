@@ -1,13 +1,20 @@
-@import "global-colors-mixins";
 
 /** Full footer container **/
 .footer_mc {
-  background-color: #464646;
-  color: #ffffff;
+  background-color: $color-accent-dark;
+  color: $color-highlight;
   bottom: 0;
   clear: both;
-  /*TODO height for placeholder footer, take out */
-  height: 40px;
+  .container{
+    width: 100%;
+    padding-left: 10%;
+
+  }
+}
+
+#footer{
+  height: 150px;
+  margin-top: 60px;
 }
 
 .footer {
@@ -19,14 +26,29 @@
   }
 
 }
+._footer_menu{
+  display: flex;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+}
+._footer_menubar{
+  flex-direction: column;
+  -webkit-flex-direction: column;
+  width: 19%;
+}
+._footer_menu_item{
+  margin-bottom: 22px;
+  &:first-of-type{
+    margin-top: 32px;
+  }
+}
 
 .footer a {
-  color: #ffffff;
-  &:hover, &:focus {
-    color: #ffffff;
-  }
-  &:visited {
-    color: #ffffff;
+  color: $color-highlight;
+  &:hover, &:focus, &:visited {
+    color: $color-highlight;
   }
 }
 
