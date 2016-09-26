@@ -15,6 +15,7 @@ export default class FormLayout extends Component {
 		this.getActionMode = this.getActionMode.bind(this);
 		this.getEditItems = this.getEditItems.bind(this);
 		this.showTreeNav = this.showTreeNav.bind(this);
+		this.showCartsPanel = this.showCartsPanel.bind(this);
 	}
 
 	componentWillMount(){
@@ -75,6 +76,14 @@ export default class FormLayout extends Component {
 		});
 	}
 
+	showCartsPanel(){
+		if(this.getActionMode() !== "createForm"){
+			return (
+				<SidePanel cdeList={this.getCartList({name: "cdeCartCollection"})}/>
+			);
+		}
+
+	}
 	showTreeNav(){
 		if(this.getActionMode() !== "createForm"){
 			return (
@@ -90,7 +99,9 @@ export default class FormLayout extends Component {
 			</Col> <Col lg={8} className="eq-height-item">
 				<FormLayoutMain uiDropDownOptionsModel={this.props.uiDropDownOptionsModel} shouldShowFormEditControls={this.shouldShowFormEditControls()} actionMode={this.getActionMode()} formMetadata={this.getFormMetaData()} editItems={this.getEditItems()} formModules={this.getFormModules()}/>
 			</Col> <Col lg={2} className="eq-height-item">
-				<SidePanel cdeList={this.getCartList({name: "cdeCartCollection"})}/></Col> </Row>
+				{this.showCartsPanel()}
+
+			</Col> </Row>
 		);
 	}
 }

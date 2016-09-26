@@ -47,7 +47,6 @@ const FormService = Marionette.Object.extend({
 					delete this.formModel;
 					this.formModel = new FormModel();
 				}
-				this.getCartData();
 				this.fetchFormMetaDataCriteria();
 				break;
 			case "createModule":
