@@ -85,12 +85,13 @@ public class FormController {
 	}
 
 	@RequestMapping(value = { "/forms/{formIdSeq}" }, method = RequestMethod.PUT, consumes = "application/json")
-	public ResponseEntity updateForm(@RequestBody BBForm form) {
-		// adapt object model
+	public ResponseEntity<String> updateForm(@RequestBody BBForm form) {
 
 		try {
 
-			return new ResponseEntity(formManager.updateForm(form), HttpStatus.OK);
+			String response = formManager.updateForm(form);
+			
+			return new ResponseEntity<String>(response, HttpStatus.OK);
 
 		} catch (Exception e) {
 			e.printStackTrace();
