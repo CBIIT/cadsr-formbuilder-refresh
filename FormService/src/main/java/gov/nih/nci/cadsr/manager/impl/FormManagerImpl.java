@@ -232,7 +232,7 @@ public class FormManagerImpl implements FormManager {
 			return ((ModuleTransferObject)addedMods.iterator().next()).getModuleIdseq();
 		}
 
-		return "SUCCESS!";
+		return "SUCCESS";
 	}
 
 	private void adaptModels(BBForm form, FormTransferObject formHeader, Collection addedMods, Collection updatedMods,
