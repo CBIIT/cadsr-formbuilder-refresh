@@ -4,6 +4,7 @@ package gov.nih.nci.cadsr.api.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -139,7 +140,7 @@ public class FormAdapterController {
 	@RequestMapping(value = { "/{formIdSeq}" }, method = RequestMethod.PUT, consumes = "application/json")
 	@ResponseBody
 	public ResponseEntity saveForm(@PathVariable String formIdSeq, @RequestBody String form) {
-
+		
 		String uri = props.getFormServiceApiUrl() + FormBuilderConstants.FORMSERVICE_BASE_URL
 				+ FormBuilderConstants.FORMSERVICE_FORMS + "/" + formIdSeq;
 
@@ -149,9 +150,10 @@ public class FormAdapterController {
 		HttpEntity<String> entity = new HttpEntity<String>(form, headers);
 
 		RestTemplate restTemplate = new RestTemplate();
-		restTemplate.put(uri, entity);
+		
+		ResponseEntity<String> response = restTemplate.exchange(uri, HttpMethod.PUT, entity, String.class);
 
-		return new ResponseEntity("SUCCESS", HttpStatus.OK);
+		return response;
 	}
 	
 	@RequestMapping(value = { "/workingCopy" }, method = RequestMethod.POST, consumes = "application/json")
