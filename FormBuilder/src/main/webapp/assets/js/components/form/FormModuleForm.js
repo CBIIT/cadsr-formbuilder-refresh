@@ -38,7 +38,7 @@ export default class FormModuleForm extends Component {
 					</fieldset>
 					<div><p>Questions</p>
 						<div>
-							<pre style={{height: "150px", whiteSpace: "normal"}}>
+							<pre style={{height: "100px", whiteSpace: "normal"}}>
 								{this.props.questions}
 							</pre>
 						</div>

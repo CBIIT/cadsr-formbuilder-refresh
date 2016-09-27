@@ -53,11 +53,11 @@ Footer Instructions"/> </Col> <Col sm={6}>
 								optionKey: 'contextIdSeq'
 							})} value={this.props.formMetadata.context.conteIdseq} required/>
 							<Select name="formCategory" label="Category" options={this.getOptions({
-							options: this.props.uiDropDownOptionsModel.formCategories
+								options: this.props.uiDropDownOptionsModel.formCategories
 							})} value={this.props.formMetadata.formCategory}/>
 							<Select name="formType" label="Type" options={this.getOptions({
-							options: this.props.uiDropDownOptionsModel.formTypes
-						})} value={this.props.formMetadata.formType} required/> <FormGroup>
+								options: this.props.uiDropDownOptionsModel.formTypes
+							})} value={this.props.formMetadata.formType} required/> <FormGroup>
 							<ControlLabel>Version</ControlLabel>
 							<FormControl.Static>{this.props.formMetadata.version}</FormControl.Static> </FormGroup>
 						</Col> </Row>
@@ -82,6 +82,3 @@ FormMetadataForm.propTypes = {
 	formMetadata:           PropTypes.object.isRequired,
 	uiDropDownOptionsModel: PropTypes.object.isRequired
 };
-
-
-

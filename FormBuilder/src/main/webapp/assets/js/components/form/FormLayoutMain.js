@@ -4,6 +4,7 @@ import FormModuleForm from './FormModuleForm';
 import ButtonsGroup from '../common/ButtonsGroup';
 import FormMetadataForm from './FormMetadataForm';
 import FormMetadataStatic from './FormMetadataStatic';
+import FormModuleStatic from './FormModuleStatic';
 import FormGlobalToolbar from './FormGlobalToolbar';
 import EVENTS from '../../constants/EVENTS';
 import {formChannel} from '../../channels/radioChannels';
@@ -28,25 +29,15 @@ export default class FormLayoutMain extends Component {
 
 	getMainPanelComponents(){
 		const actionMode = this.props.actionMode;
-		if(actionMode === "viewFormFullView" && !this.props.shouldShowFormEditControls){
+		if(actionMode === "viewFormFullView"){
 			return (
 				<div>
 					<FormMetadataStatic formMetadata={this.props.formMetadata}/> {this.props.formModules.map((moduleModel, index) =>(
-					<FormModuleForm questions={JSON.stringify(moduleModel.questions)} disabled={true} key={index} longName={moduleModel.longName} instructions={moduleModel.instructions}/>))}
+					<FormModuleStatic questions={JSON.stringify(moduleModel.questions)} key={index} longName={moduleModel.longName} instructions={moduleModel.instructions}/>))}
 
 				</div>
 			);
 		}
-		else if(actionMode === "viewFormFullView" && this.props.shouldShowFormEditControls){
-			return (
-				<div>
-					<FormMetadataStatic formMetadata={this.props.formMetadata}/> {this.props.formModules.map((moduleModel, index) =>(
-					<FormModuleForm disabled={true} key={index} questions={JSON.stringify(moduleModel.questions)} longName={moduleModel.longName} instructions={moduleModel.instructions}/>))}
-
-				</div>
-			);
-		}
-
 		else if(actionMode === 'createForm' || (actionMode === 'editFormMetadata' && this.props.shouldShowFormEditControls)){
 			const metaDataFormHeadingTitle = actionMode === 'createForm' ? 'Create New Form' : 'Edit Form',
 				submitButtonText = (actionMode === 'createForm') ? 'Create Form' : 'Save';
@@ -64,14 +55,6 @@ export default class FormLayoutMain extends Component {
 			);
 		}
 		else if(actionMode === 'editFormMetadata' && !this.props.shouldShowFormEditControls){
-			const metaDataFormHeadingTitle = actionMode === 'createForm' ? 'Create New Form' : 'Edit Form',
-				submitButtonText = (actionMode === 'createForm') ? 'Create Form' : 'Save';
-			const buttons = [
-				{
-					name: submitButtonText,
-					type: "submit"
-				}
-			];
 			return (
 				<FormMetadataStatic formMetadata={this.props.formMetadata}/>
 			);
@@ -88,7 +71,7 @@ export default class FormLayoutMain extends Component {
 					<ButtonsGroup buttons={buttons}/> </FormModuleForm>
 			);
 		}
-		else if(actionMode === 'editModule'){
+		else if(actionMode === 'editModule' && this.props.shouldShowFormEditControls){
 			const moduleEditing = this.props.editItems;
 			const buttons = [
 				{
@@ -103,6 +86,13 @@ export default class FormLayoutMain extends Component {
 					<ButtonsGroup buttons={buttons}/> </FormModuleForm>
 			);
 		}
+		else if(actionMode === 'editModule' && !this.props.shouldShowFormEditControls){
+			const moduleEditing = this.props.editItems;
+			/*Passing in moduleId here might not be necessary but currently the most straightforward way I can think of when there will be an array of modules (parent module, repetition) to edit and gather each one's id from the form when saving */
+			return (
+				<FormModuleStatic moduleId={moduleEditing.id} longName={moduleEditing.longName} instructions={moduleEditing.instructions} questions={JSON.stringify(moduleEditing.questions)} actionMode={actionMode} mainHeadingTitle="Module"/>
+			);
+		}
 	}
 
 	showGlobalToolbar(){
@@ -113,6 +103,7 @@ export default class FormLayoutMain extends Component {
 			);
 		}
 	}
+
 	render(){
 		return (
 			<section>
@@ -122,6 +113,6 @@ export default class FormLayoutMain extends Component {
 	}
 }
 
-FormLayoutMain.propTypes= {
+FormLayoutMain.propTypes = {
 	children: PropTypes.node
 };
