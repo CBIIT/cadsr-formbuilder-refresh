@@ -21,22 +21,20 @@ const CartsService = Marionette.Object.extend({
 	 *
 	 * @returns {Promise.<TResult>}
 	 */
-	fetchCarts() {
+	fetchCarts({name}) {
 		const cdeCartCollection = this.cdeCartCollection;
 		/* TODO refactor to handle array of carts */
 		const p = new Promise(
 			(resolve, reject) =>{
 				cdeCartCollection.fetch().then(() =>{
-					resolve({
-						cdeCartCollection: cdeCartCollection
-					});
+					resolve(cdeCartCollection);
 				}).catch((error) =>{
 					console.log(error);
 				});
 			}
 		);
-		return p.then((collection)=>{
-			return collection;
+		return p.then((name)=>{
+			return name;
 		}).catch((error)=>{
 			console.log(error);
 		});

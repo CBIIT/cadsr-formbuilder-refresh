@@ -6,12 +6,13 @@ import {Model} from 'backbone';
 const FormUIStateModel = Model.extend({
 	defaults: {
 		/*determines whether the user can add new modules, reorder the modules, edit form details, etc */
-		isEditing:  false,
+		isEditing:        false,
 		/**
 		 * The action the user is performing on the form when viewOnly: false,
 		 */
 		/* TODO add validate method that only allows for certain actions  */
-		actionMode: null
+		actionMode:       null,
+		cdeCartPopulated: false
 	}
 });
 

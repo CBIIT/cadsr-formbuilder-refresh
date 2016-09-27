@@ -22,6 +22,7 @@ import FormLayout from '../../components/form/FormLayout';
 const FormService = Marionette.Object.extend({
 	channelName:   'form',
 	radioRequests: {
+		[EVENTS.FORM.GET_CART_LIST]:         'getCartData',
 		[EVENTS.FORM.CANCEL_EDIT_FORM]:      'handleCancelEditForm',
 		[EVENTS.FORM.EDIT_FORM]:             'handleSetFormEditable',
 		[EVENTS.FORM.SET_FORM_LAYOUT]:       'dispatchLayout',
@@ -69,7 +70,7 @@ const FormService = Marionette.Object.extend({
 					this.formUIStateModel.set({isEditing: false});
 					this.fetchForm({formIdseq: formIdseq});
 				}
-				this.getCartData();
+				this.getCartData({name: "cdeCartCollection"});
 				break;
 			default:
 				console.error("no valid action provided");
@@ -78,7 +79,7 @@ const FormService = Marionette.Object.extend({
 	constructLayout(){
 		/*Entry point for React. Backbone Views Keep Out */
 		render(
-			<FormLayout carts={this.carts} formModel={this.formModel.attributes} uiDropDownOptionsModel={this.uiDropDownOptionsModel.toJSON()} formUIState={this.formUIStateModel}/>, document.getElementById('main'));
+			<FormLayout cdeCartCollection={this.app.cartsService.cdeCartCollection} formModel={this.formModel.attributes} uiDropDownOptionsModel={this.uiDropDownOptionsModel.toJSON()} formUIState={this.formUIStateModel}/>, document.getElementById('main'));
 
 	},
 	createForm() {
@@ -109,13 +110,12 @@ const FormService = Marionette.Object.extend({
 			this.constructLayout();
 		});
 	},
-	getCartData() {
-		this.carts = {};
+	getCartData({name}) {
 
 		/*Only retrieve carts if user actually exists */
 		if(appChannel.request(EVENTS.USER.GET_USERNAME)){
-			return this.app.cartsService.fetchCarts().then((carts)=>{
-				this.carts = carts;
+			return this.app.cartsService.fetchCarts({name}).then((cart)=>{
+				this.formUIStateModel.set({cdeCartPopulated: true});
 			});
 		}
 	},
@@ -211,6 +211,8 @@ const FormService = Marionette.Object.extend({
 
 	},
 	setupModels() {
+		this[name] = new Collection();
+
 		/* Should only contain data to populate the form UI's immutable data */
 		const UIDropDownOptionsModel = Model.extend({
 			defaults: {

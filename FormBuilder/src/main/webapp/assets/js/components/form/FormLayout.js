@@ -22,7 +22,7 @@ export default class FormLayout extends Component {
 		/* watch for changes on these backbone models/collections and re-render */
 		backboneReact.on(this, {
 			models:      {
-				formUIState: this.props.formUIState
+				formUIState: this.props.formUIState,
 			},
 			collections: {
 				formModules: this.props.formModel.formModules
@@ -64,8 +64,8 @@ export default class FormLayout extends Component {
 	}
 
 	getCartList({name}){
-		if(this.props.carts[name]){
-			return this.props.carts[name].models.map(model =>{
+		if(this.props[name]){
+			return this.props[name].models.map(model =>{
 				return Object.assign({}, model.attributes, {id: model.id});
 			});
 		}
