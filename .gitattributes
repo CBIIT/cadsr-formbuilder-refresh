@@ -118,8 +118,6 @@ FormBuilder/src/main/webapp/assets/templates/common/inputs/radio-input.html -tex
 FormBuilder/src/main/webapp/assets/templates/common/inputs/select-input.html -text
 FormBuilder/src/main/webapp/assets/templates/common/inputs/text-input.html -text
 FormBuilder/src/main/webapp/assets/templates/common/inputs/textarea-input.html -text
-FormBuilder/src/main/webapp/assets/templates/form/core-form-details.html -text
-FormBuilder/src/main/webapp/assets/templates/form/form-layout.html -text
 FormBuilder/src/main/webapp/assets/templates/search/form-search/form-search.html -text
 FormBuilder/src/main/webapp/assets/templates/search/form-search/latest-version-only.html -text
 FormBuilder/src/main/webapp/assets/templates/search/form-search/search-results-layout.html -text
