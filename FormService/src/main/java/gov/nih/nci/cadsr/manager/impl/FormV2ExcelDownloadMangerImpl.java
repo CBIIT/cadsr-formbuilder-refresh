@@ -1,5 +1,6 @@
 package gov.nih.nci.cadsr.manager.impl;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
 import java.util.Iterator;
 import java.util.List;
@@ -45,9 +46,10 @@ public class FormV2ExcelDownloadMangerImpl implements FormV2ExcelDownloadManger 
 	FormBuilderService formBuilderService;
 
 	@Override
-	public byte[] downloadExcel(String formIdSeq, HttpServletRequest request) {
+	public HSSFWorkbook downloadExcel(String formIdSeq, HttpServletRequest request) {
 
 		FormV2 crf = new FormV2TransferObject();
+		HSSFWorkbook hSSFWorkbook = new HSSFWorkbook();
 
 		try {
 			if (!FormBuilderUtil.validateIdSeqRequestParameter(formIdSeq))
@@ -58,17 +60,16 @@ public class FormV2ExcelDownloadMangerImpl implements FormV2ExcelDownloadManger 
 			log.error("Exception getting CRF", exp);
 
 		}
-		byte[] body = null;
 		try {
 
 			// create a new excel workbook
-			HSSFWorkbook wb = new HSSFWorkbook();
-			HSSFSheet sheet = wb.createSheet();
+			hSSFWorkbook = new HSSFWorkbook();
+			HSSFSheet sheet = hSSFWorkbook.createSheet();
 			int rowNumber = 0;
 
 			// create bold cell style
-			HSSFCellStyle boldCellStyle = wb.createCellStyle();
-			HSSFFont font = wb.createFont();
+			HSSFCellStyle boldCellStyle = hSSFWorkbook.createCellStyle();
+			HSSFFont font = hSSFWorkbook.createFont();
 			font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
 			boldCellStyle.setFont(font);
 			boldCellStyle.setAlignment(HSSFCellStyle.ALIGN_GENERAL);
@@ -368,22 +369,10 @@ public class FormV2ExcelDownloadMangerImpl implements FormV2ExcelDownloadManger 
 				}
 			}
 
-			// CDEBrowserParams params = CDEBrowserParams.getInstance();
-			String excelFilename = "Form" + crf.getPublicId() + "_v" + crf.getVersion();
-			excelFilename = excelFilename.replace('/', '_').replace('.', '_');
-			// excelFilename="C:\\Users\\bbirha\\Downloads\\"+excelFilename+".xls";
-			// excelFilename = params.getXMLDownloadDir() + excelFilename+
-			// ".xls";
-			body = wb.getBytes();
-			FileOutputStream fileOut = new FileOutputStream(excelFilename);
-			wb.write(fileOut);
-			fileOut.close();
-
-			request.setAttribute("fileName", excelFilename);
 		} catch (Exception exp) {
 			log.error("Exception downolad Excel", exp);
 
 		}
-		return body;
+		return hSSFWorkbook;
 	}
 }
