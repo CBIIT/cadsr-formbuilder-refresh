@@ -34,6 +34,7 @@ FormBuilder/src/main/java/gov/nih/nci/cadsr/model/XMLConverter.java -text
 FormBuilder/src/main/java/gov/nih/nci/cadsr/model/XmlFormat.java -text
 FormBuilder/src/main/java/gov/nih/nci/cadsr/model/session/SessionCarts.java -text
 FormBuilder/src/main/java/gov/nih/nci/cadsr/model/session/SessionObject.java -text
+FormBuilder/src/main/java/gov/nih/nci/cadsr/servlets/EncodingFilter.java -text
 FormBuilder/src/main/resources/application-config-client.xml -text
 FormBuilder/src/main/resources/applicationContext.xml -text
 FormBuilder/src/main/resources/default.properties -text
