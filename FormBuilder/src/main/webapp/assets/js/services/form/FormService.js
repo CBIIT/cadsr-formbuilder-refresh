@@ -91,10 +91,8 @@ const FormService = Marionette.Object.extend({
 					formIdseq: formIdseq
 				});
 				formRouter.navigate(`forms/${formIdseq}`, {trigger: false});
-				this.formUIStateModel.set({
-					isEditing:  true,
-					actionMode: 'viewFormFullView'
-				});
+				this.formUIStateModel.set({isEditing: true});
+				this.dispatchLayout({action: "viewFormFullView"});
 				alert("Form created. formIdseq is: " + formIdseq);
 			},
 			error:   (model, response) =>{
