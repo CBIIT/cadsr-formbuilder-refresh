@@ -13,6 +13,7 @@ $icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
 @import "partials/buttons";
 @import "partials/helper_classes";
 @import "partials/footer";
+@import "partials/panels";
 
 @import "partials/sideBar";
 
@@ -22,4 +23,5 @@ $icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
 
 body{
   background-color: $color-base;
+  font-family: 'Noto Sans', sans-serif;
 }

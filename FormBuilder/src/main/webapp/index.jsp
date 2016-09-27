@@ -7,7 +7,7 @@
 	<meta charset="UTF-8">
     <title>CaDSR FormBuilder</title>
 	<link rel="stylesheet" href="dist/style.css" />
-	<link href="https://fonts.googleapis.com/css?family=Montserrat|Noto+Sans" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Montserrat|Noto+Sans:400,700" rel="stylesheet"/>
 
 </head>
 <body>
@@ -24,8 +24,7 @@
 		Object.freeze(serverProps);
 	</script>
 
-<script src="dist/bundle.js
-"></script>
+<script src="dist/bundle.js"></script>
 
 
 </body>

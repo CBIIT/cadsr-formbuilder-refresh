@@ -40,18 +40,24 @@ export default class TreeView extends Component {
 	 }*/
 	render(){
 		return (
-			<div className="bordered-container tall-min-height">
+			<div className="bordered-container tall-min-height panel">
 				<ul className="list-unstyled">
+					<li className="panel-header">
+						<span className="panel-header-link">Form Map</span>
+					</li>
 					<li>
-						<Button onClick={this.dispatchNavigateFormMetadata} className="button-link">Form Details</Button>
+						<span className="panel-link panel-item">View Full Form</span>
+						<span onClick={this.dispatchNavigateFormMetadata} className="panel-link panel-item">Form Details</span>
+						<hr className="panel-divider"/>
+						<p className="panel-subtitle">Modules</p>
+					</li>
+					<li>
+						<List onClickCallback={this.dispatchNavigateToModule} itemKey={"id"} className="panel-item panel-list" itemTextKey={"longName"} data={this.props.list}/>
 					</li>
 					<li className="short-bottom-spacing">
-						<p className="short-bottom-spacing short-top-spacing border-bottom">Modules</p>
-						<List onClickCallback={this.dispatchNavigateToModule} itemKey={"id"} itemTextKey={"longName"} data={this.props.list}/>
+						<button disabled={!this.props.canCreateModule} onClick={this.dispatchCreateModule} className="btn btn-link panel-link--success">Create New Module</button>
 					</li>
-					<li>
-						<Button disabled={!this.props.canCreateModule} onClick={this.dispatchCreateModule} className="btn btn-primary" type="submit">New Module</Button>
-					</li>
+
 				</ul>
 
 			</div>
