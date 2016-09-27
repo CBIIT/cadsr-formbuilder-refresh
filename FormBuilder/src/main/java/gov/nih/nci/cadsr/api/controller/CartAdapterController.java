@@ -175,6 +175,10 @@ public class CartAdapterController {
 	@ResponseBody
 	public ResponseEntity loadCDECart(@PathVariable String username) throws XmlMappingException, IOException,
 			SAXException, ParserConfigurationException, JAXBException, XMLStreamException {
+		
+		if(props.getFormBuilderLocalMode()){
+			return getDummyCdeCart("guest");
+		}
 
 		String ocURL = "http://objcart2-dev.nci.nih.gov/objcart103";
 
