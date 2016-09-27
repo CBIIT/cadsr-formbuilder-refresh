@@ -19,6 +19,7 @@
 		<property name="properties">
 			<util:properties local-override="false">
 				<prop key="formservice.api.url">${formservice.api.url}</prop>
+				<prop key="formbuilder.local.mode">${formbuilder.local.mode}</prop>
 			</util:properties>
 		</property>
 	</bean>

@@ -1,6 +1,10 @@
 package gov.nih.nci.cadsr.api.controller;
 
 
+import java.io.File;
+import java.io.IOException;
+import java.util.Scanner;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -109,6 +113,14 @@ public class FormAdapterController {
 	@RequestMapping(value = "/{formIdSeq}", method = RequestMethod.GET)
 	@ResponseBody
 	public ResponseEntity getFullForm(@PathVariable String formIdSeq) {
+		
+		if(props.getFormBuilderLocalMode()){
+			
+			String content = "";
+			content = getFile("demographics_dummy_form.json");
+			
+			return new ResponseEntity(content, HttpStatus.OK);
+		}
 
 		String base_uri = props.getFormServiceApiUrl() + FormBuilderConstants.FORMSERVICE_BASE_URL
 				+ FormBuilderConstants.FORMSERVICE_FORMS + "/" + formIdSeq;
@@ -214,5 +226,31 @@ public class FormAdapterController {
 
 		return new ResponseEntity(sb.toString(), HttpStatus.OK);
 	}
+	
+	private String getFile(String fileName) {
+
+		StringBuilder result = new StringBuilder("");
+
+		//Get file from resources folder
+		ClassLoader classLoader = getClass().getClassLoader();
+		File file = new File(classLoader.getResource(fileName).getFile());
+
+		try (Scanner scanner = new Scanner(file)) {
+
+			while (scanner.hasNextLine()) {
+				String line = scanner.nextLine();
+				result.append(line).append("\n");
+			}
+
+			scanner.close();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return result.toString();
+
+	  }
+
 
 }
