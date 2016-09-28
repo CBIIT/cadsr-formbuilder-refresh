@@ -232,11 +232,11 @@
 		</dependency>
 		<!-- hibernate dependency -->
 		<dependency>
-			<groupId>org.hibernate</groupId>
+			<groupId>hibernate</groupId>
 			<artifactId>hibernate</artifactId>
-			<version>3.2.0.ga</version>
+			<version>3.0.2</version>
+			<classifier>sources</classifier>
 		</dependency>
-
 		<dependency>
 			<groupId>org.acegisecurity</groupId>
 			<artifactId>acegi-security</artifactId>
