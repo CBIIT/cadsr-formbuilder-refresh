@@ -20,7 +20,7 @@ const ButtonsGroup = (props) =>{
 export default ButtonsGroup;
 
 Button.propTypes = {
-	onClick: PropTypes.string
+	onClick: PropTypes.func
 };
 
 ButtonsGroup.propTypes = {
