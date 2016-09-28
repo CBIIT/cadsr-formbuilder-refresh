@@ -3,10 +3,11 @@ import {Button} from 'react-bootstrap';
 
 const List = (props) =>{
 	const createListItem = (item, index) => {
+		const activeItem = props.activeItem === item[props.itemKey];
 		return (
 			<li key={index}>
-				<Button bsClass="button-link" onClick={() =>{
-					props.onClickCallback(item.cid)
+				<Button bsClass={`${(activeItem ? props.activeButtonClass : props.buttonItemClassName)}`} onClick={() =>{
+					props.onClickCallback(item.cid);
 				}}>{item[props.itemTextKey]}</Button>
 			</li>
 		);
@@ -17,9 +18,17 @@ const List = (props) =>{
 
 export default List;
 
+List.defaultProps = {
+	activeItemId:        '',
+	buttonItemClassName: "button-link"
+};
+
 List.propTypes = {
-	onClickCallback: PropTypes.func,
-	reversKeyValueOrder: PropTypes.bool,
+	activeListItemClass: PropTypes.string,
+	activeButtonClass:   PropTypes.string,
+	buttonItemClassName: PropTypes.string,
+	lisItemClassName:    PropTypes.string,
+	onClickCallback:     PropTypes.func,
 	className:           PropTypes.string,
 	data:                PropTypes.array
 };

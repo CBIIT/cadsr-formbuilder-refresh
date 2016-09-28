@@ -93,7 +93,7 @@ export default class FormLayout extends Component {
 		const actionMode = this.getActionMode();
 		if(actionMode !== "createForm"){
 			const activeModuleId = actionMode == "editModule" && this.getEditItems() ? this.getEditItems().id : null;
-			const formMetadataLinkIsActive = actionMode == "editFormMetadata";
+			const formMetadataLinkIsActive = actionMode === "editFormMetadata";
 			return (
 				<TreeView formMetadataLinkIsActive={formMetadataLinkIsActive} activeModuleId={activeModuleId} list={this.getFormModules()} formIdSeq={this.getFormModel().formIdseq} formName={this.getFormMetaData().longName} canCreateModule={this.canCreateModule()}/>
 			);

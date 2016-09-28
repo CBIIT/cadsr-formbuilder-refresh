@@ -26,6 +26,7 @@ export default class TreeView extends Component {
 	}
 	render(){
 
+
 		return (
 			<div className="bordered-container tall-min-height panel">
 				<ul className="list-unstyled">
@@ -39,7 +40,7 @@ export default class TreeView extends Component {
 						<p className="panel-subtitle">Modules</p>
 					</li>
 					<li>
-						<List onClickCallback={this.dispatchNavigateToModule} itemKey={"id"} className="panel-item panel-list" itemTextKey={"longName"} data={this.props.list}/>
+						<List activeItem={this.props.activeModuleId} buttonItemClassName={"panel-link panel-item btn btn-link no-margin"} activeButtonClass={" panel-link panel-item btn btn-link no-margin panel-link--accent"} onClickCallback={this.dispatchNavigateToModule} itemKey={"cid"} className="panel-item panel-list" itemTextKey={"longName"} data={this.props.list}/>
 					</li>
 					<li className="short-bottom-spacing">
 						<button disabled={!this.props.canCreateModule} onClick={this.dispatchCreateModule} className="btn btn-link panel-link--success">Create New Module</button>
