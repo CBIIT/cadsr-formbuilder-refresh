@@ -43,7 +43,7 @@ export default class TreeView extends Component {
 			<div className="bordered-container tall-min-height panel">
 				<ul className="list-unstyled">
 					<li className="panel-header">
-						<span className="panel-header-link">Form Map</span>
+						<span className="panel-header-heading">Form Map</span>
 					</li>
 					<li>
 
