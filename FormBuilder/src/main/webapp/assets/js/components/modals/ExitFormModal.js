@@ -11,13 +11,13 @@ export default class ExitFormModal extends Component {
 			<div>
 				<Modal show={this.props.isOpen} onHide={this.close} aria-labelledby="contained-modal-title" dialogClassName="date-range-modal">
 					<Modal.Header>
-						<Modal.Title bsClass="h2 no-margin " id="contained-modal-data-range">Exit Form Creation?</Modal.Title>
-						<p>If you leave this page, your form will not be saved. When returning to form creation, you will have to fill out the form details again and restart the form creation process.</p>
-						<p>Are you sure you want to leave this page?</p>
+						<Modal.Title bsClass="h2 no-margin " id="contained-modal-data-range">Warning:</Modal.Title>
+						<p>By selecting the cancel option, the changes you have made will NOT be saved.</p>
+						<p>Select Return to continue editing your Form, or Confirm to leave edit mode.</p>
 					</Modal.Header> <Modal.Body>
 
-				</Modal.Body> <Modal.Footer> <Button onClick={this.props.goBackButtonClicked}>Go Back</Button>
-					<Button onClick={this.props.leaveFormCLicked}>Leave Form</Button> </Modal.Footer> </Modal>
+				</Modal.Body> <Modal.Footer> <Button onClick={this.props.goBackButtonClicked}>Return</Button>
+					<Button onClick={this.props.leaveFormCLicked}>Confirm</Button> </Modal.Footer> </Modal>
 			</div>
 		);
 	}
