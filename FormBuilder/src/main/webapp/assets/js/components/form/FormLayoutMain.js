@@ -99,7 +99,7 @@ export default class FormLayoutMain extends Component {
 		const displayFullFormViewButton = this.props.actionMode !== "viewFormFullView";
 		if(this.props.actionMode !== "createForm"){
 			return (
-				<FormGlobalToolbar actionMode={this.props.actionMode} displayFullFormViewButton={displayFullFormViewButton} shouldShowFormEditControls={this.props.shouldShowFormEditControls}/>
+				<FormGlobalToolbar formLongName={this.props.formMetadata.longName} actionMode={this.props.actionMode} displayFullFormViewButton={displayFullFormViewButton} shouldShowFormEditControls={this.props.shouldShowFormEditControls}/>
 			);
 		}
 	}

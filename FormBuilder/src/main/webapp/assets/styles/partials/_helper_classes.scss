@@ -77,6 +77,11 @@
   @include center-align;
 }
 
+.center-v-spread-h {
+  display: flex;
+  justify-content: space-between;
+}
+
 .center-hv-td-content {
   @include center-hv-td-content;
 }
