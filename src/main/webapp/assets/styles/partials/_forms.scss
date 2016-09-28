@@ -1,0 +1,505 @@
+
+.form_nav, .form_content {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/*Form Progress Bar */
+.form_nav {
+  border-top: none !important;
+  @media (min-width: 992px) {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+  > li {
+    display: inline-block;
+    padding-left: 0;
+    @media (min-width: 992px) {
+      flex-grow: 1;
+    }
+  }
+  p, a {
+    margin-top: 5px;
+    font-size: 14px;
+    color: $dfTextColor;
+    padding: 0 15px;
+    line-height: 18px;
+    text-decoration: none;
+  }
+  a:visited {
+    color: $dfTextColor;
+  }
+}
+
+.form_nav_tab {
+  float: left;
+  background: #fff;
+  border-top: 1px solid #cccccc;
+  border-bottom: 1px solid #cccccc;
+  display: flex;
+  justify-content: space-between;
+  text-align: center;
+  position: relative;
+  text-decoration: none;
+  padding: 5px 4px 5px 21px;
+  width: 100%;
+  cursor: pointer;
+  border-left: none;
+  [class^="pe-is-i-"], [class*=" pe-is-i-"] {
+    float: right;
+    z-index: 4;
+    position: absolute;
+    top: 8px;
+    right: 0;
+  }
+  &.active, &:hover, &:active, &:focus {
+    background: $activeBlue;
+    p, a {
+      color: #FFFFFF !important;
+    }
+  }
+  &:hover, &:active, &:focus {
+    span {
+      color: #FFFFFF;
+    }
+  }
+  &:first-child {
+    border-left: 1px solid #cccccc;
+  }
+  &:not(:first-child):before {
+    background: #fff;
+    border: none;
+    content: '';
+    display: block;
+    height: 24px;
+    left: -10px;
+    position: absolute;
+    top: 5px;
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
+    width: 24px;
+    border-right: 1px solid #ccc;
+    border-top: 1px solid #ccc;
+    z-index: 2;
+  }
+  &:after {
+    background: #fff;
+    border: none;
+    content: '';
+    display: block;
+    height: 24px;
+    right: -10px;
+    position: absolute;
+    top: 5px;
+    transform: rotate(45deg);
+    width: 24px;
+    border-right: 1px solid #ccc;
+    border-top: 1px solid #ccc;
+    z-index: 3;
+  }
+  &.active, &:hover, &:focus, &:active {
+    &:after {
+      background-color: $activeBlue;
+    }
+  }
+  &.disabled {
+    cursor: not-allowed;
+    background-color: $paleGrey;
+    &:after {
+      background-color: $paleGrey;
+    }
+    p, a {
+      color: $dfTextColor !important;
+    }
+  }
+}
+
+@media (max-width: 990px) {
+  .form_nav_tab {
+    text-align: center;
+    float: none;
+    margin-bottom: 4px;
+    height: 36px;
+    background: transparent !important;
+    box-sizing: border-box;
+    border: none;
+    justify-content: center;
+    align-items: center;
+    p, a {
+      width: 100%;
+      z-index: 4;
+      position: relative;
+      margin-top: 5vw;
+    }
+    &:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 50%;
+      background: #FFFFFF;
+      transform: skew(0deg, 6deg);
+      border: 1px solid #ccc;
+      border-right: none;
+    }
+    &:after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+      width: 51%;
+      background: #FFFFFF;
+      transform: skew(0deg, -6deg);
+      border: 1px solid #ccc;
+      border-left: none;
+    }
+    &.active, &:hover, &:focus, &:active {
+      &:before, &:after {
+        background: $activeBlue;
+      }
+    }
+    &.disabled:before, &.disabled:after {
+      background: #EEEEEE;
+    }
+    [class^="pe-is-i-"], [class*=" pe-is-i-"] {
+      font-size: 1.4rem;
+      right: 10px;
+      @media (max-width: 990px) {
+        top: -9px;
+      }
+      @media (max-width: 400px) {
+        top: 0;
+      }
+    }
+  }
+}
+
+/* END Form Progress Bar */
+
+/* Form styling */
+.form_content {
+  /* Content Panes */
+  > li {
+    display: none;
+    &.active {
+      display: block;
+    }
+  }
+  .form-group {
+    @include tall-bottom-spacing;
+    &.required label:after {
+      content: " *";
+      color: #fe0000;
+      float: right;
+    }
+    &.invalid {
+      select, input, textarea {
+        border-top-color: #cb4444;
+        border-left-color: #e86262;
+        border-right-color: #e86262;
+        border-bottom-color: #f57f7f;
+      }
+      .help-block.error {
+        color: $dfRed;
+      }
+    }
+
+  }
+  select, input, textarea {
+    font-family: 'Hind', sans-serif;
+    font-size: 1rem !important;
+    border-radius: 0;
+    line-height: inherit;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 8px;
+    border: 1px solid #bcbec0;
+    box-shadow: none;
+    &::placeholder {
+      text-align: left;
+    }
+  }
+  input[type=file] {
+    border: none;
+    background-color: transparent;
+  }
+  select {
+    -webkit-appearance: none; /*REMOVES DEFAULT CHROME & SAFARI STYLE*/
+    -moz-appearance: none; /*REMOVES DEFAULT FIREFOX STYLE*/
+    appearance: none;
+    //background: url(../images/dropdown.png) no-repeat right center;
+    cursor: pointer;
+    background-size: contain;
+    option {
+      font-size: 1rem;
+    }
+    &[multiple] {
+      background: none;
+      max-height: 100px;
+    }
+  }
+  input[type=radio], input[type=checkbox] {
+    display: none;
+  }
+
+  label, legend {
+    color: $dfBlue;
+    .help-block {
+      display: inline;
+      padding-left: 13px;
+      margin: 0;
+      font-size: .875rem;
+      color: $darkGrey;
+    }
+  }
+  legend {
+    font-weight: 600;
+    font-family: 'Hind', sans-serif;
+    font-size: 1rem;
+    border-bottom: none;
+    margin-bottom: 5px;
+  }
+
+  .form-control {
+    border-radius: 0;
+  }
+  .date {
+    //background: transparent url(../images/icons/calendar.png) no-repeat center right;
+    background-size: 18px 21px;
+    padding-right: 9px;
+    background-origin: content-box;
+    &:disabled {
+      background-color: #eee;
+    }
+  }
+  .add-remove-list-form-group {
+    .btn-group-justified {
+      @include medium-top-spacing;
+    }
+    .add-remove-list-box {
+      label {
+        display: block;
+        margin-bottom: 0;
+        color: #CCCCCC;
+        background-color: $darkGrey;
+        padding: 2px 2px 2px 11px;
+        line-height: 1.5;
+      }
+    }
+    .add-remove-btn-group {
+      @media (min-width: 768px) {
+        margin-top: 26px;
+      }
+      @media (max-width: 767px) {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 128px;
+        margin-top: -35px;
+      }
+    }
+  }
+}
+
+.form-btn-group div {
+  @include center-align;
+  flex-direction: row-reverse;
+  .btn {
+    &:first-child {
+      margin-right: 0;
+    }
+    &:last-child {
+      margin-left: 0;
+    }
+  }
+}
+
+.modal-body .form-group {
+  @include short-bottom-spacing;
+}
+
+select::-ms-expand {
+  display: none;
+}
+
+.radio-group label, .check-group label {
+  display: block !important;
+  cursor: pointer;
+  font-weight: 400 !important;
+  font-size: 14px !important;
+  position: relative;
+  line-height: 14px;
+  padding-left: 25px;
+  margin: 15px 0;
+}
+
+td {
+  .radio-group label, .check-group label {
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-top: 9px;
+    padding-bottom: 9px;
+  }
+}
+
+.radio-group label:before {
+  content: "";
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  margin-right: 10px;
+  position: absolute;
+  left: 0;
+  bottom: 1px;
+  background-color: #FFFFFF;
+  border: 1px solid #bcbec0;
+}
+
+.check-group label:before {
+  content: "";
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border-radius: 2px;
+  margin-right: 10px;
+  position: absolute;
+  left: 0;
+  bottom: 1px;
+  background-color: #FFFFFF;
+  border: 1px solid #bcbec0;
+}
+
+.form_content {
+  input[type=radio]:checked + label:before {
+    border: 3px solid #bcbec0;
+    background-color: $activeBlue;
+  }
+  input[type=checkbox]:checked + label:before {
+    content: "\2713";
+    color: $activeBlue;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
+    font-size: 25px;
+    line-height: 20px;
+  }
+  input[type=radio]:disabled + label,
+  input[type=checkbox]:disabled + label {
+    &:before {
+      background-color: #d9d9d9;
+      cursor: not-allowed;
+    }
+  }
+  label {
+    margin-top: 10px;
+    display: inline-block;
+    font-weight: 700;
+    font-size: 16px;
+  }
+  .form-control-static {
+    font-size: 1rem;
+  }
+}
+
+label span.example {
+  font-size: 12px;
+  font-weight: 400;
+  color: #bcbec0;
+}
+
+@media (min-width: 992px) {
+  .form-nav-container {
+    .panel-heading {
+      display: none;
+    }
+    .panel {
+      border: none;
+      box-shadow: none;
+    }
+  }
+}
+
+@media (max-width: 990px) {
+
+  .form-nav-container {
+    .panel.panel-collapsed {
+      border: none;
+    }
+    .panel-heading {
+      padding: 0;
+      background-color: transparent;
+      a {
+        display: block;
+        text-decoration: none !important;
+        padding: 5px;
+        color: #ffffff;
+        background-color: $activeBlue;
+      }
+    }
+    .panel {
+      padding-bottom: 10px;
+      border-color: #bcbec0;
+      box-shadow: none;
+    }
+  }
+  .form_nav {
+    margin-top: 20px;
+    margin-bottom: 20px !important;
+
+  }
+  .form_content {
+    width: 100%;
+    .btn-group-justified {
+      display: flex;
+      > div {
+        @include short-bottom-spacing;
+        &:nth-child(2) {
+          display: flex;
+          justify-content: center;
+        }
+      }
+    }
+  }
+  .form_nav > li {
+    display: inline-block;
+    width: 100%;
+    &:first-child .form_nav_tab:before {
+      position: absolute;
+    }
+  }
+}
+
+// On mobile the middle set of buttons is placed in the middle, so Next, Previous/Submit are above them
+@media (max-width: 767px) {
+  .form-btn-group {
+    .btn {
+      margin-left: 0;
+      margin-right: 0;
+      width: calc(100% - 13px);
+    }
+    > div {
+      flex-direction: column-reverse;
+      flex-wrap: nowrap;
+      &:nth-child(2) {
+        order: 2;
+      }
+    }
+  }
+}
+
+.fill-blue, .fill-dark-grey, .fill-light-grey {
+  select, input, textarea {
+    color: $dfBlue;
+    border: none;
+    border-bottom: #04364d;
+    background-color: #FFFFFF;
+  }
+}
+
+
+
+
+

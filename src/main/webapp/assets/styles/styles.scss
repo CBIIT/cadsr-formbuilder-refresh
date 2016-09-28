@@ -1,0 +1,27 @@
+// Bootstrap
+/*
+See:http://stackoverflow.com/questions/34788771/unable-to-load-bootstrap-with-node-sass-bootstrap-sass
+*/
+$icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
+@import "~bootstrap-sass/assets/stylesheets/_bootstrap.scss";
+
+@import "partials/global-colors-mixins";
+@import "partials/forms";
+@import "partials/alerts";
+@import "partials/header";
+@import "partials/text_image_containers";
+@import "partials/buttons";
+@import "partials/helper_classes";
+@import "partials/footer";
+@import "partials/panels";
+
+@import "partials/sideBar";
+
+/*Backgrid */
+@import "~backgrid/src/backgrid.css";
+@import "~backgrid-paginator/backgrid-paginator.css";
+
+body{
+  background-color: $color-base;
+  font-family: 'Noto Sans', sans-serif;
+}

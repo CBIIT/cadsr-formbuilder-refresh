@@ -1,0 +1,111 @@
+
+/*-----------Semantic Helper Classes<<<-----------*/
+
+.tall-top-spacing {
+  @include tall-top-spacing(!important);
+}
+
+.medium-top-spacing {
+  @include medium-top-spacing(!important);
+}
+
+.short-top-spacing {
+  @include short-top-spacing(!important);
+}
+
+.tall-bottom-spacing {
+  @include tall-bottom-spacing(!important);
+}
+
+.medium-bottom-spacing {
+  @include medium-bottom-spacing(!important);
+}
+
+.short-bottom-spacing {
+  @include short-bottom-spacing(!important);
+}
+
+.top-padding {
+  @include top-padding
+}
+
+.right-padding {
+  @include right-padding
+}
+
+.bottom-padding {
+  @include bottom-padding
+}
+
+.left-padding {
+  @include left-padding
+}
+
+.add-padding {
+  @include add-padding(!important);
+}
+
+.no-padding {
+  padding: 0 !important;
+}
+
+.top-margin {
+  @include top-margin
+}
+
+.right-margin {
+  @include right-margin
+}
+
+.bottom-margin {
+  @include bottom-margin
+}
+
+.left-margin {
+  @include left-margin
+}
+
+.no-margin {
+  margin: 0 !important;
+}
+
+.right-algin {
+  @include center-align;
+}
+
+.center-align {
+  @include center-align;
+}
+
+.center-hv-td-content {
+  @include center-hv-td-content;
+}
+
+.align-right-center-vertical-td-content {
+  vertical-align: middle;
+  text-align: right;
+}
+
+.top-margin-xs-only {
+  @include top-margin;
+}
+
+.tall-min-height {
+  min-height:   570px;
+}
+
+.eq-height-wrapper {
+  display: flex;
+  > .eq-height-item {
+    display: flex;
+    > * {
+      width: 100%;
+    }
+  }
+}
+
+.block {
+  display: block;
+}
+
+
