@@ -59,6 +59,7 @@ export default class FormLayout extends Component {
 		return this.props.formModel;
 	}
 
+	/* TODO maybe get rid of "edit items" because whatever item you're viewing inside FormLayoutMain is editable, if "edit mode" is turned on */
 	getEditItems(){
 		return this.state.formUIState.editItem;
 	}
@@ -74,7 +75,7 @@ export default class FormLayout extends Component {
 	getFormModules(){
 		/* Return list of modules with its backbone model's cid included */
 		return this.getFormModel().formModules.models.map(model =>{
-			/* Getting cid vs moduleIdseq becauswe new modules don't have a moduleIdseq */
+			/* Getting cid vs moduleIdseq because new modules don't have a moduleIdseq */
 			return Object.assign({}, model.attributes, {cid: model.cid});
 		});
 	}
@@ -89,9 +90,12 @@ export default class FormLayout extends Component {
 	}
 
 	showTreeNav(){
-		if(this.getActionMode() !== "createForm"){
+		const actionMode = this.getActionMode();
+		if(actionMode !== "createForm"){
+			const activeModuleId = actionMode == "editModule" && this.getEditItems() ? this.getEditItems().id : null;
+			const formMetadataLinkIsActive = actionMode == "editFormMetadata";
 			return (
-				<TreeView list={this.getFormModules()} formIdSeq={this.getFormModel().formIdseq} formName={this.getFormMetaData().longName} canCreateModule={this.canCreateModule()}/>
+				<TreeView formMetadataLinkIsActive={formMetadataLinkIsActive} activeModuleId={activeModuleId} list={this.getFormModules()} formIdSeq={this.getFormModel().formIdseq} formName={this.getFormMetaData().longName} canCreateModule={this.canCreateModule()}/>
 			);
 		}
 	}

@@ -11,9 +11,6 @@ export default class TreeView extends Component {
 		this.dispatchCreateModule = this.dispatchCreateModule.bind(this);
 		this.dispatchNavigateFormMetadata = this.dispatchNavigateFormMetadata.bind(this);
 		this.dispatchNavigateToModule = this.dispatchNavigateToModule.bind(this);
-		/*
-		this.showNavFormMetadataButton = this.showNavFormMetadataButton.bind(this);
-		 */
 	}
 
 	dispatchCreateModule(){
@@ -27,18 +24,8 @@ export default class TreeView extends Component {
 	dispatchNavigateFormMetadata(){
 		formChannel.request(EVENTS.FORM.SET_FORM_LAYOUT, {action: 'editFormMetadata'});
 	}
-
-	/*
-	showNavFormMetadataButton(){
-		if(this.props.shouldShowFormMeatadataLink){
-			return (
-				<li>
-					<Button onClick={this.dispatchNavigateFormMetadata} className="button-link">Form Details</Button>
-				</li>
-			);
-		}
-	 }*/
 	render(){
+
 		return (
 			<div className="bordered-container tall-min-height panel">
 				<ul className="list-unstyled">
@@ -47,7 +34,7 @@ export default class TreeView extends Component {
 					</li>
 					<li>
 
-						<button onClick={this.dispatchNavigateFormMetadata} className="panel-link panel-item btn btn-link" >Form Details</button>
+						<button onClick={this.dispatchNavigateFormMetadata} className={"panel-link panel-item btn btn-link " + (this.props.formMetadataLinkIsActive ? "panel-link--accent" : "")}>Form Details</button>
 						<hr className="panel-divider"/>
 						<p className="panel-subtitle">Modules</p>
 					</li>
@@ -66,6 +53,8 @@ export default class TreeView extends Component {
 }
 
 TreeView.propTypes = {
+	formMetadataLinkIsActive:    PropTypes.boolean,
+	activeModuleId:              PropTypes.string,
 	shouldShowFormMeatadataLink: PropTypes.bool,
 	canCreateModule:             PropTypes.bool,
 	children:                    PropTypes.element
