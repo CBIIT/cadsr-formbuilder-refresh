@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import {Col, Row, Button} from 'react-bootstrap';
+import {Col, Row} from 'react-bootstrap';
 import {Input, Textarea} from 'formsy-react-components';
 import EVENTS from '../../constants/EVENTS';
 import {formChannel} from '../../channels/radioChannels';
@@ -9,10 +9,7 @@ export default class FormModuleForm extends Component {
 	constructor(props){
 		super(props);
 		this.dispatchData = this.dispatchData.bind(this);
-		// Default state
-		this.state = {
-			disabled: false
-		};
+
 	}
 
 	dispatchData(data){
@@ -34,7 +31,6 @@ export default class FormModuleForm extends Component {
 						<legend>{this.props.mainHeadingTitle}</legend>
 						<Input name="longName" id="longName" value={this.props.longName} label="Module Name" type="text" help="This is a required text input." required/>
 						<Textarea rows={3} cols={40} name="instructions" label="Instructions" value={this.props.instructions}/>
-						<div></div>
 					</fieldset>
 					<div><p>Questions</p>
 						<div>
