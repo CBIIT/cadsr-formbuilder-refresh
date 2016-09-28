@@ -9,7 +9,9 @@ export default class FormModuleForm extends Component {
 	constructor(props){
 		super(props);
 		this.dispatchData = this.dispatchData.bind(this);
-
+		this.state = {
+			validatePristine: false
+		};
 	}
 
 	dispatchData(data){
