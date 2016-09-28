@@ -98,11 +98,11 @@ export default class FormLayout extends Component {
 
 	render(){
 		return (
-			<Row className="eq-height-wrapper"> <Col lg={2} className="eq-height-item">
+			<Row className="eq-height-wrapper"> <Col lg={3} className="eq-height-item">
 				{this.showTreeNav()}
-			</Col> <Col lg={8} className="eq-height-item">
+			</Col> <Col lg={6} className="eq-height-item panel-lg">
 				<FormLayoutMain uiDropDownOptionsModel={this.props.uiDropDownOptionsModel} shouldShowFormEditControls={this.shouldShowFormEditControls()} actionMode={this.getActionMode()} formMetadata={this.getFormMetaData()} editItems={this.getEditItems()} formModules={this.getFormModules()}/>
-			</Col> <Col lg={2} className="eq-height-item">
+			</Col> <Col lg={3} className="eq-height-item">
 				{this.showCartsPanel()}
 
 			</Col> </Row>

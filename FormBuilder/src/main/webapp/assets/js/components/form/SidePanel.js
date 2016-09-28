@@ -8,13 +8,25 @@ export default class SidePanel extends Component {
 
 	render(){
 		return (
-			<div className="bordered-container tall-min-height panel">
-				<p className="panel-header">
-					<span className="panel-header-link">CDE Cart</span>
-				</p>
-				<List itemKey={"deIdseq"} className="panel-list-cart panel-item" itemTextKey={"longcdename"} data={this.props.cdeList}/>
-
+			<div>
+				<div className="bordered-container panel panel-half">
+					<p className="panel-header">
+						<span className="panel-header-link">CDE Cart</span>
+					</p>
+					<div class="panel-content">
+						<List itemKey={"deIdseq"} className="panel-list-cart panel-item" itemTextKey={"longcdename"} data={this.props.cdeList}/>
+					</div>
+				</div>
+				<div className="bordered-container panel panel-half">
+					<p className="panel-header">
+					<span className="panel-header-link">Module Cart</span>
+					</p>
+					<div className="panel-content">
+						<p className="panel-temp"><em>Coming Soon...</em></p>
+					</div>
+				</div>
 			</div>
+
 		);
 	}
 }

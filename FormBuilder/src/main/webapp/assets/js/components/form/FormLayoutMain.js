@@ -106,8 +106,11 @@ export default class FormLayoutMain extends Component {
 
 	render(){
 		return (
-			<section>
-				{this.showGlobalToolbar()} {this.getMainPanelComponents()}
+			<section className="panel">
+				{this.showGlobalToolbar()}
+				<div className="panel-content">
+					{this.getMainPanelComponents()}
+				</div>
 			</section>
 		);
 	}

@@ -81,7 +81,7 @@ export default class FormGlobalToolbar extends Component {
 
 	render(){
 		return (
-			<Row> <Col lg={9}></Col> <Col lg={3}>
+			<Row className="panel-header"> <Col lg={9}></Col> <Col lg={3}>
 				<ExitFormModal leaveFormCLicked={this.handleLeaveForm} goBackButtonClicked={this.closeExitFormModal} isOpen={this.state.exitFormModalOpen}/>
 				<ButtonsGroup handleCancelButtonClicked={this.handleCancelButtonClicked} dispatchEditFormClicked={this.dispatchEditFormClicked} dispatchNavigateFullFormView={this.dispatchNavigateFullFormView} buttons={this.getToolbarItems()}/></Col>
 			</Row>
