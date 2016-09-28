@@ -16,6 +16,7 @@ public class BBFormMetaData {
 	private Float version;
 	private String headerInstructions;
 	private String footerInstructions;
+	private int publicId;
 	
 	
 	public String getFormIdseq() {
@@ -89,6 +90,12 @@ public class BBFormMetaData {
 	}
 	public void setFooterInstructions(String footerInstructions) {
 		this.footerInstructions = footerInstructions;
+	}
+	public int getPublicId() {
+		return publicId;
+	}
+	public void setPublicId(int publicId) {
+		this.publicId = publicId;
 	}
 
 }
