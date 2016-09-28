@@ -57,7 +57,7 @@ export default class FormGlobalToolbar extends Component {
 	}
 
 	dispatchCancelEditForm(){
-		formChannel.request(EVENTS.FORM.CANCEL_EDIT_FORM);
+		formChannel.request(EVENTS.FORM.CANCEL_EDIT_FORM, {action: 'viewFormFullView'});
 	}
 
 	dispatchEditFormClicked(){

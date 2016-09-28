@@ -138,8 +138,11 @@ const FormService = Marionette.Object.extend({
 			this.setModuleView(newModuleModel.cid);
 		});
 	},
-	handleCancelEditForm() {
-		this.formUIStateModel.set({isEditing: false});
+	handleCancelEditForm({action = this.formUIStateModel.attributes.actionMode}) {
+		this.formUIStateModel.set({
+			actionMode: action,
+			isEditing:  false
+		});
 	},
 	handleSaveForm() {
 		this.saveForm({successMessage: "Form Saved"});
