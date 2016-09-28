@@ -46,8 +46,8 @@ export default class TreeView extends Component {
 						<span className="panel-header-link">Form Map</span>
 					</li>
 					<li>
-						<span className="panel-link panel-item">View Full Form</span>
-						<span onClick={this.dispatchNavigateFormMetadata} className="panel-link panel-item">Form Details</span>
+
+						<button onClick={this.dispatchNavigateFormMetadata} className="panel-link panel-item btn btn-link" >Form Details</button>
 						<hr className="panel-divider"/>
 						<p className="panel-subtitle">Modules</p>
 					</li>

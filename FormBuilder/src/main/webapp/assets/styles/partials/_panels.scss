@@ -21,6 +21,13 @@
   &:hover{
     text-decoration: underline;
   }
+  &.btn{
+    padding-left: 0px;
+    &:hover{
+      color: $color-accent-bright;
+      background-color: transparent;
+    }
+  }
 }
 .panel-item{
   margin-left: 25px;
@@ -38,6 +45,7 @@
   text-transform: uppercase;
   &:hover{
     background-color: transparent;
+    color: darken($color-accent-success, 10%);
   }
 }
 .panel-divider{
