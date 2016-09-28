@@ -13,7 +13,8 @@ const formMetadataStatic = (props) =>{
 		</Col> <Col lg={6}> Type: {props.formMetadata.formType}
 		</Col> </Row> <Row> <Col lg={6}> Header Instructions: {props.formMetadata.headerInstructions}
 		</Col> <Col lg={6}> Footer Instructions: {props.formMetadata.footerInstructions}
-		</Col> </Row>
+		</Col> <Col lg={12}> Public ID: {props.formMetadata.publicId}
+		</Col></Row>
 		</div>
 	);
 };
