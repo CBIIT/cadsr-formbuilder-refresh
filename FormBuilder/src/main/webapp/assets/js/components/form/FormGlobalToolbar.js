@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import {Col, Row} from 'react-bootstrap';
 import ButtonsGroup from '../common/ButtonsGroup';
+import ExitFormModal from '../modals/ExitFormModal';
 
 import EVENTS from '../../constants/EVENTS';
 import {formChannel} from '../../channels/radioChannels';
@@ -8,9 +9,21 @@ import {formChannel} from '../../channels/radioChannels';
 export default class FormGlobalToolbar extends Component {
 	constructor(props){
 		super(props);
+		this.closeExitFormModal = this.closeExitFormModal.bind(this);
 		this.getToolbarItems = this.getToolbarItems.bind(this);
-		this.dispatchCancelButtonClicked = this.dispatchCancelButtonClicked.bind(this);
+		this.dispatchCancelEditForm = this.dispatchCancelEditForm.bind(this);
 		this.dispatchEditFormClicked = this.dispatchEditFormClicked.bind(this);
+		this.handleCancelButtonClicked = this.handleCancelButtonClicked.bind(this);
+		this.handleLeaveForm = this.handleLeaveForm.bind(this);
+		this.state = {
+			exitFormModalOpen: false
+		};
+	}
+
+	closeExitFormModal(){
+		this.setState({
+			exitFormModalOpen: false
+		});
 	}
 
 	getToolbarItems(){
@@ -18,7 +31,7 @@ export default class FormGlobalToolbar extends Component {
 			return [
 				{
 					name:    "Cancel",
-					onClick: "dispatchCancelButtonClicked"
+					onClick: "handleCancelButtonClicked"
 				},
 				{
 					name:      "View Full Form",
@@ -43,7 +56,7 @@ export default class FormGlobalToolbar extends Component {
 		}
 	}
 
-	dispatchCancelButtonClicked(){
+	dispatchCancelEditForm(){
 		formChannel.request(EVENTS.FORM.CANCEL_EDIT_FORM);
 	}
 
@@ -55,10 +68,22 @@ export default class FormGlobalToolbar extends Component {
 		formChannel.request(EVENTS.FORM.SET_FORM_LAYOUT, {action: 'viewFormFullView'});
 	}
 
+	handleCancelButtonClicked(){
+		this.setState({
+			exitFormModalOpen: true
+		});
+	}
+
+	handleLeaveForm(){
+		this.closeExitFormModal();
+		this.dispatchCancelEditForm();
+	}
+
 	render(){
 		return (
-			<Row> <Col lg={9}></Col>
-				<Col lg={3}><ButtonsGroup dispatchCancelButtonClicked={this.dispatchCancelButtonClicked} dispatchEditFormClicked={this.dispatchEditFormClicked} dispatchNavigateFullFormView={this.dispatchNavigateFullFormView} buttons={this.getToolbarItems()}/></Col>
+			<Row> <Col lg={9}></Col> <Col lg={3}>
+				<ExitFormModal leaveFormCLicked={this.handleLeaveForm} goBackButtonClicked={this.closeExitFormModal} isOpen={this.state.exitFormModalOpen}/>
+				<ButtonsGroup handleCancelButtonClicked={this.handleCancelButtonClicked} dispatchEditFormClicked={this.dispatchEditFormClicked} dispatchNavigateFullFormView={this.dispatchNavigateFullFormView} buttons={this.getToolbarItems()}/></Col>
 			</Row>
 		);
 	}
