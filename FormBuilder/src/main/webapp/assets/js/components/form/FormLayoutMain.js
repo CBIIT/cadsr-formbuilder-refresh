@@ -8,6 +8,7 @@ import FormModuleStatic from './FormModuleStatic';
 import FormGlobalToolbar from './FormGlobalToolbar';
 import EVENTS from '../../constants/EVENTS';
 import {formChannel} from '../../channels/radioChannels';
+import formActions from '../../constants/formActions';
 
 export default class FormLayoutMain extends Component {
 	constructor(props){
@@ -22,14 +23,13 @@ export default class FormLayoutMain extends Component {
 		};
 	}
 
-
 	dispatchSaveFormClicked(){
 		formChannel.request(EVENTS.FORM.SAVE_FORM, {persistToDB: true});
 	}
 
 	getMainPanelComponents(){
 		const actionMode = this.props.actionMode;
-		if(actionMode === "viewFormFullView"){
+		if(actionMode === formActions.VIEW_FULL_FORM){
 			return (
 				<div>
 					<FormMetadataStatic formMetadata={this.props.formMetadata}/>
@@ -37,14 +37,14 @@ export default class FormLayoutMain extends Component {
 					<p className="panel-subtitle">Modules</p>
 					<div className="module-wrap">
 						{this.props.formModules.map((moduleModel, index) =>(
-						<FormModuleStatic questions={JSON.stringify(moduleModel.questions)} key={index} longName={moduleModel.longName} instructions={moduleModel.instructions}/>))}
+							<FormModuleStatic questions={JSON.stringify(moduleModel.questions)} key={index} longName={moduleModel.longName} instructions={moduleModel.instructions}/>))}
 					</div>
 				</div>
 			);
 		}
-		else if(actionMode === 'createForm' || (actionMode === 'editFormMetadata' && this.props.shouldShowFormEditControls)){
-			const metaDataFormHeadingTitle = actionMode === 'createForm' ? 'Create New Form' : 'Edit Form',
-				submitButtonText = (actionMode === 'createForm') ? 'Create Form' : 'Save';
+		else if(actionMode === formActions.CREATE_FORM || (actionMode === formActions.VIEW_FORM_METADATA && this.props.shouldShowFormEditControls)){
+			const metaDataFormHeadingTitle = actionMode === formActions.CREATE_FORM ? 'Create New Form' : 'Edit Form',
+				submitButtonText = (actionMode === formActions.CREATE_FORM) ? 'Create Form' : 'Save';
 			const buttons = [
 				{
 					name: submitButtonText,
@@ -58,12 +58,12 @@ export default class FormLayoutMain extends Component {
 				</div>
 			);
 		}
-		else if(actionMode === 'editFormMetadata' && !this.props.shouldShowFormEditControls){
+		else if(actionMode === formActions.VIEW_FORM_METADATA && !this.props.shouldShowFormEditControls){
 			return (
 				<FormMetadataStatic formMetadata={this.props.formMetadata}/>
 			);
 		}
-		else if(actionMode === 'createModule'){
+		else if(actionMode === formActions.CREATE_MODULE){
 			const buttons = [
 				{
 					name: "Save",
@@ -75,7 +75,7 @@ export default class FormLayoutMain extends Component {
 					<ButtonsGroup buttons={buttons}/> </FormModuleForm>
 			);
 		}
-		else if(actionMode === 'editModule' && this.props.shouldShowFormEditControls){
+		else if(actionMode === formActions.VIEW_MODULE && this.props.shouldShowFormEditControls){
 			const moduleEditing = this.props.editItems;
 			const buttons = [
 				{
@@ -90,7 +90,7 @@ export default class FormLayoutMain extends Component {
 					<ButtonsGroup buttons={buttons}/> </FormModuleForm>
 			);
 		}
-		else if(actionMode === 'editModule' && !this.props.shouldShowFormEditControls){
+		else if(actionMode === formActions.VIEW_MODULE && !this.props.shouldShowFormEditControls){
 			const moduleEditing = this.props.editItems;
 			/*Passing in moduleId here might not be necessary but currently the most straightforward way I can think of when there will be an array of modules (parent module, repetition) to edit and gather each one's id from the form when saving */
 			return (
@@ -100,8 +100,8 @@ export default class FormLayoutMain extends Component {
 	}
 
 	showGlobalToolbar(){
-		const displayFullFormViewButton = this.props.actionMode !== "viewFormFullView";
-		if(this.props.actionMode !== "createForm"){
+		const displayFullFormViewButton = this.props.actionMode !== formActions.VIEW_FULL_FORM;
+		if(this.props.actionMode !== formActions.CREATE_FORM){
 			return (
 				<FormGlobalToolbar formLongName={this.props.formMetadata.longName} actionMode={this.props.actionMode} displayFullFormViewButton={displayFullFormViewButton} shouldShowFormEditControls={this.props.shouldShowFormEditControls}/>
 			);

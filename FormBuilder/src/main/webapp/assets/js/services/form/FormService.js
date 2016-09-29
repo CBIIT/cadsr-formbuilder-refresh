@@ -4,7 +4,7 @@ import React from 'react';
 import {render} from 'react-dom';
 import EVENTS from '../../constants/EVENTS';
 import ROUTES from '../../constants/ROUTES';
-import ENDPOINT_URLS from '../../constants/ENDPOINT_URLS';
+import formActions from '../../constants/formActions';
 import {formChannel, appChannel} from '../../channels/radioChannels';
 import FormModel from '../../models/forms/FormModel';
 import FormModuleModel from '../../models/forms/FormModuleModel';
@@ -41,7 +41,7 @@ const FormService = Marionette.Object.extend({
 	},
 	dispatchLayout({action, formIdseq = this.formModel.get('formIdseq')}) {
 		switch(action){
-			case "createForm":
+			case formActions.CREATE_FORM:
 				this.formUIStateModel.set({actionMode: action});
 				formRouter.navigate(ROUTES.FORM.CREATE_FORM, {trigger: true});
 				if(!this.formModel.isNew()){
@@ -50,20 +50,20 @@ const FormService = Marionette.Object.extend({
 				}
 				this.fetchFormMetaDataCriteria();
 				break;
-			case "createModule":
+			case formActions.CREATE_MODULE:
 				this.formUIStateModel.set({actionMode: action});
 				break;
-			case "editModule":
+			case formActions.VIEW_MODULE:
 				this.formUIStateModel.set({actionMode: action});
 				break;
-			case "editQuestion":
+			case formActions.VIEW_QUESTION:
 				this.formUIStateModel.set({actionMode: action});
 				break;
-			case "editFormMetadata":
+			case formActions.VIEW_FORM_METADATA:
 				this.formUIStateModel.set({actionMode: action});
 				this.fetchFormMetaDataCriteria();
 				break;
-			case "viewFormFullView":
+			case formActions.VIEW_FULL_FORM:
 				this.formUIStateModel.set({actionMode: action});
 				if(formIdseq !== this.formModel.get('formIdseq')){
 					/* IF going to view a different form, make sure edit controls are turned off */
@@ -92,7 +92,7 @@ const FormService = Marionette.Object.extend({
 				});
 				formRouter.navigate(`forms/${formIdseq}`, {trigger: false});
 				this.formUIStateModel.set({isEditing: true});
-				this.dispatchLayout({action: "viewFormFullView"});
+				this.dispatchLayout({action: formActions.VIEW_FULL_FORM});
 //				alert("Form created. formIdseq is: " + formIdseq);
 			},
 			error:   (model, response) =>{
@@ -189,7 +189,7 @@ const FormService = Marionette.Object.extend({
 		});
 		/*TODO: Prepare for when editing a module with repetitions, this will be an array containing the module and its associated repetitioned modules */
 		this.formUIStateModel.set({editItem: moduleToEdit});
-		this.dispatchLayout({action: "editModule"});
+		this.dispatchLayout({action: formActions.VIEW_MODULE});
 	},
 	handleFormMetadataSubmitData(data) {
 		/*TODO handle context a better way. */

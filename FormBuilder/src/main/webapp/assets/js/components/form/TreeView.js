@@ -2,6 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import {Button} from 'react-bootstrap';
 import EVENTS from '../../constants/EVENTS';
 import {formChannel} from '../../channels/radioChannels';
+import formActions from '../../constants/formActions';
 import List from '../common/List';
 
 export default class TreeView extends Component {
@@ -14,7 +15,7 @@ export default class TreeView extends Component {
 	}
 
 	dispatchCreateModule(){
-		formChannel.request(EVENTS.FORM.CREATE_MODULE, {action: 'createModule'});
+		formChannel.request(EVENTS.FORM.CREATE_MODULE, {action: formActions.CREATE_MODULE});
 	}
 
 	dispatchNavigateToModule(id){
@@ -22,7 +23,7 @@ export default class TreeView extends Component {
 	}
 
 	dispatchNavigateFormMetadata(){
-		formChannel.request(EVENTS.FORM.SET_FORM_LAYOUT, {action: 'editFormMetadata'});
+		formChannel.request(EVENTS.FORM.SET_FORM_LAYOUT, {action: formActions.VIEW_FORM_METADATA});
 	}
 	render(){
 

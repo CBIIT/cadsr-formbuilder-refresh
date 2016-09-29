@@ -4,6 +4,8 @@ import FormLayoutMain from './FormLayoutMain';
 import backboneReact from 'backbone-react-component';
 import TreeView from './TreeView';
 import SidePanel from './SidePanel';
+import formActions from '../../constants/formActions';
+
 
 export default class FormLayout extends Component {
 	constructor(props){
@@ -40,7 +42,7 @@ export default class FormLayout extends Component {
 	 */
 	canCreateModule(){
 		/*TODO come up with a more reliable way to check for this */
-		return this.shouldShowFormEditControls() === true && this.getActionMode() !== 'createModule';
+		return this.shouldShowFormEditControls() === true && this.getActionMode() !== formActions.CREATE_MODULE;
 	}
 
 	shouldShowFormEditControls(){
@@ -81,7 +83,7 @@ export default class FormLayout extends Component {
 	}
 
 	showCartsPanel(){
-		if(this.getActionMode() !== "createForm"){
+		if(this.getActionMode() !== formActions.CREATE_FORM){
 			return (
 				<SidePanel cdeList={this.getCartList({name: "cdeCartCollection"})}/>
 			);
@@ -91,9 +93,9 @@ export default class FormLayout extends Component {
 
 	showTreeNav(){
 		const actionMode = this.getActionMode();
-		if(actionMode !== "createForm"){
-			const activeModuleId = actionMode == "editModule" && this.getEditItems() ? this.getEditItems().id : null;
-			const formMetadataLinkIsActive = actionMode === "editFormMetadata";
+		if(actionMode !== formActions.CREATE_FORM){
+			const activeModuleId = actionMode == formActions.VIEW_MODULE && this.getEditItems() ? this.getEditItems().id : null;
+			const formMetadataLinkIsActive = actionMode === formActions.VIEW_FORM_METADATA;
 			return (
 				<TreeView formMetadataLinkIsActive={formMetadataLinkIsActive} activeModuleId={activeModuleId} list={this.getFormModules()} formIdSeq={this.getFormModel().formIdseq} formName={this.getFormMetaData().longName} canCreateModule={this.canCreateModule()}/>
 			);

@@ -2,6 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import {Col, Row} from 'react-bootstrap';
 import {Input, Textarea} from 'formsy-react-components';
 import EVENTS from '../../constants/EVENTS';
+import formActions from '../../constants/formActions';
 import {formChannel} from '../../channels/radioChannels';
 import Form from '../common/Form';
 
@@ -16,11 +17,11 @@ export default class FormModuleForm extends Component {
 
 	dispatchData(data){
 		const actionMode = this.props.actionMode;
-		if(actionMode === "editModule"){
+		if(actionMode === formActions.VIEW_MODULE){
 			const newData = Object.assign({}, data, {id: this.props.moduleId});
 			formChannel.request(EVENTS.FORM.SET_MODULE, newData);
 		}
-		else if(actionMode === "createModule"){
+		else if(actionMode === formActions.CREATE_MODULE){
 			formChannel.request(EVENTS.FORM.SET_NEW_MODULE, data);
 		}
 	}

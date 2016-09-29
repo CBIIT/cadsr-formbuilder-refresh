@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import {Col, Row} from 'react-bootstrap';
 import ButtonsGroup from '../common/ButtonsGroup';
 import ExitFormModal from '../modals/ExitFormModal';
-
+import formActions from '../../constants/formActions';
 import EVENTS from '../../constants/EVENTS';
 import {formChannel} from '../../channels/radioChannels';
 
@@ -36,7 +36,7 @@ export default class FormGlobalToolbar extends Component {
 				{
 					name:      "View Full Form",
 					onClick:   "dispatchNavigateFullFormView",
-					className: (this.props.actionMode === "viewFormFullView") ? 'hidden' : ""
+					className: (this.props.actionMode === formActions.VIEW_FULL_FORM) ? 'hidden' : ""
 				},
 			];
 		}
@@ -50,14 +50,14 @@ export default class FormGlobalToolbar extends Component {
 				{
 					name:      "View Full Form",
 					onClick:   "dispatchNavigateFullFormView",
-					className: (this.props.actionMode === "viewFormFullView") ? 'hidden' : ""
+					className: (this.props.actionMode === formActions.VIEW_FULL_FORM) ? 'hidden' : ""
 				},
 			];
 		}
 	}
 
 	dispatchCancelEditForm(){
-		formChannel.request(EVENTS.FORM.CANCEL_EDIT_FORM, {action: 'viewFormFullView'});
+		formChannel.request(EVENTS.FORM.CANCEL_EDIT_FORM, {action: formActions.VIEW_FULL_FORM});
 	}
 
 	dispatchEditFormClicked(){
@@ -65,7 +65,7 @@ export default class FormGlobalToolbar extends Component {
 	}
 
 	dispatchNavigateFullFormView(){
-		formChannel.request(EVENTS.FORM.SET_FORM_LAYOUT, {action: 'viewFormFullView'});
+		formChannel.request(EVENTS.FORM.SET_FORM_LAYOUT, {action: formActions.VIEW_FULL_FORM});
 	}
 
 	handleCancelButtonClicked(){
