@@ -117,7 +117,7 @@ public class FormAdapterController {
 		if(props.getFormBuilderLocalMode()){
 			
 			String content = "";
-			content = getFile("demographics_dummy_form.json");
+			content = getFile("enrollment_dummy_form.json");
 			
 			return new ResponseEntity(content, HttpStatus.OK);
 		}
@@ -168,6 +168,41 @@ public class FormAdapterController {
 		return response;
 	}
 	
+	/*@RequestMapping(value = "/xml/{formIdSeq}", method = RequestMethod.GET)
+	@ResponseBody
+	public ResponseEntity downloadFormXml(@PathVariable String formIdSeq) {
+		
+		String uri = props.getFormServiceApiUrl() + FormBuilderConstants.FORMSERVICE_BASE_URL
+				+ "formDownload" + "?formIdSeq=" + formIdSeq;
+		
+
+		RestTemplate restTemplate = new RestTemplate();
+		restTemplate.getMessageConverters().add(new ByteArrayHttpMessageConverter());    
+		
+		ByteArrayResource bytes = restTemplate.getForObject(uri, ByteArrayResource.class);
+		
+		HttpHeaders responseHeaders = new HttpHeaders();
+		responseHeaders.setContentType(MediaType.APPLICATION_XML);
+		responseHeaders.setContentDispositionFormData("attachment", "FormV2_" + formIdSeq + ".xml");
+		
+		ResponseEntity response = new ResponseEntity(bytes, responseHeaders, HttpStatus.OK);
+
+		return response;
+	}
+	
+	@RequestMapping(value = "/xls/{formIdSeq}", method = RequestMethod.GET)
+	@ResponseBody
+	public ResponseEntity downloadFormXls(@PathVariable String formIdSeq) {
+		
+		String base_uri = props.getFormServiceApiUrl() + FormBuilderConstants.FORMSERVICE_BASE_URL
+				+ "formDownloadExcel" + "?formIdSeq=" + formIdSeq;
+		
+		RestTemplate restTemplate = new RestTemplate();
+		ResponseEntity<String> response = restTemplate.getForEntity(base_uri, String.class);
+
+		return response;
+	}
+	*/
 	@RequestMapping(value = { "/workingCopy" }, method = RequestMethod.POST, consumes = "application/json")
 	@ResponseBody
 	public ResponseEntity loadWorkingCopy(@RequestBody BBForm workingCopy){

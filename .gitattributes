@@ -39,6 +39,7 @@ FormBuilder/src/main/resources/application-config-client.xml -text
 FormBuilder/src/main/resources/applicationContext.xml -text
 FormBuilder/src/main/resources/default.properties -text
 FormBuilder/src/main/resources/demographics_dummy_form.json -text
+FormBuilder/src/main/resources/enrollment_dummy_form.json -text
 FormBuilder/src/main/resources/formbuilder-dev.properties -text
 FormBuilder/src/main/resources/formbuilder-local.properties -text
 FormBuilder/src/main/resources/formbuilder-qa.properties -text
