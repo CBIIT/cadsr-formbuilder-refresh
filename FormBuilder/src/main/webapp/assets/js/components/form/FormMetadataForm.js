@@ -34,7 +34,7 @@ export default class FormMetadataForm extends Component {
 	render(){
 		return (
 			<Row>
-				<Form onSubmit={this.dispatchData} validatePristine={this.state.validatePristine} disabled={this.props.disabled} ref="formMetata">
+				<Form onSubmit={this.dispatchData} id="editForm" validatePristine={this.state.validatePristine} disabled={this.props.disabled} ref="formMetata">
 					<fieldset name={this.props.mainHeadingTitle}>
 						<legend>{this.props.mainHeadingTitle}</legend>
 						<Row> <Col sm={6}>
