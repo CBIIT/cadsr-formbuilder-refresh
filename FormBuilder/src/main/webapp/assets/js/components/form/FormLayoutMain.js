@@ -35,9 +35,10 @@ export default class FormLayoutMain extends Component {
 					<FormMetadataStatic formMetadata={this.props.formMetadata}/>
 					<hr className="panel-divider"/>
 					<p className="panel-subtitle">Modules</p>
-					{this.props.formModules.map((moduleModel, index) =>(
-					<FormModuleStatic questions={JSON.stringify(moduleModel.questions)} key={index} longName={moduleModel.longName} instructions={moduleModel.instructions}/>))}
-
+					<div className="module-wrap">
+						{this.props.formModules.map((moduleModel, index) =>(
+						<FormModuleStatic questions={JSON.stringify(moduleModel.questions)} key={index} longName={moduleModel.longName} instructions={moduleModel.instructions}/>))}
+					</div>
 				</div>
 			);
 		}

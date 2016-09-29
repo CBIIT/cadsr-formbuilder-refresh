@@ -3,7 +3,7 @@
   padding: 0px;
   border-width: 0px;
   border-radius: 0px;
-  min-height: 800px;
+  max-height: 800px;
 }
 .panel-half{
   height: 400px;
@@ -34,9 +34,11 @@
 
 .panel-lg{
   padding: 0px 5px;
+  .panel{
+    max-height: none; //this may need to be removed later
+  }
   .panel-content{
     padding: 5px;
-    overflow: hidden;
   }
   .panel-header{
     padding-top: 13px;

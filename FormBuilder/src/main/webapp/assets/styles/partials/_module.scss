@@ -1,12 +1,16 @@
 .module{
+  width: 100%;
   position: relative;
   //float: left;
   margin-top: 5px;
-  margin-left: 10px;
-  margin-right: 10px;
+  margin-left: 0px;
   background-color: $color-base;
   h4{
     margin-top:10px;
     text-transform: uppercase;
   }
+}
+.module-wrap{
+  width: 100%;
+  padding: 10px;
 }
