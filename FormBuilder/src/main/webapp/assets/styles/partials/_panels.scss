@@ -75,6 +75,9 @@
 .panel-link--accent{
   color: $color-accent-branded;
   font-weight: bold;
+  &:hover, &:active, &:focus {
+    color: $color-accent-branded !important;
+  }
 }
 .panel-link--success{
   color: $color-accent-success;
