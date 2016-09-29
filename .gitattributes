@@ -110,6 +110,7 @@ FormBuilder/src/main/webapp/assets/styles/partials/_forms.scss -text
 FormBuilder/src/main/webapp/assets/styles/partials/_global-colors-mixins.scss -text
 FormBuilder/src/main/webapp/assets/styles/partials/_header.scss -text
 FormBuilder/src/main/webapp/assets/styles/partials/_helper_classes.scss -text
+FormBuilder/src/main/webapp/assets/styles/partials/_module.scss -text
 FormBuilder/src/main/webapp/assets/styles/partials/_panels.scss -text
 FormBuilder/src/main/webapp/assets/styles/partials/_search.scss -text
 FormBuilder/src/main/webapp/assets/styles/partials/_sideBar.scss -text
