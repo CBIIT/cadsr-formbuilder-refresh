@@ -6,12 +6,14 @@ import java.io.IOException;
 import java.util.Scanner;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.ByteArrayHttpMessageConverter;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -168,7 +170,7 @@ public class FormAdapterController {
 		return response;
 	}
 	
-	/*@RequestMapping(value = "/xml/{formIdSeq}", method = RequestMethod.GET)
+	@RequestMapping(value = "/xml/{formIdSeq}", method = RequestMethod.GET)
 	@ResponseBody
 	public ResponseEntity downloadFormXml(@PathVariable String formIdSeq) {
 		
@@ -177,32 +179,23 @@ public class FormAdapterController {
 		
 
 		RestTemplate restTemplate = new RestTemplate();
-		restTemplate.getMessageConverters().add(new ByteArrayHttpMessageConverter());    
+		restTemplate.getMessageConverters().add(new ByteArrayHttpMessageConverter()); 
+		return restTemplate.getForEntity(uri, ByteArrayResource.class);
 		
-		ByteArrayResource bytes = restTemplate.getForObject(uri, ByteArrayResource.class);
-		
-		HttpHeaders responseHeaders = new HttpHeaders();
-		responseHeaders.setContentType(MediaType.APPLICATION_XML);
-		responseHeaders.setContentDispositionFormData("attachment", "FormV2_" + formIdSeq + ".xml");
-		
-		ResponseEntity response = new ResponseEntity(bytes, responseHeaders, HttpStatus.OK);
-
-		return response;
 	}
 	
 	@RequestMapping(value = "/xls/{formIdSeq}", method = RequestMethod.GET)
 	@ResponseBody
 	public ResponseEntity downloadFormXls(@PathVariable String formIdSeq) {
 		
-		String base_uri = props.getFormServiceApiUrl() + FormBuilderConstants.FORMSERVICE_BASE_URL
+		String uri = props.getFormServiceApiUrl() + FormBuilderConstants.FORMSERVICE_BASE_URL
 				+ "formDownloadExcel" + "?formIdSeq=" + formIdSeq;
 		
 		RestTemplate restTemplate = new RestTemplate();
-		ResponseEntity<String> response = restTemplate.getForEntity(base_uri, String.class);
-
-		return response;
+		return restTemplate.getForEntity(uri, byte[].class);
+		
 	}
-	*/
+	
 	@RequestMapping(value = { "/workingCopy" }, method = RequestMethod.POST, consumes = "application/json")
 	@ResponseBody
 	public ResponseEntity loadWorkingCopy(@RequestBody BBForm workingCopy){
