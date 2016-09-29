@@ -1,0 +1,7 @@
+connect
+ 
+if (outcome ==success) of /deployment=FormBuilder.war:read-resource
+undeploy FormBuilder.war
+end-if
+ 
+deploy --force  /local/content/formbuilder/dist/FormBuilder.war
