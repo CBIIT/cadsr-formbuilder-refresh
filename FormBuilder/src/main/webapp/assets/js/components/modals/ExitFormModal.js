@@ -9,9 +9,9 @@ export default class ExitFormModal extends Component {
 	render(){
 		return (
 			<div>
-				<Modal show={this.props.isOpen} onHide={this.close} aria-labelledby="contained-modal-title" dialogClassName="date-range-modal">
+				<Modal show={this.props.isOpen} onHide={this.close} aria-labelledby="modal-cancel-edit-form">
 					<Modal.Header>
-						<Modal.Title bsClass="h2 no-margin " id="contained-modal-data-range">Warning:</Modal.Title>
+						<Modal.Title bsClass="h2 no-margin " id="modal-cancel-edit-form">Warning:</Modal.Title>
 						<p>By selecting the cancel option, the changes you have made will NOT be saved.</p>
 						<p>Select Return to continue editing your Form, or Confirm to leave edit mode.</p>
 					</Modal.Header> <Modal.Body>
