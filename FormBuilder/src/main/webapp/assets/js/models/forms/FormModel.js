@@ -1,6 +1,7 @@
 import {Model} from 'backbone';
 import ENDPOINT_URLS from '../../constants/ENDPOINT_URLS';
 import FormModulesCollection from './FormModulesColllection';
+import QuestionsCollection from './QuestionsCollection';
 import FormMetadata from './FormMetadataModel';
 
 const FormModel = Model.extend({

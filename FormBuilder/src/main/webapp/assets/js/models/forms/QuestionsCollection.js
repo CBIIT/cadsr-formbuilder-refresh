@@ -1,8 +1,8 @@
 import {Collection} from 'backbone';
 import QuestionsModel from './QuestionsModel';
 
-const QuestionsColllection = Collection.extend({
+const QuestionsCollection = Collection.extend({
 	model: QuestionsModel
 });
 
-export default QuestionsColllection;
+export default QuestionsCollection;

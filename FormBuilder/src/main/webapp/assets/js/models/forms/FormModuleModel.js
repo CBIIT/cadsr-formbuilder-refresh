@@ -1,5 +1,5 @@
 import {Model} from 'backbone';
-import QuestionsColllection from './QuestionsColllection';
+import QuestionsCollection from './QuestionsCollection';
 
 const FormModuleModel = Model.extend({
 	idAttribute: "moduleIdseq",
@@ -8,7 +8,7 @@ const FormModuleModel = Model.extend({
 		isEdited:     false,
 		longName:     "",
 		instructions: "",
-		questions:    new QuestionsColllection()
+		questions:    new QuestionsCollection()
 	}
 });
 

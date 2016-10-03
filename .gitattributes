@@ -61,6 +61,7 @@ FormBuilder/src/main/webapp/assets/js/components/form/FormMetadataForm.js -text
 FormBuilder/src/main/webapp/assets/js/components/form/FormMetadataStatic.js -text
 FormBuilder/src/main/webapp/assets/js/components/form/FormModuleForm.js -text
 FormBuilder/src/main/webapp/assets/js/components/form/FormModuleStatic.js -text
+FormBuilder/src/main/webapp/assets/js/components/form/QuestionStatic.js -text
 FormBuilder/src/main/webapp/assets/js/components/form/SidePanel.js -text
 FormBuilder/src/main/webapp/assets/js/components/form/TreeView.js -text
 FormBuilder/src/main/webapp/assets/js/components/modals/ExitFormModal.js -text
@@ -80,8 +81,10 @@ FormBuilder/src/main/webapp/assets/js/models/forms/FormModel.js -text
 FormBuilder/src/main/webapp/assets/js/models/forms/FormModuleModel.js -text
 FormBuilder/src/main/webapp/assets/js/models/forms/FormModulesColllection.js -text
 FormBuilder/src/main/webapp/assets/js/models/forms/FormUIStateModel.js -text
-FormBuilder/src/main/webapp/assets/js/models/forms/QuestionsColllection.js -text
+FormBuilder/src/main/webapp/assets/js/models/forms/QuestionsCollection.js -text
 FormBuilder/src/main/webapp/assets/js/models/forms/QuestionsModel.js -text
+FormBuilder/src/main/webapp/assets/js/models/forms/ValidValueModel.js -text
+FormBuilder/src/main/webapp/assets/js/models/forms/ValidValuesCollection.js -text
 FormBuilder/src/main/webapp/assets/js/models/search/SearchModel.js -text
 FormBuilder/src/main/webapp/assets/js/models/search/form-search/FormSearchModel.js -text
 FormBuilder/src/main/webapp/assets/js/models/search/form-search/SearchResultModel.js -text
