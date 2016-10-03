@@ -23,12 +23,21 @@ const formModuleStatic = (props) =>{
 			{/*<Col md={1}>
 			 <div className="module-side">
 			 </div>
-			 </Col>\*/} <Col md={12}> <Row> <Col md={12}>
-			<h4>{props.longName}</h4>
-		</Col> </Row> <Row> <Col md={12}> <span className="h5">Instructions:</span> {props.instructions}
-		</Col> </Row> <Row> <Col lg={12}>
-			<h5>Questions:</h5>						{getQuestions(props.questions)}
-		</Col> </Row> </Col> </Row>
+			 </Col>\*/}
+			<Col md={12}>
+				<Row>
+					<Col md={12}>
+				<h4>{props.longName}</h4>
+					</Col>
+				</Row>
+				<Row>
+					<Col md={12}> <span className="h5">Instructions:</span> {props.instructions}</Col>
+				</Row>
+				<Row>
+					<Col lg={12}>{getQuestions(props.questions)}</Col>
+				</Row>
+			</Col>
+		</Row>
 	);
 };
 
