@@ -417,6 +417,19 @@ public class FormManagerImpl implements FormManager {
 				QuestionTransferObject qto = (QuestionTransferObject) question;
 				BBQuestion bbques = new BBQuestion();
 				BeanUtils.copyProperties(qto, bbques);
+				
+//				qto.getDataElement().getValueDomain()
+				bbques.setDeIdseq(qto.getDataElement().getIdseq());
+				bbques.setVersion(qto.getVersion());
+				bbques.setPreferredQuestionText(qto.getPreferredDefinition());//XXX: is correct?
+				bbques.setMandatory(false);
+				bbques.setEditable(true);
+				bbques.setDeDerived(true);
+				bbques.setLongName(qto.getLongName());
+				bbques.setDataType(qto.getDataElement().getValueDomain().getDatatype());
+				bbques.setUnitOfMeasure(qto.getDataElement().getValueDomain().getUnitOfMeasure());
+				bbques.setDisplayFormat(qto.getDataElement().getValueDomain().getDisplayFormat());
+//				bbques.setConcepts(qto.getDataElement().getValueDomain().getConceptDerivationRule().getComponentConcepts().toString());
 
 				bbmod.getQuestions().add(bbques);
 
@@ -426,7 +439,7 @@ public class FormManagerImpl implements FormManager {
 					FormValidValueTransferObject vvto = (FormValidValueTransferObject) validVal;
 					BBValidValue bbval = new BBValidValue();
 					BeanUtils.copyProperties(vvto, bbval);
-
+					
 					bbques.getValidValues().add(bbval);
 				}
 			}
