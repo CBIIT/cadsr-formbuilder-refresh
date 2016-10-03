@@ -232,9 +232,9 @@
 		</dependency>
 		<!-- hibernate dependency -->
 		<dependency>
-			<groupId>hibernate</groupId>
+			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate</artifactId>
-			<version>3.0.2</version>
+			<version>3.2.0.ga</version>
 			<classifier>sources</classifier>
 		</dependency>
 		<dependency>
