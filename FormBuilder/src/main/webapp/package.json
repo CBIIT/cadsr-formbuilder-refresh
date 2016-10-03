@@ -1,7 +1,7 @@
 {
   "name": "CaDSRFormBuilder",
   "version": "1.0.0",
-  "description": "CaDSR FormBuilder Front-End Tooling",
+  "description": "CaDSR FormBuilder Front-End Tooling ",
   "scripts": {
     "clean-dist": "npm run remove-dist && mkdir dist",
     "remove-dist": "rimraf ./dist",
