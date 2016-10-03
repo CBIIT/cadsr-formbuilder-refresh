@@ -72,14 +72,6 @@
 			<artifactId>acegi-security</artifactId>
 			<version>1.0.7</version>
 		</dependency>
-		<!-- Hibernate Dependencies -->
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-core</artifactId>
-			<version>3.6.3.Final</version>
-		</dependency>
-
-
 		<!-- spring oxm -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -144,6 +136,13 @@
 			<artifactId>sdk-client-framework</artifactId>
 			<version>1.0</version>
 		</dependency>
+		<!-- hibernate dependency -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate</artifactId>
+			<version>3.2.0.ga</version>
+			<classifier>sources</classifier>
+		</dependency>
 		<dependency>
 			<groupId>nih.nci.cadsr</groupId>
 			<artifactId>extension-client-framework</artifactId>
@@ -155,22 +154,12 @@
 			<artifactId>stax-api</artifactId>
 			<version>1.0-2</version>
 		</dependency>
-
-
-
 		<dependency>
 			<groupId>org.acegisecurity</groupId>
 			<artifactId>acegi-security</artifactId>
 			<version>1.0.4</version>
 		</dependency>
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-core</artifactId>
-			<version>${hibernate.version}</version>
-		</dependency>
-
 	</dependencies>
-
 	<build>
 		<finalName>${project.artifactId}</finalName>
 		<plugins>
