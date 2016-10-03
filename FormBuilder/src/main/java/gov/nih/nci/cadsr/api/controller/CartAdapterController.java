@@ -40,10 +40,11 @@ import gov.nih.nci.cadsr.model.CartObjectNew;
 import gov.nih.nci.cadsr.model.Field;
 import gov.nih.nci.cadsr.model.HttpQuery;
 import gov.nih.nci.cadsr.model.Item;
-
+import gov.nih.nci.cadsr.model.BBContext;
 import gov.nih.nci.cadsr.model.BBDataElement;
+import gov.nih.nci.cadsr.model.BBFormMetaData;
 import gov.nih.nci.cadsr.model.BBModule;
-
+import gov.nih.nci.cadsr.model.BBProtocol;
 import gov.nih.nci.cadsr.model.session.SessionCarts;
 
 //import gov.nih.nci.cadsr.model.XMLConverter;
@@ -102,75 +103,6 @@ public class CartAdapterController {
 	}
 
 
-	/*@RequestMapping(value = "/objcart/cdecart/{username}", method = RequestMethod.GET)
-	@ResponseBody
-	public ResponseEntity loadCDECart(@PathVariable String username) {
-
-
-		// CDEBrowserParams params = CDEBrowserParams.getInstance();
-		// String ocURL = "http://objcart2-dev.nci.nih.gov/objcart103";
-
-	
-	 * @RequestMapping(value = "/objcart/cdecart/{username}", method =
-	 * RequestMethod.GET)
-	 * 
-	 * @ResponseBody public ResponseEntity loadCDECart(@PathVariable String
-	 * username) {
-	 * 
-	 * // CDEBrowserParams params = CDEBrowserParams.getInstance(); // String
-	 * ocURL = params.getObjectCartUrl(); String ocURL =
-	 * "http://objcart2-dev.nci.nih.gov/objcart103"; //Get the cart in the
-	 * session ObjectCartClient cartClient = null;
-	 * 
-	 * try{ if (!ocURL.equals("")) cartClient = new ObjectCartClient(ocURL);
-	 * else cartClient = new ObjectCartClient();
-	 * 
-	 * CDECart userCart = new CDECartOCImpl(cartClient,
-	 * username,CaDSRConstants.CDE_CART);
-	 * 
-	 * return new ResponseEntity(userCart.getDataElements(), HttpStatus.OK);
-	 * 
-	 * 
-	 * } catch(Exception e){ e.printStackTrace(); return new
-	 * ResponseEntity(e.toString() + e.getMessage(), HttpStatus.OK); }
-	 * 
-	 * // this.setSessionObject(request, CaDSRConstants.CDE_CART, userCart);
-	 * 
-	 * // return null;
-	 * 
-	 * }
-	 
-
-		// CDEBrowserParams params = CDEBrowserParams.getInstance();
-		// String ocURL = params.getObjectCartUrl();
-		String ocURL = "http://objcart2-dev.nci.nih.gov/objcart103";
-
-		// Get the cart in the session
-		ObjectCartClient cartClient = null;
-
-		try {
-			
-			 * if (!ocURL.equals("")) cartClient = new ObjectCartClient(ocURL);
-			 * else
-			 
-			cartClient = new ObjectCartClient(ocURL);
-
-			CDECart userCart = new CDECartOCImpl(cartClient, username, CaDSRConstants.CDE_CART);
-
-			return new ResponseEntity(userCart.getDataElements(), HttpStatus.OK);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new ResponseEntity(e.toString() + e.getMessage(), HttpStatus.OK);
-		}
-
-		// this.setSessionObject(request, CaDSRConstants.CDE_CART, userCart);
-
-		// return null;
-
-	}
-*/
-	
 	@RequestMapping(value = "/objcart/cdecart/{username}", method = RequestMethod.GET)
 	@ResponseBody
 	public ResponseEntity loadCDECart(@PathVariable String username) throws XmlMappingException, IOException,
@@ -250,6 +182,10 @@ public class CartAdapterController {
 	@RequestMapping(value = "/objcart/formcart/{username}", method = RequestMethod.GET)
 	@ResponseBody
 	public ResponseEntity loadFormCart(@RequestParam(value = "username", required = true) String username) {
+		
+		if(props.getFormBuilderLocalMode()){
+			return getDummyFormCart("guest");
+		}
 
 		return new ResponseEntity(carts.getFormCart(), HttpStatus.OK);
 
@@ -340,6 +276,19 @@ public class CartAdapterController {
 		return new ResponseEntity(modules, HttpStatus.OK);
 	}
 	
+	@RequestMapping(value = "/dummy/objcart/formcart/{username}", method = RequestMethod.GET)
+	@ResponseBody
+	public ResponseEntity getDummyFormCart(@PathVariable String username) {
+		
+		List<BBFormMetaData> forms = new ArrayList<BBFormMetaData>();
+		
+		for(int i = 0; i<15; i++){
+			forms.add(createDummyForm(i));
+		}
+		
+		return new ResponseEntity(forms, HttpStatus.OK);
+	}
+	
 	private BBDataElement createDummyCDE(){
 		
 		BBDataElement cde = new BBDataElement();
@@ -370,6 +319,30 @@ public class CartAdapterController {
 		mod.setModuleIdseq("A123123-B234-C456-567567567");
 		
 		return mod;
+	}
+	
+	private BBFormMetaData createDummyForm(int i){
+		
+		BBFormMetaData form = new BBFormMetaData();
+		
+		form.setLongName("Test Form Long Name_ " + i);
+		form.setWorkflow("Draft New");
+		form.setPublicId(123456);
+		form.setCreatedBy("Guest");
+		form.setVersion(1F);
+		
+		BBContext c = new BBContext("123abc", "TEST", "testdesc");
+		
+		form.setContext(c);
+		
+		List<BBProtocol> prots = new ArrayList<BBProtocol>();
+		BBProtocol p = new BBProtocol();
+		p.setLongName("Test Protocol Long Name");
+		prots.add(p);
+		
+		form.setProtocols(prots);
+		
+		return form;
 	}
 
 }
