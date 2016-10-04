@@ -1,6 +1,5 @@
 package gov.nih.nci.cadsr.api.controller;
 
-
 import java.io.IOException;
 import java.io.StringReader;
 import java.net.URL;
@@ -38,6 +37,7 @@ import gov.nih.nci.cadsr.FormBuilderConstants;
 import gov.nih.nci.cadsr.FormBuilderProperties;
 import gov.nih.nci.cadsr.model.CartObjectNew;
 import gov.nih.nci.cadsr.model.Field;
+import gov.nih.nci.cadsr.model.FormV2NewWrapper;
 import gov.nih.nci.cadsr.model.HttpQuery;
 import gov.nih.nci.cadsr.model.Item;
 import gov.nih.nci.cadsr.model.BBContext;
@@ -75,8 +75,9 @@ public class CartAdapterController {
 	@Autowired
 	private SessionCarts carts;
 
-	/*@Autowired
-	private XMLConverter xmlConverter;*/
+	/*
+	 * @Autowired private XMLConverter xmlConverter;
+	 */
 
 	@RequestMapping(value = "/moduleCart/{username}", method = RequestMethod.GET)
 	@ResponseBody
@@ -102,13 +103,12 @@ public class CartAdapterController {
 
 	}
 
-
 	@RequestMapping(value = "/objcart/cdecart/{username}", method = RequestMethod.GET)
 	@ResponseBody
 	public ResponseEntity loadCDECart(@PathVariable String username) throws XmlMappingException, IOException,
 			SAXException, ParserConfigurationException, JAXBException, XMLStreamException {
-		
-		if(props.getFormBuilderLocalMode()){
+
+		if (props.getFormBuilderLocalMode()) {
 			return getDummyCdeCart("guest");
 		}
 
@@ -163,27 +163,88 @@ public class CartAdapterController {
 			}
 
 		}
-		
+
 		List<BBDataElement> dataElements = new ArrayList<BBDataElement>();
-		for(Item item : items){
+		for (Item item : items) {
 			BBDataElement element = new BBDataElement();
 			BeanUtils.copyProperties(item, element);
-			
+
 			element.setConteIdseq(item.getContext().get(0).getConteIdseq());
-			
+
 			dataElements.add(element);
 		}
 
-//		return new ResponseEntity<List<Item>>(items, HttpStatus.OK);
+		// return new ResponseEntity<List<Item>>(items, HttpStatus.OK);
 		return new ResponseEntity(dataElements, HttpStatus.OK);
 
+	}
+
+	@RequestMapping(value = "/objcart/formV2/{username}", method = RequestMethod.GET)
+	@ResponseBody
+	public ResponseEntity loadFormV2Cart(@PathVariable String username) throws XmlMappingException, IOException,
+			SAXException, ParserConfigurationException, JAXBException, XMLStreamException {
+
+		if (props.getFormBuilderLocalMode()) {
+			return getDummyCdeCart("guest");
+		}
+
+		String ocURL = "http://objcart2-dev.nci.nih.gov/objcart103";
+
+		String xmlURL = "GetXML";
+
+		String cartName = "formCartV2";
+
+		String uri = ocURL + "/" + xmlURL + "?" + "query=CartObject&Cart[@name=" + cartName + "][@userId=" + username
+				+ "]&roleName=cartObjectCollection";
+
+		/**
+		 * This model should directly translate to the xml "data" field in the
+		 * xml response. Converting from the xml "data" fields in the response
+		 * should produce a list of CDECartItemTransferObject
+		 */
+
+		JAXBContext jaxbContext = JAXBContext.newInstance(HttpQuery.class);
+		URL url = new URL(uri);
+		Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+		HttpQuery query = (HttpQuery) jaxbUnmarshaller.unmarshal(url);
+
+		List<CartObjectNew> cartContents = query.getQueryResponse().getCartContents();
+
+		List<FormV2NewWrapper> forms = new ArrayList<FormV2NewWrapper>();
+		if (!cartContents.isEmpty()) {
+			String date = null;
+			for (CartObjectNew cartObj : cartContents) {
+				FormV2NewWrapper form = null;
+				for (Field field : cartObj.getFields()) {
+
+					if (field.getName().equalsIgnoreCase("dateAdded")) {
+						date = field.getValue();
+
+					}
+
+					if (field.getName().equalsIgnoreCase("Data")) {
+						XMLInputFactory xif = XMLInputFactory.newInstance();
+						XMLStreamReader xsr = xif.createXMLStreamReader(new StringReader(field.getValue()));
+						JAXBContext jc = JAXBContext.newInstance(FormV2NewWrapper.class);
+						Unmarshaller unmarshaller = jc.createUnmarshaller();
+						JAXBElement<FormV2NewWrapper> je = unmarshaller.unmarshal(xsr, FormV2NewWrapper.class);
+						form = je.getValue();
+
+					}
+				}
+				form.setDateadded(date);
+				forms.add(form);
+			}
+
+		}
+		return new ResponseEntity(forms, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/objcart/formcart/{username}", method = RequestMethod.GET)
 	@ResponseBody
 	public ResponseEntity loadFormCart(@RequestParam(value = "username", required = true) String username) {
-		
-		if(props.getFormBuilderLocalMode()){
+
+		if (props.getFormBuilderLocalMode()) {
 			return getDummyFormCart("guest");
 		}
 
@@ -216,7 +277,7 @@ public class CartAdapterController {
 
 		return null;
 	}
-	
+
 	@RequestMapping(value = "/forms/{username}/{formIdseq}", method = RequestMethod.GET)
 	@ResponseBody
 	public ResponseEntity saveFormToOC(@PathVariable String username, @PathVariable String formIdseq) {
@@ -231,7 +292,7 @@ public class CartAdapterController {
 		ResponseEntity<Cart> response = restTemplate.getForEntity(uri, Cart.class);
 
 		return response;
-		
+
 	}
 
 	@RequestMapping(value = "/modules", method = RequestMethod.DELETE)
@@ -253,44 +314,44 @@ public class CartAdapterController {
 	@RequestMapping(value = "/dummy/objcart/cdecart/{username}", method = RequestMethod.GET)
 	@ResponseBody
 	public ResponseEntity getDummyCdeCart(@PathVariable String username) {
-		
+
 		List<BBDataElement> dataElements = new ArrayList<BBDataElement>();
-		
-		for(int i = 0; i<15; i++){
+
+		for (int i = 0; i < 15; i++) {
 			dataElements.add(createDummyCDE());
 		}
-		
+
 		return new ResponseEntity(dataElements, HttpStatus.OK);
 	}
-	
+
 	@RequestMapping(value = "/dummy/objcart/modulecart/{username}", method = RequestMethod.GET)
 	@ResponseBody
 	public ResponseEntity getDummyModuleCart(@PathVariable String username) {
-		
+
 		List<BBModule> modules = new ArrayList<BBModule>();
-		
-		for(int i = 0; i<15; i++){
+
+		for (int i = 0; i < 15; i++) {
 			modules.add(createDummyModule(i));
 		}
-		
+
 		return new ResponseEntity(modules, HttpStatus.OK);
 	}
-	
+
 	@RequestMapping(value = "/dummy/objcart/formcart/{username}", method = RequestMethod.GET)
 	@ResponseBody
 	public ResponseEntity getDummyFormCart(@PathVariable String username) {
-		
+
 		List<BBFormMetaData> forms = new ArrayList<BBFormMetaData>();
-		
-		for(int i = 0; i<15; i++){
+
+		for (int i = 0; i < 15; i++) {
 			forms.add(createDummyForm(i));
 		}
-		
+
 		return new ResponseEntity(forms, HttpStatus.OK);
 	}
-	
-	private BBDataElement createDummyCDE(){
-		
+
+	private BBDataElement createDummyCDE() {
+
 		BBDataElement cde = new BBDataElement();
 		cde.setDeIdseq("A56E8150-8EAC-1CC3-E034-080020C9C0E0");
 		cde.setLongcdename("Time");
@@ -305,43 +366,43 @@ public class CartAdapterController {
 		cde.setPreferreddefinition("The time whe a sample for a lab test was collected.");
 		cde.setPublicid("2003580");
 		cde.setDateadded("06-28-2016");
-		
+
 		return cde;
 	}
-	
-	private BBModule createDummyModule(int i){
-		
+
+	private BBModule createDummyModule(int i) {
+
 		BBModule mod = new BBModule();
-		
+
 		mod.setLongName("Test Module Long Name _ " + i);
 		mod.setInstructions("These are Instructions");
 		mod.setDispOrder(i);
 		mod.setModuleIdseq("A123123-B234-C456-567567567");
-		
+
 		return mod;
 	}
-	
-	private BBFormMetaData createDummyForm(int i){
-		
+
+	private BBFormMetaData createDummyForm(int i) {
+
 		BBFormMetaData form = new BBFormMetaData();
-		
+
 		form.setLongName("Test Form Long Name_ " + i);
 		form.setWorkflow("Draft New");
 		form.setPublicId(123456);
 		form.setCreatedBy("Guest");
 		form.setVersion(1F);
-		
+
 		BBContext c = new BBContext("123abc", "TEST", "testdesc");
-		
+
 		form.setContext(c);
-		
+
 		List<BBProtocol> prots = new ArrayList<BBProtocol>();
 		BBProtocol p = new BBProtocol();
 		p.setLongName("Test Protocol Long Name");
 		prots.add(p);
-		
+
 		form.setProtocols(prots);
-		
+
 		return form;
 	}
 
