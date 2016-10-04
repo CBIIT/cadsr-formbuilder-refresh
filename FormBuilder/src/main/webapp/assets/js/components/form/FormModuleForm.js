@@ -38,7 +38,7 @@ export default class FormModuleForm extends Component {
 					<div><p>Questions</p>
 						<div>
 							<pre style={{height: "100px", whiteSpace: "normal"}}>
-								{this.props.questions}
+								{JSON.stringify(this.props.questions)}
 							</pre>
 						</div>
 					</div>
