@@ -94,7 +94,7 @@ export default class FormLayoutMain extends Component {
 			const moduleEditing = this.props.editItems;
 			/*Passing in moduleId here might not be necessary but currently the most straightforward way I can think of when there will be an array of modules (parent module, repetition) to edit and gather each one's id from the form when saving */
 			return (
-				<FormModuleStatic moduleId={moduleEditing.id} longName={moduleEditing.longName} instructions={moduleEditing.instructions} questions={JSON.stringify(moduleEditing.questions)} actionMode={actionMode} mainHeadingTitle="Module"/>
+				<FormModuleStatic moduleId={moduleEditing.id} longName={moduleEditing.longName} instructions={moduleEditing.instructions} questions={moduleEditing.questions} actionMode={actionMode} mainHeadingTitle="Module"/>
 			);
 		}
 	}
