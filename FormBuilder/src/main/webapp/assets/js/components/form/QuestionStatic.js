@@ -1,7 +1,22 @@
 import React, {Component, PropTypes} from 'react';
 import {Row, Col} from 'react-bootstrap';
+import ValidValueStatic from './ValidValueStatic';
 
 const QuestionStatic = (props) =>{
+	const getItems = (collection) =>{
+		const mapItems = (collection, index) =>{
+			const validValue = Object.assign({}, collection);
+			return (
+				<ValidValueStatic key={index} validValue={validValue}/>
+			);
+
+		};
+		if(collection && collection.length){
+			return (
+				<ul className={"list-unstyled"}>{collection.map(mapItems)}</ul>
+			);
+		}
+	};
 	return (
 		<Row className="top-margin bottom-margin bordered">
 			{/*<Col md={1}>
@@ -38,6 +53,9 @@ const QuestionStatic = (props) =>{
 						</ul>
 					</li>
 				</ul>
+				<div>
+					{getItems(props.question.validValues)}
+				</div>
 			</Col>
 		</Row>
 	);
