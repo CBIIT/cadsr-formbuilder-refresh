@@ -119,7 +119,7 @@ public class FormAdapterController {
 		if(props.getFormBuilderLocalMode()){
 			
 			String content = "";
-			content = getFile("enrollment_dummy_form.json");
+			content = getFile("enrollment_full_form.json");
 			
 			return new ResponseEntity(content, HttpStatus.OK);
 		}

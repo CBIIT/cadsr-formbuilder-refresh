@@ -1,0 +1,2263 @@
+{
+	"formMetadata" : {
+		"formIdseq" : "5DBB9423-E60D-B62F-E040-BB89A6437F93",
+		"createdBy" : "LARSEND",
+		"longName" : "ENROLLMENT",
+		"preferredDefinition" : "Enrollment form for C3D 3.12 Adopters",
+		"context" : {
+			"conteIdseq" : "D9344734-8CAF-4378-E034-0003BA12F5E7",
+			"name" : "NCIP",
+			"description" : null
+		},
+		"protocols" : [],
+		"workflow" : "DRAFT NEW",
+		"formCategory" : "On-Study",
+		"formType" : "CRF",
+		"version" : 1.0,
+		"headerInstructions" : "Dates will appear as 'DD-MON-YYYY'",
+		"footerInstructions" : "",
+		"publicId" : 2814271
+	},
+	"formModules" : [{
+			"moduleIdseq" : "5DBB9423-E62B-B62F-E040-BB89A6437F93",
+			"longName" : "DEMOGRAPHY",
+			"instructions" : "Check all Races that apply",
+			"repetitions" : 0,
+			"dispOrder" : 0,
+			"questions" : [{
+					"quesIdseq" : "5DBB9423-E62D-B62F-E040-BB89A6437F93",
+					"validValues" : [{
+							"vpIdseq" : "99BA9DC8-606C-4E69-E034-080020C9C0E0",
+							"valueIdseq" : "5DBB9423-E62F-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "FEMALE",
+							"formValueMeaningText" : "FEMALE",
+							"formValueMeaningIdVersion" : "2575551v1.0",
+							"formValueMeaningDesc" : "A person who belongs to the sex that normally produces ova. The term is used to indicate biological sex distinctions, or cultural gender role distinctions, or both.\r\n"
+						}, {
+							"vpIdseq" : "99BA9DC8-62ED-4E69-E034-080020C9C0E0",
+							"valueIdseq" : "5DBB9423-E631-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "MALE",
+							"formValueMeaningText" : "MALE",
+							"formValueMeaningIdVersion" : "2575550v1.0",
+							"formValueMeaningDesc" : "A person who belongs to the sex that normally produces sperm. The term is used to indicate biological sex distinctions, cultural gender role distinctions, or both.\r\n"
+						}, {
+							"vpIdseq" : "99BA9DC8-69B7-4E69-E034-080020C9C0E0",
+							"valueIdseq" : "5DBB9423-E633-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "UNKNOWN",
+							"formValueMeaningText" : "UNKNOWN",
+							"formValueMeaningIdVersion" : "2575365v1.0",
+							"formValueMeaningDesc" : "Not known, not observed, not recorded, or refused.\r\n"
+						}
+					],
+					"displayOrder" : 0,
+					"deIdseq" : "C805F27F-D5F7-4CDB-E034-0003BA12F5E7",
+					"instructions" : null,
+					"defaultValue" : null,
+					"mandatory" : false,
+					"editable" : true,
+					"deDerived" : true,
+					"version" : null,
+					"preferredQuestionText" : "the classification of the sex or gender role of the patient.",
+					"alternativeQuestionText" : null,
+					"longName" : "Patient Gender Category",
+					"dataType" : "CHARACTER",
+					"unitOfMeasure" : null,
+					"displayFormat" : null,
+					"concepts" : null
+				}, {
+					"quesIdseq" : "5DBB9423-E63F-B62F-E040-BB89A6437F93",
+					"validValues" : [],
+					"displayOrder" : 1,
+					"deIdseq" : "B4348644-8CF5-1324-E034-0003BA12F5E7",
+					"instructions" : null,
+					"defaultValue" : null,
+					"mandatory" : false,
+					"editable" : true,
+					"deDerived" : true,
+					"version" : null,
+					"preferredQuestionText" : "the month, day and year on which the patient/participant was born.",
+					"alternativeQuestionText" : null,
+					"longName" : "Patient Birth Date",
+					"dataType" : "DATE",
+					"unitOfMeasure" : null,
+					"displayFormat" : "MM/DD/YYYY",
+					"concepts" : null
+				}, {
+					"quesIdseq" : "5DBB9423-E65B-B62F-E040-BB89A6437F93",
+					"validValues" : [],
+					"displayOrder" : 2,
+					"deIdseq" : "21953061-6DE1-2CA8-E044-0003BA3F9857",
+					"instructions" : null,
+					"defaultValue" : null,
+					"mandatory" : false,
+					"editable" : true,
+					"deDerived" : true,
+					"version" : null,
+					"preferredQuestionText" : "Age at the time of study enrollment, expressed in number of years completed at the last birthday.",
+					"alternativeQuestionText" : null,
+					"longName" : "Patient/Participant Age",
+					"dataType" : "NUMBER",
+					"unitOfMeasure" : null,
+					"displayFormat" : "999.99",
+					"concepts" : null
+				}, {
+					"quesIdseq" : "5DBB9423-E64B-B62F-E040-BB89A6437F93",
+					"validValues" : [{
+							"vpIdseq" : "EAA80DF9-32D1-4CDE-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E64D-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "American Indian or Alaska Native",
+							"formValueMeaningText" : "A person having origins in any of the original peoples of North and South America (including Central America), and who maintains tribal affiliation or community attachment.",
+							"formValueMeaningIdVersion" : "2572232v1.0",
+							"formValueMeaningDesc" : "A person having origins in any of the original peoples of North and South America (including Central America), and who maintains tribal affiliation or community attachment."
+						}, {
+							"vpIdseq" : "EAA80DF9-32D7-4CDE-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E64F-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Asian",
+							"formValueMeaningText" : "A person having origins in any of the original peoples of the Far East, Southeast Asia, or the Indian subcontinent including, for example, Cambodia, China, India, Japan, Korea, Malaysia, Pakistan, the Philippine Islands, Thailand, and Vietnam.",
+							"formValueMeaningIdVersion" : "2572233v1.0",
+							"formValueMeaningDesc" : "A person having origins in any of the original peoples of the Far East, Southeast Asia, or the Indian subcontinent including, for example, Cambodia, China, India, Japan, Korea, Malaysia, Pakistan, the Philippine Islands, Thailand, and Vietnam."
+						}, {
+							"vpIdseq" : "EAA80DF9-32DB-4CDE-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E651-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Black or African American",
+							"formValueMeaningText" : "A person having origins in any of the black racial groups of Africa. Terms such as \"Haitian\" or \"Negro\" can be used in addition to \"Black or African American.\"",
+							"formValueMeaningIdVersion" : "2572313v1.0",
+							"formValueMeaningDesc" : "A person having origins in any of the black racial groups of Africa. Terms such as \"Haitian\" or \"Negro\" can be used in addition to \"Black or African American.\""
+						}, {
+							"vpIdseq" : "EAA80DF9-32D3-4CDE-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E653-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Native Hawaiian or other Pacific Islander",
+							"formValueMeaningText" : "A person having origins in any of the original peoples of Hawaii, Guam, Samoa, or other Pacific Islands.",
+							"formValueMeaningIdVersion" : "2572235v1.0",
+							"formValueMeaningDesc" : "A person having origins in any of the original peoples of Hawaii, Guam, Samoa, or other Pacific Islands."
+						}, {
+							"vpIdseq" : "EAA80DF9-32CF-4CDE-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E655-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Not Reported",
+							"formValueMeaningText" : "Not provided or available",
+							"formValueMeaningIdVersion" : "2572578v1.0",
+							"formValueMeaningDesc" : "Not provided or available"
+						}, {
+							"vpIdseq" : "EAA80DF9-32D5-4CDE-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E657-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Unknown",
+							"formValueMeaningText" : "Could not be determined or unsure",
+							"formValueMeaningIdVersion" : "2572577v1.0",
+							"formValueMeaningDesc" : "Could not be determined or unsure"
+						}, {
+							"vpIdseq" : "EAA80DF9-32D9-4CDE-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E659-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "White",
+							"formValueMeaningText" : "A person having origins in any of the original peoples of Europe, the Middle East, or North Africa.",
+							"formValueMeaningIdVersion" : "2572236v1.0",
+							"formValueMeaningDesc" : "A person having origins in any of the original peoples of Europe, the Middle East, or North Africa."
+						}
+					],
+					"displayOrder" : 3,
+					"deIdseq" : "EAA80464-F635-4CF2-E034-0003BA3F9857",
+					"instructions" : null,
+					"defaultValue" : null,
+					"mandatory" : false,
+					"editable" : true,
+					"deDerived" : true,
+					"version" : null,
+					"preferredQuestionText" : "the patient's self declared racial origination, independent of ethnic origination, using OMB approved categories.",
+					"alternativeQuestionText" : null,
+					"longName" : "Race",
+					"dataType" : "CHARACTER",
+					"unitOfMeasure" : null,
+					"displayFormat" : null,
+					"concepts" : null
+				}, {
+					"quesIdseq" : "5DBB9423-E641-B62F-E040-BB89A6437F93",
+					"validValues" : [{
+							"vpIdseq" : "F5483D12-9C57-7230-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E643-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "HISPANIC OR LATINO",
+							"formValueMeaningText" : "A person of Mexican, Puerto Rican, Cuban, Central or South American or other Spanish culture or origin, regardless of race.",
+							"formValueMeaningIdVersion" : "2581176v1.0",
+							"formValueMeaningDesc" : "A person of Mexican, Puerto Rican, Cuban, Central or South American or other Spanish culture or origin, regardless of race."
+						}, {
+							"vpIdseq" : "F5483D12-9C58-7230-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E645-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "NOT HISPANIC OR LATINO",
+							"formValueMeaningText" : "A person not meeting the definition for Hispanic or Latino.",
+							"formValueMeaningIdVersion" : "2567110v1.0",
+							"formValueMeaningDesc" : null
+						}, {
+							"vpIdseq" : "F5483D12-9C59-7230-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E647-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Not reported",
+							"formValueMeaningText" : "Not provided or available",
+							"formValueMeaningIdVersion" : "2572578v1.0",
+							"formValueMeaningDesc" : "Not provided or available"
+						}, {
+							"vpIdseq" : "F5483D12-9C5A-7230-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E649-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "UNKNOWN",
+							"formValueMeaningText" : "Could not be determined or unsure",
+							"formValueMeaningIdVersion" : "2572577v1.0",
+							"formValueMeaningDesc" : "Could not be determined or unsure"
+						}
+					],
+					"displayOrder" : 4,
+					"deIdseq" : "F5ABED20-AD9E-6BCD-E034-0003BA3F9857",
+					"instructions" : null,
+					"defaultValue" : null,
+					"mandatory" : false,
+					"editable" : true,
+					"deDerived" : true,
+					"version" : null,
+					"preferredQuestionText" : "the patient's/participant's self declared ethnic origination, independent of racial origination, based on OMB approved categories.",
+					"alternativeQuestionText" : null,
+					"longName" : "Patient Ethnic Group Category",
+					"dataType" : "CHARACTER",
+					"unitOfMeasure" : null,
+					"displayFormat" : null,
+					"concepts" : null
+				}, {
+					"quesIdseq" : "5DBB9423-E63D-B62F-E040-BB89A6437F93",
+					"validValues" : [],
+					"displayOrder" : 5,
+					"deIdseq" : "B825C8F5-5FAC-4484-E034-0003BA12F5E7",
+					"instructions" : null,
+					"defaultValue" : null,
+					"mandatory" : false,
+					"editable" : true,
+					"deDerived" : true,
+					"version" : null,
+					"preferredQuestionText" : "the initial letters of the first, middle, and last names of the patient registered on the clinical trial.",
+					"alternativeQuestionText" : null,
+					"longName" : "Patient Initials Name",
+					"dataType" : "CHARACTER",
+					"unitOfMeasure" : null,
+					"displayFormat" : null,
+					"concepts" : null
+				}, {
+					"quesIdseq" : "5DBB9423-E635-B62F-E040-BB89A6437F93",
+					"validValues" : [],
+					"displayOrder" : 6,
+					"deIdseq" : "B2D02123-557B-7201-E034-0003BA12F5E7",
+					"instructions" : null,
+					"defaultValue" : null,
+					"mandatory" : false,
+					"editable" : true,
+					"deDerived" : true,
+					"version" : null,
+					"preferredQuestionText" : "the date the patient was enrolled on the protocol.",
+					"alternativeQuestionText" : null,
+					"longName" : "Patient Registration Date",
+					"dataType" : "DATE",
+					"unitOfMeasure" : null,
+					"displayFormat" : "MM/DD/YYYY",
+					"concepts" : null
+				}, {
+					"quesIdseq" : "5DBB9423-E637-B62F-E040-BB89A6437F93",
+					"validValues" : [],
+					"displayOrder" : 7,
+					"deIdseq" : "D4A6A07C-5556-25A1-E034-0003BA12F5E7",
+					"instructions" : null,
+					"defaultValue" : null,
+					"mandatory" : false,
+					"editable" : true,
+					"deDerived" : true,
+					"version" : null,
+					"preferredQuestionText" : "Effective date for the inclusion of lab test results for confirmation of a subject's eligiblity for a clinical trial.  ",
+					"alternativeQuestionText" : null,
+					"longName" : "Prestudy Lab Date",
+					"dataType" : "DATE",
+					"unitOfMeasure" : null,
+					"displayFormat" : "DD/MON/YYYY",
+					"concepts" : null
+				}, {
+					"quesIdseq" : "5DBB9423-E639-B62F-E040-BB89A6437F93",
+					"validValues" : [],
+					"displayOrder" : 8,
+					"deIdseq" : "A55B8F01-7C8A-6305-E034-080020C9C0E0",
+					"instructions" : null,
+					"defaultValue" : null,
+					"mandatory" : false,
+					"editable" : true,
+					"deDerived" : true,
+					"version" : null,
+					"preferredQuestionText" : "The unique number assigned to identify a patient/participant on a protocol.",
+					"alternativeQuestionText" : null,
+					"longName" : "Patient Identifier",
+					"dataType" : "CHARACTER",
+					"unitOfMeasure" : null,
+					"displayFormat" : null,
+					"concepts" : null
+				}
+			],
+			"isEdited" : false
+		}, {
+			"moduleIdseq" : "5DBB9423-E665-B62F-E040-BB89A6437F93",
+			"longName" : "GEOGRAPHY AND GROUP",
+			"instructions" : "",
+			"repetitions" : 0,
+			"dispOrder" : 0,
+			"questions" : [{
+					"quesIdseq" : "5DBB9423-E669-B62F-E040-BB89A6437F93",
+					"validValues" : [],
+					"displayOrder" : 0,
+					"deIdseq" : "A55B8F01-7CAA-6305-E034-080020C9C0E0",
+					"instructions" : null,
+					"defaultValue" : null,
+					"mandatory" : false,
+					"editable" : true,
+					"deDerived" : true,
+					"version" : null,
+					"preferredQuestionText" : "Subgroup assignment given to a participant on a protocol.  ",
+					"alternativeQuestionText" : null,
+					"longName" : "Patient Subgroup Assignment",
+					"dataType" : "CHARACTER",
+					"unitOfMeasure" : null,
+					"displayFormat" : null,
+					"concepts" : null
+				}, {
+					"quesIdseq" : "5DBB9423-E687-B62F-E040-BB89A6437F93",
+					"validValues" : [],
+					"displayOrder" : 1,
+					"deIdseq" : "A55B8F01-7CB1-6305-E034-080020C9C0E0",
+					"instructions" : null,
+					"defaultValue" : null,
+					"mandatory" : false,
+					"editable" : true,
+					"deDerived" : true,
+					"version" : null,
+					"preferredQuestionText" : "Name of the practice group where the patient was originally registered on study.",
+					"alternativeQuestionText" : null,
+					"longName" : "Registering Group",
+					"dataType" : "CHARACTER",
+					"unitOfMeasure" : null,
+					"displayFormat" : null,
+					"concepts" : null
+				}, {
+					"quesIdseq" : "5DBB9423-E667-B62F-E040-BB89A6437F93",
+					"validValues" : [],
+					"displayOrder" : 2,
+					"deIdseq" : "EBC26768-095F-5C79-E034-0003BA3F9857",
+					"instructions" : null,
+					"defaultValue" : null,
+					"mandatory" : false,
+					"editable" : true,
+					"deDerived" : true,
+					"version" : null,
+					"preferredQuestionText" : "Code that uniquely identifies the institution where the patient/participant was enrolled in a clinical trial.",
+					"alternativeQuestionText" : null,
+					"longName" : "Registering Institution Identification Code",
+					"dataType" : "CHARACTER",
+					"unitOfMeasure" : null,
+					"displayFormat" : null,
+					"concepts" : null
+				}, {
+					"quesIdseq" : "5DBB9423-E66B-B62F-E040-BB89A6437F93",
+					"validValues" : [],
+					"displayOrder" : 3,
+					"deIdseq" : "A55B8F01-7CBF-6305-E034-080020C9C0E0",
+					"instructions" : null,
+					"defaultValue" : null,
+					"mandatory" : false,
+					"editable" : true,
+					"deDerived" : true,
+					"version" : null,
+					"preferredQuestionText" : "Two-letter international country codes",
+					"alternativeQuestionText" : null,
+					"longName" : "Country Code",
+					"dataType" : "CHARACTER",
+					"unitOfMeasure" : null,
+					"displayFormat" : null,
+					"concepts" : null
+				}, {
+					"quesIdseq" : "5DBB9423-E689-B62F-E040-BB89A6437F93",
+					"validValues" : [],
+					"displayOrder" : 4,
+					"deIdseq" : "2A0332EF-A544-4B32-E044-0003BA3F9857",
+					"instructions" : null,
+					"defaultValue" : null,
+					"mandatory" : false,
+					"editable" : true,
+					"deDerived" : true,
+					"version" : null,
+					"preferredQuestionText" : "The string of characters used to identify the five-digit Zone Improvement Plan (ZIP) code and the four-digit extension code (if available) that represents the geographic segment that is a subunit of the ZIPcode, assigned by the U.S. Postal Service to a geographic location to facilitate mail delivery; or the postal zone specific to the country, other than the U.S., where the mail is delivered.",
+					"alternativeQuestionText" : null,
+					"longName" : "ZIP Code",
+					"dataType" : "CHARACTER",
+					"unitOfMeasure" : null,
+					"displayFormat" : null,
+					"concepts" : null
+				}, {
+					"quesIdseq" : "5DBB9423-E66D-B62F-E040-BB89A6437F93",
+					"validValues" : [{
+							"vpIdseq" : "A55B8F01-7CC5-6305-E034-080020C9C0E0",
+							"valueIdseq" : "5DBB9423-E66F-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "1",
+							"formValueMeaningText" : "PRIVATE INSURANCE",
+							"formValueMeaningIdVersion" : "2559899v1.0",
+							"formValueMeaningDesc" : "PRIVATE INSURANCE"
+						}, {
+							"vpIdseq" : "A55B8F01-7CC7-6305-E034-080020C9C0E0",
+							"valueIdseq" : "5DBB9423-E671-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "2",
+							"formValueMeaningText" : "MEDICARE",
+							"formValueMeaningIdVersion" : "2559167v1.0",
+							"formValueMeaningDesc" : "MEDICARE"
+						}, {
+							"vpIdseq" : "A55B8F01-7CC8-6305-E034-080020C9C0E0",
+							"valueIdseq" : "5DBB9423-E673-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "3",
+							"formValueMeaningText" : "MEDICARE AND PRIVATE INSURANCE",
+							"formValueMeaningIdVersion" : "2559168v1.0",
+							"formValueMeaningDesc" : "MEDICARE AND PRIVATE INSURANCE"
+						}, {
+							"vpIdseq" : "A55B8F01-7CC9-6305-E034-080020C9C0E0",
+							"valueIdseq" : "5DBB9423-E675-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "4",
+							"formValueMeaningText" : "MEDICAID",
+							"formValueMeaningIdVersion" : "2559164v1.0",
+							"formValueMeaningDesc" : "MEDICAID"
+						}, {
+							"vpIdseq" : "A55B8F01-7CCA-6305-E034-080020C9C0E0",
+							"valueIdseq" : "5DBB9423-E677-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "5",
+							"formValueMeaningText" : "MEDICAID AND MEDICARE",
+							"formValueMeaningIdVersion" : "2559165v1.0",
+							"formValueMeaningDesc" : "MEDICAID AND MEDICARE"
+						}, {
+							"vpIdseq" : "A55B8F01-7CCC-6305-E034-080020C9C0E0",
+							"valueIdseq" : "5DBB9423-E679-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "6",
+							"formValueMeaningText" : "MILITARY OR VETERANS SPONSORED NOS",
+							"formValueMeaningIdVersion" : "2559228v1.0",
+							"formValueMeaningDesc" : "MILITARY OR VETERANS SPONSORED NOS"
+						}, {
+							"vpIdseq" : "A55B8F01-7CCE-6305-E034-080020C9C0E0",
+							"valueIdseq" : "5DBB9423-E67B-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "6a",
+							"formValueMeaningText" : "MILITARY SPONSORED (INCLUDING CHAMPUS &TRICARE)",
+							"formValueMeaningIdVersion" : "2561716v1.0",
+							"formValueMeaningDesc" : null
+						}, {
+							"vpIdseq" : "A55B8F01-7CD0-6305-E034-080020C9C0E0",
+							"valueIdseq" : "5DBB9423-E67D-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "6b",
+							"formValueMeaningText" : "VETERANS SPONSORED",
+							"formValueMeaningIdVersion" : "2560433v1.0",
+							"formValueMeaningDesc" : "VETERANS SPONSORED"
+						}, {
+							"vpIdseq" : "A55B8F01-7CD2-6305-E034-080020C9C0E0",
+							"valueIdseq" : "5DBB9423-E67F-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "7",
+							"formValueMeaningText" : "SELF PAY (NO INSURANCE)",
+							"formValueMeaningIdVersion" : "2560022v1.0",
+							"formValueMeaningDesc" : "SELF PAY (NO INSURANCE)"
+						}, {
+							"vpIdseq" : "A55B8F01-7CD4-6305-E034-080020C9C0E0",
+							"valueIdseq" : "5DBB9423-E681-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "8",
+							"formValueMeaningText" : "NO MEANS OF PAYMENT (NO INSURANCE)",
+							"formValueMeaningIdVersion" : "2559534v1.0",
+							"formValueMeaningDesc" : "NO MEANS OF PAYMENT (NO INSURANCE)"
+						}, {
+							"vpIdseq" : "A55B8F01-7CD5-6305-E034-080020C9C0E0",
+							"valueIdseq" : "5DBB9423-E683-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "98",
+							"formValueMeaningText" : "OTHER",
+							"formValueMeaningIdVersion" : "2559653v1.0",
+							"formValueMeaningDesc" : "Different than the one(s) previously specified or mentioned.\r\n"
+						}, {
+							"vpIdseq" : "A55B8F01-7CD6-6305-E034-080020C9C0E0",
+							"valueIdseq" : "5DBB9423-E685-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "99",
+							"formValueMeaningText" : "UNKNOWN",
+							"formValueMeaningIdVersion" : "2575365v1.0",
+							"formValueMeaningDesc" : "Not known, not observed, not recorded, or refused.\r\n"
+						}
+					],
+					"displayOrder" : 5,
+					"deIdseq" : "A55B8F01-7CD8-6305-E034-080020C9C0E0",
+					"instructions" : null,
+					"defaultValue" : null,
+					"mandatory" : false,
+					"editable" : true,
+					"deDerived" : true,
+					"version" : null,
+					"preferredQuestionText" : "Primary Payer/insurance carrier information at the time of treatment on a protocol.",
+					"alternativeQuestionText" : null,
+					"longName" : "Payment Method",
+					"dataType" : "CHARACTER",
+					"unitOfMeasure" : null,
+					"displayFormat" : null,
+					"concepts" : null
+				}
+			],
+			"isEdited" : false
+		}, {
+			"moduleIdseq" : "5DBB9423-E68B-B62F-E040-BB89A6437F93",
+			"longName" : "HISTORY",
+			"instructions" : "",
+			"repetitions" : 0,
+			"dispOrder" : 0,
+			"questions" : [{
+					"quesIdseq" : "5DBB9423-E691-B62F-E040-BB89A6437F93",
+					"validValues" : [{
+							"vpIdseq" : "E3E5C03F-6E5D-2E8E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E693-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Adrenal Gland",
+							"formValueMeaningText" : "ADRENAL GLAND",
+							"formValueMeaningIdVersion" : "2569663v1.0",
+							"formValueMeaningDesc" : "Paired glands situated in the retroperitoneal tissues at the superior pole of each kidney."
+						}, {
+							"vpIdseq" : "E36F9451-677F-0AEA-E034-0003BA12F5E7",
+							"valueIdseq" : "5DBB9423-E695-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Anus",
+							"formValueMeaningText" : "Anus",
+							"formValueMeaningIdVersion" : "2569544v1.0",
+							"formValueMeaningDesc" : "(AY-nus) The opening of the rectum to the outside of the body."
+						}, {
+							"vpIdseq" : "E36F9451-6781-0AEA-E034-0003BA12F5E7",
+							"valueIdseq" : "5DBB9423-E697-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Appendix",
+							"formValueMeaningText" : "APPENDIX",
+							"formValueMeaningIdVersion" : "2558237v1.0",
+							"formValueMeaningDesc" : "APPENDIX"
+						}, {
+							"vpIdseq" : "E3E5C03F-6E31-2E8E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E699-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Back",
+							"formValueMeaningText" : "BACK",
+							"formValueMeaningIdVersion" : "2569779v1.0",
+							"formValueMeaningDesc" : null
+						}, {
+							"vpIdseq" : "E3E5C03F-6DBF-2E8E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E69B-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Bile Duct",
+							"formValueMeaningText" : "Bile Duct",
+							"formValueMeaningIdVersion" : "2571102v1.0",
+							"formValueMeaningDesc" : "A tube through which bile passes in and out of the liver."
+						}, {
+							"vpIdseq" : "E3E5C03F-6DCD-2E8E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E69D-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Bladder",
+							"formValueMeaningText" : "BLADDER",
+							"formValueMeaningIdVersion" : "2567211v1.0",
+							"formValueMeaningDesc" : "BLADDER"
+						}, {
+							"vpIdseq" : "E320FFD4-882B-2E12-E034-0003BA12F5E7",
+							"valueIdseq" : "5DBB9423-E69F-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Bone Marrow",
+							"formValueMeaningText" : "BONE MARROW",
+							"formValueMeaningIdVersion" : "2581613v1.0",
+							"formValueMeaningDesc" : "The soft, sponge-like tissue in the center of bones that produces white blood cells, red blood cells, and platelets."
+						}, {
+							"vpIdseq" : "E320FFD4-882F-2E12-E034-0003BA12F5E7",
+							"valueIdseq" : "5DBB9423-E6A1-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Brainstem",
+							"formValueMeaningText" : "Brainstem",
+							"formValueMeaningIdVersion" : "2566002v1.0",
+							"formValueMeaningDesc" : null
+						}, {
+							"vpIdseq" : "E4364360-5776-1FD6-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E6A3-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Breast",
+							"formValueMeaningText" : "BREAST",
+							"formValueMeaningIdVersion" : "2561089v1.0",
+							"formValueMeaningDesc" : "One of two hemispheric projections of variable size situated in the subcutaneous layer over the pectoralis major muscle on either side of the chest."
+						}, {
+							"vpIdseq" : "E36F9451-6778-0AEA-E034-0003BA12F5E7",
+							"valueIdseq" : "5DBB9423-E6A5-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Cerebellum",
+							"formValueMeaningText" : "Cerebellum",
+							"formValueMeaningIdVersion" : "2566001v1.0",
+							"formValueMeaningDesc" : null
+						}, {
+							"vpIdseq" : "E36F9451-677B-0AEA-E034-0003BA12F5E7",
+							"valueIdseq" : "5DBB9423-E6A7-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Cerebrum",
+							"formValueMeaningText" : "Cerebrum",
+							"formValueMeaningIdVersion" : "2571793v1.0",
+							"formValueMeaningDesc" : "Cerebrum"
+						}, {
+							"vpIdseq" : "E3E5C03F-6DCE-2E8E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E6A9-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Cervix",
+							"formValueMeaningText" : "CERVIX",
+							"formValueMeaningIdVersion" : "2567212v1.0",
+							"formValueMeaningDesc" : "CERVIX"
+						}, {
+							"vpIdseq" : "E4364360-5777-1FD6-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E6AB-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Chest",
+							"formValueMeaningText" : "CHEST",
+							"formValueMeaningIdVersion" : "2562261v1.0",
+							"formValueMeaningDesc" : null
+						}, {
+							"vpIdseq" : "E3E5C03F-6DC1-2E8E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E6AD-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Colon",
+							"formValueMeaningText" : "COLON",
+							"formValueMeaningIdVersion" : "2567239v1.0",
+							"formValueMeaningDesc" : "COLON"
+						}, {
+							"vpIdseq" : "E320FFD4-8831-2E12-E034-0003BA12F5E7",
+							"valueIdseq" : "5DBB9423-E6AF-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "CSF",
+							"formValueMeaningText" : "CEREBROSPINAL FLUID",
+							"formValueMeaningIdVersion" : "2567374v1.0",
+							"formValueMeaningDesc" : "The fluid that is contained within the brain ventricles, the subarachnoid space and the central canal of the spinal cord."
+						}, {
+							"vpIdseq" : "E3E5C03F-6DC2-2E8E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E6B1-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Duodenum",
+							"formValueMeaningText" : "DUODENUM",
+							"formValueMeaningIdVersion" : "2569848v1.0",
+							"formValueMeaningDesc" : "(doo-ah-DEE-num) The first part of the small intestine."
+						}, {
+							"vpIdseq" : "E3E5C03F-6DDA-2E8E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E6B3-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Ear, External",
+							"formValueMeaningText" : "Ear, External",
+							"formValueMeaningIdVersion" : "2571867v1.0",
+							"formValueMeaningDesc" : "Ear, External"
+						}, {
+							"vpIdseq" : "E3E5C03F-6DDB-2E8E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E6B5-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Ear, Inner",
+							"formValueMeaningText" : "Ear, Inner",
+							"formValueMeaningIdVersion" : "2571868v1.0",
+							"formValueMeaningDesc" : "Ear, Inner"
+						}, {
+							"vpIdseq" : "E3E5C03F-6DDC-2E8E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E6B7-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Ear, Mid",
+							"formValueMeaningText" : "Ear, Mid",
+							"formValueMeaningIdVersion" : "2571869v1.0",
+							"formValueMeaningDesc" : "Ear, Mid"
+						}, {
+							"vpIdseq" : "E3E5C03F-6DC3-2E8E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E6B9-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Esophagus",
+							"formValueMeaningText" : "ESOPHAGUS",
+							"formValueMeaningIdVersion" : "2567240v1.0",
+							"formValueMeaningDesc" : "ESOPHAGUS"
+						}, {
+							"vpIdseq" : "E3E5C03F-6DDD-2E8E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E6BB-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Eye, Globe",
+							"formValueMeaningText" : "Eye, Globe",
+							"formValueMeaningIdVersion" : "2571870v1.0",
+							"formValueMeaningDesc" : "Eye, Globe"
+						}, {
+							"vpIdseq" : "E3E5C03F-6DDE-2E8E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E6BD-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Eye, Orbit",
+							"formValueMeaningText" : "Eye, Orbit",
+							"formValueMeaningIdVersion" : "2571871v1.0",
+							"formValueMeaningDesc" : "Eye, Orbit"
+						}, {
+							"vpIdseq" : "E3E5C03F-6DCF-2E8E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E6BF-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Fallopian Tube",
+							"formValueMeaningText" : "FALLOPIAN TUBE",
+							"formValueMeaningIdVersion" : "2567224v1.0",
+							"formValueMeaningDesc" : "FALLOPIAN TUBE"
+						}, {
+							"vpIdseq" : "E3E5C03F-6E32-2E8E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E6C1-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Feet",
+							"formValueMeaningText" : "Feet",
+							"formValueMeaningIdVersion" : "2571901v1.0",
+							"formValueMeaningDesc" : "Feet"
+						}, {
+							"vpIdseq" : "E3E5C03F-6E33-2E8E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E6C3-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Femur",
+							"formValueMeaningText" : "Femur",
+							"formValueMeaningIdVersion" : "2568931v1.0",
+							"formValueMeaningDesc" : "The longest and largest bone of the skeleton, it is situated between the hip and the knee."
+						}, {
+							"vpIdseq" : "E3E5C03F-6E35-2E8E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E6C5-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Fibula",
+							"formValueMeaningText" : "Fibula",
+							"formValueMeaningIdVersion" : "2568933v1.0",
+							"formValueMeaningDesc" : "The bone of the lower leg lateral to and smaller than the tibia. In proportion to its length, it is the most slender of the long bones."
+						}, {
+							"vpIdseq" : "E3E5C03F-6E37-2E8E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E6C7-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Hands",
+							"formValueMeaningText" : "Hands",
+							"formValueMeaningIdVersion" : "2571902v1.0",
+							"formValueMeaningDesc" : "Hands"
+						}, {
+							"vpIdseq" : "E4364360-5779-1FD6-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E6C9-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Hilum",
+							"formValueMeaningText" : "Hilum, Thoracic",
+							"formValueMeaningIdVersion" : "2571940v1.0",
+							"formValueMeaningDesc" : "Hilum, Thoracic or Pulmonary"
+						}, {
+							"vpIdseq" : "E3E5C03F-6E38-2E8E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E6CB-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Humerus",
+							"formValueMeaningText" : "Humerus",
+							"formValueMeaningIdVersion" : "2568928v1.0",
+							"formValueMeaningDesc" : "No value exists."
+						}, {
+							"vpIdseq" : "E3E5C03F-6DC4-2E8E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E6CD-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Ileum",
+							"formValueMeaningText" : "Ileum",
+							"formValueMeaningIdVersion" : "2569557v1.0",
+							"formValueMeaningDesc" : null
+						}, {
+							"vpIdseq" : "E3E5C03F-6E3A-2E8E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E6CF-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Iliac",
+							"formValueMeaningText" : "Iliac Bone",
+							"formValueMeaningIdVersion" : "2571903v1.0",
+							"formValueMeaningDesc" : "Iliac Bone"
+						}, {
+							"vpIdseq" : "E3E5C03F-6DC5-2E8E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E6D1-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Jejunum",
+							"formValueMeaningText" : "Jejunum",
+							"formValueMeaningIdVersion" : "2569556v1.0",
+							"formValueMeaningDesc" : "No value exists."
+						}, {
+							"vpIdseq" : "E3E5C03F-6DD0-2E8E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E6D3-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Kidney",
+							"formValueMeaningText" : "KIDNEY",
+							"formValueMeaningIdVersion" : "2561100v1.0",
+							"formValueMeaningDesc" : null
+						}, {
+							"vpIdseq" : "E3E5C03F-6DC6-2E8E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E6D5-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Liver",
+							"formValueMeaningText" : "LIVER",
+							"formValueMeaningIdVersion" : "2567243v1.0",
+							"formValueMeaningDesc" : "LIVER"
+						}, {
+							"vpIdseq" : "E3E5C03F-6DF0-2E8E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E6D7-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "LN",
+							"formValueMeaningText" : "LYMPH NODE",
+							"formValueMeaningIdVersion" : "2567213v1.0",
+							"formValueMeaningDesc" : "LYMPH NODE"
+						}, {
+							"vpIdseq" : "E3E5C03F-6DE7-2E8E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E6D9-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "LN, Axilla",
+							"formValueMeaningText" : "Lymph Node, Axilla",
+							"formValueMeaningIdVersion" : "2571875v1.0",
+							"formValueMeaningDesc" : "Lymph Node(s), Axilla"
+						}, {
+							"vpIdseq" : "E3E5C03F-6DE8-2E8E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E6DB-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "LN, Brachial",
+							"formValueMeaningText" : "Lymph Node, Brachial",
+							"formValueMeaningIdVersion" : "2571876v1.0",
+							"formValueMeaningDesc" : "Lymph Node(s), Brachial"
+						}, {
+							"vpIdseq" : "E3E5C03F-6DE9-2E8E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E6DD-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "LN, Cervical",
+							"formValueMeaningText" : "Lymph Node, Cervical",
+							"formValueMeaningIdVersion" : "2571877v1.0",
+							"formValueMeaningDesc" : "Lymph Node(s), Cervical"
+						}, {
+							"vpIdseq" : "E3E5C03F-6DEA-2E8E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E6DF-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "LN, Epitrochlear",
+							"formValueMeaningText" : "Lymph Node, Epitrochlear",
+							"formValueMeaningIdVersion" : "2571878v1.0",
+							"formValueMeaningDesc" : "Lymph Node(s), Epitrochlear"
+						}, {
+							"vpIdseq" : "E3E5C03F-6DEB-2E8E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E6E1-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "LN, Femoral",
+							"formValueMeaningText" : "Lymph Node, Femoral",
+							"formValueMeaningIdVersion" : "2571879v1.0",
+							"formValueMeaningDesc" : "Lymph Node(s), Femoral"
+						}, {
+							"vpIdseq" : "E3E5C03F-6DEC-2E8E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E6E3-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "LN, Hilar",
+							"formValueMeaningText" : "Lymph Node, Hilar",
+							"formValueMeaningIdVersion" : "2571880v1.0",
+							"formValueMeaningDesc" : "Lymph Node(s), Hilar"
+						}, {
+							"vpIdseq" : "E3E5C03F-6DED-2E8E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E6E5-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "LN, Iliac",
+							"formValueMeaningText" : "Lymph Node, Iliac",
+							"formValueMeaningIdVersion" : "2571881v1.0",
+							"formValueMeaningDesc" : "Lymph Node(s), Iliac"
+						}, {
+							"vpIdseq" : "E3E5C03F-6DEE-2E8E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E6E7-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "LN, Inguinal",
+							"formValueMeaningText" : "Lymph Node, Inguinal",
+							"formValueMeaningIdVersion" : "2571882v1.0",
+							"formValueMeaningDesc" : "Lymph Node(s), Inguinal"
+						}, {
+							"vpIdseq" : "E3E5C03F-6DEF-2E8E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E6E9-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "LN, Internal Mammary",
+							"formValueMeaningText" : "Lymph Node, Internal Mammary",
+							"formValueMeaningIdVersion" : "2571883v1.0",
+							"formValueMeaningDesc" : "Lymph Node(s), Internal Mammary"
+						}, {
+							"vpIdseq" : "E3E5C03F-6DF1-2E8E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E6EB-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "LN, Mediastinal",
+							"formValueMeaningText" : "Lymph Node, Mediastinal",
+							"formValueMeaningIdVersion" : "2571884v1.0",
+							"formValueMeaningDesc" : "Lymph Node(s), Mediastinal"
+						}, {
+							"vpIdseq" : "E3E5C03F-6DF2-2E8E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E6ED-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "LN, Mesenteric",
+							"formValueMeaningText" : "Lymph Node, Mesenteric",
+							"formValueMeaningIdVersion" : "2571885v1.0",
+							"formValueMeaningDesc" : "Lymph Node(s), Mesenteric"
+						}, {
+							"vpIdseq" : "E3E5C03F-6E26-2E8E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E6EF-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "LN, Mid Pelvis",
+							"formValueMeaningText" : "Lymph Node, Mid-Pelvis",
+							"formValueMeaningIdVersion" : "2571890v1.0",
+							"formValueMeaningDesc" : "Lymph Node(s), Mid-Pelvis"
+						}, {
+							"vpIdseq" : "E3E5C03F-6E27-2E8E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E6F1-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "LN, Neck",
+							"formValueMeaningText" : "Lymph Node, Neck",
+							"formValueMeaningIdVersion" : "2571891v1.0",
+							"formValueMeaningDesc" : "Lymph Node(s), Neck"
+						}, {
+							"vpIdseq" : "E3E5C03F-6E28-2E8E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E6F3-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "LN, Occipital",
+							"formValueMeaningText" : "Lymph Node, Occipital",
+							"formValueMeaningIdVersion" : "2571892v1.0",
+							"formValueMeaningDesc" : "Lymph Node(s), Occipital"
+						}, {
+							"vpIdseq" : "E3E5C03F-6E29-2E8E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E6F5-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "LN, Paraaortic",
+							"formValueMeaningText" : "Lymph Node, Paraaortic",
+							"formValueMeaningIdVersion" : "2571893v1.0",
+							"formValueMeaningDesc" : "Lymph Node(s), Paraaortic"
+						}, {
+							"vpIdseq" : "E3E5C03F-6E2A-2E8E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E6F7-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "LN, Pelvis",
+							"formValueMeaningText" : "Lymph Node, Pelvis",
+							"formValueMeaningIdVersion" : "2571894v1.0",
+							"formValueMeaningDesc" : "Lymph Node(s), Pelvis"
+						}, {
+							"vpIdseq" : "E3E5C03F-6E2B-2E8E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E6F9-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "LN, Periauricular",
+							"formValueMeaningText" : "Lymph Node, Periauricular",
+							"formValueMeaningIdVersion" : "2571895v1.0",
+							"formValueMeaningDesc" : "Lymph Node(s), Periauricular"
+						}, {
+							"vpIdseq" : "E3E5C03F-6E2C-2E8E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E6FB-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "LN, Popliteal",
+							"formValueMeaningText" : "Lymph Node, Popliteal",
+							"formValueMeaningIdVersion" : "2571896v1.0",
+							"formValueMeaningDesc" : "Lymph Node(s), Popliteal"
+						}, {
+							"vpIdseq" : "E3E5C03F-6E2D-2E8E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E6FD-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "LN, Retroperitoneal",
+							"formValueMeaningText" : "Lymph Node, Retroperitoneal",
+							"formValueMeaningIdVersion" : "2571897v1.0",
+							"formValueMeaningDesc" : "Lymph Node(s), Retroperitoneal"
+						}, {
+							"vpIdseq" : "E3E5C03F-6E2E-2E8E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E6FF-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "LN, Subclavian",
+							"formValueMeaningText" : "Lymph Node(s), Subclavian",
+							"formValueMeaningIdVersion" : "2571898v1.0",
+							"formValueMeaningDesc" : "Lymph Node, Subclavian"
+						}, {
+							"vpIdseq" : "E3E5C03F-6E2F-2E8E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E701-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "LN, Submental",
+							"formValueMeaningText" : "Lymph Node, Submental",
+							"formValueMeaningIdVersion" : "2571899v1.0",
+							"formValueMeaningDesc" : "Lymph Node(s), Submental"
+						}, {
+							"vpIdseq" : "E3E5C03F-6E30-2E8E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E703-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "LN, Supraclavicular",
+							"formValueMeaningText" : "Lymph Node, Supraclavicular",
+							"formValueMeaningIdVersion" : "2571900v1.0",
+							"formValueMeaningDesc" : "Lymph Node(s), Supraclavicular"
+						}, {
+							"vpIdseq" : "E4364360-577A-1FD6-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E705-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Lung",
+							"formValueMeaningText" : "LUNG",
+							"formValueMeaningIdVersion" : "2567244v1.0",
+							"formValueMeaningDesc" : "LUNG"
+						}, {
+							"vpIdseq" : "E4364360-577E-1FD6-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E707-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Lung, Ant-LLL",
+							"formValueMeaningText" : "Lung, Anterior Left Lower Lobe",
+							"formValueMeaningIdVersion" : "2571941v1.0",
+							"formValueMeaningDesc" : "Left Lower Lobe of the Anterior Lung"
+						}, {
+							"vpIdseq" : "E4364360-577F-1FD6-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E709-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Lung, Ant-LUL",
+							"formValueMeaningText" : "Lung, Anterior Left Upper Lobe",
+							"formValueMeaningIdVersion" : "2571942v1.0",
+							"formValueMeaningDesc" : "Left Upper Lobe of the Anterior Lung"
+						}, {
+							"vpIdseq" : "E4364360-5780-1FD6-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E70B-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Lung, Ant-RLL",
+							"formValueMeaningText" : "Lung, Anterior Right Lower Lobe",
+							"formValueMeaningIdVersion" : "2571943v1.0",
+							"formValueMeaningDesc" : "Right Lower Lobe of the Anterior Lung"
+						}, {
+							"vpIdseq" : "E4364360-5781-1FD6-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E70D-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Lung, Ant-RML",
+							"formValueMeaningText" : "Lung, Anterior RIght Middle Lobe",
+							"formValueMeaningIdVersion" : "2571944v1.0",
+							"formValueMeaningDesc" : "Right Middle Lobe of the Anterior Lung"
+						}, {
+							"vpIdseq" : "E4364360-5782-1FD6-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E70F-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Lung, Ant-RUL",
+							"formValueMeaningText" : "Lung, Anterior Right Upper Lobe",
+							"formValueMeaningIdVersion" : "2571945v1.0",
+							"formValueMeaningDesc" : "Right Upper Lobe of the Anterior Lung"
+						}, {
+							"vpIdseq" : "E4364360-5783-1FD6-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E711-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Lung, Post-LLL",
+							"formValueMeaningText" : "Lung, Posterior Left Lower Lobe",
+							"formValueMeaningIdVersion" : "2571946v1.0",
+							"formValueMeaningDesc" : "Left Lower Lobe of the Posterior Lung"
+						}, {
+							"vpIdseq" : "E4364360-5784-1FD6-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E713-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Lung, Post-LUL",
+							"formValueMeaningText" : "Lung, Posterior Left Upper Lobe",
+							"formValueMeaningIdVersion" : "2571947v1.0",
+							"formValueMeaningDesc" : "Left Upper Lobe of the Posterior Lung"
+						}, {
+							"vpIdseq" : "E4364360-5785-1FD6-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E715-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Lung, Post-RLL",
+							"formValueMeaningText" : "Lung, Posterior Right Lower Lobe",
+							"formValueMeaningIdVersion" : "2571948v1.0",
+							"formValueMeaningDesc" : "Right Lower Lobe of the Posterior Lung"
+						}, {
+							"vpIdseq" : "E4364360-5786-1FD6-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E717-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Lung, Post-RML",
+							"formValueMeaningText" : "Lung, Posterior Right Middle Lobe",
+							"formValueMeaningIdVersion" : "2571949v1.0",
+							"formValueMeaningDesc" : "Right Middle Lobe of the Posterior Lung"
+						}, {
+							"vpIdseq" : "E4364360-5787-1FD6-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E719-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Lung, Post-RUL",
+							"formValueMeaningText" : "Lung, Posterior Right Upper Lobe",
+							"formValueMeaningIdVersion" : "2571950v1.0",
+							"formValueMeaningDesc" : "Right Upper Lobe of the Posterior Lung"
+						}, {
+							"vpIdseq" : "E3E5C03F-6E3B-2E8E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E71B-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Mandible",
+							"formValueMeaningText" : "Mandible",
+							"formValueMeaningIdVersion" : "2568922v1.0",
+							"formValueMeaningDesc" : "The largest and strongest bone of the FACE constituting the lower jaw. It supports the lower teeth."
+						}, {
+							"vpIdseq" : "E4364360-577B-1FD6-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E71D-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Mediastinum",
+							"formValueMeaningText" : "MEDIASTINUM",
+							"formValueMeaningIdVersion" : "2559163v1.0",
+							"formValueMeaningDesc" : "MEDIASTINUM"
+						}, {
+							"vpIdseq" : "E3E5C03F-6DDF-2E8E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E71F-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Mouth",
+							"formValueMeaningText" : "mouth",
+							"formValueMeaningIdVersion" : "2568124v1.0",
+							"formValueMeaningDesc" : null
+						}, {
+							"vpIdseq" : "E3E5C03F-6E3F-2E8E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E721-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Muscle, LE DIstal",
+							"formValueMeaningText" : "Muscle, Lower Extremity Distal",
+							"formValueMeaningIdVersion" : "2571908v1.0",
+							"formValueMeaningDesc" : "Muscle, Lower Extremity Distal"
+						}, {
+							"vpIdseq" : "E3E5C03F-6E40-2E8E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E723-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Muscle, LE Proximal",
+							"formValueMeaningText" : "Muscle, Lower Extremity Proximal",
+							"formValueMeaningIdVersion" : "2571909v1.0",
+							"formValueMeaningDesc" : "Muscle, Lower Extremity Proximal"
+						}, {
+							"vpIdseq" : "E3E5C03F-6E3D-2E8E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E725-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Muscle, UE Distal",
+							"formValueMeaningText" : "Muscle, Upper Extremity Distal",
+							"formValueMeaningIdVersion" : "2571906v1.0",
+							"formValueMeaningDesc" : "Muscle, Upper Extremity Distal"
+						}, {
+							"vpIdseq" : "E3E5C03F-6E3E-2E8E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E727-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Muscle, UE Proximal",
+							"formValueMeaningText" : "Muscle, Upper Extremity Proximal",
+							"formValueMeaningIdVersion" : "2571907v1.0",
+							"formValueMeaningDesc" : "Muscle, Upper Extremity Proximal"
+						}, {
+							"vpIdseq" : "E3E5C03F-6DE0-2E8E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E729-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Nasopharynx",
+							"formValueMeaningText" : "Nasopharynx",
+							"formValueMeaningIdVersion" : "2571143v1.0",
+							"formValueMeaningDesc" : "The nasal part of the pharynx, lying above the level of the soft palate."
+						}, {
+							"vpIdseq" : "E3E5C03F-6DE2-2E8E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E72B-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Nose",
+							"formValueMeaningText" : "Nose",
+							"formValueMeaningIdVersion" : "2571872v1.0",
+							"formValueMeaningDesc" : "Nose"
+						}, {
+							"vpIdseq" : "E3E5C03F-6E5E-2E8E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E72D-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Other Site",
+							"formValueMeaningText" : "Other Site",
+							"formValueMeaningIdVersion" : "2571914v1.0",
+							"formValueMeaningDesc" : "Other Site"
+						}, {
+							"vpIdseq" : "E3E5C03F-6DD1-2E8E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E72F-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Ovary",
+							"formValueMeaningText" : "OVARY",
+							"formValueMeaningIdVersion" : "2574083v1.0",
+							"formValueMeaningDesc" : "OVARY"
+						}, {
+							"vpIdseq" : "E3E5C03F-6DC7-2E8E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E731-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Pancreas",
+							"formValueMeaningText" : "Pancreas",
+							"formValueMeaningIdVersion" : "2567245v1.0",
+							"formValueMeaningDesc" : "Pancreas"
+						}, {
+							"vpIdseq" : "E3E5C03F-6DD2-2E8E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E733-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Pelvis",
+							"formValueMeaningText" : "PELVIS",
+							"formValueMeaningIdVersion" : "2562158v1.0",
+							"formValueMeaningDesc" : null
+						}, {
+							"vpIdseq" : "E3E5C03F-6DD4-2E8E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E735-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Penis",
+							"formValueMeaningText" : "PENIS",
+							"formValueMeaningIdVersion" : "2569903v1.0",
+							"formValueMeaningDesc" : "An external male reproductive organ. It contains a tube called the urethra, which carries semen and urine to the outside of the body."
+						}, {
+							"vpIdseq" : "E4364360-577C-1FD6-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E737-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Pericardium",
+							"formValueMeaningText" : "PERICARDIUM",
+							"formValueMeaningIdVersion" : "2559784v1.0",
+							"formValueMeaningDesc" : "PERICARDIUM"
+						}, {
+							"vpIdseq" : "E320FFD4-882D-2E12-E034-0003BA12F5E7",
+							"valueIdseq" : "5DBB9423-E739-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Peripheral Blood",
+							"formValueMeaningText" : "PERIPHERAL BLOOD",
+							"formValueMeaningIdVersion" : "2559785v1.0",
+							"formValueMeaningDesc" : "PERIPHERAL BLOOD"
+						}, {
+							"vpIdseq" : "E3E5C03F-6DE3-2E8E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E73B-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Pharynx",
+							"formValueMeaningText" : "PHARYNX",
+							"formValueMeaningIdVersion" : "2569909v1.0",
+							"formValueMeaningDesc" : "(FAIR-inks) The hollow tube about 5 inches long that starts behind the nose and ends at the top of the trachea (windpipe) and esophagus (the tube that goes to the stomach)."
+						}, {
+							"vpIdseq" : "E4364360-577D-1FD6-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E73D-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Pleura",
+							"formValueMeaningText" : "PLEURA",
+							"formValueMeaningIdVersion" : "2559813v1.0",
+							"formValueMeaningDesc" : "PLEURA"
+						}, {
+							"vpIdseq" : "E3E5C03F-6DD5-2E8E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E73F-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Prostate",
+							"formValueMeaningText" : "PROSTATE",
+							"formValueMeaningIdVersion" : "2567246v1.0",
+							"formValueMeaningDesc" : "PROSTATE"
+						}, {
+							"vpIdseq" : "E3E5C03F-6E41-2E8E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E741-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Radius",
+							"formValueMeaningText" : "Radius",
+							"formValueMeaningIdVersion" : "2568929v1.0",
+							"formValueMeaningDesc" : null
+						}, {
+							"vpIdseq" : "E3E5C03F-6DC8-2E8E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E743-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Rectum",
+							"formValueMeaningText" : "RECTUM",
+							"formValueMeaningIdVersion" : "2567247v1.0",
+							"formValueMeaningDesc" : "RECTUM"
+						}, {
+							"vpIdseq" : "E3E5C03F-6E43-2E8E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E745-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Ribs",
+							"formValueMeaningText" : "Ribs",
+							"formValueMeaningIdVersion" : "2568925v1.0",
+							"formValueMeaningDesc" : null
+						}, {
+							"vpIdseq" : "E3E5C03F-6DC9-2E8E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E747-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Sigmoid Colon",
+							"formValueMeaningText" : "SIGMOID COLON",
+							"formValueMeaningIdVersion" : "2581640v1.0",
+							"formValueMeaningDesc" : "The portion of the colon that connects to the descending colon above and the rectum below."
+						}, {
+							"vpIdseq" : "E3E5C03F-6DE4-2E8E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E749-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Sinuses",
+							"formValueMeaningText" : "Sinuses",
+							"formValueMeaningIdVersion" : "2571873v1.0",
+							"formValueMeaningDesc" : "Sinuses"
+						}, {
+							"vpIdseq" : "E36F9451-677D-0AEA-E034-0003BA12F5E7",
+							"valueIdseq" : "5DBB9423-E74B-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Skin",
+							"formValueMeaningText" : "Skin",
+							"formValueMeaningIdVersion" : "2567252v1.0",
+							"formValueMeaningDesc" : "Skin"
+						}, {
+							"vpIdseq" : "E3E5C03F-6E45-2E8E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E74D-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Skull",
+							"formValueMeaningText" : "Skull",
+							"formValueMeaningIdVersion" : "2568921v1.0",
+							"formValueMeaningDesc" : "The skeleton of the head including the bones of the face and the bones enclosing the brain."
+						}, {
+							"vpIdseq" : "E3E5C03F-6E47-2E8E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E74F-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Spine-C",
+							"formValueMeaningText" : "Spine, Cervical",
+							"formValueMeaningIdVersion" : "2571910v1.0",
+							"formValueMeaningDesc" : "Spine, Cervical"
+						}, {
+							"vpIdseq" : "E3E5C03F-6E48-2E8E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E751-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Spine-L",
+							"formValueMeaningText" : "Spine, Lumbar",
+							"formValueMeaningIdVersion" : "2571911v1.0",
+							"formValueMeaningDesc" : "Spine, Lumbar"
+						}, {
+							"vpIdseq" : "E3E5C03F-6E49-2E8E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E753-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Spine-S",
+							"formValueMeaningText" : "Spine, Sacral",
+							"formValueMeaningIdVersion" : "2571912v1.0",
+							"formValueMeaningDesc" : "Spine, Sacral"
+						}, {
+							"vpIdseq" : "E3E5C03F-6E56-2E8E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E755-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Spine-T",
+							"formValueMeaningText" : "Spine, Thoracic",
+							"formValueMeaningIdVersion" : "2571913v1.0",
+							"formValueMeaningDesc" : "Spine, Thoracic"
+						}, {
+							"vpIdseq" : "E3E5C03F-6DCB-2E8E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E757-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Spleen",
+							"formValueMeaningText" : "Spleen",
+							"formValueMeaningIdVersion" : "2567549v1.0",
+							"formValueMeaningDesc" : "An organ that produces lymphocytes, filters the blood, stores blood cells, and destroys those that are aging. It is located on the left side of the abdomen near the stomach. (OCC)"
+						}, {
+							"vpIdseq" : "E3E5C03F-6E57-2E8E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E759-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Sternum",
+							"formValueMeaningText" : "Sternum",
+							"formValueMeaningIdVersion" : "2568924v1.0",
+							"formValueMeaningDesc" : "No value exists."
+						}, {
+							"vpIdseq" : "E3E5C03F-6DCC-2E8E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E75B-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Stomach",
+							"formValueMeaningText" : "Stomach",
+							"formValueMeaningIdVersion" : "2567248v1.0",
+							"formValueMeaningDesc" : "Stomach"
+						}, {
+							"vpIdseq" : "E3E5C03F-6DD6-2E8E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E75D-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Testicle",
+							"formValueMeaningText" : "TESTICLE",
+							"formValueMeaningIdVersion" : "2569938v1.0",
+							"formValueMeaningDesc" : null
+						}, {
+							"vpIdseq" : "E3E5C03F-6DE5-2E8E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E75F-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Throat",
+							"formValueMeaningText" : "Throat",
+							"formValueMeaningIdVersion" : "2571874v1.0",
+							"formValueMeaningDesc" : "Throat"
+						}, {
+							"vpIdseq" : "E3E5C03F-6DE6-2E8E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E761-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Thyroid",
+							"formValueMeaningText" : "Thyroid",
+							"formValueMeaningIdVersion" : "2567249v1.0",
+							"formValueMeaningDesc" : "Thyroid"
+						}, {
+							"vpIdseq" : "E3E5C03F-6E59-2E8E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E763-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Tibia",
+							"formValueMeaningText" : "Tibia",
+							"formValueMeaningIdVersion" : "2568932v1.0",
+							"formValueMeaningDesc" : "The second longest bone of the skeleton. It is located on the medial side of the lower leg, articulating with the FIBULA laterally, the TALUS distally, and the FEMUR proximally."
+						}, {
+							"vpIdseq" : "E3E5C03F-6E5B-2E8E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E765-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Ulna",
+							"formValueMeaningText" : "Ulna",
+							"formValueMeaningIdVersion" : "2568930v1.0",
+							"formValueMeaningDesc" : null
+						}, {
+							"vpIdseq" : "E3E5C03F-6DD7-2E8E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E767-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Ureter",
+							"formValueMeaningText" : "URETER",
+							"formValueMeaningIdVersion" : "2567218v1.0",
+							"formValueMeaningDesc" : "URETER"
+						}, {
+							"vpIdseq" : "E3E5C03F-6DD8-2E8E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E769-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Uterus",
+							"formValueMeaningText" : "UTERUS",
+							"formValueMeaningIdVersion" : "2567250v1.0",
+							"formValueMeaningDesc" : "UTERUS"
+						}, {
+							"vpIdseq" : "E3E5C03F-6DD9-2E8E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E76B-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Vagina",
+							"formValueMeaningText" : "VAGINA",
+							"formValueMeaningIdVersion" : "2574082v1.0",
+							"formValueMeaningDesc" : "VAGINA"
+						}
+					],
+					"displayOrder" : 0,
+					"deIdseq" : "E4364360-57C4-1FD6-E034-0003BA3F9857",
+					"instructions" : null,
+					"defaultValue" : null,
+					"mandatory" : false,
+					"editable" : true,
+					"deDerived" : true,
+					"version" : null,
+					"preferredQuestionText" : "Name of the primary anatomic site of disease using a set of values in compliance with the Adverse Event Expedited Reporting System (AdEERS).",
+					"alternativeQuestionText" : null,
+					"longName" : "Primary Site of Disease Name",
+					"dataType" : "CHARACTER",
+					"unitOfMeasure" : null,
+					"displayFormat" : null,
+					"concepts" : null
+				}, {
+					"quesIdseq" : "5DBB9423-E79D-B62F-E040-BB89A6437F93",
+					"validValues" : [],
+					"displayOrder" : 1,
+					"deIdseq" : "02DBEE3F-2481-103A-E044-0003BA3F9857",
+					"instructions" : null,
+					"defaultValue" : null,
+					"mandatory" : false,
+					"editable" : true,
+					"deDerived" : true,
+					"version" : null,
+					"preferredQuestionText" : "Text name to capture the disease diagnosis of an individual using MedDRA version 6.0 terms.",
+					"alternativeQuestionText" : null,
+					"longName" : "Disease Term",
+					"dataType" : "CHARACTER",
+					"unitOfMeasure" : null,
+					"displayFormat" : null,
+					"concepts" : null
+				}, {
+					"quesIdseq" : "5DBB9423-E79B-B62F-E040-BB89A6437F93",
+					"validValues" : [],
+					"displayOrder" : 2,
+					"deIdseq" : "A55B8F01-7CED-6305-E034-080020C9C0E0",
+					"instructions" : null,
+					"defaultValue" : null,
+					"mandatory" : false,
+					"editable" : true,
+					"deDerived" : true,
+					"version" : null,
+					"preferredQuestionText" : "The free-text description of a histological and/or cytopathological type present in a pathology specimen, commonly referred to as the diagnosis.",
+					"alternativeQuestionText" : null,
+					"longName" : "Histology/Cytopathology Description",
+					"dataType" : "CHARACTER",
+					"unitOfMeasure" : null,
+					"displayFormat" : null,
+					"concepts" : null
+				}, {
+					"quesIdseq" : "5DBB9423-E76D-B62F-E040-BB89A6437F93",
+					"validValues" : [{
+							"vpIdseq" : "2193C964-EADD-1EDD-E044-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E76F-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "0",
+							"formValueMeaningText" : "Stage 0",
+							"formValueMeaningIdVersion" : "2565900v1.0",
+							"formValueMeaningDesc" : "Stage 0"
+						}, {
+							"vpIdseq" : "2193C964-EAB5-1EDD-E044-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E771-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "A",
+							"formValueMeaningText" : "Stage A",
+							"formValueMeaningIdVersion" : "2565892v1.0",
+							"formValueMeaningDesc" : "Stage A"
+						}, {
+							"vpIdseq" : "2193C964-EABF-1EDD-E044-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E773-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "B",
+							"formValueMeaningText" : "Stage B",
+							"formValueMeaningIdVersion" : "2565893v1.0",
+							"formValueMeaningDesc" : "Stage B"
+						}, {
+							"vpIdseq" : "2193C964-EAC9-1EDD-E044-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E775-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "C",
+							"formValueMeaningText" : "Stage C",
+							"formValueMeaningIdVersion" : "2565894v1.0",
+							"formValueMeaningDesc" : "Stage C"
+						}, {
+							"vpIdseq" : "2193C964-EAD3-1EDD-E044-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E777-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "D",
+							"formValueMeaningText" : "Stage D",
+							"formValueMeaningIdVersion" : "2565895v1.0",
+							"formValueMeaningDesc" : "Stage D"
+						}, {
+							"vpIdseq" : "2193C964-EA6F-1EDD-E044-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E779-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "D0",
+							"formValueMeaningText" : "Stage D0",
+							"formValueMeaningIdVersion" : "2565896v1.0",
+							"formValueMeaningDesc" : "Stage D0"
+						}, {
+							"vpIdseq" : "2193C964-EA79-1EDD-E044-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E77B-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "D1",
+							"formValueMeaningText" : "Stage D1",
+							"formValueMeaningIdVersion" : "2565897v1.0",
+							"formValueMeaningDesc" : "Stage D1"
+						}, {
+							"vpIdseq" : "2193C964-EA83-1EDD-E044-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E77D-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "D2",
+							"formValueMeaningText" : "Stage D2",
+							"formValueMeaningIdVersion" : "2565898v1.0",
+							"formValueMeaningDesc" : "Stage D2"
+						}, {
+							"vpIdseq" : "2193C964-EA8D-1EDD-E044-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E77F-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "D3",
+							"formValueMeaningText" : "Stage D3",
+							"formValueMeaningIdVersion" : "2565899v1.0",
+							"formValueMeaningDesc" : "Stage D3"
+						}, {
+							"vpIdseq" : "2193C964-EA33-1EDD-E044-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E781-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "I",
+							"formValueMeaningText" : "Stage I",
+							"formValueMeaningIdVersion" : "2565870v1.0",
+							"formValueMeaningDesc" : "Stage I"
+						}, {
+							"vpIdseq" : "2193C964-EA3D-1EDD-E044-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E783-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "IA",
+							"formValueMeaningText" : "Stage IA",
+							"formValueMeaningIdVersion" : "2565871v1.0",
+							"formValueMeaningDesc" : "Stage IA"
+						}, {
+							"vpIdseq" : "2193C964-EA47-1EDD-E044-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E785-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "IB",
+							"formValueMeaningText" : "Stage IB",
+							"formValueMeaningIdVersion" : "2565873v1.0",
+							"formValueMeaningDesc" : "Stage IB"
+						}, {
+							"vpIdseq" : "2193C964-EA51-1EDD-E044-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E787-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "II",
+							"formValueMeaningText" : "Stage II",
+							"formValueMeaningIdVersion" : "2565874v1.0",
+							"formValueMeaningDesc" : "Stage II"
+						}, {
+							"vpIdseq" : "2193C964-EA97-1EDD-E044-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E789-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "IIA",
+							"formValueMeaningText" : "Stage IIA",
+							"formValueMeaningIdVersion" : "2565901v1.0",
+							"formValueMeaningDesc" : "Stage IIA"
+						}, {
+							"vpIdseq" : "2193C964-EAE7-1EDD-E044-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E78B-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "IIB",
+							"formValueMeaningText" : "Stage IIB",
+							"formValueMeaningIdVersion" : "2565902v1.0",
+							"formValueMeaningDesc" : "Stage IIB"
+						}, {
+							"vpIdseq" : "2193C964-EA5B-1EDD-E044-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E78D-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "III",
+							"formValueMeaningText" : "Stage III",
+							"formValueMeaningIdVersion" : "2565875v1.0",
+							"formValueMeaningDesc" : "Stage III"
+						}, {
+							"vpIdseq" : "2193C964-EAF1-1EDD-E044-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E78F-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "IIIA",
+							"formValueMeaningText" : "Stage IIIA",
+							"formValueMeaningIdVersion" : "2565903v1.0",
+							"formValueMeaningDesc" : "Stage IIIA"
+						}, {
+							"vpIdseq" : "2193C964-EAFB-1EDD-E044-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E791-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "IIIB",
+							"formValueMeaningText" : "Stage IIIB",
+							"formValueMeaningIdVersion" : "2574076v1.0",
+							"formValueMeaningDesc" : "Stage IIIB"
+						}, {
+							"vpIdseq" : "2193C964-EB05-1EDD-E044-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E793-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "IIIC",
+							"formValueMeaningText" : "Stage IIIC",
+							"formValueMeaningIdVersion" : "2565904v1.0",
+							"formValueMeaningDesc" : "Stage IIIC"
+						}, {
+							"vpIdseq" : "2193C964-EA65-1EDD-E044-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E795-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "IV",
+							"formValueMeaningText" : "Stage IV",
+							"formValueMeaningIdVersion" : "2565876v1.0",
+							"formValueMeaningDesc" : "Stage IV"
+						}, {
+							"vpIdseq" : "2193C964-EAA1-1EDD-E044-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E797-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "IVA",
+							"formValueMeaningText" : "Stage IVA",
+							"formValueMeaningIdVersion" : "2565890v1.0",
+							"formValueMeaningDesc" : "Stage IVA"
+						}, {
+							"vpIdseq" : "2193C964-EAAB-1EDD-E044-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E799-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "IVB",
+							"formValueMeaningText" : "Stage IVB",
+							"formValueMeaningIdVersion" : "2565891v1.0",
+							"formValueMeaningDesc" : "Stage IVB"
+						}
+					],
+					"displayOrder" : 3,
+					"deIdseq" : "2193D60D-68EE-20DE-E044-0003BA3F9857",
+					"instructions" : null,
+					"defaultValue" : null,
+					"mandatory" : false,
+					"editable" : true,
+					"deDerived" : true,
+					"version" : null,
+					"preferredQuestionText" : "The extent of a disease, especially whether the disease has spread from the original site to other parts of the body.",
+					"alternativeQuestionText" : null,
+					"longName" : "Disease Stage",
+					"dataType" : "CHARACTER",
+					"unitOfMeasure" : null,
+					"displayFormat" : null,
+					"concepts" : null
+				}, {
+					"quesIdseq" : "5DBB9423-E68D-B62F-E040-BB89A6437F93",
+					"validValues" : [],
+					"displayOrder" : 4,
+					"deIdseq" : "A55B8F01-7CE6-6305-E034-080020C9C0E0",
+					"instructions" : null,
+					"defaultValue" : null,
+					"mandatory" : false,
+					"editable" : true,
+					"deDerived" : true,
+					"version" : null,
+					"preferredQuestionText" : "The unique number assigned to a disease based on Clinical Data Update System (CDUS) Disease Coding.",
+					"alternativeQuestionText" : null,
+					"longName" : "Disease CDUS Code",
+					"dataType" : "ALPHANUMERIC",
+					"unitOfMeasure" : null,
+					"displayFormat" : null,
+					"concepts" : null
+				}
+			],
+			"isEdited" : false
+		}, {
+			"moduleIdseq" : "5DBB9423-E60F-B62F-E040-BB89A6437F93",
+			"longName" : "CONSENT",
+			"instructions" : "",
+			"repetitions" : 0,
+			"dispOrder" : 0,
+			"questions" : [{
+					"quesIdseq" : "5DBB9423-E611-B62F-E040-BB89A6437F93",
+					"validValues" : [],
+					"displayOrder" : 0,
+					"deIdseq" : "A55B8F01-7CF4-6305-E034-080020C9C0E0",
+					"instructions" : null,
+					"defaultValue" : null,
+					"mandatory" : false,
+					"editable" : true,
+					"deDerived" : true,
+					"version" : null,
+					"preferredQuestionText" : "The date when a pathologic diagnosis is verified and confirmed.",
+					"alternativeQuestionText" : null,
+					"longName" : "Histologic Confirmation Date",
+					"dataType" : "DATE",
+					"unitOfMeasure" : null,
+					"displayFormat" : "DD/MON/YYYY",
+					"concepts" : null
+				}, {
+					"quesIdseq" : "5DBB9423-E613-B62F-E040-BB89A6437F93",
+					"validValues" : [],
+					"displayOrder" : 1,
+					"deIdseq" : "D28A1CC4-02D5-27FE-E034-0003BA12F5E7",
+					"instructions" : null,
+					"defaultValue" : null,
+					"mandatory" : false,
+					"editable" : true,
+					"deDerived" : true,
+					"version" : null,
+					"preferredQuestionText" : "The date of the procedure or evaluation used to determine the diagnosis.",
+					"alternativeQuestionText" : null,
+					"longName" : "Diagnosis Date",
+					"dataType" : "DATE",
+					"unitOfMeasure" : null,
+					"displayFormat" : "DD/MON/YYYY",
+					"concepts" : null
+				}, {
+					"quesIdseq" : "5DBB9423-E615-B62F-E040-BB89A6437F93",
+					"validValues" : [],
+					"displayOrder" : 2,
+					"deIdseq" : "B3192316-9C6D-36C2-E034-0003BA12F5E7",
+					"instructions" : null,
+					"defaultValue" : null,
+					"mandatory" : false,
+					"editable" : true,
+					"deDerived" : true,
+					"version" : null,
+					"preferredQuestionText" : "the date the patient/participant acknowledged participation on the protocol by signing the informed consent document.",
+					"alternativeQuestionText" : null,
+					"longName" : "ICF Signed Date",
+					"dataType" : "DATE",
+					"unitOfMeasure" : null,
+					"displayFormat" : "MM/DD/YYYY",
+					"concepts" : null
+				}, {
+					"quesIdseq" : "5DBB9423-E617-B62F-E040-BB89A6437F93",
+					"validValues" : [],
+					"displayOrder" : 3,
+					"deIdseq" : "A55B8F01-7CFB-6305-E034-080020C9C0E0",
+					"instructions" : null,
+					"defaultValue" : null,
+					"mandatory" : false,
+					"editable" : true,
+					"deDerived" : true,
+					"version" : null,
+					"preferredQuestionText" : "The version of the consent document in which the patient acknowledged participation on the protocol by signing the document.",
+					"alternativeQuestionText" : null,
+					"longName" : "Informed Consent Version",
+					"dataType" : "CHARACTER",
+					"unitOfMeasure" : null,
+					"displayFormat" : null,
+					"concepts" : null
+				}, {
+					"quesIdseq" : "5DBB9423-E619-B62F-E040-BB89A6437F93",
+					"validValues" : [{
+							"vpIdseq" : "F78D68F6-E87A-4018-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E61B-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "High Grade",
+							"formValueMeaningText" : "HIGH GRADE",
+							"formValueMeaningIdVersion" : "2565732v1.0",
+							"formValueMeaningDesc" : null
+						}, {
+							"vpIdseq" : "F78D68F6-E879-4018-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E61D-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Low Grade",
+							"formValueMeaningText" : "LOW GRADE",
+							"formValueMeaningIdVersion" : "2565731v1.0",
+							"formValueMeaningDesc" : null
+						}, {
+							"vpIdseq" : "F78D68F6-E876-4018-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E61F-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Moderately",
+							"formValueMeaningText" : "MODERATELY DIFFERENTIATED",
+							"formValueMeaningIdVersion" : "2559269v1.0",
+							"formValueMeaningDesc" : "MODERATELY DIFFERENTIATED"
+						}, {
+							"vpIdseq" : "F78D68F6-E878-4018-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E621-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "N/A",
+							"formValueMeaningText" : "NOT APPLICABLE",
+							"formValueMeaningIdVersion" : "2581003v1.0",
+							"formValueMeaningDesc" : "Determination of a value is not relevant in the current context."
+						}, {
+							"vpIdseq" : "F78D68F6-E877-4018-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E623-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Poorly",
+							"formValueMeaningText" : "POORLY DIFFERENTIATED",
+							"formValueMeaningIdVersion" : "2559829v1.0",
+							"formValueMeaningDesc" : "POORLY DIFFERENTIATED"
+						}, {
+							"vpIdseq" : "F9FD4EEB-13B2-0B27-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E625-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Unknown",
+							"formValueMeaningText" : "UNKNOWN",
+							"formValueMeaningIdVersion" : "2575365v1.0",
+							"formValueMeaningDesc" : "Not known, not observed, not recorded, or refused.\r\n"
+						}, {
+							"vpIdseq" : "F78D68F6-E875-4018-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E627-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "Well",
+							"formValueMeaningText" : "WELL DIFFERENTIATED",
+							"formValueMeaningIdVersion" : "2560440v1.0",
+							"formValueMeaningDesc" : "WELL DIFFERENTIATED"
+						}
+					],
+					"displayOrder" : 4,
+					"deIdseq" : "F6D76EEC-2FB8-57F3-E034-0003BA3F9857",
+					"instructions" : null,
+					"defaultValue" : null,
+					"mandatory" : false,
+					"editable" : true,
+					"deDerived" : true,
+					"version" : null,
+					"preferredQuestionText" : "Text grade for the degree of cellular differentiation in a tissue sample.",
+					"alternativeQuestionText" : null,
+					"longName" : "Histopathologic Differentiation Text Grade",
+					"dataType" : "CHARACTER",
+					"unitOfMeasure" : null,
+					"displayFormat" : null,
+					"concepts" : null
+				}, {
+					"quesIdseq" : "5DBB9423-E629-B62F-E040-BB89A6437F93",
+					"validValues" : [],
+					"displayOrder" : 5,
+					"deIdseq" : "22B16A2D-EEE6-664F-E044-0003BA3F9857",
+					"instructions" : null,
+					"defaultValue" : null,
+					"mandatory" : false,
+					"editable" : true,
+					"deDerived" : true,
+					"version" : null,
+					"preferredQuestionText" : "Code delivered at patient enrollment onto a clinical trial, to denote treatment assignment.",
+					"alternativeQuestionText" : null,
+					"longName" : "Treatment Assignment Code at Enrollment",
+					"dataType" : "CHARACTER",
+					"unitOfMeasure" : null,
+					"displayFormat" : null,
+					"concepts" : null
+				}
+			],
+			"isEdited" : false
+		}, {
+			"moduleIdseq" : "5DBB9423-E79F-B62F-E040-BB89A6437F93",
+			"longName" : "VITAL SIGNS",
+			"instructions" : "",
+			"repetitions" : 0,
+			"dispOrder" : 0,
+			"questions" : [{
+					"quesIdseq" : "5DBB9423-E7B9-B62F-E040-BB89A6437F93",
+					"validValues" : [],
+					"displayOrder" : 0,
+					"deIdseq" : "A808AB9C-C24A-398C-E034-0003BA0B1A09",
+					"instructions" : null,
+					"defaultValue" : null,
+					"mandatory" : false,
+					"editable" : true,
+					"deDerived" : true,
+					"version" : null,
+					"preferredQuestionText" : "The date of the evaluation, procedure or visit that yielded data.",
+					"alternativeQuestionText" : null,
+					"longName" : "Evaluation Date",
+					"dataType" : "DATE",
+					"unitOfMeasure" : null,
+					"displayFormat" : "DD/MON/YYYY",
+					"concepts" : null
+				}, {
+					"quesIdseq" : "5DBB9423-E7BB-B62F-E040-BB89A6437F93",
+					"validValues" : [],
+					"displayOrder" : 1,
+					"deIdseq" : "A56E8150-8EAC-1CC3-E034-080020C9C0E0",
+					"instructions" : null,
+					"defaultValue" : null,
+					"mandatory" : false,
+					"editable" : true,
+					"deDerived" : true,
+					"version" : null,
+					"preferredQuestionText" : "The time when  a sample for a lab test was collected.",
+					"alternativeQuestionText" : null,
+					"longName" : "Lab Collection Time",
+					"dataType" : "TIME",
+					"unitOfMeasure" : null,
+					"displayFormat" : "TIME (HR(24):MN)",
+					"concepts" : null
+				}, {
+					"quesIdseq" : "5DBB9423-E7BD-B62F-E040-BB89A6437F93",
+					"validValues" : [],
+					"displayOrder" : 2,
+					"deIdseq" : "A55B8F01-7CA3-6305-E034-080020C9C0E0",
+					"instructions" : null,
+					"defaultValue" : null,
+					"mandatory" : false,
+					"editable" : true,
+					"deDerived" : true,
+					"version" : null,
+					"preferredQuestionText" : "Patient/Participant height measured in centimeters.",
+					"alternativeQuestionText" : null,
+					"longName" : "Height in Centimeters",
+					"dataType" : "NUMBER",
+					"unitOfMeasure" : "cm",
+					"displayFormat" : null,
+					"concepts" : null
+				}, {
+					"quesIdseq" : "5DBB9423-E7BF-B62F-E040-BB89A6437F93",
+					"validValues" : [],
+					"displayOrder" : 3,
+					"deIdseq" : "A55B8F01-7C9A-6305-E034-080020C9C0E0",
+					"instructions" : null,
+					"defaultValue" : null,
+					"mandatory" : false,
+					"editable" : true,
+					"deDerived" : true,
+					"version" : null,
+					"preferredQuestionText" : "Measurement of an individual's weight in kilograms.",
+					"alternativeQuestionText" : null,
+					"longName" : "Body Weight in Kilograms",
+					"dataType" : "NUMBER",
+					"unitOfMeasure" : "Kg",
+					"displayFormat" : "99.9",
+					"concepts" : null
+				}, {
+					"quesIdseq" : "5DBB9423-E7E5-B62F-E040-BB89A6437F93",
+					"validValues" : [],
+					"displayOrder" : 4,
+					"deIdseq" : "2C99AF0A-05BC-30C7-E044-0003BA3F9857",
+					"instructions" : null,
+					"defaultValue" : null,
+					"mandatory" : false,
+					"editable" : true,
+					"deDerived" : true,
+					"version" : null,
+					"preferredQuestionText" : "the numeric value for the surface area of the body of the person expressed in meters squared, calculated from height and weight measurements using a standard formula.",
+					"alternativeQuestionText" : null,
+					"longName" : "BSA",
+					"dataType" : "NUMBER",
+					"unitOfMeasure" : "m2",
+					"displayFormat" : null,
+					"concepts" : null
+				}, {
+					"quesIdseq" : "5DBB9423-E7C1-B62F-E040-BB89A6437F93",
+					"validValues" : [{
+							"vpIdseq" : "F169098A-E3D9-306E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E7C3-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "0",
+							"formValueMeaningText" : "Normal Activity",
+							"formValueMeaningIdVersion" : "2573349v1.0",
+							"formValueMeaningDesc" : "Normal Activity"
+						}, {
+							"vpIdseq" : "F169098A-E3DA-306E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E7C5-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "1",
+							"formValueMeaningText" : "Symptoms, but nearly fully ambulatory",
+							"formValueMeaningIdVersion" : "2573350v1.0",
+							"formValueMeaningDesc" : "Symptoms, but nearly fully ambulatory"
+						}, {
+							"vpIdseq" : "F169098A-E3DB-306E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E7C7-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "2",
+							"formValueMeaningText" : "Some bed time, but needs to be in bed <50% of normal daytime",
+							"formValueMeaningIdVersion" : "2573351v1.0",
+							"formValueMeaningDesc" : "Some bed time, but needs to be in bed <50% of normal daytime"
+						}, {
+							"vpIdseq" : "F169098A-E3DC-306E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E7C9-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "3",
+							"formValueMeaningText" : "Needs to be in bed > 50% of normal daytime",
+							"formValueMeaningIdVersion" : "2573352v1.0",
+							"formValueMeaningDesc" : "Needs to be in bed > 50% of normal daytime"
+						}, {
+							"vpIdseq" : "F169098A-E3DD-306E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E7CB-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "4",
+							"formValueMeaningText" : "Unable to get out of bed",
+							"formValueMeaningIdVersion" : "2573353v1.0",
+							"formValueMeaningDesc" : "Unable to get out of bed"
+						}
+					],
+					"displayOrder" : 5,
+					"deIdseq" : "F2C45BCA-7A30-7026-E034-0003BA3F9857",
+					"instructions" : null,
+					"defaultValue" : null,
+					"mandatory" : false,
+					"editable" : true,
+					"deDerived" : true,
+					"version" : null,
+					"preferredQuestionText" : "The functional level of the patient based on the Zubrod performance scale.",
+					"alternativeQuestionText" : null,
+					"longName" : "Zubrod Performance Status Score",
+					"dataType" : "CHARACTER",
+					"unitOfMeasure" : null,
+					"displayFormat" : null,
+					"concepts" : null
+				}, {
+					"quesIdseq" : "5DBB9423-E7CD-B62F-E040-BB89A6437F93",
+					"validValues" : [{
+							"vpIdseq" : "F169098A-E2C1-306E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E7D5-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "0",
+							"formValueMeaningText" : "Dead",
+							"formValueMeaningIdVersion" : "2570230v1.0",
+							"formValueMeaningDesc" : "Dead"
+						}, {
+							"vpIdseq" : "F169098A-E2C0-306E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E7D7-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "10",
+							"formValueMeaningText" : "Moribund, fatal processes progressing rapidly",
+							"formValueMeaningIdVersion" : "2572612v1.0",
+							"formValueMeaningDesc" : "Moribund, fatal processes progressing rapidly"
+						}, {
+							"vpIdseq" : "F169098A-E2B7-306E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E7D9-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "100",
+							"formValueMeaningText" : "Normal, no complaints, no evidence of disease",
+							"formValueMeaningIdVersion" : "2572603v1.0",
+							"formValueMeaningDesc" : "Normal, no complaints, no evidence of disease"
+						}, {
+							"vpIdseq" : "F169098A-E2BF-306E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E7DB-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "20",
+							"formValueMeaningText" : "Very sick, hospitalization indicated. Death not imminent",
+							"formValueMeaningIdVersion" : "2572611v1.0",
+							"formValueMeaningDesc" : "Very sick, hospitalization indicated. Death not imminent"
+						}, {
+							"vpIdseq" : "F169098A-E2BE-306E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E7DD-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "30",
+							"formValueMeaningText" : "Severely disabled, hospitalization indicated. Death not imminent",
+							"formValueMeaningIdVersion" : "2572610v1.0",
+							"formValueMeaningDesc" : "Severely disabled, hospitalization indicated. Death not imminent"
+						}, {
+							"vpIdseq" : "F169098A-E2BD-306E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E7DF-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "40",
+							"formValueMeaningText" : "Disabled, requires special care and assistance",
+							"formValueMeaningIdVersion" : "2572609v1.0",
+							"formValueMeaningDesc" : "Disabled, requires special care and assistance"
+						}, {
+							"vpIdseq" : "F169098A-E2BC-306E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E7E1-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "50",
+							"formValueMeaningText" : "Requires considerable assistance and frequent medical care",
+							"formValueMeaningIdVersion" : "2572608v1.0",
+							"formValueMeaningDesc" : "Requires considerable assistance and frequent medical care"
+						}, {
+							"vpIdseq" : "F169098A-E2BB-306E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E7E3-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "60",
+							"formValueMeaningText" : "Requires occasional assistance, but is able to care for most of his/her needs",
+							"formValueMeaningIdVersion" : "2572607v1.0",
+							"formValueMeaningDesc" : "Requires occasional assistance, but is able to care for most of his/her needs"
+						}, {
+							"vpIdseq" : "F169098A-E2BA-306E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E7CF-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "70",
+							"formValueMeaningText" : "Cares for self, unable to carry on normal activity or to do active work",
+							"formValueMeaningIdVersion" : "2572606v1.0",
+							"formValueMeaningDesc" : "Cares for self, unable to carry on normal activity or to do active work"
+						}, {
+							"vpIdseq" : "F169098A-E2B9-306E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E7D1-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "80",
+							"formValueMeaningText" : "Normal activity with effort; some signs or symptoms of disease",
+							"formValueMeaningIdVersion" : "2572605v1.0",
+							"formValueMeaningDesc" : "Normal activity with effort; some signs or symptoms of disease"
+						}, {
+							"vpIdseq" : "F169098A-E2B8-306E-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E7D3-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "90",
+							"formValueMeaningText" : "Able to carry on normal activity; minor signs or symptoms of disease",
+							"formValueMeaningIdVersion" : "2572604v1.0",
+							"formValueMeaningDesc" : "Able to carry on normal activity; minor signs or symptoms of disease"
+						}
+					],
+					"displayOrder" : 6,
+					"deIdseq" : "F2C45BCA-7920-7026-E034-0003BA3F9857",
+					"instructions" : null,
+					"defaultValue" : null,
+					"mandatory" : false,
+					"editable" : true,
+					"deDerived" : true,
+					"version" : null,
+					"preferredQuestionText" : "Score from the Karnofsky Performance status scale, representing the functional capabilities of a person.",
+					"alternativeQuestionText" : null,
+					"longName" : "Karnofsky Performance Status Score",
+					"dataType" : "CHARACTER",
+					"unitOfMeasure" : null,
+					"displayFormat" : null,
+					"concepts" : null
+				}, {
+					"quesIdseq" : "5DBB9423-E7A1-B62F-E040-BB89A6437F93",
+					"validValues" : [{
+							"vpIdseq" : "E98D9046-1DC4-0725-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E7A3-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "0",
+							"formValueMeaningText" : "Unresponsive",
+							"formValueMeaningIdVersion" : "2572264v1.0",
+							"formValueMeaningDesc" : "Unresponsive, according to the Lansky performance scale"
+						}, {
+							"vpIdseq" : "D10EDEE9-0978-457B-E034-0003BA12F5E7",
+							"valueIdseq" : "5DBB9423-E7A5-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "10",
+							"formValueMeaningText" : "No play; does not get out of bed.",
+							"formValueMeaningIdVersion" : "2568101v1.0",
+							"formValueMeaningDesc" : "No play; does not get out of bed. (Lansky Performance Status Scale)"
+						}, {
+							"vpIdseq" : "F2FA95A2-362D-426F-E034-0003BA3F9857",
+							"valueIdseq" : "5DBB9423-E7A7-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "100",
+							"formValueMeaningText" : "Fully active, normal",
+							"formValueMeaningIdVersion" : "2573722v1.0",
+							"formValueMeaningDesc" : "Full active, normal according to the Lansky scale"
+						}, {
+							"vpIdseq" : "D10EDEE9-0977-457B-E034-0003BA12F5E7",
+							"valueIdseq" : "5DBB9423-E7A9-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "20",
+							"formValueMeaningText" : "Often sleeping; play entirely limited to very passive activities. ",
+							"formValueMeaningIdVersion" : "2568100v1.0",
+							"formValueMeaningDesc" : "Often sleeping; play entirely limited to very passive activities.  (Lansky Performance Status Scale)"
+						}, {
+							"vpIdseq" : "D10EDEE9-0976-457B-E034-0003BA12F5E7",
+							"valueIdseq" : "5DBB9423-E7AB-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "30",
+							"formValueMeaningText" : "In bed; needs assistance even for quiet play.",
+							"formValueMeaningIdVersion" : "2568099v1.0",
+							"formValueMeaningDesc" : "In bed; needs assistance even for quiet play. (Lansky Performance Status Scale)"
+						}, {
+							"vpIdseq" : "D10EDEE9-0975-457B-E034-0003BA12F5E7",
+							"valueIdseq" : "5DBB9423-E7AD-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "40",
+							"formValueMeaningText" : "Mostly in bed; participates in quiet activities.  ",
+							"formValueMeaningIdVersion" : "2568098v1.0",
+							"formValueMeaningDesc" : "Mostly in bed; participates in quiet activities.  (Lansky Performance Status Scale)"
+						}, {
+							"vpIdseq" : "D10EDEE9-0974-457B-E034-0003BA12F5E7",
+							"valueIdseq" : "5DBB9423-E7AF-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "50",
+							"formValueMeaningText" : "Gets dressed, but lies around much of the day; no active play, able to participate in all quiet play and activities.",
+							"formValueMeaningIdVersion" : "2568097v1.0",
+							"formValueMeaningDesc" : "Gets dressed, but lies around much of the day; no active play, able to participate in all quiet play and activities. (Lansky Performance Status Scale)"
+						}, {
+							"vpIdseq" : "D10EDEE9-0973-457B-E034-0003BA12F5E7",
+							"valueIdseq" : "5DBB9423-E7B1-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "60",
+							"formValueMeaningText" : "Up and around, but minimal active play; keeps busy with quieter activities.",
+							"formValueMeaningIdVersion" : "2568096v1.0",
+							"formValueMeaningDesc" : "Up and around, but minimal active play; keeps busy with quieter activities. (Lansky performance status scale)"
+						}, {
+							"vpIdseq" : "CFC6E87F-39E2-6F4D-E034-0003BA12F5E7",
+							"valueIdseq" : "5DBB9423-E7B3-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "70",
+							"formValueMeaningText" : "Both greater restriction of and less time spent in play activity",
+							"formValueMeaningIdVersion" : "2568083v1.0",
+							"formValueMeaningDesc" : "Both greater restriction of and less time spent in play activity according to the Lansky scale."
+						}, {
+							"vpIdseq" : "CFC6E87F-39E1-6F4D-E034-0003BA12F5E7",
+							"valueIdseq" : "5DBB9423-E7B5-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "80",
+							"formValueMeaningText" : "Active, but tires more quickly",
+							"formValueMeaningIdVersion" : "2568082v1.0",
+							"formValueMeaningDesc" : "Active, but tires more quickly according to the Lansky scale."
+						}, {
+							"vpIdseq" : "CFC6E87F-39E0-6F4D-E034-0003BA12F5E7",
+							"valueIdseq" : "5DBB9423-E7B7-B62F-E040-BB89A6437F93",
+							"vmVersion" : null,
+							"longName" : "90",
+							"formValueMeaningText" : "Minor restrictions in physically strenuous activity",
+							"formValueMeaningIdVersion" : "2568081v1.0",
+							"formValueMeaningDesc" : "Minor restrictions in physically strenuous activity according to the Lansky scale."
+						}
+					],
+					"displayOrder" : 7,
+					"deIdseq" : "F2C45BCA-79A4-7026-E034-0003BA3F9857",
+					"instructions" : null,
+					"defaultValue" : null,
+					"mandatory" : false,
+					"editable" : true,
+					"deDerived" : true,
+					"version" : null,
+					"preferredQuestionText" : "Numeric score representing performance status of a subject under 12 years of age according to the Lansky scale.",
+					"alternativeQuestionText" : null,
+					"longName" : "Lansky Performance Status Score",
+					"dataType" : "CHARACTER",
+					"unitOfMeasure" : null,
+					"displayFormat" : null,
+					"concepts" : null
+				}
+			],
+			"isEdited" : false
+		}, {
+			"moduleIdseq" : "5DBB9423-E65F-B62F-E040-BB89A6437F93",
+			"longName" : "COMMENTS",
+			"instructions" : "",
+			"repetitions" : 0,
+			"dispOrder" : 0,
+			"questions" : [{
+					"quesIdseq" : "5DBB9423-E661-B62F-E040-BB89A6437F93",
+					"validValues" : [],
+					"displayOrder" : 0,
+					"deIdseq" : "A7350F3A-74F8-3DAC-E034-0003BA0B1A09",
+					"instructions" : null,
+					"defaultValue" : null,
+					"mandatory" : false,
+					"editable" : true,
+					"deDerived" : true,
+					"version" : null,
+					"preferredQuestionText" : "The date of a note captured as/on a source document.",
+					"alternativeQuestionText" : null,
+					"longName" : "Note Date",
+					"dataType" : "DATE",
+					"unitOfMeasure" : null,
+					"displayFormat" : "DD/MON/YYYY",
+					"concepts" : null
+				}, {
+					"quesIdseq" : "5DBB9423-E663-B62F-E040-BB89A6437F93",
+					"validValues" : [],
+					"displayOrder" : 1,
+					"deIdseq" : "B4C0EC25-415F-730B-E034-0003BA12F5E7",
+					"instructions" : null,
+					"defaultValue" : null,
+					"mandatory" : false,
+					"editable" : true,
+					"deDerived" : true,
+					"version" : null,
+					"preferredQuestionText" : "the free text field for general notes.",
+					"alternativeQuestionText" : null,
+					"longName" : "Research Comments Text",
+					"dataType" : "CHARACTER",
+					"unitOfMeasure" : null,
+					"displayFormat" : null,
+					"concepts" : null
+				}
+			],
+			"isEdited" : false
+		}
+	]
+}
