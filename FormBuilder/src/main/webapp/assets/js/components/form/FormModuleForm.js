@@ -49,6 +49,7 @@ export default class FormModuleForm extends Component {
 						<div>
 							{this.getQuestions(this.props.questions)}
 						</div>
+						{this.props.children}
 					</Form>
 				</Col>
 			</Row>

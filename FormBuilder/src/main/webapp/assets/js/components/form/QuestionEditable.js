@@ -16,7 +16,7 @@ const QuestionEditable = (props) => {
 		}
 		else {
 			return (
-				<Input name="defaultValue" id="defaultValue" value={value} label="Default value" type="text"  required/>
+				<Input name="defaultValue" id="defaultValue" value={value} label="Default value" type="text"  />
 			);
 		}
 	};
