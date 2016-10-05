@@ -3,14 +3,13 @@ import {Col, Row} from 'react-bootstrap';
 import {Input, Textarea, RadioGroup, Checkbox, Select} from 'formsy-react-components';
 import {getOptions} from '../../helpers/uiInputHelpers';
 
-const QuestionEditable = (props) => {
+const ValidValueEditable = (props) => {
 	const getDefaultValueField = (value, validValues) =>{
 		if(validValues.length){
 			return (
 				<Select name="defaultValue" label="Default value" options={getOptions({
 					options: validValues,
-					optionKey: "longName",
-					labelKey: "longName"
+					labelKey: "shortMeaning"
 				})} value={value}/>
 			);
 		}
@@ -26,6 +25,7 @@ const QuestionEditable = (props) => {
 					<fieldset name={props.question.longName}>
 						<legend className="h5">{props.question.longName}</legend>
 						<Textarea rows={3} cols={40} name="instructions" label="Instructions" value={props.question.instructions}/>
+							<Input name="longName" id="longName" value={props.question.mandatory} label="Answer is Mandatory" type="text" help="This is a required text input." required/>
 						<RadioGroup
 							name="checkbox1"
 							value={props.question.mandatory}
@@ -38,25 +38,11 @@ const QuestionEditable = (props) => {
 						<Checkbox
 							name="checkbox1"
 							value={props.question.editable}
-							label="Answer is Editable"/>
+							label="Answer is Editable"
+							rowLabel="Checkbox (single)"
+						/>
 						{getDefaultValueField(props.question.defaultValue, props.question.validValues)}
-						<ul className="list-unstyled">
-							<li>
-								Long Name: {props.question.longName}
-							</li>
-							<li>
-								Data Type: {props.question.dataType}
-							</li>
-							<li>
-								Unit of Measure: {props.question.unitOfMeasure}
-							</li>
-							<li>
-								Display Format: {props.question.displayFormat}
-							</li>
-							<li>
-								Concepts: {props.question.concepts}
-							</li>
-						</ul>
+
 					</fieldset>
 
 			</Col>
@@ -64,7 +50,7 @@ const QuestionEditable = (props) => {
 	);
 };
 
-QuestionEditable.propTypes = {
+ValidValueEditable.propTypes = {
 };
 
-export default QuestionEditable;
+export default ValidValueEditable;
