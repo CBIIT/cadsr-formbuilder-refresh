@@ -5,6 +5,8 @@ import backboneReact from 'backbone-react-component';
 import TreeView from './TreeView';
 import SidePanel from './SidePanel';
 import formActions from '../../constants/formActions';
+import FormTable from '../formTable/formTable';
+
 import backboneModelHelpers from "../../helpers/backboneModelHelpers";
 
 export default class FormLayout extends Component {
@@ -104,14 +106,17 @@ export default class FormLayout extends Component {
 
 	render(){
 		return (
-			<Row className="eq-height-wrapper"> <Col lg={3} className="eq-height-item">
+			<div>
+				<Row className="eq-height-wrapper"> <Col lg={3} className="eq-height-item">
 				{this.showTreeNav()}
-			</Col> <Col lg={6} className="eq-height-item panel-lg">
-				<FormLayoutMain uiDropDownOptionsModel={this.props.uiDropDownOptionsModel} shouldShowFormEditControls={this.shouldShowFormEditControls()} actionMode={this.getActionMode()} formMetadata={this.getFormMetaData()} editItems={this.getEditItems()} formModules={this.getFormModules()}/>
-			</Col> <Col lg={3} className="eq-height-item">
-				{this.showCartsPanel()}
+				</Col> <Col lg={6} className="eq-height-item panel-lg">
+					<FormLayoutMain uiDropDownOptionsModel={this.props.uiDropDownOptionsModel} shouldShowFormEditControls={this.shouldShowFormEditControls()} actionMode={this.getActionMode()} formMetadata={this.getFormMetaData()} editItems={this.getEditItems()} formModules={this.getFormModules()}/>
+				</Col> <Col lg={3} className="eq-height-item">
+					{this.showCartsPanel()}
 
-			</Col> </Row>
+				</Col> </Row>
+				<FormTable pagination={true} perPage={2}></FormTable>
+			</div>
 		);
 	}
 }

@@ -49,6 +49,10 @@ FormBuilder/src/main/resources/formbuilder-qa.properties -text
 FormBuilder/src/main/resources/spring-security.xml -text
 FormBuilder/src/main/webapp/.eslintrc -text
 FormBuilder/src/main/webapp/WEB-INF/web.xml -text
+FormBuilder/src/main/webapp/assets/fonts/icomoon.eot -text
+FormBuilder/src/main/webapp/assets/fonts/icomoon.svg -text
+FormBuilder/src/main/webapp/assets/fonts/icomoon.ttf -text
+FormBuilder/src/main/webapp/assets/fonts/icomoon.woff -text
 FormBuilder/src/main/webapp/assets/images/nci-logo-full.svg -text
 FormBuilder/src/main/webapp/assets/js/App.js -text
 FormBuilder/src/main/webapp/assets/js/channels/radioChannels.js -text
@@ -69,6 +73,7 @@ FormBuilder/src/main/webapp/assets/js/components/form/QuestionStatic.js -text
 FormBuilder/src/main/webapp/assets/js/components/form/SidePanel.js -text
 FormBuilder/src/main/webapp/assets/js/components/form/TreeView.js -text
 FormBuilder/src/main/webapp/assets/js/components/form/ValidValueStatic.js -text
+FormBuilder/src/main/webapp/assets/js/components/formTable/formTable.js -text
 FormBuilder/src/main/webapp/assets/js/components/modals/ExitFormModal.js -text
 FormBuilder/src/main/webapp/assets/js/constants/ENDPOINT_URLS.js -text
 FormBuilder/src/main/webapp/assets/js/constants/EVENTS.js -text
@@ -118,6 +123,7 @@ FormBuilder/src/main/webapp/assets/styles/partials/_alerts.scss -text
 FormBuilder/src/main/webapp/assets/styles/partials/_buttons.scss -text
 FormBuilder/src/main/webapp/assets/styles/partials/_footer.scss -text
 FormBuilder/src/main/webapp/assets/styles/partials/_forms.scss -text
+FormBuilder/src/main/webapp/assets/styles/partials/_formtable.scss -text
 FormBuilder/src/main/webapp/assets/styles/partials/_global-colors-mixins.scss -text
 FormBuilder/src/main/webapp/assets/styles/partials/_header.scss -text
 FormBuilder/src/main/webapp/assets/styles/partials/_helper_classes.scss -text

@@ -6,6 +6,7 @@ $icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
 @import "~bootstrap-sass/assets/stylesheets/_bootstrap.scss";
 
 @import "partials/global-colors-mixins";
+@import "partials/typography";
 @import "partials/forms";
 @import "partials/alerts";
 @import "partials/header";
@@ -15,6 +16,7 @@ $icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
 @import "partials/footer";
 @import "partials/panels";
 @import "partials/_module.scss";
+@import "partials/formtable.scss";
 
 @import "partials/sideBar";
 

@@ -1,0 +1,79 @@
+.reactTable{
+  .icon{
+    color: $color-highlight;
+    float: right;
+    position: relative;
+    left: -15px;
+    top: 3px;
+  }
+  .reactable-column-header{
+    background-color: $color-accent-dark;
+    color: $color-highlight;
+    text-transform: uppercase;
+    th{
+      padding: 14px 10px;
+      border-bottom-color: $color-accent-dark;
+    }
+    th:last-of-type{
+      border-right: 2px solid $color-accent-dark;
+    }
+  }
+  .reactable-data{
+    td{
+      padding: 20px 10px;
+      border-top-color: $color-contrast;
+      border-left: 1px solid $color-contrast;
+      border-right: 1px solid $color-contrast;
+    }
+    tr:nth-child(odd){
+      background-color: $color-highlight;
+    }
+    tr:nth-child(even){
+      background-color: $color-faint;
+    }
+    tr:last-of-type{
+      td{
+        border-bottom: 1px solid $color-contrast;
+      }
+    }
+    tr:first-of-type{
+      td{
+        border-top: 1px solid $color-contrast;
+      }
+    }
+  }
+}
+.reactTable-pagination{
+  list-style: none;
+  float: right;
+}
+.reactTable-pagination-control{
+  color: $color-accent-dark;
+  cursor: pointer;
+  &:active{
+    color: $color-dark;
+  }
+  &:hover{
+    color: darken($color-accent-dark, 10%);
+  }
+  &.disabled{
+    color: $color-contrast;
+    cursor: not-allowed;
+  }
+}
+.reactTable-pagination-item{
+  display: inline-block;
+  margin: 0px 10px;
+  button{
+    background: transparent;
+    border: transparent;
+    color: $color-accent;
+    padding: 3px 0px 3px 3px;
+    &:not(:first-of-type){
+      margin-left: 4px;
+    }
+    &.active{
+      color: $color-dark;
+    }
+  }
+}
