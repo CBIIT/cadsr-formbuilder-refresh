@@ -5,11 +5,13 @@ import EVENTS from '../../constants/EVENTS';
 import formActions from '../../constants/formActions';
 import {formChannel} from '../../channels/radioChannels';
 import Form from '../common/Form';
+import QuestionEditable from './QuestionEditable';
 
 export default class FormModuleForm extends Component {
 	constructor(props){
 		super(props);
 		this.dispatchData = this.dispatchData.bind(this);
+		this.getQuestions = this.getQuestions.bind(this);
 		this.state = {
 			validatePristine: false
 		};
@@ -25,7 +27,15 @@ export default class FormModuleForm extends Component {
 			formChannel.request(EVENTS.FORM.SET_NEW_MODULE, data);
 		}
 	}
-
+	getQuestions (items) {
+		if(items && items.length){
+			return (
+				<ul className={"list-unstyled"}>{items.map( (item, index) => (
+					<QuestionEditable key={index} question={item}/>
+				))}</ul>
+			);
+		}
+	}
 	render(){
 		return (
 			<Row>
@@ -36,14 +46,9 @@ export default class FormModuleForm extends Component {
 							<Input name="longName" id="longName" value={this.props.longName} label="Module Name" type="text" help="This is a required text input." required/>
 							<Textarea rows={3} cols={40} name="instructions" label="Instructions" value={this.props.instructions}/>
 						</fieldset>
-						<div><p>Questions</p>
-							<div>
-								<pre style={{height: "100px", whiteSpace: "normal"}}>
-									{JSON.stringify(this.props.questions)}
-								</pre>
-							</div>
+						<div>
+							{this.getQuestions(this.props.questions)}
 						</div>
-						{this.props.children}
 					</Form>
 				</Col>
 			</Row>
