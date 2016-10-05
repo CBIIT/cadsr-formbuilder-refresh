@@ -7,7 +7,7 @@ const backboneModelHelpers = {
 		let json = _.clone(model.attributes);
 		function checkKeys(json) {
 			for(let attr in json) {
-				if((json[attr].attributes) || (json[attr].models)) {
+				if(json[attr] && (json[attr].attributes) || (json[attr].models)) {
 					json[attr] = json[attr].toJSON();
 					checkKeys(json[attr]);
 				}
