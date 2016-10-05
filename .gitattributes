@@ -64,6 +64,7 @@ FormBuilder/src/main/webapp/assets/js/components/form/FormMetadataForm.js -text
 FormBuilder/src/main/webapp/assets/js/components/form/FormMetadataStatic.js -text
 FormBuilder/src/main/webapp/assets/js/components/form/FormModuleForm.js -text
 FormBuilder/src/main/webapp/assets/js/components/form/FormModuleStatic.js -text
+FormBuilder/src/main/webapp/assets/js/components/form/QuestionEditable.js -text
 FormBuilder/src/main/webapp/assets/js/components/form/QuestionStatic.js -text
 FormBuilder/src/main/webapp/assets/js/components/form/SidePanel.js -text
 FormBuilder/src/main/webapp/assets/js/components/form/TreeView.js -text
@@ -73,6 +74,7 @@ FormBuilder/src/main/webapp/assets/js/constants/ENDPOINT_URLS.js -text
 FormBuilder/src/main/webapp/assets/js/constants/EVENTS.js -text
 FormBuilder/src/main/webapp/assets/js/constants/ROUTES.js -text
 FormBuilder/src/main/webapp/assets/js/constants/formActions.js -text
+FormBuilder/src/main/webapp/assets/js/helpers/backboneModelHelpers.js -text
 FormBuilder/src/main/webapp/assets/js/helpers/urlHelpers.js -text
 FormBuilder/src/main/webapp/assets/js/main.js -text
 FormBuilder/src/main/webapp/assets/js/models/AppModel.js -text

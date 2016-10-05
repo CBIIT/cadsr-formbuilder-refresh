@@ -3,21 +3,15 @@ import {Row, Col} from 'react-bootstrap';
 import QuestionStatic from './QuestionStatic';
 
 const formModuleStatic = (props) =>{
-	const getQuestions = (questionsCollection) =>{
-		const mapQuestions = (questionModel, index) =>{
-			const question = Object.assign({}, questionModel);
+	const getItems = (items) =>{
+		if(items && items.length){
 			return (
-				<QuestionStatic key={index} question={question}/>
-			);
-
-		};
-		if(questionsCollection && questionsCollection.length){
-			return (
-				<ul className={"list-unstyled"}>{questionsCollection.map(mapQuestions)}</ul>
+				<ul className={"list-unstyled"}>{items.map( (item, index) => (
+						<QuestionStatic key={index} question={item}/>
+					))}</ul>
 			);
 		}
 	};
-
 	return (
 		<Row className="top-margin bottom-margin module">
 			{/*<Col md={1}>
@@ -29,7 +23,7 @@ const formModuleStatic = (props) =>{
 				<p className="h5">Instructions:</p>
 				{props.instructions}
 				<div>
-					{getQuestions(props.questions)}
+					{getItems(props.questions)}
 				</div>
 			</Col>
 		</Row>

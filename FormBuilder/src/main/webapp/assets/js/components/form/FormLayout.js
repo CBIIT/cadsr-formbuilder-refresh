@@ -5,7 +5,7 @@ import backboneReact from 'backbone-react-component';
 import TreeView from './TreeView';
 import SidePanel from './SidePanel';
 import formActions from '../../constants/formActions';
-
+import backboneModelHelpers from "../../helpers/backboneModelHelpers";
 
 export default class FormLayout extends Component {
 	constructor(props){
@@ -63,7 +63,7 @@ export default class FormLayout extends Component {
 
 	/* TODO maybe get rid of "edit items" because whatever item you're viewing inside FormLayoutMain is editable, if "edit mode" is turned on */
 	getEditItems(){
-		return this.state.formUIState.editItem;
+		return _.findWhere( this.getFormModules(),{cid: this.state.formUIState.moduleViewingId});
 	}
 
 	getCartList({name}){
@@ -78,7 +78,7 @@ export default class FormLayout extends Component {
 		/* Return list of modules with its backbone model's cid included */
 		return this.getFormModel().formModules.models.map(model =>{
 			/* Getting cid vs moduleIdseq because new modules don't have a moduleIdseq */
-			return Object.assign({}, model.attributes, {cid: model.cid});
+			return Object.assign({}, backboneModelHelpers.getDeepModelPojo(model), {cid: model.cid});
 		});
 	}
 
@@ -94,7 +94,7 @@ export default class FormLayout extends Component {
 	showTreeNav(){
 		const actionMode = this.getActionMode();
 		if(actionMode !== formActions.CREATE_FORM){
-			const activeModuleId = actionMode == formActions.VIEW_MODULE && this.getEditItems() ? this.getEditItems().id : null;
+			const activeModuleId = actionMode == formActions.VIEW_MODULE && this.getEditItems() ? this.getEditItems().cid : null;
 			const formMetadataLinkIsActive = actionMode === formActions.VIEW_FORM_METADATA;
 			return (
 				<TreeView formMetadataLinkIsActive={formMetadataLinkIsActive} activeModuleId={activeModuleId} list={this.getFormModules()} formIdSeq={this.getFormModel().formIdseq} formName={this.getFormMetaData().longName} canCreateModule={this.canCreateModule()}/>

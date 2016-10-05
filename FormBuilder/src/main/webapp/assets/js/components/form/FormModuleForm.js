@@ -28,23 +28,25 @@ export default class FormModuleForm extends Component {
 
 	render(){
 		return (
-			<Row> <Col sm={12}>
-				<Form onSubmit={this.dispatchData} validatePristine={this.state.validatePristine} disabled={this.props.disabled} ref="formModuleForm">
-					<fieldset name="Module Metadata">
-						<legend>{this.props.mainHeadingTitle}</legend>
-						<Input name="longName" id="longName" value={this.props.longName} label="Module Name" type="text" help="This is a required text input." required/>
-						<Textarea rows={3} cols={40} name="instructions" label="Instructions" value={this.props.instructions}/>
-					</fieldset>
-					<div><p>Questions</p>
-						<div>
-							<pre style={{height: "100px", whiteSpace: "normal"}}>
-								{JSON.stringify(this.props.questions)}
-							</pre>
+			<Row>
+				<Col sm={12}>
+					<Form onSubmit={this.dispatchData} validatePristine={this.state.validatePristine} disabled={this.props.disabled} ref="formModuleForm">
+						<fieldset name="Module Metadata">
+							<legend className="sr-only">{this.props.mainHeadingTitle}</legend>
+							<Input name="longName" id="longName" value={this.props.longName} label="Module Name" type="text" help="This is a required text input." required/>
+							<Textarea rows={3} cols={40} name="instructions" label="Instructions" value={this.props.instructions}/>
+						</fieldset>
+						<div><p>Questions</p>
+							<div>
+								<pre style={{height: "100px", whiteSpace: "normal"}}>
+									{JSON.stringify(this.props.questions)}
+								</pre>
+							</div>
 						</div>
-					</div>
-					{this.props.children}
-
-				</Form> </Col> </Row>
+						{this.props.children}
+					</Form>
+				</Col>
+			</Row>
 		);
 	}
 }

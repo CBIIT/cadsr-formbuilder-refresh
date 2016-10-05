@@ -181,14 +181,8 @@ const FormService = Marionette.Object.extend({
 		});
 	},
 	setModuleView(id) {
-		const moduleModel = this.formModel.get('formModules').get(id);
-		/* just pass in a POJO including the model's cid into the view */
-		const moduleToEdit = Object.assign({}, moduleModel.attributes, {
-			isEdited: true,
-			id:       id
-		});
 		/*TODO: Prepare for when editing a module with repetitions, this will be an array containing the module and its associated repetitioned modules */
-		this.formUIStateModel.set({editItem: moduleToEdit});
+		this.formUIStateModel.set({moduleViewingId: id});
 		this.dispatchLayout({action: formActions.VIEW_MODULE});
 	},
 	handleFormMetadataSubmitData(data) {

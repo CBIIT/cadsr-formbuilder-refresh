@@ -3,17 +3,12 @@ import {Row, Col} from 'react-bootstrap';
 import ValidValueStatic from './ValidValueStatic';
 
 const QuestionStatic = (props) =>{
-	const getItems = (collection) =>{
-		const mapItems = (collection, index) =>{
-			const validValue = Object.assign({}, collection);
+	const getItems = (items) =>{
+		if(items && items.length){
 			return (
-				<ValidValueStatic key={index} validValue={validValue}/>
-			);
-
-		};
-		if(collection && collection.length){
-			return (
-				<ul className={"list-unstyled"}>{collection.map(mapItems)}</ul>
+				<ul className={"list-unstyled"}>{items.map( (item, index) => (
+					<ValidValueStatic key={index} validValue={item}/>
+				))}</ul>
 			);
 		}
 	};

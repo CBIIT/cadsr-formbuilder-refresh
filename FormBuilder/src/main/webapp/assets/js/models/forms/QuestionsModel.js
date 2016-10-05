@@ -19,6 +19,13 @@ const QuestionsModel = Model.extend({
 		cdeWorkflow: "",
 		alternateQuestionText: "",
 		validValues: new ValidValuesCollection()
+	},
+	constructor(attributes, options) {
+		/* Pass any validValues into new ValidValuesCollection so each nested object becomes a ValidValueModel */
+		if(attributes.validValues) {
+			attributes.validValues = new ValidValuesCollection(attributes.validValues);
+		}
+		Model.apply(this, arguments);
 	}
 });
 
