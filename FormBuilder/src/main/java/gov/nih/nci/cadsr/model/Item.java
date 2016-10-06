@@ -13,6 +13,7 @@ public class Item {
 	String longcdename;
 	String preferreddefinition;
 	String contextname;
+	String conteIdseq;
 	String registrationstatus;
 	String preferredname;
 	String workflow;
@@ -23,6 +24,7 @@ public class Item {
 	String usingContexts;
 	String deIdseq;
 	String dateadded;
+	JaxbValueDomain valueDomain;
 
 	public String getIdSeq() {
 		return idSeq;
@@ -58,6 +60,19 @@ public class Item {
 	@XmlElement(name = "context-name")
 	public void setContextname(String contextName) {
 		this.contextname = contextName;
+	}
+
+	public String getConteIdseq() {
+		return conteIdseq;
+	}
+
+	@XmlElement(name = "conte-idseq")
+	public void setConteIdseq(String conteIdseq) {
+		this.conteIdseq = conteIdseq;
+	}
+
+	public void setPublished(boolean isPublished) {
+		this.isPublished = isPublished;
 	}
 
 	public String getRegistrationstatus() {
@@ -142,6 +157,15 @@ public class Item {
 	@XmlTransient
 	public void setDateadded(String dateAdded) {
 		this.dateadded = dateAdded;
+	}
+
+	public JaxbValueDomain getValueDomain() {
+		return valueDomain;
+	}
+
+	@XmlElement(name="value-domain")
+	public void setValueDomain(JaxbValueDomain valueDomain) {
+		this.valueDomain = valueDomain;
 	}
 	
 

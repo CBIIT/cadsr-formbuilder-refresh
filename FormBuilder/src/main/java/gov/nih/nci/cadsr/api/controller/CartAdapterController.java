@@ -40,11 +40,14 @@ import gov.nih.nci.cadsr.model.Field;
 import gov.nih.nci.cadsr.model.FormV2NewWrapper;
 import gov.nih.nci.cadsr.model.HttpQuery;
 import gov.nih.nci.cadsr.model.Item;
+import gov.nih.nci.cadsr.model.JaxbValidValue;
 import gov.nih.nci.cadsr.model.BBContext;
 import gov.nih.nci.cadsr.model.BBDataElement;
 import gov.nih.nci.cadsr.model.BBFormMetaData;
 import gov.nih.nci.cadsr.model.BBModule;
 import gov.nih.nci.cadsr.model.BBProtocol;
+import gov.nih.nci.cadsr.model.BBQuestion;
+import gov.nih.nci.cadsr.model.BBValidValue;
 import gov.nih.nci.cadsr.model.session.SessionCarts;
 
 //import gov.nih.nci.cadsr.model.XMLConverter;
@@ -112,7 +115,7 @@ public class CartAdapterController {
 			return getDummyCdeCart("guest");
 		}
 
-		String ocURL = "http://objcart2-dev.nci.nih.gov/objcart103";
+		String ocURL = "http://objcart.nci.nih.gov/objcart10";
 
 		String xmlURL = "GetXML";
 
@@ -164,18 +167,44 @@ public class CartAdapterController {
 
 		}
 
-		List<BBDataElement> dataElements = new ArrayList<BBDataElement>();
+		List<BBQuestion> questions = new ArrayList<BBQuestion>();
 		for (Item item : items) {
+			BBQuestion question = new BBQuestion();
 			BBDataElement element = new BBDataElement();
 			BeanUtils.copyProperties(item, element);
 
-			element.setConteIdseq(item.getContext().get(0).getConteIdseq());
-
-			dataElements.add(element);
+			question.setDeIdseq(item.getIdSeq());
+			question.setVersion(Float.valueOf(item.getVersion()));
+			question.setPreferredQuestionText(item.getPreferredname());
+			question.setMandatory(false);
+			question.setEditable(true);
+			question.setDeDerived(true);
+			question.setLongName(item.getLongcdename());
+			question.setDataType(item.getValueDomain().getDataType());
+			question.setUnitOfMeasure(item.getValueDomain().getUnitOfMeasure());
+			question.setDisplayFormat(item.getValueDomain().getDisplayFormat());
+			question.setDataElement(element);
+			
+			if(item.getValueDomain() != null){
+				for(JaxbValidValue jaxbvv : item.getValueDomain().getValidValues()){
+					BBValidValue bbval = new BBValidValue();
+					BeanUtils.copyProperties(jaxbvv, bbval);
+					
+					bbval.setFormValueMeaningText(jaxbvv.getShortMeaning());
+					bbval.setFormValueMeaningIdVersion(jaxbvv.getShortMeaningValue());
+					bbval.setFormValueMeaningDesc(jaxbvv.getDescription());
+					bbval.setVmVersion(Float.valueOf(jaxbvv.getVmVersion()));
+					bbval.setVpIdseq(jaxbvv.getVpIdseq());
+	//				bbval.setValueIdseq(jaxbvv.get);
+					
+					question.getValidValues().add(bbval);
+				}
+			}
+			
+			questions.add(question);
 		}
 
-		// return new ResponseEntity<List<Item>>(items, HttpStatus.OK);
-		return new ResponseEntity(dataElements, HttpStatus.OK);
+		return new ResponseEntity(questions, HttpStatus.OK);
 
 	}
 

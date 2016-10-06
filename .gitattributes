@@ -30,6 +30,9 @@ FormBuilder/src/main/java/gov/nih/nci/cadsr/model/Field.java -text
 FormBuilder/src/main/java/gov/nih/nci/cadsr/model/FormV2NewWrapper.java -text
 FormBuilder/src/main/java/gov/nih/nci/cadsr/model/HttpQuery.java -text
 FormBuilder/src/main/java/gov/nih/nci/cadsr/model/Item.java -text
+FormBuilder/src/main/java/gov/nih/nci/cadsr/model/JaxbConcept.java -text
+FormBuilder/src/main/java/gov/nih/nci/cadsr/model/JaxbValidValue.java -text
+FormBuilder/src/main/java/gov/nih/nci/cadsr/model/JaxbValueDomain.java -text
 FormBuilder/src/main/java/gov/nih/nci/cadsr/model/ProtocolNew.java -text
 FormBuilder/src/main/java/gov/nih/nci/cadsr/model/QueryResponse.java -text
 FormBuilder/src/main/java/gov/nih/nci/cadsr/model/XMLConverter.java -text
