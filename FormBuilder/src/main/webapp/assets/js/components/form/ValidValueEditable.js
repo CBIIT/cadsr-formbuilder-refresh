@@ -13,7 +13,8 @@ const ValidValueEditable = (props) => {
 							Form Value Meaning Text: {props.validValue.formValueMeaningText}
 						</li>
 						<li>
-							<Input name="formValueMeaningIdVersion" label="Form Value Meaning Public ID Version" value={props.validValue.formValueMeaningIdVersion}/>							</li>
+							Form Value Meaning Public ID Version: {props.validValue.formValueMeaningIdVersion}
+						</li>
 						<li>
 							Form Value Meaning Desc: {props.validValue.formValueMeaningDesc}
 						</li>
