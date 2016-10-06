@@ -27,7 +27,7 @@ export default class CartLayout extends Component {
 	render(){
 		return (
 			<div>
-				<FormTable />
+				<FormTable pagination={true} perPage={2}></FormTable>
 			</div>
 		);
 	}

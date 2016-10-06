@@ -5,8 +5,6 @@ import backboneReact from 'backbone-react-component';
 import TreeView from './TreeView';
 import SidePanel from './SidePanel';
 import formActions from '../../constants/formActions';
-import FormTable from '../formTable/formTable';
-
 import backboneModelHelpers from "../../helpers/backboneModelHelpers";
 
 export default class FormLayout extends Component {
@@ -115,7 +113,6 @@ export default class FormLayout extends Component {
 					{this.showCartsPanel()}
 
 				</Col> </Row>
-				<FormTable pagination={true} perPage={2}></FormTable>
 			</div>
 		);
 	}
