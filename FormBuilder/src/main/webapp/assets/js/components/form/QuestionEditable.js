@@ -15,7 +15,7 @@ const getItems = (items) =>{
 };
 
 const QuestionEditable = (props) => {
-	const getDefaultValueField = (value, validValues) =>{
+	const getDefaultValueField = (value = "", validValues) =>{
 		if(validValues.length){
 			return (
 				<Select name="defaultValue" label="Default value" options={getOptions({
@@ -37,7 +37,7 @@ const QuestionEditable = (props) => {
 			<Col sm={12}>
 					<fieldset name={props.question.longName}>
 						<legend className="h5">{props.question.longName}</legend>
-						<Textarea rows={3} cols={40} name="instructions" label="Instructions" value={props.question.instructions}/>
+						<Textarea rows={3} cols={40} name="instructions" label="Instructions" value={props.question.instructions !== null ? props.question.instructions : ""}/>
 						<RadioGroup
 							name="checkbox1"
 							value={props.question.mandatory}

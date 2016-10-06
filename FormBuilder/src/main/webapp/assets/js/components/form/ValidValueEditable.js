@@ -19,7 +19,7 @@ const ValidValueEditable = (props) => {
 							Form Value Meaning Desc: {props.validValue.formValueMeaningDesc}
 						</li>
 						<li>
-							<Textarea rows={1} name="instruction" label="Instructions" value={props.validValue.instructions}/>
+							<Textarea rows={1} name="instruction" label="Instructions" value={(props.validValue.instructions !== null ? props.validValue.instructions : "")}/>
 						</li>
 					</ul>
 				</fieldset>
