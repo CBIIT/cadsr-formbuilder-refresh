@@ -1,7 +1,18 @@
 import React, {Component, PropTypes} from 'react';
 import {Col, Row} from 'react-bootstrap';
 import {Input, Textarea, RadioGroup, Checkbox, Select} from 'formsy-react-components';
+import ValidValueEditable from './ValidValueEditable';
 import {getOptions} from '../../helpers/uiInputHelpers';
+
+const getItems = (items) =>{
+	if(items && items.length){
+		return (
+			<ul className={"list-unstyled"}>{items.map( (item, index) => (
+				<ValidValueEditable key={index} validValue={item}/>
+			))}</ul>
+		);
+	}
+};
 
 const QuestionEditable = (props) => {
 	const getDefaultValueField = (value, validValues) =>{
@@ -10,7 +21,8 @@ const QuestionEditable = (props) => {
 				<Select name="defaultValue" label="Default value" options={getOptions({
 					options: validValues,
 					optionKey: "longName",
-					labelKey: "longName"
+					labelKey: "longName",
+					addDefaultSelect: true
 				})} value={value}/>
 			);
 		}
@@ -57,6 +69,9 @@ const QuestionEditable = (props) => {
 								Concepts: {props.question.concepts}
 							</li>
 						</ul>
+						<div>
+							{getItems(props.question.validValues)}
+						</div>
 					</fieldset>
 
 			</Col>

@@ -35,6 +35,12 @@ export default class FormLayout extends Component {
 	componentWillUnmount(){
 		backboneReact.off(this);
 	}
+	componentWillUpdate(nextProps, nextState) {
+	console.log("FormLayout componentWillUpdate");
+	}
+	componentWillReceiveProps(nextProps) {
+		console.log("FormLayout componentWillReceiveProps");
+	}
 
 	/**
 	 *
