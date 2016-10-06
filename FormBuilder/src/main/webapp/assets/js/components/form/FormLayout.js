@@ -109,6 +109,7 @@ export default class FormLayout extends Component {
 	}
 
 	render(){
+		let columnConfig = [];
 		return (
 			<div>
 				<Row className="eq-height-wrapper"> <Col lg={3} className="eq-height-item">

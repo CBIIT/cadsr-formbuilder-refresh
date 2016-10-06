@@ -5,44 +5,79 @@ export default class FormTable extends React.Component{
 
 	constructor(props){
 		super(props);
-		console.log(this.props);
-		this.state = {
-			data: [
-				{ Name: 'Griffin Smith', Age: '18', Position: 'BA', Id: '1', Selected: false },
-				{ Age: '23',  Name: 'Lee Salminen', Position: 'Cashier', Id: '2', Selected: false },
-				{ Age: '28', Position: 'Assistant Director', Name: 'Skinner', Id: '3', Selected: false },
-				{ Name: 'Griffin Smith', Age: '18', Position:'Designer', Id: '4', Selected: false },
-				{ Age: '30',  Name: 'Test Person', Position: 'QA', Id: '5', Selected: false},
-				{ Name: 'Another Test', Age: '26', Position: 'Developer', Id: '6', Selected: false },
-				{ Name: 'Third Test', Age: '19', Position: 'Salesperson', Id: '7', Selected: false },
-				{ Age: '23',  Name: 'End of this Pge', Position: 'CEO1', Id: '8', Selected: false },
-				{ Age: '25',  Name: 'End of tage', Position: 'CE231O', Id: '9', Selected: false },
-				{ Age: '23',  Name: 'End of ts Page', Position: 'C3O', Id: '10', Selected: false },
-				{ Age: '67',  Name: 'E of this Pae', Position: 'CE2', Id: '11', Selected: false },
-				{ Age: '53',  Name: 'Ed  this Page', Position: 'CE1', Id: '12', Selected: false }
-			]
-		}
-		if(this.props.pagination){
-			this.state.currentPage = 2;
-			this.totalPages = Math.ceil(this.state.data.length / this.props.perPage);
-		}
+
 		this.selectAllRows = this.selectAllRows.bind(this);
+		this.formatData = this.formatData.bind(this);
 		this.addPagination = this.addPagination.bind(this);
 		this.createPageItem = this.createPageItem.bind(this);
 		this.changePage = this.changePage.bind(this);
+		this.selectRow = this.selectRow.bind(this);
+
+		this.state = {
+			data: this.formatData(this.props.data, this.props.columnTitles),
+			selectedRows: []
+		};
+
+		if(this.props.pagination){
+			this.state.currentPage = 1;
+			this.totalPages = Math.ceil(this.state.data.length / this.props.perPage);
+		}
 	}
 
-	selectAllRows(e){
-		let data = this.state.data;
+	formatData(dataCollection, columnCollection){
+		var newDataCollection = [];
+		dataCollection.map( (dataItem, index) =>{
+			let newItem = {};
+			for(let i=0; i < columnCollection.length; i++){
+				newItem[columnCollection[i].key] = dataItem[columnCollection[i].key];
+			}
+			newItem.selected = false;
+			newItem.id = index;
+			newDataCollection.push(newItem);
+		});
+		return newDataCollection;
+	}
+
+	selectAllRows(e){ //select all the rows at once
+		let data = this.state.data,
+			selectedRows = [];
 
 		for(let item of data){
-			item.Selected = e.target.checked;
+			item.selected = e.target.checked;
+		}
+		if(e.target.checked){
+			selectedRows = data;
+		}
+		else{
+			selectedRows = [];
 		}
 
-		this.setState({data: data});
+		this.setState({data: data, selectedRows: selectedRows});
 	}
 
-	addPagination(){
+	selectRow(e){ //ensures a row is selected when a checkbox is clicked
+		let data = this.state.data;
+		let selectedRows = this.state.selectedRows;
+		data[e].selected = !data[e].selected;
+		if(data[e].selected){
+			//selected a row, so add it to the collection
+			selectedRows.push(data[e]);
+		}
+		else if(selectedRows.length === 1){
+			//if you're deselecting the only item, make it an empty collection
+			selectedRows = [];
+		}
+		else{
+			//remove the selected row from the collection if it is being deselected
+			selectedRows = selectedRows.filter( (row) => {
+				return (row.id != e);
+			});
+		}
+		this.setState({data : data, selectedRows : selectedRows });
+
+	}
+
+	addPagination(){ //actually renders pagination
 		if(this.props.pagination){
 			return (
 				<div>
@@ -59,11 +94,14 @@ export default class FormTable extends React.Component{
 	}
 
 
-	createPageItem(){
+	createPageItem(){ //creates the pagination buttons
 		let pagesArr = [(<li className="reactTable-pagination-item" key={'left'} aria-hidden="true">
 			<button  onClick={()=>{this.changePage(this.state.currentPage - 1);}}
 			         className={(this.state.currentPage == 1)? " reactTable-pagination-control disabled": "reactTable-pagination-control"}>PREV</button>
 		</li>)];
+		if(this.totalPages === 1){
+			pagesArr = [];
+		}
 		let index = 0;
 		if(this.totalPages < 10){
 			index = 1;
@@ -98,11 +136,14 @@ export default class FormTable extends React.Component{
 				</li>);
 			}
 		}
-		pagesArr.push((<li className="reactTable-pagination-item" key={'right'} aria-hidden="true">
-			<button onClick={() =>{this.changePage(this.state.currentPage + 1);}}
-			        className={(this.state.currentPage == this.totalPages)? " reactTable-pagination-control disabled": "reactTable-pagination-control"}
-			>NEXT</button>
-		</li>));
+		if(this.totalPages !== 1){
+			pagesArr.push((<li className="reactTable-pagination-item" key={'right'} aria-hidden="true">
+				<button onClick={() =>{
+					this.changePage(this.state.currentPage + 1);
+				}} className={(this.state.currentPage == this.totalPages) ? " reactTable-pagination-control disabled" : "reactTable-pagination-control"}>NEXT
+				</button>
+			</li>));
+		}
 		return pagesArr;
 	}
 
@@ -126,29 +167,35 @@ export default class FormTable extends React.Component{
 				}
 				<Reactable id="table" className="table reactTable">
 					<Thead>
-						<Th column='Id'>
+						<Th column="checkbox">
 							<input type='checkbox' onChange={this.selectAllRows}/>
 						</Th>
-						<Th column='Name'>Name <span className="icon icon-carrot-up-down"></span></Th>
-						<Th column='Age'>Age <span className="icon icon-carrot-up-down"></span></Th>
-						<Th column='Position'>Position <span className="icon icon-carrot-up-down"></span></Th>
+						{
+							this.props.columnTitles.map( (title) =>{
+								return(
+									<Th key={title.name} column={title.name}>{title.name} <span className="icon icon-carrot-up-down"></span></Th>
+								);
+							})
+						}
 					</Thead>
 					{
 						data.map( (item) => {
 							return (
-								<Tr key={item.Id}>
-									<Td column='Id'>
-										<input type="checkbox" value={item.Id} checked={item.Selected}/>
+								<Tr key={item.id}>
+									<Td key={'checkbox'} column="checkbox">
+										<input type="checkbox" value={item.id}
+									       onChange={() =>{ this.selectRow(item.id);}}
+										   checked={item.selected}/>
 									</Td>
-									<Td column='Name'>
-										{item.Name}
-									</Td>
-									<Td column='Age'>
-										{item.Age}
-									</Td>
-									<Td column='Position'>
-										{item.Position}
-									</Td>
+									{
+										this.props.columnTitles.map( (title, index) => {
+											return(
+												<Td key={ title+index} column={title.name}>
+													{item[title.key]}
+												</Td>
+											);
+										})
+									}
 								</Tr>
 							);
 						})

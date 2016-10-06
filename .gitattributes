@@ -83,6 +83,7 @@ FormBuilder/src/main/webapp/assets/js/components/modals/ExitFormModal.js -text
 FormBuilder/src/main/webapp/assets/js/constants/ENDPOINT_URLS.js -text
 FormBuilder/src/main/webapp/assets/js/constants/EVENTS.js -text
 FormBuilder/src/main/webapp/assets/js/constants/ROUTES.js -text
+FormBuilder/src/main/webapp/assets/js/constants/TABLE_CONFIGS.js -text
 FormBuilder/src/main/webapp/assets/js/constants/cartActions.js -text
 FormBuilder/src/main/webapp/assets/js/constants/formActions.js -text
 FormBuilder/src/main/webapp/assets/js/helpers/backboneModelHelpers.js -text
