@@ -49,6 +49,7 @@ const QuestionEditable = (props) => {
 						/>
 						<Checkbox
 							name="checkbox1"
+							disabled={!props.question.defaultValue}
 							value={props.question.editable}
 							label="Answer is Editable"/>
 						{getDefaultValueField(props.question.defaultValue, props.question.validValues)}
