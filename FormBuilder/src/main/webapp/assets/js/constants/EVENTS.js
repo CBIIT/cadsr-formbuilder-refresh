@@ -29,7 +29,8 @@ const EVENTS = {
 		LOGIN_SUCCESS: "loginSuccess"
 	},
 	CARTS:  {
-		GET_CART_DATA: 'get:cartData'
+		GET_CART_DATA: 'get:cartData',
+		SET_LAYOUT: 'set:layout'
 	}
 };
 

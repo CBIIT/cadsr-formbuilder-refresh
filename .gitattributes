@@ -61,6 +61,7 @@ FormBuilder/src/main/webapp/assets/js/App.js -text
 FormBuilder/src/main/webapp/assets/js/channels/radioChannels.js -text
 FormBuilder/src/main/webapp/assets/js/commands/GetFormMetadataCriteriaCommand.js -text
 FormBuilder/src/main/webapp/assets/js/commands/GetSearchFormCriteriaCommand.js -text
+FormBuilder/src/main/webapp/assets/js/components/carts/CartLayout.js -text
 FormBuilder/src/main/webapp/assets/js/components/common/ButtonsGroup.js -text
 FormBuilder/src/main/webapp/assets/js/components/common/Form.js -text
 FormBuilder/src/main/webapp/assets/js/components/common/List.js -text
@@ -82,6 +83,7 @@ FormBuilder/src/main/webapp/assets/js/components/modals/ExitFormModal.js -text
 FormBuilder/src/main/webapp/assets/js/constants/ENDPOINT_URLS.js -text
 FormBuilder/src/main/webapp/assets/js/constants/EVENTS.js -text
 FormBuilder/src/main/webapp/assets/js/constants/ROUTES.js -text
+FormBuilder/src/main/webapp/assets/js/constants/cartActions.js -text
 FormBuilder/src/main/webapp/assets/js/constants/formActions.js -text
 FormBuilder/src/main/webapp/assets/js/helpers/backboneModelHelpers.js -text
 FormBuilder/src/main/webapp/assets/js/helpers/uiInputHelpers.js -text
