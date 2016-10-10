@@ -17,7 +17,6 @@ import javax.xml.stream.XMLStreamReader;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -55,10 +54,7 @@ import gov.nih.nci.cadsr.model.session.SessionCarts;
 import gov.nih.nci.ncicb.cadsr.common.dto.FormTransferObject;
 import gov.nih.nci.ncicb.cadsr.common.dto.ModuleTransferObject;
 import gov.nih.nci.ncicb.cadsr.common.dto.QuestionTransferObject;
-import gov.nih.nci.objectCart.client.ObjectCartClient;
-import gov.nih.nci.objectCart.client.ObjectCartException;
 import gov.nih.nci.objectCart.domain.Cart;
-import gov.nih.nci.objectCart.domain.CartObject;
 
 /**
  * 
@@ -402,11 +398,25 @@ public class CartAdapterController {
 	private BBModule createDummyModule(int i) {
 
 		BBModule mod = new BBModule();
+		BBFormMetaData form = new BBFormMetaData();
 
 		mod.setLongName("Test Module Long Name _ " + i);
 		mod.setInstructions("These are Instructions");
 		mod.setDispOrder(i);
 		mod.setModuleIdseq("A123123-B234-C456-567567567");
+		
+		List<BBQuestion> questions = new ArrayList<BBQuestion>();
+		for(int j=0; j<3; j++){
+			questions.add(new BBQuestion());
+		}
+		
+		mod.setQuestions(questions);
+		
+		form.setLongName("ParentFormLongName_" + i);
+		form.setPublicId(12345 + i);
+		form.setVersion(1F);
+		
+		mod.setForm(form);
 
 		return mod;
 	}
