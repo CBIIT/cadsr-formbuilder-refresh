@@ -18,6 +18,9 @@ public class BBValidValue {
 	// private String instructions;
 	// ConceptDerivationRule?
 	// ValueMeaning?
+	
+	private boolean isEdited = true;
+	private boolean isDeleted = false;
 
 	private String longName;
 	private String formValueMeaningText;
@@ -144,6 +147,22 @@ public class BBValidValue {
 
 	public void setFormValueMeaningDesc(String formValueMeaningDesc) {
 		this.formValueMeaningDesc = formValueMeaningDesc;
+	}
+
+	public boolean isEdited() {
+		return isEdited;
+	}
+
+	public void setEdited(boolean isEdited) {
+		this.isEdited = isEdited;
+	}
+
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
 	}
 
 }
