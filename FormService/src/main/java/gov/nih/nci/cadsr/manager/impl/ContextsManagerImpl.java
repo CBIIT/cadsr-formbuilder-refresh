@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import gov.nih.nci.cadsr.manager.ContextsManager;
 import gov.nih.nci.ncicb.cadsr.common.persistence.dao.AbstractDAOFactoryFB;
+import gov.nih.nci.ncicb.cadsr.common.resource.NCIUser;
 
 @Service
 public class ContextsManagerImpl implements ContextsManager {
@@ -23,6 +24,17 @@ public class ContextsManagerImpl implements ContextsManager {
 		logger.info("----------# to get Contexts Results to service: " + cont.size());
 		return cont;
 
+	}
+	
+	public Collection getContextsByUser(String username){
+		
+		NCIUser user = daoFactory.getUserManagerDAO().getNCIUser(username);
+		
+		System.out.println(user.getContextsByRole());
+		
+//		return user.getContextsByRole().values();
+		
+		return daoFactory.getUserManagerDAO().getContextsForAllRoles(username, "QUEST_CONTENT").values();
 	}
 
 }

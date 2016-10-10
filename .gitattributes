@@ -168,6 +168,19 @@ FormBuilder/src/main/webapp/frontend-tools/webpack.config.development.js -text
 FormBuilder/src/main/webapp/frontend-tools/webpackDevServer.js -text
 FormBuilder/src/main/webapp/index.jsp -text
 FormBuilder/src/main/webapp/package.json -text
+FormService/.classpath -text
+FormService/.project -text
+FormService/.settings/.jsdtscope -text
+FormService/.settings/org.eclipse.core.resources.prefs -text
+FormService/.settings/org.eclipse.jdt.core.prefs -text
+FormService/.settings/org.eclipse.m2e.core.prefs -text
+FormService/.settings/org.eclipse.wst.common.component -text
+FormService/.settings/org.eclipse.wst.common.project.facet.core.prefs.xml -text
+FormService/.settings/org.eclipse.wst.common.project.facet.core.xml -text
+FormService/.settings/org.eclipse.wst.jsdt.ui.superType.container -text
+FormService/.settings/org.eclipse.wst.jsdt.ui.superType.name -text
+FormService/.settings/org.eclipse.wst.validation.prefs -text
+FormService/.settings/org.hibernate.eclipse.console.prefs -text
 FormService/deploy.cli -text
 FormService/lib/cadsrsentinelapi.jar -text
 FormService/lib/cadsrutil.jar -text
@@ -342,7 +355,6 @@ FormService/src/main/resources/default.properties -text
 FormService/src/main/resources/formservice-dev.properties -text
 FormService/src/main/resources/formservice-local.properties -text
 FormService/src/main/resources/formservice-qa.properties -text
-FormService/src/main/resources/log4j.properties -text
 FormService/src/main/resources/settings.xml -text
 FormService/src/main/resources/transforms/ConvertFormCartV1ExtendedToV2.xsl -text
 FormService/src/main/resources/transforms/ConvertFormCartV2ToDisplayObject.xsl -text

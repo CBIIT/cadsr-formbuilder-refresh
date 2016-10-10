@@ -1,13 +1,27 @@
 package gov.nih.nci.cadsr.controller;
 
+import java.io.IOException;
+import java.io.StringReader;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
+
 import org.apache.log4j.Logger;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.oxm.XmlMappingException;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,11 +29,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.xml.sax.SAXException;
 
 import gov.nih.nci.cadsr.FormServiceProperties;
 import gov.nih.nci.cadsr.manager.FormManager;
+import gov.nih.nci.cadsr.model.BBDataElement;
 import gov.nih.nci.cadsr.model.BBForm;
 import gov.nih.nci.cadsr.model.BBFormMetaData;
+import gov.nih.nci.ncicb.cadsr.common.dto.DataElementTransferObject;
 import gov.nih.nci.ncicb.cadsr.common.dto.FormTransferObject;
 import gov.nih.nci.ncicb.cadsr.common.dto.FormV2TransferObject;
 import gov.nih.nci.ncicb.cadsr.common.dto.InstructionTransferObject;
@@ -222,6 +239,56 @@ public class FormController {
 		
 		ResponseEntity<Cart> response = new ResponseEntity(cart, HttpStatus.OK);
 		return response;
+	}
+	
+	@RequestMapping(value = "/objcart/cdecart/{username}", method = RequestMethod.GET)
+	@ResponseBody
+	public ResponseEntity loadCDECart(@PathVariable String username) throws ObjectCartException {
+		
+		List<DataElementTransferObject> elements = new ArrayList<DataElementTransferObject>();
+		
+		ObjectCartClient cartClient = new ObjectCartClient();
+		Cart cart = cartClient.retrieveCart(username, "cdeCart");
+
+		Collection coll = cartClient.getPOJOCollection(DataElementTransferObject.class, cart.getCartObjectCollection());
+		
+		for(Object obj : coll){
+			DataElementTransferObject element = (DataElementTransferObject)obj;
+			
+			elements.add(element);
+			
+//			element.getCDEId();
+//			element.getVersion();
+//			element.getPreferredName();
+//			element.getLongName();
+//			element.getValueDomain().getDatatype();
+//			element.getValueDomain().getUnitOfMeasure();
+//			element.getValueDomain().getDisplayFormat();
+//			element.getDataElementConcept()
+			
+		}
+		
+		return new ResponseEntity(elements, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/objcart/formcart/{username}", method = RequestMethod.GET)
+	@ResponseBody
+	public ResponseEntity loadFormCart(@PathVariable String username) throws ObjectCartException {
+		
+		List<FormV2TransferObject> forms = new ArrayList<FormV2TransferObject>();
+		
+		ObjectCartClient cartClient = new ObjectCartClient();
+		Cart cart = cartClient.retrieveCart(username, "formCartV2");
+
+		Collection coll = cartClient.getPOJOCollection(FormV2TransferObject.class, cart.getCartObjectCollection());
+		
+		for(Object obj : coll){
+			FormV2TransferObject form = (FormV2TransferObject)obj;
+			
+			forms.add(form);
+		}
+		
+		return new ResponseEntity(forms, HttpStatus.OK);
 	}
 
 	public ResponseEntity<String> getFormTest1(@PathVariable String formIdSeq) {

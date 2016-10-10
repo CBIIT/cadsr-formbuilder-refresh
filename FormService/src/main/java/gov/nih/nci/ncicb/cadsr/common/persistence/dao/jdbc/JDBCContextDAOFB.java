@@ -169,7 +169,48 @@ public class JDBCContextDAOFB extends JDBCBaseDAOFB implements ContextDAO
 			String username,
 			String businessRole) {
 		//Hyun, don't implement this method right now.
-		return null;
+		
+//		Collection col = new ArrayList();
+		ContextByUserNameQuery query = new ContextByUserNameQuery();
+		query.setDataSource(getDataSource());
+		query.setSqlWithUsername(username);
+//		query.setSql();
+		return query.execute();
+		
+	}
+	
+	
+	
+	/**
+	 * Inner class that accesses database to get all the contexts in caDSR
+	 *
+	 */
+	class ContextByUserNameQuery extends MappingSqlQuery {
+
+		public ContextByUserNameQuery(){
+			super();
+		}
+
+		public void setSql(){
+			super.setSql("select conte_idseq, name from sbr.contexts_view where name = ? ");
+			declareParameter(new SqlParameter("name", Types.VARCHAR));
+		}
+		
+		public void setSqlWithUsername(String username){
+			super.setSql("select conte_idseq, name from sbr.contexts_view where name = ? ");
+			declareParameter(new SqlParameter("username", Types.VARCHAR));
+		}
+		/**
+		 * 3.0 Refactoring- Removed JDBCTransferObject
+		 */
+		protected Object mapRow(ResultSet rs, int rownum) throws SQLException {
+
+			Context aContext = new ContextTransferObject();
+			aContext.setConteIdseq(rs.getString(1)); //CONTE_IDSEQ
+			aContext.setName(rs.getString(2));  // NAME
+			return aContext;
+		}
+
 	}
 
 }

@@ -51,6 +51,8 @@ public abstract class JDBCInstructionDAOFB extends JDBCAdminComponentDAOFB imple
 
         protected int updateInstruction(Instruction instruction)
         {
+        	
+        	System.out.println("IN UPDATEINSTRUCTION: " + instruction.getLongName() + instruction.getPreferredDefinition() + instruction.getModifiedBy() + instruction.getIdseq());
             Object obj[] = {
                 instruction.getLongName(), instruction.getPreferredDefinition(), instruction.getModifiedBy(), instruction.getIdseq()
             };
@@ -112,6 +114,7 @@ public abstract class JDBCInstructionDAOFB extends JDBCAdminComponentDAOFB imple
 
         protected int createContent(Instruction intruction, String parentIdseq, String qcIdseq, String qrIdseq, String rlType)
         {
+        	System.out.println("TEST - saving new instruction to existing Module: " + "qr:" + qrIdseq + " parent:" + parentIdseq + " qc:" + qcIdseq + " order:" + intruction.getDisplayOrder() + rlType + intruction.getCreatedBy());
             Object obj[] = {
                 qrIdseq, parentIdseq, qcIdseq, new Integer(intruction.getDisplayOrder()), rlType, intruction.getCreatedBy()
             };
@@ -143,6 +146,7 @@ public abstract class JDBCInstructionDAOFB extends JDBCAdminComponentDAOFB imple
 
         protected int createContent(Instruction instruction, String qcIdseq, String instructionType)
         {
+        	System.out.println("id:"+qcIdseq+" def:" + instruction.getPreferredDefinition());
             Object obj[] = {
                 qcIdseq, instruction.getVersion().toString(), generatePreferredName(instruction.getLongName()), instruction.getLongName(), instruction.getPreferredDefinition(), instruction.getContext().getConteIdseq(), instruction.getAslName(), instruction.getCreatedBy(), instructionType
             };

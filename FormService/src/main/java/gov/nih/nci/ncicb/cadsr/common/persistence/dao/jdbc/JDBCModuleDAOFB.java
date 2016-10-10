@@ -190,6 +190,7 @@ public class JDBCModuleDAOFB extends JDBCAdminComponentDAOFB implements ModuleDA
 	 */
 	public int updateModuleComponent(Module module) throws DMLException {
 
+		System.out.println("IN UPDATEMODULECOMPONENT");
 		UpdateModuleComponent updateModuleComponent =
 				new UpdateModuleComponent(this.getDataSource());
 		int res = updateModuleComponent.updateModule(module);
@@ -644,6 +645,8 @@ public class JDBCModuleDAOFB extends JDBCAdminComponentDAOFB implements ModuleDA
 
 		protected int updateModule(
 				Module module) {
+			
+			System.out.println("Updating module header: longname: " + module.getLongName() + " modby: " + module.getModifiedBy() + " id: " + module.getModuleIdseq() );
 
 			Object[] obj =
 					new Object[] {
