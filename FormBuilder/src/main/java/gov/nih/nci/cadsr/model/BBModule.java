@@ -11,6 +11,7 @@ public class BBModule {
 	private int repetitions;
 	private int dispOrder;
 	private List<BBQuestion> questions;
+	private int numQuestions;
 	
 	private BBFormMetaData form;
 	
@@ -89,6 +90,26 @@ public class BBModule {
 
 	public void setDeleted(boolean isDeleted) {
 		this.isDeleted = isDeleted;
+	}
+
+
+	public int getNumQuestions() {
+		
+		if(this.questions == null){
+			return 0;
+		}
+		else{
+			return this.questions.size();
+		}
+	}
+	
+	public void setNumQuestions(){
+		if(this.questions == null){
+			this.numQuestions = 0;
+		}
+		else{
+			this.numQuestions = this.questions.size();
+		}
 	}
 	
 }
