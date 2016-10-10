@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import {Col, Row} from 'react-bootstrap';
+import {Col, Row, PanelGroup, Panel} from 'react-bootstrap';
 import {Input, Textarea} from 'formsy-react-components';
 import EVENTS from '../../constants/EVENTS';
 import formActions from '../../constants/formActions';
@@ -12,8 +12,10 @@ export default class FormModuleForm extends Component {
 		super(props);
 		this.dispatchData = this.dispatchData.bind(this);
 		this.getQuestions = this.getQuestions.bind(this);
+		this.handleSelectQuestionAccordion = this.handleSelectQuestionAccordion.bind(this);
 		this.state = {
-			validatePristine: false
+			validatePristine: false,
+			activeQuestionAccordion:  '1'
 		};
 	}
 
@@ -27,14 +29,24 @@ export default class FormModuleForm extends Component {
 			formChannel.request(EVENTS.FORM.SET_NEW_MODULE, data);
 		}
 	}
+	handleSelectQuestionAccordion(activeKey) {
+		this.setState({ activeQuestionAccordion: activeKey });
+	}
 	getQuestions (items) {
 		if(items && items.length){
+			const activeQuestionAccordion = this.state.activeQuestionAccordion;
+			const mapQuestions = (item, index) =>{
+				return (
+					<Panel header={item.longName} key={index} eventKey={index}>
+						<QuestionEditable panelisExpanded={activeQuestionAccordion=== index}  question={item}/>
+					</Panel>
+				);
+			};
 			return (
-				<ul className={"list-unstyled"}>{items.map( (item, index) => (
-					<QuestionEditable key={index} question={item}/>
-				))}</ul>
+				<PanelGroup accordion activeKey={activeQuestionAccordion} onSelect={this.handleSelectQuestionAccordion}>{items.map(mapQuestions)}</PanelGroup>
 			);
 		}
+
 	}
 	render(){
 		return (
