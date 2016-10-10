@@ -10,10 +10,21 @@ export default class QuestionEditable extends Component {
 	}
 	static getValidValues (items){
 		if(items && items.length){
-			return (
-				<ul className={"list-unstyled"}>{items.map((item, index) => (
+			const mapValidValues = (item, index) =>{
+				return (
 					<ValidValueEditable key={index} validValue={item}/>
-				))}</ul>
+				);
+			};
+			return (
+				<PanelGroup defaultActiveKey="1"
+				            accordion>
+					<Panel header="Valid Values"
+					       ventKey="1">
+						<ul className={"list-unstyled"}>
+							{items.map(mapValidValues)}
+						</ul>
+					</Panel>
+				</PanelGroup>
 			);
 		}
 	}
@@ -41,7 +52,7 @@ export default class QuestionEditable extends Component {
 					<Col sm={12}>
 							<Textarea rows={3} cols={40} name="instructions" label="Instructions" value={this.props.question.instructions !== null ? this.props.question.instructions : ""}/>
 							<RadioGroup
-								name="checkbox1"
+								name="isMandatory"
 								value={this.props.question.mandatory}
 								label="Answer is Mandatory"
 								options={[
@@ -50,7 +61,7 @@ export default class QuestionEditable extends Component {
 								]}
 							/>
 							<Checkbox
-								name="checkbox1"
+								name="isEditable"
 								disabled={!this.props.question.defaultValue}
 								value={this.props.question.editable}
 								label="Answer is Editable"/>
