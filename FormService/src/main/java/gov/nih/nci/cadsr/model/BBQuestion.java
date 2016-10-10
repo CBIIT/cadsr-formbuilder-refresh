@@ -25,6 +25,9 @@ public class BBQuestion {
 	private String displayFormat;
 	private String concepts;
 	
+	private boolean isEdited = false;
+	private boolean isDeleted = false;
+	
 	
 	
 	public String getQuesIdseq() {
@@ -146,6 +149,18 @@ public class BBQuestion {
 	}
 	public void setConcepts(String concepts) {
 		this.concepts = concepts;
+	}
+	public boolean isEdited() {
+		return isEdited;
+	}
+	public void setEdited(boolean isEdited) {
+		this.isEdited = isEdited;
+	}
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
 	}
 
 }

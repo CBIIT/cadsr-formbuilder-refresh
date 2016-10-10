@@ -23,17 +23,22 @@ import gov.nih.nci.cadsr.model.BBProtocol;
 import gov.nih.nci.cadsr.model.BBQuestion;
 import gov.nih.nci.cadsr.model.BBValidValue;
 import gov.nih.nci.ncicb.cadsr.common.dto.ContextTransferObject;
+import gov.nih.nci.ncicb.cadsr.common.dto.DataElementTransferObject;
 import gov.nih.nci.ncicb.cadsr.common.dto.FormInstructionChangesTransferObject;
 import gov.nih.nci.ncicb.cadsr.common.dto.FormTransferObject;
 import gov.nih.nci.ncicb.cadsr.common.dto.FormV2TransferObject;
+import gov.nih.nci.ncicb.cadsr.common.dto.FormValidValueChangesTransferObject;
 import gov.nih.nci.ncicb.cadsr.common.dto.FormValidValueTransferObject;
 import gov.nih.nci.ncicb.cadsr.common.dto.InstructionChangesTransferObject;
 import gov.nih.nci.ncicb.cadsr.common.dto.InstructionTransferObject;
 import gov.nih.nci.ncicb.cadsr.common.dto.ModuleChangesTransferObject;
 import gov.nih.nci.ncicb.cadsr.common.dto.ModuleTransferObject;
 import gov.nih.nci.ncicb.cadsr.common.dto.ProtocolTransferObject;
+import gov.nih.nci.ncicb.cadsr.common.dto.QuestionChangeTransferObject;
 import gov.nih.nci.ncicb.cadsr.common.dto.QuestionTransferObject;
 import gov.nih.nci.ncicb.cadsr.common.dto.TriggerActionChangesTransferObject;
+import gov.nih.nci.ncicb.cadsr.common.dto.ValidValueTransferObject;
+import gov.nih.nci.ncicb.cadsr.common.dto.ValueDomainTransferObject;
 import gov.nih.nci.ncicb.cadsr.common.exception.DMLException;
 import gov.nih.nci.ncicb.cadsr.common.persistence.dao.AbstractDAOFactoryFB;
 import gov.nih.nci.ncicb.cadsr.common.persistence.dao.ContextDAO;
@@ -307,6 +312,34 @@ public class FormManagerImpl implements FormManager {
 			m.setPreferredDefinition(form.getFormMetadata().getPreferredDefinition());
 			m.setAslName(form.getFormMetadata().getWorkflow());
 			m.setCreatedBy(form.getFormMetadata().getCreatedBy());
+			
+//			for(BBQuestion ques : module.getQuestions()){
+				
+//				QuestionTransferObject qto = new QuestionTransferObject();
+//				qto.setDataElement(new DataElementTransferObject());
+//				qto.getDataElement().setValueDomain(new ValueDomainTransferObject());
+//				
+//				qto.setVersion(ques.getVersion());
+//				qto.setPreferredDefinition(ques.getPreferredQuestionText()); //XXX: is correct?
+//				qto.setMandatory(ques.isMandatory());
+//				qto.setEditable(ques.isEditable());
+//				qto.setDeDerived(ques.isDeDerived());
+//				qto.setLongName(ques.getLongName());
+//				qto.getDataElement().getValueDomain().setDatatype(ques.getDataType());
+//				qto.getDataElement().getValueDomain().setUnitOfMeasure(ques.getUnitOfMeasure());
+				
+//				bbques.setDeIdseq(qto.getDataElement().getIdseq());
+//				bbques.setVersion(qto.getVersion());
+//				bbques.setPreferredQuestionText(qto.getPreferredDefinition());//XXX: is correct?
+//				bbques.setMandatory(false);
+//				bbques.setEditable(true);
+//				bbques.setDeDerived(true);
+//				bbques.setLongName(qto.getLongName());
+//				bbques.setDataType(qto.getDataElement().getValueDomain().getDatatype());
+//				bbques.setUnitOfMeasure(qto.getDataElement().getValueDomain().getUnitOfMeasure());
+//				bbques.setDisplayFormat(qto.getDataElement().getValueDomain().getDisplayFormat());
+				
+//			}
 
 			if (module.getModuleIdseq() == null || module.getModuleIdseq() == "") {
 				System.out.println("This is a new module! name=" + module.getLongName() + " id=" + module.getModuleIdseq());
@@ -314,10 +347,9 @@ public class FormManagerImpl implements FormManager {
 			} else if (module.getIsEdited()) {
 				System.out.println("THIS MOD IS EDITABLE: " + module.getLongName());
 				updatedMods.add(m);
-			}
-			// else if(!oldModules.contains(m)){
-			// deletedMods.add(m);
-			// }
+			} /*else if(module.getIsDeleted()){
+				deletedMods.add(m.getModuleIdseq());
+			}*/
 		}
 
 		instChanges.setFormHeaderInstructionChanges(new HashMap());
@@ -343,6 +375,58 @@ public class FormManagerImpl implements FormManager {
 			}
 			
 			modChange.getInstructionChanges().setParentId(mto.getModuleIdseq());
+			
+			for(Object obj : mto.getQuestions()){
+				BBQuestion ques = (BBQuestion)obj;
+				
+				QuestionTransferObject qto = new QuestionTransferObject();
+				qto.setDataElement(new DataElementTransferObject());
+				qto.getDataElement().setValueDomain(new ValueDomainTransferObject());
+				
+				qto.setVersion(ques.getVersion());
+				qto.setPreferredDefinition(ques.getPreferredQuestionText()); //XXX: is correct?
+				qto.setMandatory(ques.isMandatory());
+				qto.setEditable(ques.isEditable());
+				qto.setDeDerived(ques.isDeDerived());
+				qto.setLongName(ques.getLongName());
+				qto.getDataElement().getValueDomain().setDatatype(ques.getDataType());
+				qto.getDataElement().getValueDomain().setUnitOfMeasure(ques.getUnitOfMeasure());
+				
+				if(ques.isDeleted()){
+					modChange.getDeletedQuestions().add(qto);
+				}
+				else if(ques.isEdited()){
+					
+					QuestionChangeTransferObject quesChange = new QuestionChangeTransferObject();
+					quesChange.setUpdatedQuestion(qto);
+					
+					FormValidValueChangesTransferObject validValueChange = new FormValidValueChangesTransferObject();
+					
+					for(BBValidValue bbVV : ques.getValidValues()){
+						
+						ValidValueTransferObject vvto = new ValidValueTransferObject();
+						BeanUtils.copyProperties(bbVV, vvto);
+						
+						if(bbVV.isEdited()){
+							validValueChange.getUpdatedValidValues().add(vvto);
+						}
+						else if(bbVV.isDeleted()){
+							validValueChange.getDeletedValidValues().add(vvto);
+						}
+						else if(bbVV.getValueIdseq().isEmpty()){
+							validValueChange.getNewValidValues().add(vvto);
+						}
+						
+					}
+					
+					quesChange.setFormValidValueChanges(validValueChange);
+					
+					modChange.getUpdatedQuestions().add(quesChange);
+				}
+				else if(ques.getQuesIdseq().isEmpty()){
+					modChange.getNewQuestions().add(qto);
+				}
+			}
 			
 			service.updateModule(mto.getModuleIdseq(), modChange, mto.getCreatedBy());
 			
@@ -408,7 +492,9 @@ public class FormManagerImpl implements FormManager {
 			if(mto.getInstruction() != null){
 				bbmod.setInstructions(mto.getInstruction().getPreferredDefinition());
 			}
-
+			
+			bbmod.setForm(bbmeta);
+			
 			bbform.getFormModules().add(bbmod);
 
 			bbmod.setQuestions(new ArrayList<BBQuestion>());
@@ -418,7 +504,6 @@ public class FormManagerImpl implements FormManager {
 				BBQuestion bbques = new BBQuestion();
 				BeanUtils.copyProperties(qto, bbques);
 				
-//				qto.getDataElement().getValueDomain()
 				bbques.setDeIdseq(qto.getDataElement().getIdseq());
 				bbques.setVersion(qto.getVersion());
 				bbques.setPreferredQuestionText(qto.getPreferredDefinition());//XXX: is correct?

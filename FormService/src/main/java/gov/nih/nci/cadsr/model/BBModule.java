@@ -11,7 +11,11 @@ public class BBModule {
 	private int repetitions;
 	private int dispOrder;
 	private List<BBQuestion> questions;
+	
+	private BBFormMetaData form;
+	
 	private boolean isEdited = false;
+	private boolean isDeleted = false;
 	
 	public BBModule(){
 		moduleIdseq = "";
@@ -60,11 +64,31 @@ public class BBModule {
 	public void setQuestions(List<BBQuestion> questions) {
 		this.questions = questions;
 	}
+	public BBFormMetaData getForm() {
+		return form;
+	}
+
+
+	public void setForm(BBFormMetaData form) {
+		this.form = form;
+	}
+
+
 	public boolean getIsEdited() {
 		return isEdited;
 	}
 	public void setEdited(boolean isEdited) {
 		this.isEdited = isEdited;
+	}
+
+
+	public boolean getIsDeleted() {
+		return isDeleted;
+	}
+
+
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
 	}
 	
 }
