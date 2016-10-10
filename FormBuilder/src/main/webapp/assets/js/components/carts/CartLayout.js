@@ -30,7 +30,8 @@ export default class CartLayout extends Component {
 	render(){
 		return (
 			<div>
-				<FormTable pagination={true} perPage={2} columnTitles={TABLECONFIG.CDE} data={this.data}></FormTable>
+				<h1 className="text--bold">Form Builder | CDE Cart</h1>
+				<FormTable pagination={true} perPage={100} columnTitles={TABLECONFIG.CDE} data={this.data}></FormTable>
 			</div>
 		);
 	}

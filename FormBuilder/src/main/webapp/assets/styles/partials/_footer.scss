@@ -160,3 +160,11 @@
   margin: auto;
   margin-top: 20px;
 }
+
+.footer_link{
+  color: $color-highlight;
+  &:hover, &:active, &:focus{
+    text-decoration: none;
+    color: $color-highlight;
+  }
+}

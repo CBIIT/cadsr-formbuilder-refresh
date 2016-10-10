@@ -1,6 +1,14 @@
 import React from 'react';
 import {Table as Reactable, Thead, Th, Tr, Td} from 'reactable';
+import {Glyphicon, DropdownButton, MenuItem} from 'react-bootstrap';
 
+/*
+Props:
+data (arr),
+columnTitles (arr),
+pagination (bool),
+perPage (int)
+ */
 export default class FormTable extends React.Component{
 
 	constructor(props){
@@ -12,6 +20,7 @@ export default class FormTable extends React.Component{
 		this.createPageItem = this.createPageItem.bind(this);
 		this.changePage = this.changePage.bind(this);
 		this.selectRow = this.selectRow.bind(this);
+		this.addControls = this.addControls.bind(this);
 
 		this.state = {
 			data: this.formatData(this.props.data, this.props.columnTitles),
@@ -77,11 +86,11 @@ export default class FormTable extends React.Component{
 
 	}
 
-	addPagination(){ //actually renders pagination
+	addPagination(top){ //actually renders pagination
 		if(this.props.pagination){
 			return (
-				<div>
-					<ul className="reactTable-pagination">
+				<div className="clearfix">
+					<ul className={ (top)?"reactTable-pagination reactTable-pagination--top" : "reactTable-pagination"}>
 						{
 							this.createPageItem().map( (item) =>{
 								return (item);
@@ -157,14 +166,39 @@ export default class FormTable extends React.Component{
 		this.setState({currentPage: pageNum});
 	}
 
+	addControls(){
+		return(
+			<div className="reactTable-controlPanel">
+				<ul className="controlPanel-list">
+					<li>
+						{ this.state.selectedRows.length } CDE(s) SELECTED
+					</li>
+					<li>
+						<button className="controlPanel-btn"> REMOVE FROM CART <Glyphicon glyph="trash"/></button>
+					</li>
+					<li>
+						<DropdownButton className="controlPanel-btn" title="CHOOSE TYPE">
+							<MenuItem eventKey="1">DOWNLOAD EXCEL</MenuItem>
+							<MenuItem eventKey="2">DOWNLOAD XML</MenuItem>
+						</DropdownButton>
+					</li>
+				</ul>
+			</div>
+		);
+	}
+
 	render(){
 		const data = this.state.data;
 
 		return(
 			<section>
 				{
-					this.addPagination()
+					this.addControls()
 				}
+				{
+					this.addPagination(true)
+				}
+				<span className="reactTable-total">TOTAL ITEMS IN CART: {this.state.data.length}</span>
 				<Reactable id="table" className="table reactTable">
 					<Thead>
 						<Th column="checkbox">
@@ -201,6 +235,7 @@ export default class FormTable extends React.Component{
 						})
 					}
 				</Reactable>
+				<span className="reactTable-total reactTable-total--bottom">TOTAL ITEMS IN CART: {this.state.data.length}</span>
 				{
 					this.addPagination()
 				}
