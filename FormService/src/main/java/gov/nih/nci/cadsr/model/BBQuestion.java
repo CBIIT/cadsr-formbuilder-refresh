@@ -1,14 +1,15 @@
 package gov.nih.nci.cadsr.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class BBQuestion {
 	
 	private String quesIdseq;
-	private List<BBValidValue> validValues;
+	private List<BBValidValue> validValues = new ArrayList<BBValidValue>();
 	private int displayOrder;
 	private String deIdseq;
-//	private BBDataElement bbdataElement;
+	private BBDataElement dataElement;
 	private String instructions;
 	private String defaultValue;
 //	private List<BBQuestionRepetition> questionRepetitions;
@@ -18,7 +19,7 @@ public class BBQuestion {
 	private Float version;
 	
 	private String preferredQuestionText;
-	private List<String> alternativeQuestionText;
+	private List<String> alternativeQuestionText = new ArrayList<String>();
 	private String longName;
 	private String dataType;
 	private String unitOfMeasure;
@@ -96,12 +97,12 @@ public class BBQuestion {
 	public void setDeDerived(boolean deDerived) {
 		this.deDerived = deDerived;
 	}
-//	public BBDataElement getBbdataElement() {
-//		return bbdataElement;
-//	}
-//	public void setBbdataElement(BBDataElement bbdataElement) {
-//		this.bbdataElement = bbdataElement;
-//	}
+	public BBDataElement getDataElement() {
+		return dataElement;
+	}
+	public void setDataElement(BBDataElement dataElement) {
+		this.dataElement = dataElement;
+	}
 	public Float getVersion() {
 		return version;
 	}
