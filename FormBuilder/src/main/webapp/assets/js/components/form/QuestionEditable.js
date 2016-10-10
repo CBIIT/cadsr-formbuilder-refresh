@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import {Col, Row} from 'react-bootstrap';
+import {Col, Row, PanelGroup, Panel} from 'react-bootstrap';
 import {Input, Textarea, RadioGroup, Checkbox, Select} from 'formsy-react-components';
 import ValidValueEditable from './ValidValueEditable';
 import {getOptions} from '../../helpers/uiInputHelpers';
@@ -35,7 +35,7 @@ export default class QuestionEditable extends Component {
 		}
 	}
 	render() {
-		if(this.props.panelisExpanded) {
+		if(this.props.panelIsExpanded) {
 			return (
 				<Row>
 					<Col sm={12}>
@@ -88,4 +88,6 @@ export default class QuestionEditable extends Component {
 };
 
 QuestionEditable.propTypes = {
+	/*We don't render form inputs unless panelIsExpanded = true to limit the number of form inputs renderd to reduce the chance of a performance hit. */
+	panelIsExpanded: PropTypes.bool
 };
