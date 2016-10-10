@@ -1,14 +1,15 @@
 import React, {Component, PropTypes} from 'react';
 import {Button} from 'react-bootstrap';
 
-const List = (props) =>{
+const ButtonList = (props) =>{
 	const createListItem = (item, index) => {
 		const activeItem = props.activeItem === item[props.itemKey];
 		return (
 			<li key={index}>
 				<Button bsClass={`${(activeItem ? props.activeButtonClass : props.buttonItemClassName)}`} onClick={() =>{
 					props.onClickCallback(item.cid);
-				}}>{item[props.itemTextKey]}</Button>
+				}}>{item[props.itemTextKey]}
+				</Button>
 			</li>
 		);
 	};
@@ -16,14 +17,17 @@ const List = (props) =>{
 
 };
 
-export default List;
+export default ButtonList;
 
-List.defaultProps = {
+ButtonList.defaultProps = {
 	activeItemId:        '',
 	buttonItemClassName: "button-link"
 };
+Button.propTypes = {
+	onClick:           PropTypes.string
+};
 
-List.propTypes = {
+ButtonList.propTypes = {
 	activeListItemClass: PropTypes.string,
 	activeButtonClass:   PropTypes.string,
 	buttonItemClassName: PropTypes.string,

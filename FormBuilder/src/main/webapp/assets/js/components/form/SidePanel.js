@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import List from '../common/List';
+import ButtonList from '../common/ButtonList';
 
 export default class SidePanel extends Component {
 	constructor(props){
@@ -14,7 +14,7 @@ export default class SidePanel extends Component {
 						<span className="panel-header-heading">CDE Cart</span>
 					</p>
 					<div class="panel-content">
-						<List itemKey={"deIdseq"} className="panel-list-cart panel-item" itemTextKey={"longcdename"} data={this.props.cdeList}/>
+						<ButtonList itemKey={"deIdseq"} className="panel-list-cart panel-item" itemTextKey={"longcdename"} data={this.props.cdeList}/>
 					</div>
 				</div>
 				<div className="bordered-container panel panel-half">
