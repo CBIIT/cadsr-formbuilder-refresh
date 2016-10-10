@@ -428,7 +428,7 @@ public class CartAdapterController {
 		form.setLongName("Test Form Long Name_ " + i);
 		form.setWorkflow("Draft New");
 		form.setPublicId(123456);
-		form.setCreatedBy("Guest");
+		form.setCreatedBy("Guest 9/10/2011");
 		form.setVersion(1F);
 
 		BBContext c = new BBContext("123abc", "TEST", "testdesc");
