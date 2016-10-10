@@ -80,7 +80,7 @@ const FormService = Marionette.Object.extend({
 		/*Entry point for React. Backbone Views Keep Out.
 		Once React is the top level view currently handled by Marionette (i.e.  AppLayoutView,js), we can render FormLayout from there instead   */
 		render(
-			<FormLayout cdeCartCollection={this.app.cartsService.cdeCartCollection} formModel={this.formModel.attributes} uiDropDownOptionsModel={this.uiDropDownOptionsModel.toJSON()} formUIState={this.formUIStateModel}/>, document.getElementById('main'));
+			<FormLayout formIdseq={this.formModel.attributes.formIdseq} formMetadata={this.formModel.attributes.formMetadata.attributes} formModules={this.formModel.attributes.formModules} cdeCartCollection={this.app.cartsService.cdeCartCollection} uiDropDownOptionsModel={this.uiDropDownOptionsModel.toJSON()} formUIState={this.formUIStateModel}/>, document.getElementById('main'));
 
 	},
 	createForm() {

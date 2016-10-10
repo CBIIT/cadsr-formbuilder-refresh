@@ -12,7 +12,6 @@ export default class FormLayout extends Component {
 		super(props);
 		this.canCreateModule = this.canCreateModule.bind(this);
 		this.getCartList = this.getCartList.bind(this);
-		this.getFormModel = this.getFormModel.bind(this);
 		this.getFormModules = this.getFormModules.bind(this);
 		this.getActionMode = this.getActionMode.bind(this);
 		this.getEditItems = this.getEditItems.bind(this);
@@ -24,19 +23,21 @@ export default class FormLayout extends Component {
 		/* watch for changes on these backbone models/collections and re-render */
 		backboneReact.on(this, {
 			models:      {
-				formUIState: this.props.formUIState,
+				formUIState: this.props.formUIState
 			},
 			collections: {
-				formModules: this.props.formModel.formModules
+				formModules: this.props.formModules
 			}
 		});
-	}
+		this.getFormModules();
 
+	}
 	componentWillUnmount(){
 		backboneReact.off(this);
 	}
 	componentWillUpdate(nextProps, nextState) {
-	console.log("FormLayout componentWillUpdate");
+		this.getFormModules();
+		console.log("FormLayout componentWillUpdate");
 	}
 	componentWillReceiveProps(nextProps) {
 		console.log("FormLayout componentWillReceiveProps");
@@ -60,16 +61,12 @@ export default class FormLayout extends Component {
 	}
 
 	getFormMetaData(){
-		return this.props.formModel.formMetadata.attributes;
-	}
-
-	getFormModel(){
-		return this.props.formModel;
+		return this.props.formMetadata;
 	}
 
 	/* TODO maybe get rid of "edit items" because whatever item you're viewing inside FormLayoutMain is editable, if "edit mode" is turned on */
 	getEditItems(){
-		return _.findWhere( this.getFormModules(),{cid: this.state.formUIState.moduleViewingId});
+		return _.findWhere( this.formModules,{cid: this.state.formUIState.moduleViewingId});
 	}
 
 	getCartList({name}){
@@ -82,7 +79,7 @@ export default class FormLayout extends Component {
 
 	getFormModules(){
 		/* Return list of modules with its backbone model's cid included */
-		return this.getFormModel().formModules.models.map(model =>{
+		this.formModules = this.props.formModules.models.map(model =>{
 			/* Getting cid vs moduleIdseq because new modules don't have a moduleIdseq */
 			return Object.assign({}, backboneModelHelpers.getDeepModelPojo(model), {cid: model.cid});
 		});
@@ -103,7 +100,7 @@ export default class FormLayout extends Component {
 			const activeModuleId = actionMode == formActions.VIEW_MODULE && this.getEditItems() ? this.getEditItems().cid : null;
 			const formMetadataLinkIsActive = actionMode === formActions.VIEW_FORM_METADATA;
 			return (
-				<TreeView formMetadataLinkIsActive={formMetadataLinkIsActive} activeModuleId={activeModuleId} list={this.getFormModules()} formIdSeq={this.getFormModel().formIdseq} formName={this.getFormMetaData().longName} canCreateModule={this.canCreateModule()}/>
+				<TreeView formMetadataLinkIsActive={formMetadataLinkIsActive} activeModuleId={activeModuleId} list={this.formModules} formIdSeq={this.props.formIdseq} formName={this.getFormMetaData().longName} canCreateModule={this.canCreateModule()}/>
 			);
 		}
 	}
@@ -115,7 +112,7 @@ export default class FormLayout extends Component {
 				<Row className="eq-height-wrapper"> <Col lg={3} className="eq-height-item">
 				{this.showTreeNav()}
 				</Col> <Col lg={6} className="eq-height-item panel-lg">
-					<FormLayoutMain uiDropDownOptionsModel={this.props.uiDropDownOptionsModel} shouldShowFormEditControls={this.shouldShowFormEditControls()} actionMode={this.getActionMode()} formMetadata={this.getFormMetaData()} editItems={this.getEditItems()} formModules={this.getFormModules()}/>
+					<FormLayoutMain uiDropDownOptionsModel={this.props.uiDropDownOptionsModel} shouldShowFormEditControls={this.shouldShowFormEditControls()} actionMode={this.getActionMode()} formMetadata={this.getFormMetaData()} editItems={this.getEditItems()} formModules={this.formModules}/>
 				</Col> <Col lg={3} className="eq-height-item">
 					{this.showCartsPanel()}
 
@@ -126,9 +123,10 @@ export default class FormLayout extends Component {
 }
 
 FormLayout.propTypes = {
-	formUIState:            PropTypes.shape({
+	/*formUIState:            PropTypes.shape({
+	TODO: needs to be formUIState.attributes.actionMode
 		actionMode: PropTypes.string.isRequired
-	}),
+	}),*/
 	uiDropDownOptionsModel: PropTypes.object.isRequired,
 	formModel:              PropTypes.shape({
 		formMetaData: PropTypes.object.isRequired,
