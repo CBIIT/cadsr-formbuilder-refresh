@@ -11,7 +11,7 @@ export default class QuestionStatic extends Component {
 				);
 			};
 			return (
-				<PanelGroup defaultActiveKey="1" accordion> <Panel header="Valid Values" ventKey="1">
+				<PanelGroup defaultActiveKey="1" accordion> <Panel header="Valid Values" eventKey="1">
 					<ul className={"list-unstyled"}>
 						{items.map(mapValidValues)}
 					</ul>
