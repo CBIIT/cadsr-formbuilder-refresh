@@ -236,6 +236,7 @@ public class CartAdapterController {
 		List<CartObjectNew> cartContents = query.getQueryResponse().getCartContents();
 
 		List<FormV2NewWrapper> forms = new ArrayList<FormV2NewWrapper>();
+		List<BBFormMetaData> feForms = new ArrayList<BBFormMetaData>();
 		if (!cartContents.isEmpty()) {
 			String date = null;
 			for (CartObjectNew cartObj : cartContents) {
@@ -259,10 +260,14 @@ public class CartAdapterController {
 				}
 				form.setDateadded(date);
 				forms.add(form);
+				
+				BBFormMetaData feForm = new BBFormMetaData();
+				BeanUtils.copyProperties(form, feForm);
+				feForms.add(feForm);
 			}
 
 		}
-		return new ResponseEntity(forms, HttpStatus.OK);
+		return new ResponseEntity(feForms, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/objcart/formcart/{username}", method = RequestMethod.GET)

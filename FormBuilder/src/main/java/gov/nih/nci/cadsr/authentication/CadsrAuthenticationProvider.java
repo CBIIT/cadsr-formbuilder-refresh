@@ -15,7 +15,10 @@ import org.springframework.web.client.RestTemplate;
 
 import gov.nih.nci.cadsr.FormBuilderConstants;
 import gov.nih.nci.cadsr.FormBuilderProperties;
+import gov.nih.nci.cadsr.api.controller.CartAdapterController;
 import gov.nih.nci.cadsr.model.BBContext;
+import gov.nih.nci.cadsr.model.BBFormMetaData;
+import gov.nih.nci.cadsr.model.BBQuestion;
 import gov.nih.nci.cadsr.model.session.SessionObject;
 
 public class CadsrAuthenticationProvider implements AuthenticationProvider{
@@ -42,6 +45,18 @@ public class CadsrAuthenticationProvider implements AuthenticationProvider{
 			userDetails = userService.loadUserByUsername(username);
 			AuthUtils util = new AuthUtils();
 			userDetails.setToken(util.md5(username + password));
+			
+			CartAdapterController cartCont = new CartAdapterController();
+			try{
+				userDetails.setCdeCart((List<BBQuestion>)cartCont.loadCDECart(username).getBody());
+				userDetails.setFormCart((List<BBFormMetaData>)cartCont.loadFormV2Cart(username).getBody());
+			} catch(Exception e){
+				e.printStackTrace();
+			}
+			//XXX: load user carts here?
+			//Session may not exist yet?
+			//Add Carts to userDetails object? Use this as primary session object?
+			
 		}
 		
 		List<GrantedAuthority> grantedAuths = new ArrayList();

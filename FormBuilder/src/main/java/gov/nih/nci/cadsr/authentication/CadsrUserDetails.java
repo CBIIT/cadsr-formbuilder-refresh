@@ -1,12 +1,15 @@
 package gov.nih.nci.cadsr.authentication;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import gov.nih.nci.cadsr.model.BBFormMetaData;
+import gov.nih.nci.cadsr.model.BBModule;
+import gov.nih.nci.cadsr.model.BBQuestion;
 import gov.nih.nci.cadsr.model.BBUser;
-import gov.nih.nci.ncicb.cadsr.common.resource.NCIUser;
 
 public class CadsrUserDetails implements UserDetails{
 
@@ -14,6 +17,10 @@ public class CadsrUserDetails implements UserDetails{
 	private String password;
 	private String username;
 	private String token;
+	
+	private List<BBQuestion> cdeCart;
+	private List<BBModule> moduleCart;
+	private List<BBFormMetaData> formCart;
 	
 	public BBUser getUser() {
 		return user;
@@ -70,6 +77,30 @@ public class CadsrUserDetails implements UserDetails{
 
 	public void setToken(String token) {
 		this.token = token;
+	}
+
+	public List<BBQuestion> getCdeCart() {
+		return cdeCart;
+	}
+
+	public void setCdeCart(List<BBQuestion> cdeCart) {
+		this.cdeCart = cdeCart;
+	}
+
+	public List<BBModule> getModuleCart() {
+		return moduleCart;
+	}
+
+	public void setModuleCart(List<BBModule> moduleCart) {
+		this.moduleCart = moduleCart;
+	}
+
+	public List<BBFormMetaData> getFormCart() {
+		return formCart;
+	}
+
+	public void setFormCart(List<BBFormMetaData> formCart) {
+		this.formCart = formCart;
 	}
 
 	public String toString(){
