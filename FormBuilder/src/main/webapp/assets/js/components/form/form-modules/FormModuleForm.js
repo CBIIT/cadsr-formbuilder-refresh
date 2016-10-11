@@ -43,7 +43,7 @@ export default class FormModuleForm extends Component {
 				);
 			};
 			return (
-				<PanelGroup accordion activeKey={activeQuestionAccordion} onSelect={this.handleSelectQuestionAccordion}>{items.map(mapQuestions)}</PanelGroup>
+				<PanelGroup accordion onSelect={this.handleSelectQuestionAccordion}>{items.map(mapQuestions)}</PanelGroup>
 			);
 		}
 	}
