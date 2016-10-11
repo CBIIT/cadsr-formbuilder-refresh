@@ -75,6 +75,7 @@ FormBuilder/src/main/webapp/assets/js/components/form/TreeView.js -text
 FormBuilder/src/main/webapp/assets/js/components/form/form-modules/FormModule.js -text
 FormBuilder/src/main/webapp/assets/js/components/form/form-modules/FormModuleForm.js -text
 FormBuilder/src/main/webapp/assets/js/components/form/form-modules/FormModuleStatic.js -text
+FormBuilder/src/main/webapp/assets/js/components/form/form-modules/ModuleMetadataEditable.js -text
 FormBuilder/src/main/webapp/assets/js/components/form/form-modules/Question.js -text
 FormBuilder/src/main/webapp/assets/js/components/form/form-modules/QuestionEditable.js -text
 FormBuilder/src/main/webapp/assets/js/components/form/form-modules/QuestionStatic.js -text

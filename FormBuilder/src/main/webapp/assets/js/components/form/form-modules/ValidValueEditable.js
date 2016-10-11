@@ -6,22 +6,21 @@ import Form from '../../common/Form';
 export class ValidValueEditable extends Component{
 	constructor(props){
 		super(props);
-		this.handleValueChanged = this.handleValueChanged.bind(this);
 		this.state = {
 			validatePristine: false,
 			activeQuestionAccordion:  '1'
 		};
 	}
-	handleValueChanged(currentValues, isChanged) {
+	handleValidValueChanged(currentValues, isChanged) {
 		if(isChanged) {
-			this.props.handleValueChanged({validValueId:  this.props.id, currentValues});
+			this.props.handleValidValueChanged({validValueId:  this.props.id, currentValues});
 		}
 	}
 	render() {
 			return (
 				<Row>
 					<Col sm={12}>
-						<Form onChange={this.handleValueChanged}>
+						<Form onChange={this.handleValidValueChanged}>
 							<fieldset name={this.props.validValue.longName}>
 								<legend className="sr-only">{this.props.validValue.longName}</legend>
 								<ul className="list-unstyled">

@@ -33,6 +33,9 @@ const FormService = Marionette.Object.extend({
 		[EVENTS.FORM.SAVE_FORM]:             'handleSaveForm',
 		[EVENTS.FORM.VIEW_MODULE]:           'setModuleView'
 	},
+	radioEvents: {
+		[EVENTS.FORM.SET_QUESTION]:      'handleSetModuleQuestion'
+	},
 	/* Stores cart data retrieved from carService */
 	carts:         null,
 	initialize({app}) {
@@ -160,7 +163,17 @@ const FormService = Marionette.Object.extend({
 		if(module.get("moduleIdseq") && !module.get("isEdited")){
 			module.set("isEdited", true);
 		}
+		console.log("module saved");
+/*
 		this.saveForm({successMessage: "Module Saved"});
+*/
+	},
+	handleSetModuleQuestion({moduleId, questionId, questionData}) {
+		const moduleModel = this.formModel.get('formModules').get(moduleId);
+		const questionModel  = moduleModel.get("questions").get(questionId);
+		questionModel.set({questionData});
+		console.log("question updated");
+
 	},
 	saveForm({persistToDB = false, successMessage} = {}) {
 		const p = new Promise(
