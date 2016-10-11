@@ -54,7 +54,7 @@ export default class QuestionEditable extends Component {
 	}
 	handleQuestionChanged(currentValues, isChanged) {
 		if(isChanged) {
-			this.props.dispatchSetQuestion({currentValues, id:  this.props.question.quesIdseq});
+			this.props.dispatchSetQuestion({questionData: currentValues, id:  this.props.question.quesIdseq});
 		}
 	}
 	handleValidValueChanged({validValueId, currentValues}) {

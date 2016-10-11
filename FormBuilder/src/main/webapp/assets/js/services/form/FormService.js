@@ -168,10 +168,10 @@ const FormService = Marionette.Object.extend({
 		this.saveForm({successMessage: "Module Saved"});
 */
 	},
-	handleSetModuleQuestion({moduleId, questionId, questionData}) {
-		const moduleModel = this.formModel.get('formModules').get(moduleId);
-		const questionModel  = moduleModel.get("questions").get(questionId);
-		questionModel.set({questionData});
+	handleSetModuleQuestion(data) {
+		const moduleModel = this.formModel.get('formModules').get(data.moduleId);
+		const questionModel  = moduleModel.get("questions").get(data.questionId);
+		questionModel.set(data.questionData);
 		console.log("question updated");
 
 	},

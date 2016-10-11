@@ -2,6 +2,7 @@ import {Model} from 'backbone';
 import ValidValuesCollection from './ValidValuesCollection';
 
 const QuestionsModel = Model.extend({
+	idAttribute: "quesIdseq",
 	defaults: {
 		cdeId: "",
 		version: "1.0",

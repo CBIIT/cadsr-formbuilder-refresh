@@ -37,8 +37,8 @@ export default class FormModuleForm extends Component {
 	handleSelectQuestionAccordion(activeKey) {
 		this.setState({ activeQuestionAccordion: activeKey });
 	}
-	dispatchSetQuestion({questionId, questionData}) {
-		formChannel.trigger(EVENTS.FORM.SET_QUESTION, {moduleId: this.props.moduleId, questionId: questionId, questionData: questionData} );
+	dispatchSetQuestion(data) {
+		formChannel.trigger(EVENTS.FORM.SET_QUESTION, {moduleId: this.props.moduleId, questionId: data.id, questionData: data.questionData} );
 	}
 	getQuestions (items) {
 		if(items && items.length){
