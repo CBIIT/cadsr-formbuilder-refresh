@@ -5,6 +5,7 @@ import cartsRouter from  "../../routers/CartsRouter";
 import ENDPOINT_URLS from '../../constants/ENDPOINT_URLS';
 import EVENTS from '../../constants/EVENTS';
 import cartActions from '../../constants/cartActions';
+import CartPageStateModel from '../../models/carts/CartPageStateModel';
 import {appChannel, cartChannel} from '../../channels/radioChannels';
 import CDECollection from '../../models/carts/CDECollection';
 import CartLayout from '../../components/carts/CartLayout';
@@ -17,6 +18,7 @@ import CartLayout from '../../components/carts/CartLayout';
 const CartsService = Marionette.Object.extend({
 	initialize() {
 		const cartsRouter = cartsRouter;
+		this.cartPageStateModel = CartPageStateModel;
 		 cartChannel.reply(EVENTS.CARTS.SET_LAYOUT, (options) => this.dispatchLayout(options));
 		this.setupModels();
 	},
@@ -24,13 +26,28 @@ const CartsService = Marionette.Object.extend({
 		/*Entry point for React. Backbone Views Keep Out
 		 * Once React is the top level view currently handled by Marionette (i.e.  AppLayoutView,js), we can render CartLayout from there instead  */
 		render(
-			<CartLayout cdeCartCollection={this.cdeCartCollection} />, document.getElementById('main'));
+			<CartLayout cartPageStateModel={this.cartPageStateModel} cdeCartCollection={this.cdeCartCollection} />, document.getElementById('main'));
 
 	},
 	dispatchLayout({action}) {
 		switch(action){
 			case cartActions.VIEW_CDE_CART_PAGE:
+				this.cartPageStateModel.set({actionMode: action});
 				this.fetchCarts({name: "cdeCart"});
+				this.constructLayout();
+				break;
+			case cartActions.VIEW_FORM_CART_PAGE:
+				this.cartPageStateModel.set({actionMode: action});
+				/*
+								this.fetchCarts({name: "formCart"});
+				*/
+				this.constructLayout();
+				break;
+			case cartActions.VIEW_MODULE_CART_PAGE:
+				this.cartPageStateModel.set({actionMode: action});
+				/*
+								this.fetchCarts({name: "moduleCart"});
+				*/
 				this.constructLayout();
 				break;
 			default:

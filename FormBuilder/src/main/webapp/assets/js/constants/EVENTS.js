@@ -14,6 +14,7 @@ const EVENTS = {
 		SET_NEW_MODULE:                 "set:newModule",
 		SAVE_FORM:                      'saveForm',
 		SET_MODULE:                     "set:module",
+		SET_QUESTION:                     "set:question",
 		SET_FORM_LAYOUT:                'set:formLayout',
 		GET_FORM_CORE_DETAILS_CRITERIA: 'get:getDropDownOptionsSuccess',
 		SET_CORE_FORM_DETAILS:          "set:formMetadata",
