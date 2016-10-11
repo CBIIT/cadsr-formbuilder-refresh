@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import backboneReact from 'backbone-react-component';
-import {Col, Row} from 'react-bootstrap';
+import cartActions from '../../constants/cartActions';
 import FormTable from '../formTable/formTable';
 import TABLECONFIG from '../../constants/TABLE_CONFIGS';
 
@@ -29,9 +29,21 @@ export default class CartLayout extends Component {
 	 * @returns {boolean}
 	 */
 	render(){
+		const actionMode = this.state.cartPageStateModel.actionMode;
+		let pageName = "";
+		if(actionMode === cartActions.VIEW_CDE_CART_PAGE) {
+			 pageName = "CDE Cart";
+		}
+		else if (actionMode === cartActions.VIEW_FORM_CART_PAGE) {
+			pageName = "Form Cart";
+		}
+		else if (actionMode === cartActions.VIEW_MODULE_CART_PAGE) {
+			pageName = "Module Cart";
+
+		}
 		return (
 			<div>
-				<h1 className="text--bold">Form Builder | CDE Cart</h1>
+				<h1 className="text--bold">Form Builder | {pageName}</h1>
 				<FormTable pagination={true} perPage={100} columnTitles={TABLECONFIG.CDE} data={this.data}></FormTable>
 			</div>
 		);
