@@ -21,10 +21,13 @@ export default class FormTable extends React.Component{
 		this.changePage = this.changePage.bind(this);
 		this.selectRow = this.selectRow.bind(this);
 		this.addControls = this.addControls.bind(this);
+		this.sortColumn = this.sortColumn.bind(this);
+		this.makeArrows = this.makeArrows.bind(this);
 
 		this.state = {
 			data: this.formatData(this.props.data, this.props.columnTitles),
-			selectedRows: []
+			selectedRows: [],
+			columnTitles : this.props.columnTitles
 		};
 
 		if(this.props.pagination){
@@ -187,6 +190,53 @@ export default class FormTable extends React.Component{
 		);
 	}
 
+	sortColumn(columnName, elem){
+		let data = this.state.data;
+		let columnTitles = this.state.columnTitles;
+		let columnSort = this.state.columnTitles.filter( (title)=>{
+			return title.name === columnName;
+		});
+		//set arrows to be the right direction
+		if(columnSort[0].sort === ''){
+			for(let i of columnTitles){
+				//reset collection
+				i.sort = '';
+			}
+			columnSort[0].sort = 'asc';
+		}
+		else if(columnSort[0].sort === 'asc'){
+			columnSort[0].sort = 'desc';
+		}
+		else{
+			columnSort[0].sort = 'asc';
+		}
+
+		data = _.sortBy( data, (item) => {
+			return item[columnSort[0].key];
+		});
+		if(columnSort[0].sort === 'desc'){
+			data = data.reverse();
+		}
+
+		let index = this.props.columnTitles.findIndex( (element)=>{
+			return element.key === columnSort[0].key;
+		});
+		columnTitles[index] = columnSort[0];
+		this.setState({data : data, columnTitles: columnTitles});
+
+	}
+	makeArrows(title){
+		if(title.sort === 'asc'){
+			return (<span className="icon icon-carrot-down reactTable-control"></span>);
+		}
+		else if(title.sort === 'desc'){
+			return (<span className="icon icon-carrot-up reactTable-control"></span>);
+		}
+		else{
+			return (<span className="icon icon-carrot-up-down reactTable-control"></span>);
+		}
+	}
+
 	render(){
 		const data = this.state.data;
 
@@ -205,9 +255,20 @@ export default class FormTable extends React.Component{
 							<input type='checkbox' onChange={this.selectAllRows}/>
 						</Th>
 						{
-							this.props.columnTitles.map( (title) =>{
+							this.state.columnTitles.map( (title) =>{
 								return(
-									<Th key={title.name} column={title.name}>{title.name} <span className="icon icon-carrot-up-down"></span></Th>
+									<Th key={title.name} column={title.name}>
+										<span
+										      onClick={ (e)=>{ this.sortColumn(title.name, e.target)}}
+										>
+											{
+												title.name
+											}
+											{
+												this.makeArrows(title)
+											}
+										</span>
+									</Th>
 								);
 							})
 						}

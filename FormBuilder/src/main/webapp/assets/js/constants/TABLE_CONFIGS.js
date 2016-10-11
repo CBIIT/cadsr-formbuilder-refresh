@@ -5,31 +5,38 @@ const TABLECONFIG = {
 	CDE: [
 		{
 			key: 'longname',
-			name: 'Long Name'
+			name: 'Long Name',
+			sort: ''
 		},
 		{
 			key: 'longcdename',
-			name: 'Doc Text'
+			name: 'Doc Text',
+			sort: ''
 		},
 		{
 			key: 'contextname',
-			name: 'Context'
+			name: 'Context',
+			sort: ''
 		},
 		{
 			key: 'registrationstatus',
-			name: 'Registration Status'
+			name: 'Registration Status',
+			sort: ''
 		},
 		{
 			key: 'workflow',
-			name: 'Workflow Status'
+			name: 'Workflow Status',
+			sort: ''
 		},
 		{
 			key: 'publicid',
-			name: 'ID'
+			name: 'ID',
+			sort: ''
 		},
 		{
 			key: 'version',
-			name: 'Version'
+			name: 'Version',
+			sort: ''
 		}
 	],
 	MODULE: [
