@@ -72,7 +72,7 @@ export default class FormLayout extends Component {
 	getCartList({name}){
 		if(this.props[name]){
 			return this.props[name].models.map(model =>{
-				return Object.assign({}, model.attributes, {id: model.id});
+				return Object.assign({}, model.attributes.dataElement, {id: model.id});
 			});
 		}
 	}
