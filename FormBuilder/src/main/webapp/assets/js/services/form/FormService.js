@@ -220,8 +220,6 @@ const FormService = Marionette.Object.extend({
 
 	},
 	setupModels() {
-		this[name] = new Collection();
-
 		/* Should only contain data to populate the form UI's immutable data */
 		const UIDropDownOptionsModel = Model.extend({
 			defaults: {
