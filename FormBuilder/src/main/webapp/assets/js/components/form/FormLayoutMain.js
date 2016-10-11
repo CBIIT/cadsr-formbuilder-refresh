@@ -1,10 +1,10 @@
 import React, {Component, PropTypes} from 'react';
 import {Col, Row, Button} from 'react-bootstrap';
-import FormModuleForm from './FormModuleForm';
+import FormModuleForm from './form-modules/FormModuleForm';
 import ButtonsGroup from '../common/ButtonsGroup';
 import FormMetadataForm from './FormMetadataForm';
 import FormMetadataStatic from './FormMetadataStatic';
-import FormModuleStatic from './FormModuleStatic';
+import FormModuleStatic from './form-modules/FormModuleStatic';
 import FormGlobalToolbar from './FormGlobalToolbar';
 import EVENTS from '../../constants/EVENTS';
 import {formChannel} from '../../channels/radioChannels';

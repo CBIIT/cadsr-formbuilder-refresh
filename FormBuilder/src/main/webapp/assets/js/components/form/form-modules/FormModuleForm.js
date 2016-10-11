@@ -1,10 +1,10 @@
 import React, {Component, PropTypes} from 'react';
 import {Col, Row, PanelGroup, Panel} from 'react-bootstrap';
 import {Input, Textarea} from 'formsy-react-components';
-import EVENTS from '../../constants/EVENTS';
-import formActions from '../../constants/formActions';
-import {formChannel} from '../../channels/radioChannels';
-import Form from '../common/Form';
+import EVENTS from '../../../constants/EVENTS';
+import formActions from '../../../constants/formActions';
+import {formChannel} from '../../../channels/radioChannels';
+import Form from '../../common/Form';
 import QuestionEditable from './QuestionEditable';
 
 export default class FormModuleForm extends Component {
@@ -46,7 +46,6 @@ export default class FormModuleForm extends Component {
 				<PanelGroup accordion activeKey={activeQuestionAccordion} onSelect={this.handleSelectQuestionAccordion}>{items.map(mapQuestions)}</PanelGroup>
 			);
 		}
-
 	}
 	render(){
 		return (

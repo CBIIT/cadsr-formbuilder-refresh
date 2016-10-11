@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import {Col, Row, PanelGroup, Panel} from 'react-bootstrap';
 import {Input, Textarea, RadioGroup, Checkbox, Select} from 'formsy-react-components';
 import ValidValueEditable from './ValidValueEditable';
-import {getOptions} from '../../helpers/uiInputHelpers';
+import {getOptions} from '../../../helpers/uiInputHelpers';
 
 export default class QuestionEditable extends Component {
 	constructor(props){
