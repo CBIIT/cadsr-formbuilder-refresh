@@ -55,7 +55,7 @@ export default class TreeView extends Component {
 }
 
 TreeView.propTypes = {
-	formMetadataLinkIsActive:    PropTypes.boolean,
+	formMetadataLinkIsActive:    PropTypes.bool,
 	activeModuleId:              PropTypes.string,
 	shouldShowFormMeatadataLink: PropTypes.bool,
 	canCreateModule:             PropTypes.bool,
