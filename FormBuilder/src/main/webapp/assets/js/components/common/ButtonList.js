@@ -24,7 +24,10 @@ ButtonList.defaultProps = {
 	buttonItemClassName: "button-link"
 };
 Button.propTypes = {
-	onClick:           PropTypes.string
+	onClick: PropTypes.oneOfType([
+		PropTypes.string,
+		PropTypes.func
+	])
 };
 
 ButtonList.propTypes = {
