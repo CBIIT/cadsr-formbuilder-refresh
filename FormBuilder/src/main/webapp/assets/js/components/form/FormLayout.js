@@ -78,9 +78,9 @@ export default class FormLayout extends Component {
 	}
 
 	getFormModules(){
-		/* Return list of modules with its backbone model's cid included */
+		/* Store a local copy of list of modules as POJOs with its backbone model's cid included
+		 Getting cid vs moduleIdseq because new modules don't have a moduleIdseq */
 		this.formModules = this.props.formModules.models.map(model =>{
-			/* Getting cid vs moduleIdseq because new modules don't have a moduleIdseq */
 			return Object.assign({}, backboneModelHelpers.getDeepModelPojo(model), {cid: model.cid});
 		});
 	}

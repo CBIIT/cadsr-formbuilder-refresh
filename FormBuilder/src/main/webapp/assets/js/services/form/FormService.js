@@ -34,7 +34,9 @@ const FormService = Marionette.Object.extend({
 		[EVENTS.FORM.VIEW_MODULE]:           'setModuleView'
 	},
 	radioEvents: {
-		[EVENTS.FORM.SET_QUESTION]:      'handleSetModuleQuestion'
+		[EVENTS.FORM.SET_QUESTION]:      'handleSetModuleQuestion',
+		[EVENTS.FORM.SET_VALID_VALUE]:      'handleSetModuleQuestionValidValue'
+
 	},
 	/* Stores cart data retrieved from carService */
 	carts:         null,
@@ -121,6 +123,10 @@ const FormService = Marionette.Object.extend({
 			});
 		}
 	},
+	getModuleQuestionModel({moduleId, questionId}) {
+		const moduleModel = this.formModel.get('formModules').get(moduleId);
+		return moduleModel.get("questions").get(questionId);
+	},
 	fetchFormMetaDataCriteria() {
 		formChannel.on(EVENTS.FORM.GET_FORM_CORE_DETAILS_CRITERIA, () =>{
 			this.constructLayout();
@@ -169,11 +175,13 @@ const FormService = Marionette.Object.extend({
 */
 	},
 	handleSetModuleQuestion(data) {
-		const moduleModel = this.formModel.get('formModules').get(data.moduleId);
-		const questionModel  = moduleModel.get("questions").get(data.questionId);
-		questionModel.set(data.questionData);
+		this.getModuleQuestionModel({moduleId: data.moduleId, questionId: data.questionId}).set(data.questionData);
 		console.log("question updated");
-
+	},
+	handleSetModuleQuestionValidValue(data) {
+	const validValueModel = this.getModuleQuestionModel({moduleId: data.moduleId, questionId: data.questionId}).get("validValues").get(data.validValueId);
+		validValueModel.set(data.validValueData);
+		console.log("valid value updated");
 	},
 	saveForm({persistToDB = false, successMessage} = {}) {
 		const p = new Promise(

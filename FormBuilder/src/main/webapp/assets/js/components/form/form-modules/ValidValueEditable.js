@@ -1,11 +1,14 @@
 import React, {Component, PropTypes} from 'react';
 import {Col, Row} from 'react-bootstrap';
 import {Input, Textarea} from 'formsy-react-components';
+import EVENTS from '../../../constants/EVENTS';
+import {formChannel} from '../../../channels/radioChannels';
 import Form from '../../common/Form';
 
 export class ValidValueEditable extends Component{
 	constructor(props){
 		super(props);
+		this.handleValidValueChanged = this.handleValidValueChanged.bind(this);
 		this.state = {
 			validatePristine: false,
 			activeQuestionAccordion:  '1'
@@ -13,7 +16,13 @@ export class ValidValueEditable extends Component{
 	}
 	handleValidValueChanged(currentValues, isChanged) {
 		if(isChanged) {
-			this.props.handleValidValueChanged({validValueId:  this.props.id, currentValues});
+			formChannel.trigger(EVENTS.FORM.SET_VALID_VALUE,
+				{
+					moduleId: this.props.moduleId,
+					questionId:  this.props.questionId,
+					validValueId:this.props.validValue.cid,
+					validValueData: currentValues}
+				);
 		}
 	}
 	render() {
@@ -46,7 +55,6 @@ export class ValidValueEditable extends Component{
 	}
 
 ValidValueEditable.propTypes = {
-	handleValueChanged: PropTypes.func
 };
 
 export default ValidValueEditable;

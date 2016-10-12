@@ -12,7 +12,6 @@ export default class FormModuleForm extends Component {
 		this.dispatchModuleMetadata = this.dispatchModuleMetadata.bind(this);
 		this.getQuestions = this.getQuestions.bind(this);
 		this.handleSelectQuestionAccordion = this.handleSelectQuestionAccordion.bind(this);
-		this.dispatchSetQuestion = this.dispatchSetQuestion.bind(this);
 		this.state = {
 			validatePristine: false,
 			activeQuestionAccordion:  '1'
@@ -37,16 +36,13 @@ export default class FormModuleForm extends Component {
 	handleSelectQuestionAccordion(activeKey) {
 		this.setState({ activeQuestionAccordion: activeKey });
 	}
-	dispatchSetQuestion(data) {
-		formChannel.trigger(EVENTS.FORM.SET_QUESTION, {moduleId: this.props.moduleId, questionId: data.id, questionData: data.questionData} );
-	}
 	getQuestions (items) {
 		if(items && items.length){
 			const activeQuestionAccordion = this.state.activeQuestionAccordion;
 			const mapQuestions = (item, index) =>{
 				return (
 					<Panel header={item.longName} key={index} eventKey={index}>
-						<QuestionEditable dispatchSetQuestion={this.dispatchSetQuestion} panelIsExpanded={activeQuestionAccordion=== index}  question={item}/>
+						<QuestionEditable moduleId={this.props.moduleId} panelIsExpanded={activeQuestionAccordion=== index}  question={item}/>
 					</Panel>
 				);
 			};

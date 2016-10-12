@@ -1,5 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import {Col, Row, PanelGroup, Panel} from 'react-bootstrap';
+import EVENTS from '../../../constants/EVENTS';
+import {formChannel} from '../../../channels/radioChannels';
 import Form from '../../common/Form';
 import {Input, Textarea, RadioGroup, Checkbox, Select} from 'formsy-react-components';
 import ValidValueEditable from './ValidValueEditable';
@@ -9,17 +11,16 @@ export default class QuestionEditable extends Component {
 	constructor(props){
 		super(props);
 		this.handleQuestionChanged = this.handleQuestionChanged.bind(this);
-		this.handleValidValueChanged = this.handleValidValueChanged.bind(this);
 		this.state = {
 			validatePristine: false,
 			activeQuestionAccordion:  '1'
 		};
 	}
-	static getValidValues (items){
+	 getValidValues (items){
 		if(items && items.length){
 			const mapValidValues = (item, index) =>{
 				return (
-					<ValidValueEditable handleValidValueChanged={this.handleValidValueChanged} key={index} validValue={item}/>
+					<ValidValueEditable moduleId={this.props.moduleId} questionId={this.props.question.cid} key={index} validValue={item}/>
 				);
 			};
 			return (
@@ -54,11 +55,12 @@ export default class QuestionEditable extends Component {
 	}
 	handleQuestionChanged(currentValues, isChanged) {
 		if(isChanged) {
-			this.props.dispatchSetQuestion({questionData: currentValues, id:  this.props.question.quesIdseq});
+			formChannel.trigger(EVENTS.FORM.SET_QUESTION,
+				{moduleId: this.props.moduleId,
+					questionData: currentValues,
+					questionId:  this.props.question.cid
+				});
 		}
-	}
-	handleValidValueChanged({validValueId, currentValues}) {
-		this.props.dispatchSetQuestion({currentValues});
 	}
 	render() {
 		if(this.props.panelIsExpanded) {
@@ -101,7 +103,7 @@ export default class QuestionEditable extends Component {
 							</ul>
 						</Form>
 							<div>
-								{QuestionEditable.getValidValues(this.props.question.validValues)}
+								{this.getValidValues(this.props.question.validValues)}
 							</div>
 
 					</Col>
@@ -120,5 +122,5 @@ QuestionEditable.propTypes = {
 	/*We don't render form inputs unless panelIsExpanded = true to limit the number of form inputs renderd to reduce the chance of a performance hit. */
 	panelIsExpanded: PropTypes.bool,
 	question: PropTypes.object,
-	handleQuestionChanged: PropTypes.func
+	dispatchSetQuestion: PropTypes.func
 };
