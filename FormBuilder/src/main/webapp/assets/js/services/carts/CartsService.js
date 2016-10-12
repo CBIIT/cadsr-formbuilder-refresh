@@ -8,6 +8,8 @@ import cartActions from '../../constants/cartActions';
 import CartPageStateModel from '../../models/carts/CartPageStateModel';
 import {appChannel, cartChannel} from '../../channels/radioChannels';
 import CDECollection from '../../models/carts/CDECollection';
+import FormCollection from '../../models/carts/FormCollection';
+import ModuleCollection from '../../models/carts/ModuleCollection';
 import CartLayout from '../../components/carts/CartLayout';
 
 /**
@@ -22,11 +24,22 @@ const CartsService = Marionette.Object.extend({
 		 cartChannel.reply(EVENTS.CARTS.SET_LAYOUT, (options) => this.dispatchLayout(options));
 		this.setupModels();
 	},
-	constructLayout(){
+	constructLayout(cart){
 		/*Entry point for React. Backbone Views Keep Out
 		 * Once React is the top level view currently handled by Marionette (i.e.  AppLayoutView,js), we can render CartLayout from there instead  */
+		let data = '';
+		if(cart === 'Module'){
+			data = this.moduleCartCollection;
+		}
+		else if(cart === 'Form'){
+			data = this.formCartCollection;
+		}
+		else{
+			data = this.cdeCartCollection;
+		}
+		console.log(data);
 		render(
-			<CartLayout cartPageStateModel={this.cartPageStateModel} cdeCartCollection={this.cdeCartCollection} />, document.getElementById('main'));
+			<CartLayout cartPageStateModel={this.cartPageStateModel} data={data} cart={cart} />, document.getElementById('main'));
 
 	},
 	dispatchLayout({action}) {
@@ -34,21 +47,17 @@ const CartsService = Marionette.Object.extend({
 			case cartActions.VIEW_CDE_CART_PAGE:
 				this.cartPageStateModel.set({actionMode: action});
 				this.fetchCarts({name: "cdeCart"});
-				this.constructLayout();
+				this.constructLayout('CDE');
 				break;
 			case cartActions.VIEW_FORM_CART_PAGE:
 				this.cartPageStateModel.set({actionMode: action});
-				/*
-								this.fetchCarts({name: "formCart"});
-				*/
-				this.constructLayout();
+				this.fetchCarts({name: "formCart"});
+				this.constructLayout('Form');
 				break;
 			case cartActions.VIEW_MODULE_CART_PAGE:
 				this.cartPageStateModel.set({actionMode: action});
-				/*
-								this.fetchCarts({name: "moduleCart"});
-				*/
-				this.constructLayout();
+				this.fetchCarts({name: "moduleCart"});
+				this.constructLayout('Module');
 				break;
 			default:
 				console.error("no valid action provided");
@@ -59,19 +68,30 @@ const CartsService = Marionette.Object.extend({
 	 * @returns {Promise.<TResult>}
 	 */
 	fetchCarts({name}) {
-		const cdeCartCollection = this.cdeCartCollection;
+		let dataCollection;
+
+		if(name === 'cdeCart'){
+			dataCollection = this.cdeCartCollection;
+		}
+		else if(name ==='moduleCart'){
+			dataCollection = this.moduleCartCollection;
+		}
+		else{
+			dataCollection = this.formCartCollection;
+		}
+
 		/* TODO refactor to handle array of carts */
 		const p = new Promise(
 			(resolve, reject) =>{
-				cdeCartCollection.fetch().then(() =>{
-					resolve(cdeCartCollection);
+				dataCollection.fetch().then(() =>{
+					resolve(dataCollection);
 				}).catch((error) =>{
 					console.log(error);
 				});
 			}
 		);
-		return p.then((name)=>{
-			return name;
+		return p.then((collection)=>{
+			return collection;
 		}).catch((error)=>{
 			console.log(error);
 		});
@@ -81,6 +101,12 @@ const CartsService = Marionette.Object.extend({
 
 		this.cdeCartCollection = new CDECollection({
 			url: `${ENDPOINT_URLS.CDE_CART}/${user}`
+		});
+		this.formCartCollection = new FormCollection({
+			url: `${ENDPOINT_URLS.FORM_CART}/${user}`
+		});
+		this.moduleCartCollection = new ModuleCollection({
+			url: `${ENDPOINT_URLS.MODULE_CART}/${user}`
 		});
 	}
 });

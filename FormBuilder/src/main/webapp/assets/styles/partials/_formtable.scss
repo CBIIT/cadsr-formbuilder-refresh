@@ -1,4 +1,7 @@
 .reactTable{
+  &.table{
+    margin-bottom: 0px;
+  }
   .icon{
     color: $color-highlight;
     float: right;
@@ -89,9 +92,10 @@
   top: -5px;
 }
 .reactTable-total--bottom{
-  margin-top: -20px;
+  margin-top: -8px;
   display:block;
   top: 19px;
+  width: 250px;
 }
 .reactTable-controlPanel{
   width: 100%;
@@ -157,4 +161,8 @@
 }
 .reactTable-control{
   cursor: pointer;
+}
+.reactTable-wrap{
+  max-height: 450px;
+  overflow-y: scroll;
 }

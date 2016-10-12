@@ -62,6 +62,7 @@ FormBuilder/src/main/webapp/assets/js/channels/radioChannels.js -text
 FormBuilder/src/main/webapp/assets/js/commands/GetFormMetadataCriteriaCommand.js -text
 FormBuilder/src/main/webapp/assets/js/commands/GetSearchFormCriteriaCommand.js -text
 FormBuilder/src/main/webapp/assets/js/components/carts/CartLayout.js -text
+FormBuilder/src/main/webapp/assets/js/components/carts/FormCart.js -text
 FormBuilder/src/main/webapp/assets/js/components/common/ButtonList.js -text
 FormBuilder/src/main/webapp/assets/js/components/common/ButtonsGroup.js -text
 FormBuilder/src/main/webapp/assets/js/components/common/Form.js -text
@@ -97,6 +98,10 @@ FormBuilder/src/main/webapp/assets/js/models/AppModel.js -text
 FormBuilder/src/main/webapp/assets/js/models/carts/CDECollection.js -text
 FormBuilder/src/main/webapp/assets/js/models/carts/CDEModel.js -text
 FormBuilder/src/main/webapp/assets/js/models/carts/CartPageStateModel.js -text
+FormBuilder/src/main/webapp/assets/js/models/carts/FormCollection.js -text
+FormBuilder/src/main/webapp/assets/js/models/carts/FormModel.js -text
+FormBuilder/src/main/webapp/assets/js/models/carts/ModuleCollection.js -text
+FormBuilder/src/main/webapp/assets/js/models/carts/ModuleModel.js -text
 FormBuilder/src/main/webapp/assets/js/models/forms/DropDownOptionModel.js -text
 FormBuilder/src/main/webapp/assets/js/models/forms/DropDownOptionsCollection.js -text
 FormBuilder/src/main/webapp/assets/js/models/forms/FormMetadataModel.js -text

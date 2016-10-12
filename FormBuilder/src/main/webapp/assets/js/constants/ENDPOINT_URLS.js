@@ -8,7 +8,9 @@ const ENDPOINT_URLS = {
 	FORMS_WORKING_COPY: `${formBuilderHost}/FormBuilder/api/v1/forms/workingCopy`,
 	TYPES:              `${formBuilderHost}/FormBuilder/api/v1/types`,
 	WORKFLOWS:          `${formBuilderHost}/FormBuilder/api/v1/workflows`,
-	CDE_CART:           `${formBuilderHost}/FormBuilder/api/v1/carts/objcart/cdecart`
+	CDE_CART:           `${formBuilderHost}/FormBuilder/api/v1/carts/objcart/cdecart`,
+	MODULE_CART:        `${formBuilderHost}/FormBuilder/api/v1/carts/dummy/objcart/modulecart`,
+	FORM_CART:        `${formBuilderHost}/FormBuilder/api/v1/carts/dummy/objcart/formcart`,
 };
 
 /*Make immutable */

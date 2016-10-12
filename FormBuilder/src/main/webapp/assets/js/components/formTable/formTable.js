@@ -23,6 +23,7 @@ export default class FormTable extends React.Component{
 		this.addControls = this.addControls.bind(this);
 		this.sortColumn = this.sortColumn.bind(this);
 		this.makeArrows = this.makeArrows.bind(this);
+		this.getCurrentDisplayData = this.getCurrentDisplayData.bind(this);
 
 		this.state = {
 			data: this.formatData(this.props.data, this.props.columnTitles),
@@ -33,6 +34,10 @@ export default class FormTable extends React.Component{
 		if(this.props.pagination){
 			this.state.currentPage = 1;
 			this.totalPages = Math.ceil(this.state.data.length / this.props.perPage);
+			this.state.displayedData = this.state.data.slice(0, this.props.perPage);
+		}
+		else{
+			this.state.displayedData = this.state.data;
 		}
 	}
 
@@ -70,8 +75,11 @@ export default class FormTable extends React.Component{
 	selectRow(e){ //ensures a row is selected when a checkbox is clicked
 		let data = this.state.data;
 		let selectedRows = this.state.selectedRows;
-		data[e].selected = !data[e].selected;
-		if(data[e].selected){
+		let index = data.findIndex( (element)=>{
+			return element.id === e;
+		});
+		data[index].selected = !data[index].selected;
+		if(data[index].selected){
 			//selected a row, so add it to the collection
 			selectedRows.push(data[e]);
 		}
@@ -166,7 +174,21 @@ export default class FormTable extends React.Component{
 		if(pageNum > this.totalPages){
 			return; //can't go past the last page either
 		}
-		this.setState({currentPage: pageNum});
+		let perPage = this.props.perPage,
+			startNum = perPage * (pageNum-1),
+			endNum =  perPage * pageNum,
+			collection = this.state.data,
+			displayedData = collection.slice(startNum, endNum);
+		this.setState({currentPage: pageNum, displayedData: displayedData});
+	}
+
+	getCurrentDisplayData(collection){
+		let perPage = this.props.perPage,
+			page = this.state.currentPage,
+			startNum = perPage * (page-1),
+			endNum =  perPage * page,
+			displayedData = collection.slice(startNum, endNum);
+		return displayedData;
 	}
 
 	addControls(){
@@ -222,9 +244,10 @@ export default class FormTable extends React.Component{
 			return element.key === columnSort[0].key;
 		});
 		columnTitles[index] = columnSort[0];
-		this.setState({data : data, columnTitles: columnTitles});
-
+		let displayData = this.getCurrentDisplayData(data);
+		this.setState({data : data, columnTitles: columnTitles, displayedData: displayData});
 	}
+
 	makeArrows(title){
 		if(title.sort === 'asc'){
 			return (<span className="icon icon-carrot-down reactTable-control"></span>);
@@ -238,7 +261,7 @@ export default class FormTable extends React.Component{
 	}
 
 	render(){
-		const data = this.state.data;
+		const data = this.state.displayedData;
 
 		return(
 			<section>
@@ -249,53 +272,55 @@ export default class FormTable extends React.Component{
 					this.addPagination(true)
 				}
 				<span className="reactTable-total">TOTAL ITEMS IN CART: {this.state.data.length}</span>
-				<Reactable id="table" className="table reactTable">
-					<Thead>
-						<Th column="checkbox">
-							<input type='checkbox' onChange={this.selectAllRows}/>
-						</Th>
+				<div className="reactTable-wrap">
+					<Reactable id="table" className="table reactTable">
+						<Thead>
+							<Th column="checkbox">
+								<input type='checkbox' onChange={this.selectAllRows}/>
+							</Th>
+							{
+								this.state.columnTitles.map( (title) =>{
+									return(
+										<Th key={title.name} column={title.name}>
+											<span
+											      onClick={ (e)=>{ this.sortColumn(title.name, e.target)}}
+											>
+												{
+													title.name
+												}
+												{
+													this.makeArrows(title)
+												}
+											</span>
+										</Th>
+									);
+								})
+							}
+						</Thead>
 						{
-							this.state.columnTitles.map( (title) =>{
-								return(
-									<Th key={title.name} column={title.name}>
-										<span
-										      onClick={ (e)=>{ this.sortColumn(title.name, e.target)}}
-										>
-											{
-												title.name
-											}
-											{
-												this.makeArrows(title)
-											}
-										</span>
-									</Th>
+							data.map( (item) => {
+								return (
+									<Tr key={item.id}>
+										<Td key={'checkbox'} column="checkbox">
+											<input type="checkbox" value={item.id}
+										       onChange={() =>{ this.selectRow(item.id);}}
+											   checked={item.selected}/>
+										</Td>
+										{
+											this.props.columnTitles.map( (title, index) => {
+												return(
+													<Td key={ title+index} column={title.name}>
+														{item[title.key]}
+													</Td>
+												);
+											})
+										}
+									</Tr>
 								);
 							})
 						}
-					</Thead>
-					{
-						data.map( (item) => {
-							return (
-								<Tr key={item.id}>
-									<Td key={'checkbox'} column="checkbox">
-										<input type="checkbox" value={item.id}
-									       onChange={() =>{ this.selectRow(item.id);}}
-										   checked={item.selected}/>
-									</Td>
-									{
-										this.props.columnTitles.map( (title, index) => {
-											return(
-												<Td key={ title+index} column={title.name}>
-													{item[title.key]}
-												</Td>
-											);
-										})
-									}
-								</Tr>
-							);
-						})
-					}
-				</Reactable>
+					</Reactable>
+					</div>
 				<span className="reactTable-total reactTable-total--bottom">TOTAL ITEMS IN CART: {this.state.data.length}</span>
 				{
 					this.addPagination()
