@@ -36,6 +36,7 @@ import gov.nih.nci.ncicb.cadsr.common.dto.ModuleTransferObject;
 import gov.nih.nci.ncicb.cadsr.common.dto.ProtocolTransferObject;
 import gov.nih.nci.ncicb.cadsr.common.dto.QuestionChangeTransferObject;
 import gov.nih.nci.ncicb.cadsr.common.dto.QuestionTransferObject;
+import gov.nih.nci.ncicb.cadsr.common.dto.ReferenceDocumentTransferObject;
 import gov.nih.nci.ncicb.cadsr.common.dto.TriggerActionChangesTransferObject;
 import gov.nih.nci.ncicb.cadsr.common.dto.ValidValueTransferObject;
 import gov.nih.nci.ncicb.cadsr.common.dto.ValueDomainTransferObject;
@@ -515,6 +516,18 @@ public class FormManagerImpl implements FormManager {
 				bbques.setUnitOfMeasure(qto.getDataElement().getValueDomain().getUnitOfMeasure());
 				bbques.setDisplayFormat(qto.getDataElement().getValueDomain().getDisplayFormat());
 //				bbques.setConcepts(qto.getDataElement().getValueDomain().getConceptDerivationRule().getComponentConcepts().toString());
+				
+				List<String> altQuestionTexts = new ArrayList<String>();
+				
+				for(Object obj : qto.getDataElement().getRefereceDocs()){
+					ReferenceDocumentTransferObject refDoc = (ReferenceDocumentTransferObject)obj;
+					
+					String altQuestionText = refDoc.getDocText();
+					
+					altQuestionTexts.add(altQuestionText);
+				}
+				
+				bbques.setAlternativeQuestionText(altQuestionTexts);
 
 				bbmod.getQuestions().add(bbques);
 
