@@ -139,8 +139,13 @@
   .dropdown-menu{
     border-radius: 0px;
     margin-top: 10px;
+    margin-left: -42px;
     border-top: 1px solid $color-highlight;
     background-color: $color-accent-bright;
+    i{
+      font-size: 16px;
+      padding: 0px 8px;
+    }
     a{
       color: $color-highlight;
       &:hover{

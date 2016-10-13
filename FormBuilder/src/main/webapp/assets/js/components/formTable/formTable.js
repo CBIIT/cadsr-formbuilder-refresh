@@ -7,7 +7,8 @@ Props:
 	data (arr),
 	columnTitles (arr),
 	pagination (bool),
-	perPage (int)
+	perPage (int),
+	pageName (string)
  */
 
 /*
@@ -29,7 +30,6 @@ Props:
 export default class FormTable extends React.Component{
 
 	constructor(props){
-
 		super(props);
 		//function bindings
 		this.selectAllRows = this.selectAllRows.bind(this);
@@ -41,6 +41,7 @@ export default class FormTable extends React.Component{
 		this.addControls = this.addControls.bind(this);
 		this.sortColumn = this.sortColumn.bind(this);
 		this.makeArrows = this.makeArrows.bind(this);
+		this.addPageLabel = this.addPageLabel.bind(this);
 		//initial state setup. This may need to be moved into another function other than the constructor
 
 		this.state = {
@@ -254,21 +255,33 @@ export default class FormTable extends React.Component{
 		return displayedData;
 	}
 
+	addPageLabel(){
+		if(this.props.pageName === 'CDE Cart'){
+			return (<li>{ this.state.selectedRows.length } CDE(s) Selected</li>);
+		}
+		else if(this.props.pageName === 'Form Cart'){
+			return (<li> {this.state.selectedRows.length} Form(s) Selected</li>);
+		}
+		else if(this.props.pageName === 'Module Cart'){
+			return (<li> {this.state.selectedRows.length} Module(s) Selected</li>);
+		}
+	}
+
 	addControls(){
 		//adds the blue bar to the top fo the table. This currently doesn't do anything
 		return(
 			<div className="reactTable-controlPanel">
 				<ul className="controlPanel-list">
-					<li>
-						{ this.state.selectedRows.length } CDE(s) SELECTED
-					</li>
+					{
+						this.addPageLabel()
+					}
 					<li>
 						<button className="controlPanel-btn"> REMOVE FROM CART <Glyphicon glyph="trash"/></button>
 					</li>
 					<li>
-						<DropdownButton className="controlPanel-btn" title="CHOOSE TYPE">
-							<MenuItem eventKey="1">DOWNLOAD EXCEL</MenuItem>
-							<MenuItem eventKey="2">DOWNLOAD XML</MenuItem>
+						<DropdownButton className="controlPanel-btn" title="DOWNLOAD">
+							<MenuItem eventKey="1"><i className="controlPanel-icon fa fa-file-excel-o"></i> DOWNLOAD EXCEL</MenuItem>
+							<MenuItem eventKey="2"><i className="controlPanel-icon fa fa-file-code-o"></i> DOWNLOAD XML</MenuItem>
 						</DropdownButton>
 					</li>
 				</ul>
@@ -327,7 +340,6 @@ export default class FormTable extends React.Component{
 	}
 
 	render(){
-		console.log('form table render');
 		const data = this.state.displayedData;
 
 		return(

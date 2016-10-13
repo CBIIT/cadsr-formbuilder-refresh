@@ -63,8 +63,9 @@ export default class CartLayout extends Component {
 		}
 		return (
 			<div>
+
 				<h1 className="text--bold">Form Builder | {pageName}</h1>
-				<FormTable pagination={true} perPage={100} columnTitles={columnConfig} data={this.data}></FormTable>
+				<FormTable pagination={true} perPage={100} pageName={pageName} columnTitles={columnConfig} data={this.data}></FormTable>
 			</div>
 		);
 	}
