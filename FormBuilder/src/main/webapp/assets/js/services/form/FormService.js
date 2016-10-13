@@ -155,7 +155,7 @@ const FormService = Marionette.Object.extend({
 		});
 	},
 	handleSaveForm() {
-		this.saveForm({successMessage: "Form Saved"});
+		this.saveForm({successMessage: "Entire form saved to DB. This is what \"Global Save\" will do."});
 	},
 	handleSetFormEditable() {
 		/*Auth and permssions checks for for editing a form can go here*/
@@ -169,10 +169,7 @@ const FormService = Marionette.Object.extend({
 		if(module.get("moduleIdseq") && !module.get("isEdited")){
 			module.set("isEdited", true);
 		}
-		console.log("module saved");
-/*
-		this.saveForm({successMessage: "Module Saved"});
-*/
+		this.saveForm({successMessage: "Entire form saved to DB. This is what 'Global Save' will do."});
 	},
 	handleSetModuleQuestion(data) {
 		this.getModuleQuestionModel({moduleId: data.moduleId, questionId: data.questionId}).set(data.questionData);
@@ -223,7 +220,7 @@ const FormService = Marionette.Object.extend({
 			this.createForm();
 		}
 		else{
-			this.saveForm({successMessage: "Form Details Saved"});
+			this.saveForm({successMessage: "Entire form saved to DB. This is what \"Global Save\" will do."});
 		}
 
 	},
