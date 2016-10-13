@@ -20,7 +20,9 @@ const QuestionsModel = Model.extend({
 		instruction: "",
 		cdeWorkflow: "",
 		alternateQuestionText: "",
-		validValues: new ValidValuesCollection()
+		validValues: new ValidValuesCollection(),
+		/* isEdited used for letting the backend know whether this has changed */
+		isEdited: false
 	},
 	constructor(attributes, options) {
 		/* Pass any validValues into new ValidValuesCollection so each nested object becomes a ValidValueModel */

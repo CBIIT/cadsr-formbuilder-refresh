@@ -9,7 +9,9 @@ const ValidValueModel = Model.extend({
 		/* used for editing */
 		instruction:                     "",
 		alternateFormValueMeaningText:   "",
-		alternateFormValueMeaningDesc:   ""
+		alternateFormValueMeaningDesc:   "",
+		/* isEdited used for letting the backend know whether this has changed */
+		isEdited: false
 	}
 });
 

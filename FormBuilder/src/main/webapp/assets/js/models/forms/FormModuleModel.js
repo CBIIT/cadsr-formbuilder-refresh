@@ -4,11 +4,11 @@ import QuestionsCollection from './QuestionsCollection';
 const FormModuleModel = Model.extend({
 	idAttribute: "moduleIdseq",
 	defaults:    {
-		/* isEdited is used for the backend to know if this is an existing module being edited */
-		isEdited:     false,
 		longName:     "",
 		instructions: "",
-		questions:    new QuestionsCollection()
+		questions:    new QuestionsCollection(),
+		/* isEdited used for letting the backend know whether this has changed */
+		isEdited:     false
 	},
 	initialize() {
 		const questionsCollection = this.get("questions");
