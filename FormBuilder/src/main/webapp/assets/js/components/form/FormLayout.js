@@ -20,7 +20,8 @@ export default class FormLayout extends Component {
 	}
 
 	componentWillMount(){
-		/* watch for changes on these backbone models/collections and re-render */
+		/* backboneReact will pass these models/collections through setState, creating this.state.*
+		It listens to specific events on them and reflects the change in this.state (and therefore a re-render)  */
 		backboneReact.on(this, {
 			models:      {
 				formUIState: this.props.formUIState
