@@ -8,6 +8,7 @@ const backboneModelHelpers = {
 
 		function checkKeys(json){
 			for(let attr in json){
+
 				if(json[attr] && (json[attr].attributes) || (json[attr].models)){
 					if(json[attr].attributes){
 						json[attr] = Object.assign({}, json[attr].attributes, json[attr].cid);

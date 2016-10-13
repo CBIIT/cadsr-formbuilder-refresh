@@ -37,7 +37,6 @@ const CartsService = Marionette.Object.extend({
 		else{
 			data = this.cdeCartCollection;
 		}
-		console.log(data);
 		render(
 			<CartLayout cartPageStateModel={this.cartPageStateModel} data={data} cart={cart} />, document.getElementById('main'));
 

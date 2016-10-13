@@ -9,30 +9,32 @@ export default class CartLayout extends Component {
 	constructor(props){
 		super(props);
 		this.massageFormCartData = this.massageFormCartData.bind(this);
-		this.massageFormCartData();
+		this.data = [];
 	}
 
 	massageFormCartData(){
 		/* Store a local copy of list of modules as POJOs with its backbone model's cid included
 		 Getting cid vs moduleIdseq because new modules don't have a moduleIdseq */
-		console.log('data', this.props.data);
-		let formModules = this.props.data.models.map(model =>{
-			console.log('single model', model);
-			//return Object.assign({}, backboneModelHelpers.getDeepModelPojo(model), {cid: model.cid, contextname:
-			// model.context.name});
+		let formData = this.props.data.models.map(model =>{
+			return Object.assign({}, model.attributes, {cid: model.cid, contextName:
+			 model.get('context').name, protocolLongName: model.get('protocols')[0].longName});
 		});
-		//console.log(formModules);
+		this.data = formData;
 	}
 
 	componentWillMount(){
 		/* watch for changes on these backbone models/collections and re-render */
 		backboneReact.on(this, {
-			models:      {
+			models: {
 				cartPageStateModel: this.props.cartPageStateModel
-			}/*,
+			},
 			collections: {
-			}*/
+				data: this.props.data
+			}
 		});
+	}
+	componentWillUpdate(nextProps, nextState) {
+		this.massageFormCartData();
 	}
 	componentWillUnmount(){
 		backboneReact.off(this);
@@ -57,7 +59,7 @@ export default class CartLayout extends Component {
 		return (
 			<div>
 				<h1 className="text--bold">Form Builder | {pageName}</h1>
-				<FormTable pagination={true} perPage={5} columnTitles={TABLECONFIG.CDE} data={this.props.data}></FormTable>
+				<FormTable pagination={true} perPage={100} columnTitles={TABLECONFIG.CDE} data={this.data}></FormTable>
 			</div>
 		);
 	}

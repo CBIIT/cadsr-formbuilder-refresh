@@ -23,7 +23,6 @@ export default class FormTable extends React.Component{
 		this.addControls = this.addControls.bind(this);
 		this.sortColumn = this.sortColumn.bind(this);
 		this.makeArrows = this.makeArrows.bind(this);
-		this.getCurrentDisplayData = this.getCurrentDisplayData.bind(this);
 
 		this.state = {
 			data: this.formatData(this.props.data, this.props.columnTitles),
@@ -39,6 +38,13 @@ export default class FormTable extends React.Component{
 		else{
 			this.state.displayedData = this.state.data;
 		}
+	}
+
+	componentWillReceiveProps(nextProps){
+		console.log(nextProps);
+	}
+	componentWillUpdate(){
+		console.log('will update');
 	}
 
 	formatData(dataCollection, columnCollection){
@@ -245,7 +251,7 @@ export default class FormTable extends React.Component{
 		});
 		columnTitles[index] = columnSort[0];
 		let displayData = this.getCurrentDisplayData(data);
-		this.setState({data : data, columnTitles: columnTitles, displayedData: displayData});
+		this.setState({data : data, columnTitles: columnTitles, display});
 	}
 
 	makeArrows(title){
@@ -261,6 +267,7 @@ export default class FormTable extends React.Component{
 	}
 
 	render(){
+		console.log('form table render');
 		const data = this.state.displayedData;
 
 		return(
