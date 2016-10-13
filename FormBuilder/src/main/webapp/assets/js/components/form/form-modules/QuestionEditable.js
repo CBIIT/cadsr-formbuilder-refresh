@@ -56,7 +56,10 @@ export default class QuestionEditable extends Component {
 	handleQuestionChanged(currentValues, isChanged) {
 		/* BE AWARE: Form.onChange returns true unexpectedly. Using isChanged as guard */
 		if(isChanged) {
-			/*console.log("a QuestionEditable form changed");*/
+			/*TODO Move this somewhere else
+			 * sets the string "true"/"false" to boolean  */
+			currentValues.mandatory = JSON.parse(currentValues.mandatory.toLowerCase());
+			console.log("a QuestionEditable form changed");
 
 			formChannel.trigger(EVENTS.FORM.SET_QUESTION,
 				{moduleId: this.props.moduleId,
@@ -73,7 +76,7 @@ export default class QuestionEditable extends Component {
 						<Form onChange={this.handleQuestionChanged} validatePristine={this.state.validatePristine}>
 							<Textarea rows={3} cols={40} name="instructions" label="Instructions" value={this.props.question.instructions !== null ? this.props.question.instructions : ""}/>
 							<RadioGroup
-								name="isMandatory"
+								name="mandatory"
 								value={this.props.question.mandatory}
 								label="Answer is Mandatory"
 								options={[
@@ -82,7 +85,7 @@ export default class QuestionEditable extends Component {
 								]}
 							/>
 							<Checkbox
-								name="isEditable"
+								name="editable"
 								disabled={!this.props.question.defaultValue}
 								value={this.props.question.editable}
 								label="Answer is Editable"/>
