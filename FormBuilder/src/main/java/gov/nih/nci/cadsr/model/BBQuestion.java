@@ -151,13 +151,13 @@ public class BBQuestion {
 	public void setConcepts(String concepts) {
 		this.concepts = concepts;
 	}
-	public boolean isEdited() {
+	public boolean getIsEdited() {
 		return isEdited;
 	}
 	public void setEdited(boolean isEdited) {
 		this.isEdited = isEdited;
 	}
-	public boolean isDeleted() {
+	public boolean getIsDeleted() {
 		return isDeleted;
 	}
 	public void setDeleted(boolean isDeleted) {

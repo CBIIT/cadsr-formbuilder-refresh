@@ -19,7 +19,7 @@ public class BBValidValue {
 	// ConceptDerivationRule?
 	// ValueMeaning?
 	
-	private boolean isEdited = true;
+	private boolean isEdited = false;
 	private boolean isDeleted = false;
 
 	private String longName;
@@ -149,7 +149,7 @@ public class BBValidValue {
 		this.formValueMeaningDesc = formValueMeaningDesc;
 	}
 
-	public boolean isEdited() {
+	public boolean getIsEdited() {
 		return isEdited;
 	}
 
@@ -157,7 +157,7 @@ public class BBValidValue {
 		this.isEdited = isEdited;
 	}
 
-	public boolean isDeleted() {
+	public boolean getIsDeleted() {
 		return isDeleted;
 	}
 
