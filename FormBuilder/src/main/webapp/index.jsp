@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
 	<meta charset="UTF-8">
     <title>CaDSR FormBuilder</title>
-	<link rel="stylesheet" href="http://localhost:5000/style.css" />
+	<link rel="stylesheet" href="dist/style.css" />
 	<link href="https://fonts.googleapis.com/css?family=Montserrat|Noto+Sans:400,700" rel="stylesheet"/>
 	<script src="https://use.fontawesome.com/4459b88325.js"></script>
 </head>
@@ -24,7 +24,7 @@
 		Object.freeze(serverProps);
 	</script>
 
-<script src="http://localhost:5000/bundle.js"></script>
+<script src="dist/bundle.js"></script>
 
 
 </body>
