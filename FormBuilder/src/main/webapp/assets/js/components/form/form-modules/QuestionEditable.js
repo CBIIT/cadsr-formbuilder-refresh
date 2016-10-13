@@ -60,9 +60,8 @@ export default class QuestionEditable extends Component {
 			console.log("a QuestionEditable form changed");
 */
 			/*TODO Move this somewhere else
-			 * sets the string "true"/"false" to boolean  */
-			currentValues.mandatory = JSON.parse(currentValues.mandatory.toLowerCase());
-
+			 * sets the string "true" back to boolean for BE */
+			currentValues.mandatory = currentValues.mandatory === "true";
 			formChannel.trigger(EVENTS.FORM.SET_QUESTION,
 				{moduleId: this.props.moduleId,
 					questionData: currentValues,
