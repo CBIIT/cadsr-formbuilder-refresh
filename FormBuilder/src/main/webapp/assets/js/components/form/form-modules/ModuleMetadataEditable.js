@@ -15,6 +15,10 @@ export default class ModuleMetadataEditable extends Component {
 		};
 	}
 	handleValueChanged(currentValues, isChanged) {
+		/* BE AWARE: Form.onChange returns true unexpectedly. Using isChanged as guard */
+/*
+		console.log("a ModuleMetadataEditable metadata form changed");
+*/
 		if(this.props.actionMode === formActions.VIEW_MODULE && isChanged) {
 			this.dispatchData(currentValues);
 		}

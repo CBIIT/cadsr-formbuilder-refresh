@@ -16,6 +16,11 @@ export class ValidValueEditable extends Component{
 	}
 	handleValidValueChanged(currentValues, isChanged) {
 		if(isChanged) {
+			/* BE AWARE: Form.onChange returns true unexpectedly. Using isChanged as guard */
+/*
+			console.log("a ValidValueEditable form changed");
+*/
+
 			formChannel.trigger(EVENTS.FORM.SET_VALID_VALUE,
 				{
 					moduleId: this.props.moduleId,

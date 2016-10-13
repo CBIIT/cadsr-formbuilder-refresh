@@ -11,7 +11,15 @@ const FormModuleModel = Model.extend({
 		questions:    new QuestionsCollection()
 	},
 	initialize() {
-		console.log("adsf");
+		const questionsCollection = this.get("questions");
+		/*Bubble up changes (BUT NOT Adding or Removing) to questions and validValues collection here, so BackboneReact in FormLayout triggers a state change (and a re-render) when a change to the modules collection occurs
+		 * See http://backbonejs.org/#Events-catalog */
+		this.listenTo(questionsCollection, 'change', this.triggerUpdated);
+		this.listenTo(questionsCollection.get("validValues"), 'change', this.triggerUpdated);
+
+	},
+	triggerUpdated (model, options) {
+		this.trigger("update");
 	},
 	constructor(attributes, options) {
 		/* Pass any questions into new QuestionsCollection so each nested object becomes a QuestionsModel */

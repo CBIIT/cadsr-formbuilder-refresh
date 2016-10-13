@@ -54,7 +54,10 @@ export default class QuestionEditable extends Component {
 		}
 	}
 	handleQuestionChanged(currentValues, isChanged) {
+		/* BE AWARE: Form.onChange returns true unexpectedly. Using isChanged as guard */
 		if(isChanged) {
+			/*console.log("a QuestionEditable form changed");*/
+
 			formChannel.trigger(EVENTS.FORM.SET_QUESTION,
 				{moduleId: this.props.moduleId,
 					questionData: currentValues,
