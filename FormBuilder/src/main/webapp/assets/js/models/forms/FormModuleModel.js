@@ -14,11 +14,11 @@ const FormModuleModel = Model.extend({
 		const questionsCollection = this.get("questions");
 		/*Bubble up changes (BUT NOT Adding or Removing) to questions and validValues collection here, so BackboneReact in FormLayout triggers a state change (and a re-render) when a change to the modules collection occurs
 		 * See http://backbonejs.org/#Events-catalog */
-		this.listenTo(questionsCollection, 'change', this.triggerUpdated);
-		this.listenTo(questionsCollection.get("validValues"), 'change', this.triggerUpdated);
+		this.listenTo(questionsCollection, 'change', this.triggerThisUpdate);
+		this.listenTo(questionsCollection.get("validValues"), 'change', this.triggerThisUpdate);
 
 	},
-	triggerUpdated (model, options) {
+	triggerThisUpdate (model, options) {
 		this.trigger("update");
 	},
 	constructor(attributes, options) {
