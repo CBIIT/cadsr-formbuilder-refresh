@@ -44,22 +44,27 @@ export default class CartLayout extends Component {
 	 * @returns {boolean}
 	 */
 	render(){
+
 		const actionMode = this.state.cartPageStateModel.actionMode;
-		let pageName = "";
+		let pageName = ""; //page name used to display title and configure which columns to display
+		let columnConfig = {}; //collection of titles and model properties derived from the TABLECONFIG constant
+		//determine which page to use based on cartActions object
 		if(actionMode === cartActions.VIEW_CDE_CART_PAGE) {
 			 pageName = "CDE Cart";
+			columnConfig = TABLECONFIG.CDE;
 		}
 		else if (actionMode === cartActions.VIEW_FORM_CART_PAGE) {
 			pageName = "Form Cart";
+			columnConfig = TABLECONFIG.FORM;
 		}
 		else if (actionMode === cartActions.VIEW_MODULE_CART_PAGE) {
 			pageName = "Module Cart";
-
+			columnConfig = TABLECONFIG.MODULE;
 		}
 		return (
 			<div>
 				<h1 className="text--bold">Form Builder | {pageName}</h1>
-				<FormTable pagination={true} perPage={100} columnTitles={TABLECONFIG.CDE} data={this.data}></FormTable>
+				<FormTable pagination={true} perPage={100} columnTitles={columnConfig} data={this.data}></FormTable>
 			</div>
 		);
 	}
