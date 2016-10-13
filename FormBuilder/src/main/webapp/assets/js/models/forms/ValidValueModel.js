@@ -1,6 +1,7 @@
 import {Model} from 'backbone';
 
 const ValidValueModel = Model.extend({
+	idAttribute: "valueIdseq",
 	defaults: {
 		longName:                        "",
 		formValueMeaningText:            "",
