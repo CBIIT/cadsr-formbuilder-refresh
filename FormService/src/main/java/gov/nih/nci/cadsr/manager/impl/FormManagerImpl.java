@@ -46,6 +46,7 @@ import gov.nih.nci.ncicb.cadsr.common.persistence.dao.ContextDAO;
 import gov.nih.nci.ncicb.cadsr.common.persistence.dao.FormDAO;
 import gov.nih.nci.ncicb.cadsr.common.persistence.dao.FormInstructionDAO;
 import gov.nih.nci.ncicb.cadsr.common.persistence.dao.ModuleInstructionDAO;
+import gov.nih.nci.ncicb.cadsr.common.persistence.dao.QuestionInstructionDAO;
 import gov.nih.nci.ncicb.cadsr.common.persistence.dao.jdbc.JDBCFormDAOFB;
 import gov.nih.nci.ncicb.cadsr.common.resource.Form;
 import gov.nih.nci.ncicb.cadsr.common.resource.FormV2;
@@ -313,6 +314,7 @@ public class FormManagerImpl implements FormManager {
 			m.setPreferredDefinition(form.getFormMetadata().getPreferredDefinition());
 			m.setAslName(form.getFormMetadata().getWorkflow());
 			m.setCreatedBy(form.getFormMetadata().getCreatedBy());
+			m.setContext(c);
 			
 //			for(BBQuestion ques : module.getQuestions()){
 				
@@ -361,10 +363,17 @@ public class FormManagerImpl implements FormManager {
 	private void updateModules(Collection mods){
 		System.out.println("IN MANAGER UPDATE MODULES");
 		
+		QuestionInstructionDAO questionInstrDao = daoFactory.getQuestionInstructionDAO();
+		
 		for(Object mod : mods){
 			ModuleTransferObject mto = (ModuleTransferObject)mod;
 			
 			ModuleChangesTransferObject modChange = new ModuleChangesTransferObject();
+			
+			modChange.setDeletedQuestions(new ArrayList());
+			modChange.setUpdatedQuestions(new ArrayList());
+			modChange.setNewQuestions(new ArrayList());
+			
 			modChange.setModuleId(mto.getModuleIdseq());
 			modChange.setUpdatedModule(mto);
 			modChange.setInstructionChanges(new InstructionChangesTransferObject());
@@ -384,6 +393,7 @@ public class FormManagerImpl implements FormManager {
 				qto.setDataElement(new DataElementTransferObject());
 				qto.getDataElement().setValueDomain(new ValueDomainTransferObject());
 				
+				qto.setQuesIdseq(ques.getQuesIdseq());
 				qto.setVersion(ques.getVersion());
 				qto.setPreferredDefinition(ques.getPreferredQuestionText()); //XXX: is correct?
 				qto.setMandatory(ques.isMandatory());
@@ -393,15 +403,52 @@ public class FormManagerImpl implements FormManager {
 				qto.getDataElement().getValueDomain().setDatatype(ques.getDataType());
 				qto.getDataElement().getValueDomain().setUnitOfMeasure(ques.getUnitOfMeasure());
 				
+				InstructionTransferObject instr = new InstructionTransferObject();
+				List dbinstructions = questionInstrDao.getInstructions(ques.getQuesIdseq());
+				System.out.println("TEST # of instructions for " + ques.getLongName() + ": " + dbinstructions.size());
+				if(dbinstructions.size() > 0){
+					qto.setInstructions(dbinstructions);
+					instr = (InstructionTransferObject)qto.getInstruction();
+				}
+				else{
+//					instr.setVersion(mto.getForm().getVersion());
+//					instr.setLongName(ques.getLongName());
+//					instr.setAslName(mto.getAslName());
+//					instr.setDisplayOrder(1);
+					//context
+					//createdby
+				}
+				
+				instr.setLongName(ques.getLongName());
+				instr.setAslName(mto.getAslName());
+				instr.setDisplayOrder(1);
+				instr.setVersion(1F);
+				instr.setContext(mto.getForm().getContext());
+				instr.setCreatedBy(mto.getForm().getCreatedBy());
+				
+				if(ques.getInstructions() == null || ques.getInstructions().equals("")){
+					instr.setPreferredDefinition(" ");
+				}
+				else{
+					instr.setPreferredDefinition(ques.getInstructions());
+				}
+				
+				dbinstructions.add(instr);
+				qto.setInstructions(dbinstructions);
+				
+				
+				
 				if(ques.getIsDeleted()){
 					modChange.getDeletedQuestions().add(qto);
 				}
 				else if(ques.getIsEdited()){
 					
 					QuestionChangeTransferObject quesChange = new QuestionChangeTransferObject();
+					
 					quesChange.setUpdatedQuestion(qto);
 					
 					quesChange.setInstructionChanges(new InstructionChangesTransferObject());
+					quesChange.getInstructionChanges().setParentId(ques.getQuesIdseq());
 					if(qto.getInstruction().getIdseq() == null){
 						quesChange.getInstructionChanges().setNewInstruction(qto.getInstruction());
 					}
@@ -410,6 +457,10 @@ public class FormManagerImpl implements FormManager {
 					}
 					
 					FormValidValueChangesTransferObject validValueChange = new FormValidValueChangesTransferObject();
+					
+					validValueChange.setDeletedValidValues(new ArrayList());
+					validValueChange.setNewValidValues(new ArrayList());
+					validValueChange.setUpdatedValidValues(new ArrayList());
 					
 					for(BBValidValue bbVV : ques.getValidValues()){
 						
@@ -513,30 +564,35 @@ public class FormManagerImpl implements FormManager {
 				BBQuestion bbques = new BBQuestion();
 				BeanUtils.copyProperties(qto, bbques);
 				
-				bbques.setDeIdseq(qto.getDataElement().getIdseq());
 				bbques.setVersion(qto.getVersion());
 				bbques.setPreferredQuestionText(qto.getPreferredDefinition());//XXX: is correct?
 				bbques.setMandatory(false);
 				bbques.setEditable(true);
 				bbques.setDeDerived(true);
 				bbques.setLongName(qto.getLongName());
-				bbques.setDataType(qto.getDataElement().getValueDomain().getDatatype());
-				bbques.setUnitOfMeasure(qto.getDataElement().getValueDomain().getUnitOfMeasure());
-				bbques.setDisplayFormat(qto.getDataElement().getValueDomain().getDisplayFormat());
-//				bbques.setConcepts(qto.getDataElement().getValueDomain().getConceptDerivationRule().getComponentConcepts().toString());
 				
-				List<String> altQuestionTexts = new ArrayList<String>();
-				
-				for(Object obj : qto.getDataElement().getRefereceDocs()){
-					ReferenceDocumentTransferObject refDoc = (ReferenceDocumentTransferObject)obj;
+				if(qto.getDataElement() != null){
+					bbques.setDeIdseq(qto.getDataElement().getIdseq());
+					bbques.setDataType(qto.getDataElement().getValueDomain().getDatatype());
+					bbques.setUnitOfMeasure(qto.getDataElement().getValueDomain().getUnitOfMeasure());
+					bbques.setDisplayFormat(qto.getDataElement().getValueDomain().getDisplayFormat());
+	//				bbques.setConcepts(qto.getDataElement().getValueDomain().getConceptDerivationRule().getComponentConcepts().toString());
 					
-					String altQuestionText = refDoc.getDocText();
+					List<String> altQuestionTexts = new ArrayList<String>();
 					
-					altQuestionTexts.add(altQuestionText);
+					for(Object obj : qto.getDataElement().getRefereceDocs()){
+						ReferenceDocumentTransferObject refDoc = (ReferenceDocumentTransferObject)obj;
+						
+						String altQuestionText = refDoc.getDocText();
+						
+						altQuestionTexts.add(altQuestionText);
+					}
+					
+					bbques.setAlternativeQuestionText(altQuestionTexts);
 				}
 				
-				bbques.setAlternativeQuestionText(altQuestionTexts);
-
+				
+				
 				bbmod.getQuestions().add(bbques);
 
 				bbques.setValidValues(new ArrayList<BBValidValue>());
