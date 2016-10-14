@@ -393,13 +393,21 @@ public class FormManagerImpl implements FormManager {
 				qto.getDataElement().getValueDomain().setDatatype(ques.getDataType());
 				qto.getDataElement().getValueDomain().setUnitOfMeasure(ques.getUnitOfMeasure());
 				
-				if(ques.isDeleted()){
+				if(ques.getIsDeleted()){
 					modChange.getDeletedQuestions().add(qto);
 				}
-				else if(ques.isEdited()){
+				else if(ques.getIsEdited()){
 					
 					QuestionChangeTransferObject quesChange = new QuestionChangeTransferObject();
 					quesChange.setUpdatedQuestion(qto);
+					
+					quesChange.setInstructionChanges(new InstructionChangesTransferObject());
+					if(qto.getInstruction().getIdseq() == null){
+						quesChange.getInstructionChanges().setNewInstruction(qto.getInstruction());
+					}
+					else{
+						quesChange.getInstructionChanges().setUpdatedInstruction(qto.getInstruction());
+					}
 					
 					FormValidValueChangesTransferObject validValueChange = new FormValidValueChangesTransferObject();
 					
@@ -408,10 +416,10 @@ public class FormManagerImpl implements FormManager {
 						ValidValueTransferObject vvto = new ValidValueTransferObject();
 						BeanUtils.copyProperties(bbVV, vvto);
 						
-						if(bbVV.isEdited()){
+						if(bbVV.getIsEdited()){
 							validValueChange.getUpdatedValidValues().add(vvto);
 						}
-						else if(bbVV.isDeleted()){
+						else if(bbVV.getIsDeleted()){
 							validValueChange.getDeletedValidValues().add(vvto);
 						}
 						else if(bbVV.getValueIdseq().isEmpty()){
