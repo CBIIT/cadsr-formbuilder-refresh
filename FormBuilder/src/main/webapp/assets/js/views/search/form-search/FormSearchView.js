@@ -42,7 +42,7 @@ const FormSearchView = View.extend({
 		}));
 
 		this.showChildView('publicIdInput', new TextInputView({
-			label: 'Public Id',
+			label: 'Public ID',
 			name:  'publicId'
 		}));
 		this.showChildView('protocolLongNameInput', new TextInputView({
@@ -67,7 +67,7 @@ const FormSearchView = View.extend({
 			name:    'categoryName'
 		}));
 		this.showChildView('workflowsDropdown', new SelectInputView({
-			label:   'Workflows',
+			label:   'Workflow',
 			options: this.model.get('workflows'),
 			name:    'workflow'
 		}));
@@ -78,7 +78,7 @@ const FormSearchView = View.extend({
 			name:      'contextIdSeq'
 		}));
 		this.showChildView('typesDropDown', new SelectInputView({
-			label:   'Types',
+			label:   'Type',
 			options: this.model.get('types'),
 			name:    'type'
 		}));
