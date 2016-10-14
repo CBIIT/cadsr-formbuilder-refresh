@@ -7,7 +7,7 @@ const FormModuleModel = Model.extend({
 		longName:     "",
 		instructions: "",
 		questions:    new QuestionsCollection(),
-		/* isEdited used for letting the backend know whether this has changed */
+		/* Used for letting the backend know whether this has changed */
 		isEdited:     false
 	},
 	initialize() {
@@ -19,6 +19,8 @@ const FormModuleModel = Model.extend({
 
 	},
 	triggerThisUpdate (model, options) {
+		/*If a question or valid value has been edited, the module containing it should also be marked as isEdited for the BE */
+		this.set({isEdited: true});
 		this.trigger("update");
 	},
 	constructor(attributes, options) {
