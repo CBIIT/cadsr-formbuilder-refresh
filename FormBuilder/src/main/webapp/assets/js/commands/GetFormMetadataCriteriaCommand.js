@@ -24,7 +24,7 @@ const GetFormMetadataCriteriaCommand = Marionette.Object.extend({
 		};
 
 		const collectionsToFetch = [
-			[this.model.get("contexts"), ENDPOINT_URLS.CONTEXTS],
+			[this.model.get("contexts"), `${ENDPOINT_URLS.CONTEXTS}/${this.userName}`],
 			[this.model.get("formCategories"), ENDPOINT_URLS.CATEGORIES],
 			[this.model.get("formTypes"), ENDPOINT_URLS.TYPES],
 			[this.model.get("workflows"), ENDPOINT_URLS.WORKFLOWS]
