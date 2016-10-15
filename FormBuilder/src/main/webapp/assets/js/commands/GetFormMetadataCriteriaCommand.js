@@ -15,7 +15,6 @@ const GetFormMetadataCriteriaCommand = Marionette.Object.extend({
 					collection.fetch({
 						url: url
 					}).then(() =>{
-						console.log("adsf");
 						resolve();
 					}).catch((error) =>{
 						reject(error);
