@@ -40,10 +40,6 @@ export default class FormLayout extends Component {
 		this.getFormModules();
 		console.log("FormLayout componentWillUpdate");
 	}
-	componentWillReceiveProps(nextProps) {
-		console.log("FormLayout componentWillReceiveProps");
-	}
-
 	/**
 	 *
 	 * @returns {boolean}

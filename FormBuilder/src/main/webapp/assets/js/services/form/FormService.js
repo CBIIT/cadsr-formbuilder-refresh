@@ -176,14 +176,18 @@ const FormService = Marionette.Object.extend({
 		/* Adding isEdited: true so BE knows question has chagned */
 		const questionAttributes = (questionModel.isNew() ? data.questionData : Object.assign({}, data.questionData, {isEdited: true}));
 		questionModel.set(questionAttributes);
+/*
 		console.log("question updated");
+*/
 	},
 	handleSetModuleQuestionValidValue(data) {
 	const validValueModel = this.getModuleQuestionModel({moduleId: data.moduleId, questionId: data.questionId}).get("validValues").get(data.validValueId);
-		/* Adding isEdited: true so BE knows question has chagned */
+		/* Adding isEdited: true so BE knows valid value has chagned */
 		const validValueAttributes = (validValueModel.isNew() ? data.validValueData : Object.assign({}, data.validValueData, {isEdited: true}));
 		validValueModel.set(validValueAttributes);
+/*
 		console.log("valid value updated");
+*/
 	},
 	saveForm({persistToDB = false, successMessage} = {}) {
 		const p = new Promise(
