@@ -4,55 +4,44 @@ import ENDPOINT_URLS from '../constants/ENDPOINT_URLS';
 import EVENTS from '../constants/EVENTS';
 
 const GetFormMetadataCriteriaCommand = Marionette.Object.extend({
-	initialize(options) {
-		this.model = options.model;
-		this.userName = options.userName;
+	initialize({model, userName}) {
+		this.model = model;
+		this.userName = userName;
 	},
 	execute() {
-		this.model.get("contexts").fetch({
-			url: `${ENDPOINT_URLS.CONTEXTS}/${this.userName}`
-		}).then(() =>{
-			this.model.get("formCategories").fetch({
-				url: ENDPOINT_URLS.CATEGORIES
-			}).then(() =>{
-				this.model.get("formTypes").fetch({
-					url: ENDPOINT_URLS.TYPES
-				}).then(() =>{
-					formChannel.trigger(EVENTS.FORM.GET_FORM_CORE_DETAILS_CRITERIA);
-				}).catch((error) =>{
-					console.log(error);
-					appChannel.trigger('request:fail');
-				});
-			});
+		const fetchCollectionData = (collection, url)=>{
+			return new Promise(
+				(resolve, reject) =>{
+					collection.fetch({
+						url: url
+					}).then(() =>{
+						console.log("adsf");
+						resolve();
+					}).catch((error) =>{
+						reject(error);
+					});
+				}
+			);
+		};
+
+		const collectionsToFetch = [
+			[this.model.get("contexts"), ENDPOINT_URLS.CONTEXTS],
+			[this.model.get("formCategories"), ENDPOINT_URLS.CATEGORIES],
+			[this.model.get("formTypes"), ENDPOINT_URLS.TYPES],
+			[this.model.get("workflows"), ENDPOINT_URLS.WORKFLOWS]
+		];
+
+		Promise.all(collectionsToFetch.map((collection) =>{
+				if(!collection[0].length){
+					fetchCollectionData(collection[0], collection[1]);
+				}
+			}
+		)).then(() =>{
+			formChannel.trigger(EVENTS.FORM.GET_FORM_CORE_DETAILS_CRITERIA);
+		}).catch(function(error){
+			console.log(error);
+			appChannel.trigger('request:fail', error);
 		});
-
-		/*
-	const fetchCollectionData = (collection, url)=>{
-		 return new Promise(
-		 function(){
-		 collection.fetch({
-		 url: url
-		 });
-		 }
-		 )
-		 };
-
-		 const collectionsToFetch = [
-		 [this.model.get("contexts"), ENDPOINT_URLS.CONTEXTS],
-		 [this.model.get("formCategories"), ENDPOINT_URLS.CATEGORIES],
-		 [this.model.get("formTypes"), ENDPOINT_URLS.TYPES],
-		 ];
-
-		 Promise.all(collectionsToFetch.map(collection =>
-		 fetchCollectionData(collection[0], collection[1])
-		 )).then(reponse =>{
-		 console.log("request success");
-		 formChannel.trigger('model:getDropDownOptionsSuccess');
-		 }).catch(function(error){
-		 console.log(error);
-		 appChannel.trigger('request:fail');
-		 });
-		 */
 	}
 
 });

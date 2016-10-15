@@ -22,7 +22,6 @@ import FormLayout from '../../components/form/FormLayout';
 const FormService = Marionette.Object.extend({
 	channelName:   'form',
 	radioRequests: {
-		[EVENTS.FORM.GET_CART_LIST]:         'getCartData',
 		[EVENTS.FORM.CANCEL_EDIT_FORM]:      'handleCancelEditForm',
 		[EVENTS.FORM.EDIT_FORM]:             'handleSetFormEditable',
 		[EVENTS.FORM.SET_FORM_LAYOUT]:       'dispatchLayout',
@@ -85,7 +84,7 @@ const FormService = Marionette.Object.extend({
 		/*Entry point for React. Backbone Views Keep Out.
 		Once React is the top level view currently handled by Marionette (i.e.  AppLayoutView,js), we can render FormLayout from there instead   */
 		render(
-			<FormLayout formIdseq={this.formModel.attributes.formIdseq} formMetadata={this.formModel.attributes.formMetadata.attributes} formModules={this.formModel.attributes.formModules} cdeCartCollection={this.app.cartsService.cdeCartCollection} uiDropDownOptionsModel={this.uiDropDownOptionsModel.toJSON()} formUIState={this.formUIStateModel}/>, document.getElementById('main'));
+			<FormLayout formIdseq={this.formModel.attributes.formIdseq} formMetadata={this.formModel.attributes.formMetadata.attributes} formModules={this.formModel.attributes.formModules} cdeCartCollection={this.app.cartsService.cdeCartCollection} uiDropDownOptionsModel={this.uiDropDownOptionsModel} formUIState={this.formUIStateModel}/>, document.getElementById('main'));
 
 	},
 	createForm() {
@@ -130,6 +129,10 @@ const FormService = Marionette.Object.extend({
 	fetchFormMetaDataCriteria() {
 		formChannel.on(EVENTS.FORM.GET_FORM_CORE_DETAILS_CRITERIA, () =>{
 			this.constructLayout();
+			/* Kind of a hack because we're telling Form Layout to re-render after getting data by changing a
+			 property that's set to it as state, like a switch, but changing isEditing is an arbitrary property that
+			  might not be very intuitive. Could be a better way to do this. */
+			this.formUIStateModel.set({isEditing: true});
 		});
 
 		new GetFormMetadataCriteriaCommand({
@@ -197,14 +200,14 @@ const FormService = Marionette.Object.extend({
 				}).then(() =>{
 					resolve();
 				}).catch((error) =>{
-					alert("error");
-					console.log(error);
+					reject(error);
 				});
 			}
 		);
 		return p.then(()=>{
 			if(successMessage) alert(successMessage);
 		}).catch((error)=>{
+			alert("error");
 			console.log(error);
 		});
 	},
@@ -239,7 +242,8 @@ const FormService = Marionette.Object.extend({
 			defaults: {
 				contexts:       new DropDownOptionsCollection(),
 				formCategories: new DropDownOptionsCollection(),
-				formTypes:      new DropDownOptionsCollection()
+				formTypes:      new DropDownOptionsCollection(),
+				workflows:      new DropDownOptionsCollection()
 			}
 		});
 		this.uiDropDownOptionsModel = new UIDropDownOptionsModel();

@@ -2,6 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import {Col, Row, Button, FormGroup, ControlLabel, FormControl} from 'react-bootstrap';
 import {Input, Textarea, Select} from 'formsy-react-components';
 import EVENTS from '../../constants/EVENTS';
+import formActions from '../../constants/formActions';
 import {formChannel} from '../../channels/radioChannels';
 import Form from '../common/Form';
 
@@ -31,6 +32,21 @@ export default class FormMetadataForm extends Component {
 		return mappedOptions;
 	}
 
+	getWorFlowField(){
+		if(this.props.actionMode === formActions.CREATE_FORM){
+			return (
+				<FormGroup> <ControlLabel>Workflow</ControlLabel>
+					<FormControl.Static>{this.props.formMetadata.workflow}</FormControl.Static> </FormGroup>
+			);
+		}
+		else{
+			return (
+				<Select name="formCategory" label="Workflow" options={this.getOptions({
+					options: this.props.uiDropDownOptionsModel.workflows
+				})} value={this.props.formMetadata.workflow}/>
+			);
+		}
+	}
 	render(){
 		return (
 			<Row>
@@ -44,9 +60,7 @@ Long Name" type="text" required/>
 							<Textarea value={this.props.formMetadata.headerInstructions} rows={3} cols={40} name="headerInstructions" label="Header Instructions"/>
 							<Textarea value={this.props.formMetadata.footerInstructions} rows={3} cols={40} name="footerInstructions" label="
 Footer Instructions"/> </Col> <Col sm={6}>
-
-							<FormGroup> <ControlLabel>Workflow</ControlLabel>
-								<FormControl.Static>{this.props.formMetadata.workflow}</FormControl.Static> </FormGroup>
+							{this.getWorFlowField()}
 
 							<Select name="conteIdseq" label="Context" options={this.getOptions({
 								options:   this.props.uiDropDownOptionsModel.contexts,
@@ -59,12 +73,11 @@ Footer Instructions"/> </Col> <Col sm={6}>
 								options: this.props.uiDropDownOptionsModel.formTypes
 							})} value={this.props.formMetadata.formType} required/> <FormGroup>
 							<ControlLabel>Version</ControlLabel>
+
 							<FormControl.Static>{this.props.formMetadata.version}</FormControl.Static> </FormGroup>
 						</Col> </Row>
-
 					</fieldset>
 					{this.props.children}
-
 				</Form> </Row>
 		);
 	}
