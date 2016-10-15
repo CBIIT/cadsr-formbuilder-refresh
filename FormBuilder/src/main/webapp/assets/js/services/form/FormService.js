@@ -74,7 +74,7 @@ const FormService = Marionette.Object.extend({
 					this.formUIStateModel.set({isEditing: false});
 					this.fetchForm({formIdseq: formIdseq});
 				}
-				this.getCartData({name: "cdeCartCollection"});
+				this.getCartData({name: "cdeCart"});
 				break;
 			default:
 				console.error("no valid action provided");
