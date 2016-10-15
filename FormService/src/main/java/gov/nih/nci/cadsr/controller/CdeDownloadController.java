@@ -1,5 +1,6 @@
 package gov.nih.nci.cadsr.controller;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,10 +12,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.struts.actions.DownloadAction.StreamInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,6 +26,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import gov.nih.nci.cadsr.dao.impl.CdeDownloadRepo;
+import gov.nih.nci.cadsr.manager.GetExcelDownLoadManager;
+import gov.nih.nci.ncicb.cadsr.common.CaDSRConstants;
+import gov.nih.nci.ncicb.cadsr.common.downloads.GetExcelDownload;
+import gov.nih.nci.ncicb.cadsr.common.downloads.impl.GetExcelDownloadImpl;
 import gov.nih.nci.ncicb.cadsr.common.util.ContentTypeHelper;
 import gov.nih.nci.ncicb.cadsr.common.util.DBUtil;
 import gov.nih.nci.ncicb.cadsr.objectCart.CDECart;
@@ -32,13 +40,15 @@ import gov.nih.nci.ncicb.cadsr.objectCart.CDECartTransferObject;
 @RestController
 public class CdeDownloadController {
 	@Autowired
-	CdeDownloadRepo dw;
+	private CdeDownloadRepo dw;
+	@Autowired
+	private GetExcelDownLoadManager excelDownload;
 
-	@RequestMapping(value = "/cdeDownload", method = RequestMethod.GET)
+	@RequestMapping(value = "/cdexmlDownload", method = RequestMethod.GET)
 	@ResponseBody
 	public ResponseEntity downloadFormXML(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		try {
+		
 
 			CDECart cart = new CDECartTransferObject();
 
@@ -63,16 +73,6 @@ public class CdeDownloadController {
 			// fileName = xmlDown.getFileName("");
 			fileName = dw.getFileName("");
 
-			/*
-			 * else if (type.equalsIgnoreCase("excel")) { CDECart sessionCart =
-			 * (CDECart) this.getSessionObject(request,
-			 * CaDSRConstants.CDE_CART); GetExcelDownload excelDown = new
-			 * GetExcelDownloadImpl();
-			 * excelDown.generateExcelForCDECart(sessionCart, "cdeCart",
-			 * jndiName); fileName = excelDown.getFileName(); } else if
-			 * (type.equalsIgnoreCase("form")) fileName =
-			 * (String)request.getAttribute("fileName"); else return null;
-			 */
 
 			final String downFileName = fileName;
 			response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
@@ -88,17 +88,38 @@ public class CdeDownloadController {
 				}
 			};
 
-		} catch (InvocationTargetException e) {
-
-			// Answer:
-			e.getCause().printStackTrace();
-		} catch (Exception e) {
-
-			// generic exception handling
-			e.printStackTrace();
-		}
+		
 
 		return new ResponseEntity(HttpStatus.OK);
-	}
+	
+		}
 
+	@RequestMapping(value = "/cdexlsDownload", method = RequestMethod.GET)
+	@ResponseBody
+	public ResponseEntity<byte[]> downloadFormXls(HttpServletRequest request) throws Exception {
+		
+		String fileName = null;
+		
+		Collection items = new HashSet();
+		CDECartItem item1 = new CDECartItemTransferObject();
+		item1.setId("99BA9DC8-29C9-4E69-E034-080020C9C0E0");
+		items.add(item1);
+		
+		CDECart sessionCart = new CDECartTransferObject();
+		sessionCart.setDataElements(items);
+		
+		HSSFWorkbook hSSFWorkbook = excelDownload.generateExcelForCDECart(sessionCart, "cdeCart");
+		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+		hSSFWorkbook.write(byteArrayOutputStream);
+		byte[] resource = byteArrayOutputStream.toByteArray();
+		fileName = excelDownload.getFileName();
+		final String downFileName = fileName;
+		
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.parseMediaType("application/vnd.ms-excel"));
+		headers.setContentDispositionFormData("attachment", downFileName + ".xls");
+		
+		ResponseEntity response = new ResponseEntity(resource, headers, HttpStatus.OK);
+		return response;
+	}
 }
