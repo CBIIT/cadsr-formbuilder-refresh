@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import {Col, Row, PanelGroup, Panel} from 'react-bootstrap';
+import {Col, Row, PanelGroup, Panel, ControlLabel, FormGroup, FormControl, Button} from 'react-bootstrap';
 import EVENTS from '../../../constants/EVENTS';
 import {formChannel} from '../../../channels/radioChannels';
 import Form from '../../common/Form';
@@ -10,9 +10,15 @@ import {getOptions} from '../../../helpers/uiInputHelpers';
 export default class QuestionEditable extends Component {
 	constructor(props){
 		super(props);
+		this.dispatchQuestionData = this.dispatchQuestionData.bind(this);
 		this.handleQuestionChanged = this.handleQuestionChanged.bind(this);
+		this.getAlternativeQuestionText = this.getAlternativeQuestionText.bind(this);
+		/*this.dispatchSetLongNameAsPreferredText = this.dispatchSetLongNameAsPreferredText.bind(this);
+		this.dispatchSetLongNameAsAlternateQuestionText = this.dispatchSetLongNameAsAlternateQuestionText.bind(this);*/
+
 		this.state = {
 			validatePristine: false,
+			/*the expanded accordion*/
 			activeQuestionAccordion:  '1'
 		};
 	}
@@ -53,21 +59,45 @@ export default class QuestionEditable extends Component {
 			);
 		}
 	}
+	getAlternativeQuestionText () {
+		if(this.props.question.alternativeQuestionText.length){
+			const alternativeQuestionTextItems = this.props.question.alternativeQuestionText.map(((item)=> {
+				return {
+					value: item,
+					label: item
+				};
+			}));
+			return (
+				<Select name="alternativeQuestionText" label="Alternate Question Text" options={alternativeQuestionTextItems} value={this.props.question.longName} />
+			);
+		}
+	}
 	handleQuestionChanged(currentValues, isChanged) {
 		/* BE AWARE: Form.onChange returns true unexpectedly. Using isChanged as guard */
 		if(isChanged) {
-/*
-			console.log("a QuestionEditable form changed");
-*/
-			/*TODO Move this somewhere else
-			 * sets the string "true" back to boolean for BE */
+			/*TODO Move this somewhere more reusable: Sets the string "true" back to boolean for BE */
 			currentValues.mandatory = currentValues.mandatory === "true";
-			formChannel.trigger(EVENTS.FORM.SET_QUESTION,
-				{moduleId: this.props.moduleId,
-					questionData: currentValues,
-					questionId:  this.props.question.cid
-				});
+			/* currentValues.alternativeQuestionText here is the selected alternativeQuestionTexts dropdonw value, not the array of props.question.alternativeQuestionText */
+			if(currentValues.alternativeQuestionText !== this.props.question.longName) {
+				this.dispatchQuestionData({questionData: {longName: currentValues.alternativeQuestionText}});
+			}
+			else {
+				this.dispatchQuestionData({questionData: currentValues});
+			}
 		}
+	}
+	/*dispatchSetLongNameAsPreferredText() {
+		this.dispatchQuestionData({questionData: {longName: this.props.question.preferredQuestionText}});
+	}
+	dispatchSetLongNameAsAlternateQuestionText() {
+		this.dispatchQuestionData({questionData: {longName: this.props.question.preferredQuestionText}});
+	}*/
+	dispatchQuestionData({questionData}) {
+		formChannel.trigger(EVENTS.FORM.SET_QUESTION,
+			{moduleId: this.props.moduleId,
+				questionData: questionData,
+				questionId:  this.props.question.cid
+			});
 	}
 	render() {
 		if(this.props.panelIsExpanded) {
@@ -76,6 +106,16 @@ export default class QuestionEditable extends Component {
 					<Col sm={12}>
 						<Form onChange={this.handleQuestionChanged} validatePristine={this.state.validatePristine}>
 							<Textarea rows={3} cols={40} name="instructions" label="Instructions" value={this.props.question.instructions !== null ? this.props.question.instructions : ""}/>
+
+							<FormGroup>
+								<ControlLabel>Preferred Question Text</ControlLabel>
+								<FormControl.Static className="pull-left">{this.props.question.preferredQuestionText}<Button bsClass="btn-link pull-right">Use Text</Button></FormControl.Static>
+
+							</FormGroup>
+
+
+							{this.getAlternativeQuestionText()}
+
 							<RadioGroup
 								name="mandatory"
 								value={this.props.question.mandatory}
