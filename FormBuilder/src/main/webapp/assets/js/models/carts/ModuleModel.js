@@ -1,29 +1,11 @@
-/**
- * Created by nmilos on 10/11/16.
- */
 import {Model} from 'backbone';
 
-const ModuleModel = Model.extend({
-	/* TODO uncomment when each cde returned from server has a unique cdeid. Reomving this for now allows more that one cde with the same cdeId to be added to the cdeCollection */
-	//idAttribute: "cdeid",
+const FormModuleModel = Model.extend({
 	defaults:    {
-		longname:            "",
-		/*TODO DO we need this on the front end?*/
-		longcdename:         "",
-		publicid:            "",
-		contextname:         "",
-		/*TODO DO we need this on the front end?*/
-		deIdseq:             "",
-		/*TODO DO we need this on the front end? Will contexztname suffice? */
-		conteIdseq:          "",
-		version:             "",
-		registrationstatus:  "",
-		/*TODO DO we need this on the front end?*/
-		preferredname:       "",
-		preferreddefinition: "",
-		workflow:            "",
-		dateadded:           ""
+		longName:     "",
+		instructions: "",
+		numQuestions:    0
 	}
 });
 
-export default ModuleModel;
+export default FormModuleModel;
