@@ -41,32 +41,52 @@ export default class Datatable extends React.Component{
 		this.addControls = this.addControls.bind(this);
 		this.sortColumn = this.sortColumn.bind(this);
 		this.makeArrows = this.makeArrows.bind(this);
-		this.addPageLabel = this.addPageLabel.bind(this);
+		this.setInitialState = this.setInitialState.bind(this);
+		this.updateState = this.updateState.bind(this);
 		//initial state setup. This may need to be moved into another function other than the constructor
+		this.setInitialState();
+	}
 
-		this.state = {
+	componentWillReceiveProps(nextProps){
+		console.log(nextProps);
+		this.updateState(nextProps);
+	}
+	componentWillUpdate(){
+		console.log('will update table');
+	}
+	setInitialState() {
+		const shouldHavePagination = this.props.pagination;
+		const initialState = {
 			data: this.formatData(this.props.data, this.props.columnTitles),
 			selectedRows: [],
 			columnTitles : this.props.columnTitles
 		};
 
-		if(this.props.pagination){
-			this.state.currentPage = 1;
-			this.totalPages = Math.ceil(this.state.data.length / this.props.perPage);
-			this.state.displayedData = this.state.data.slice(0, this.props.perPage);
+		if(shouldHavePagination){
+			initialState.currentPage = 1;
+			initialState.displayedData = initialState.data.slice(0, this.props.perPage);
 		}
 		else{
-			this.state.displayedData = this.state.data;
+			initialState.displayedData = initialState.data;
 		}
+		this.totalPages = Math.ceil(initialState.data.length / this.props.perPage);
+		/*Set initial state at once*/
+		this.state = initialState;
 	}
-
-	componentWillReceiveProps(nextProps){
-		console.log(nextProps);
+	updateState(nextProps) {
+		const shouldHavePagination = nextProps.pagination;
+		const newState = {
+			data: this.formatData(nextProps.data, nextProps.columnTitles),
+			selectedRows: [],
+			columnTitles : nextProps.columnTitles,
+			displayedData: (shouldHavePagination) ? this.state.data.slice(0, nextProps.perPage) : this.state.data
+		};
+		if(shouldHavePagination){
+			newState.currentPage = 1;
+			this.totalPages = Math.ceil(this.state.data.length / nextProps.perPage);
+		}
+		this.setState(newState);
 	}
-	componentWillUpdate(){
-		console.log('will update table');
-	}
-
 	formatData(dataCollection, columnCollection){
 		/*massages data property to map each item to a key within the column collection
 
@@ -254,27 +274,12 @@ export default class Datatable extends React.Component{
 			displayedData = collection.slice(startNum, endNum);
 		return displayedData;
 	}
-
-	addPageLabel(){
-		if(this.props.pageName === 'CDE Cart'){
-			return (<li>{ this.state.selectedRows.length } CDE(s) Selected</li>);
-		}
-		else if(this.props.pageName === 'Form Cart'){
-			return (<li> {this.state.selectedRows.length} Form(s) Selected</li>);
-		}
-		else if(this.props.pageName === 'Module Cart'){
-			return (<li> {this.state.selectedRows.length} Module(s) Selected</li>);
-		}
-	}
-
 	addControls(){
 		//adds the blue bar to the top fo the table. This currently doesn't do anything
 		return(
 			<div className="reactTable-controlPanel">
 				<ul className="controlPanel-list">
-					{
-						this.addPageLabel()
-					}
+					<li>{this.state.selectedRows.length} {this.props.pageName}(s) Selected</li>
 					<li>
 						<button className="controlPanel-btn"> REMOVE FROM CART <Glyphicon glyph="trash"/></button>
 					</li>
@@ -323,7 +328,7 @@ export default class Datatable extends React.Component{
 		});
 		columnTitles[index] = columnSort[0]; //set the newly changed column object to be at the same index in the state
 		let displayData = this.getCurrentDisplayData(data); //re-calculate which data to display with new order
-		this.setState({data : data, columnTitles: columnTitles, display}); //update state
+		this.setState({data : data, columnTitles: columnTitles, displayData}); //update state
 	}
 
 	makeArrows(title){

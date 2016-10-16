@@ -12,16 +12,17 @@ export default class CartLayout extends Component {
 		this.data = [];
 	}
 
-	massageCartData(){
+	massageCartData(nextProps){
+		const props = nextProps || this.props;
 		const actionMode = this.state.cartPageStateModel.actionMode;
 		if(actionMode === cartActions.VIEW_CDE_CART_PAGE) {
-			this.data = getCdeCartCollectionPojo(this.props.data);
+			this.data = getCdeCartCollectionPojo(props.data);
 		}
 		else if (actionMode === cartActions.VIEW_FORM_CART_PAGE) {
-			this.data = getFormCartCollectionPojo(this.props.data);
+			this.data = getFormCartCollectionPojo(props.data);
 		}
 		else if (actionMode === cartActions.VIEW_MODULE_CART_PAGE) {
-			this.data = getModuleCartCollectionPojo(this.props.data);
+			this.data = getModuleCartCollectionPojo(props.data);
 		}
 	}
 
@@ -36,8 +37,11 @@ export default class CartLayout extends Component {
 			}
 		});
 	}
+	componentWillReceiveProps(nextProps) {
+		this.massageCartData(nextProps);
+	}
 	componentWillUpdate(nextProps, nextState) {
-		this.massageCartData();
+		this.massageCartData(nextProps);
 	}
 	componentWillUnmount(){
 		backboneReact.off(this);
@@ -53,21 +57,21 @@ export default class CartLayout extends Component {
 		let columnConfig = {}; //collection of titles and model properties derived from the TABLECONFIG constant
 		//determine which page to use based on cartActions object
 		if(actionMode === cartActions.VIEW_CDE_CART_PAGE) {
-			 pageName = "CDE Cart";
+			 pageName = "CDE";
 			columnConfig = TABLECONFIG.CDE;
 		}
 		else if (actionMode === cartActions.VIEW_FORM_CART_PAGE) {
-			pageName = "Form Cart";
+			pageName = "Form";
 			columnConfig = TABLECONFIG.FORM;
 		}
 		else if (actionMode === cartActions.VIEW_MODULE_CART_PAGE) {
-			pageName = "Module Cart";
+			pageName = "Module";
 			columnConfig = TABLECONFIG.MODULE;
 		}
 		if(this.data.length) {
 			return (
 				<div>
-					<h1 className="text--bold">Form Builder | {pageName}</h1>
+					<h1 className="text--bold">Form Builder | {pageName} Cart</h1>
 					<Datatable pagination={true} perPage={100} pageName={pageName} columnTitles={columnConfig} data={this.data}></Datatable>
 				</div>
 			);
