@@ -38,7 +38,7 @@ export default class QuestionStatic extends Component {
 						<p className="bold short-top-spacing">Value Domain Details</p>
 						<ul className="list-unstyled">
 							<li>
-								Long Name: {this.props.question.longName}
+								Long Name: {this.props.question.valueDomainLongName}
 							</li>
 							<li>
 								Data Type: {this.props.question.dataType}

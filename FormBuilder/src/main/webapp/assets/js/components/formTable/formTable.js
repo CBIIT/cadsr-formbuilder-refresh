@@ -64,7 +64,7 @@ export default class FormTable extends React.Component{
 		console.log(nextProps);
 	}
 	componentWillUpdate(){
-		console.log('will update');
+		console.log('will update table');
 	}
 
 	formatData(dataCollection, columnCollection){
