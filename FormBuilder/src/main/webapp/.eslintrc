@@ -2,10 +2,13 @@
   "extends": [
     "plugin:backbone/recommended",
     "plugin:import/errors",
-    "plugin:import/warnings"
+    "plugin:import/warnings",
+    "eslint:recommended",
+    "plugin:react/recommended"
   ],
   "plugins": [
     "react",
+    "jsx-a11y",
     "backbone"
   ],
   "parserOptions": {
@@ -28,15 +31,30 @@
     "no-console": 1,
     "no-debugger": 1,
     "no-var": 1,
-    "semi": [1, "always"],
+    "semi": [
+      1,
+      "always"
+    ],
     "no-trailing-spaces": 0,
     "eol-last": 0,
     "no-underscore-dangle": 0,
     "no-alert": 0,
     "no-lone-blocks": 0,
     "jsx-quotes": 1,
-    "react/display-name": [ 1, {"ignoreTranspilerName": false }],
-    "react/forbid-prop-types": [1, {"forbid": ["any"]}],
+    "react/display-name": [
+      1,
+      {
+        "ignoreTranspilerName": false
+      }
+    ],
+    "react/forbid-prop-types": [
+      1,
+      {
+        "forbid": [
+          "any"
+        ]
+      }
+    ],
     "react/jsx-boolean-value": 0,
     "react/jsx-closing-bracket-location": 0,
     "react/jsx-curly-spacing": 1,
@@ -65,7 +83,13 @@
     "import/extensions ": 0,
     "react/self-closing-comp": 1,
     "react/sort-comp": 1,
-    "react/jsx-wrap-multilines": 1
+    "react/jsx-wrap-multilines": 1,
+    /*JSX A11y*/
+    "jsx-a11y/click-events-have-key-events": 1,
+    "jsx-a11y/label-has-for": 2,
+    "jsx-a11y/no-static-element-interactions": 2,
+    "jsx-a11y/onclick-has-focus": 2,
+    "jsx-a11y/no-onchange": 2
   },
   "globals": {
   }
