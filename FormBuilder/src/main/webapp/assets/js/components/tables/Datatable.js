@@ -79,11 +79,11 @@ export default class Datatable extends React.Component{
 			data: this.formatData(nextProps.data, nextProps.columnTitles),
 			selectedRows: [],
 			columnTitles : nextProps.columnTitles,
-			displayedData: (shouldHavePagination) ? this.state.data.slice(0, nextProps.perPage) : this.state.data
+			displayedData: (shouldHavePagination) ? nextProps.data.slice(0, nextProps.perPage) : this.state.data
 		};
 		if(shouldHavePagination){
 			newState.currentPage = 1;
-			this.totalPages = Math.ceil(this.state.data.length / nextProps.perPage);
+			this.totalPages = Math.ceil(nextProps.data.length / nextProps.perPage);
 		}
 		this.setState(newState);
 	}
@@ -345,7 +345,8 @@ export default class Datatable extends React.Component{
 	}
 
 	render(){
-		const data = this.state.displayedData;
+		const displayedData = this.state.displayedData;
+		const selectedRows = this.state.selectedRows;
 
 		return(
 			<section>
@@ -382,7 +383,7 @@ export default class Datatable extends React.Component{
 							}
 						</Thead>
 						{
-							data.map( (item) => {
+							displayedData.map( (item) => {
 								return (
 									<Tr key={item.id}>
 										<Td key={'checkbox'} column="checkbox">
