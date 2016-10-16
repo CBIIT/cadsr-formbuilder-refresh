@@ -104,7 +104,7 @@ export default class QuestionEditable extends Component {
 
 							<FormGroup>
 								<ControlLabel>Preferred Question Text</ControlLabel>
-								<FormControl.Static className="pull-left">{this.props.question.preferredQuestionText}<Button onClick={this.dispatchSetLongNameAsPreferredText} bsClass="btn-link pull-right">Use Text</Button></FormControl.Static>
+								<FormControl.Static><span className="block pull-left">{this.props.question.preferredQuestionText}</span><Button onClick={this.dispatchSetLongNameAsPreferredText} bsClass="btn-link pull-right">Use Text</Button></FormControl.Static>
 
 							</FormGroup>
 
