@@ -9,7 +9,7 @@ const backboneModelHelpers = {
 		function checkKeys(json){
 			for(let attr in json){
 
-				if(json[attr] && (json[attr].attributes) || (json[attr].models)){
+				if(json[attr] && (json[attr].attributes || json[attr].models)){
 					if(json[attr].attributes){
 						json[attr] = Object.assign({}, json[attr].attributes, json[attr].cid);
 					}
@@ -21,7 +21,7 @@ const backboneModelHelpers = {
 					checkKeys(json[attr]);
 				}
 				/*TODO Fix hardcoding of validValues here*/
-				else if(json[attr].validValues){
+				else if(json[attr] && json[attr].validValues){
 					json[attr].validValues = json[attr].validValues.models.map((model) =>{
 						return Object.assign({}, model.attributes,  {cid: model.cid});
 					});
