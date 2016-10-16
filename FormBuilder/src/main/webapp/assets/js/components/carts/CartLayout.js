@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import backboneReact from 'backbone-react-component';
 import cartActions from '../../constants/cartActions';
-import DataTable from '../formTable/DataTable';
+import Datatable from '../formTable/Datatable';
 import {getCdeCartCollectionPojo, getModuleCartCollectionPojo, getFormCartCollectionPojo} from '../../helpers/CartDataHelpers';
 import TABLECONFIG from '../../constants/TABLE_CONFIGS';
 
@@ -68,7 +68,7 @@ export default class CartLayout extends Component {
 			return (
 				<div>
 					<h1 className="text--bold">Form Builder | {pageName}</h1>
-					<DataTable pagination={true} perPage={100} pageName={pageName} columnTitles={columnConfig} data={this.data}></DataTable>
+					<Datatable pagination={true} perPage={100} pageName={pageName} columnTitles={columnConfig} data={this.data}></Datatable>
 				</div>
 			);
 		}
@@ -79,6 +79,6 @@ export default class CartLayout extends Component {
 		}
 	}
 }
-
+ 
 CartLayout.propTypes = {
 };

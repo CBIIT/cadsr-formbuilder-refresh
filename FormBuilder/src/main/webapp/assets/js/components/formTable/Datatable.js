@@ -27,7 +27,7 @@ Props:
 	this.totalPages (int): calculation for the amount of pages the table will display
 
  */
-export default class DataTable extends Component{
+export default class Datatable extends React.Component{
 
 	constructor(props){
 		super(props);
@@ -407,12 +407,12 @@ export default class DataTable extends Component{
 			</section>
 		);
 	}
-}
+};
 
-DataTable.propTypes = {
+Datatable.propTypes = {
 	data: PropTypes.array,
 	columnTitles: PropTypes.array,
 	pagination: PropTypes.bool,
 	perPage: PropTypes.number,
-	pageName: PropTypes.string
+	pageName: PropTypes.string,
 };
