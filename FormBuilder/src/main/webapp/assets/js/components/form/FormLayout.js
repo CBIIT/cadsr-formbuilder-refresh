@@ -5,16 +5,18 @@ import backboneReact from 'backbone-react-component';
 import TreeView from './TreeView';
 import SidePanel from './SidePanel';
 import formActions from '../../constants/formActions';
+import {getCdeCartCollectionPojo, getModuleCartCollectionPojo} from '../../helpers/CartDataHelpers';
 import backboneModelHelpers from "../../helpers/backboneModelHelpers";
 
 export default class FormLayout extends Component {
 	constructor(props){
 		super(props);
 		this.canCreateModule = this.canCreateModule.bind(this);
-		this.getCartList = this.getCartList.bind(this);
+		this.getCDECart = this.getCDECart.bind(this);
 		this.getFormModules = this.getFormModules.bind(this);
 		this.getActionMode = this.getActionMode.bind(this);
 		this.getEditItems = this.getEditItems.bind(this);
+		this.getModuleCart = this.getModuleCart.bind(this);
 		this.showTreeNav = this.showTreeNav.bind(this);
 		this.showCartsPanel = this.showCartsPanel.bind(this);
 	}
@@ -66,11 +68,15 @@ export default class FormLayout extends Component {
 		return _.findWhere( this.formModules,{cid: this.state.formUIState.moduleViewingId});
 	}
 
-	getCartList({name}){
-		if(this.props[name]){
-			return this.props[name].models.map(model =>{
-				return Object.assign({}, model.attributes.dataElement, {id: model.id});
-			});
+	getCDECart(){
+		if(this.props.cdeCartCollection){
+			return getCdeCartCollectionPojo(this.props.cdeCartCollection);
+		}
+	}
+
+	getModuleCart(){
+		if(this.props.moduleCartCollection){
+			return getModuleCartCollectionPojo(this.props.moduleCartCollection);
 		}
 	}
 
@@ -85,7 +91,7 @@ export default class FormLayout extends Component {
 	showCartsPanel(){
 		if(this.getActionMode() !== formActions.CREATE_FORM){
 			return (
-				<SidePanel cdeList={this.getCartList({name: "cdeCartCollection"})}/>
+				<SidePanel cdeCartList={this.getCDECart()}/>
 			);
 		}
 

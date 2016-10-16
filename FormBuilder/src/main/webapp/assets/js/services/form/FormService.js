@@ -75,6 +75,7 @@ const FormService = Marionette.Object.extend({
 					this.fetchForm({formIdseq: formIdseq});
 				}
 				this.getCartData({name: "cdeCart"});
+				this.getCartData({name: "moduleCart"});
 				break;
 			default:
 				console.error("no valid action provided");
@@ -84,7 +85,7 @@ const FormService = Marionette.Object.extend({
 		/*Entry point for React. Backbone Views Keep Out.
 		Once React is the top level view currently handled by Marionette (i.e.  AppLayoutView,js), we can render FormLayout from there instead   */
 		render(
-			<FormLayout formIdseq={this.formModel.attributes.formIdseq} formMetadata={this.formModel.attributes.formMetadata.attributes} formModules={this.formModel.attributes.formModules} cdeCartCollection={this.app.cartsService.cdeCartCollection} uiDropDownOptionsModel={this.uiDropDownOptionsModel} formUIState={this.formUIStateModel}/>, document.getElementById('main'));
+			<FormLayout formIdseq={this.formModel.attributes.formIdseq} formMetadata={this.formModel.attributes.formMetadata.attributes} formModules={this.formModel.attributes.formModules} moduleCartCollection={this.app.cartsService.moduleCartCollection} cdeCartCollection={this.app.cartsService.cdeCartCollection} uiDropDownOptionsModel={this.uiDropDownOptionsModel} formUIState={this.formUIStateModel}/>, document.getElementById('main'));
 
 	},
 	createForm() {
@@ -108,9 +109,10 @@ const FormService = Marionette.Object.extend({
 	},
 	fetchForm({formIdseq}) {
 		this.formModel.set({formIdseq: formIdseq});
-		/*TODO add catch() for error handling */
 		this.formModel.fetch().then(() =>{
 			this.constructLayout();
+		}).catch((error) =>{
+			console.log(error);
 		});
 	},
 	getCartData({name}) {

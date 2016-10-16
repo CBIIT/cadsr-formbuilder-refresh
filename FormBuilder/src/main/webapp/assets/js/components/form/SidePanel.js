@@ -14,13 +14,16 @@ export default class SidePanel extends Component {
 						<span className="panel-header-heading">CDE Cart</span>
 					</p>
 					<div className="panel-content">
-						<ButtonList itemKey={"deIdseq"} className="panel-list-cart panel-item" itemTextKey={"longcdename"} data={this.props.cdeList}/>
+						<ButtonList itemKey={"deIdseq"} className="panel-list-cart panel-item" itemTextKey={"longcdename"} data={this.props.cdeCartList}/>
 					</div>
 				</div>
 				<div className="bordered-container panel panel-half">
 					<p className="panel-header">
 						<span className="panel-header-heading">Module Cart</span>
 					</p>
+					<div className="panel-content">
+						{/*<ButtonList itemKey={"deIdseq"} className="panel-list-cart panel-item" itemTextKey={"longcdename"} data={this.props.moduleCartList}/>*/}
+					</div>
 					<div className="panel-content">
 						<p className="panel-temp"><em>Coming Soon...</em></p>
 					</div>
