@@ -7,7 +7,7 @@ export const getCdeCartCollectionPojo = (cdeCollection) => {
 
 export const getFormCartCollectionPojo = (formCartCollection) => {
 	return formCartCollection.models.map(model =>{
-		return Object.assign({}, model.attributes, {cid: model.cid, contextName: model.get('context').name, protocolLongName: model.get('protocols')[0].longName});
+		return Object.assign({}, model.attributes, {id: model.cid, contextName: model.get('context').name, protocolLongName: model.get('protocols')[0].longName});
 	});
 };
 
@@ -16,7 +16,7 @@ export const getModuleCartCollectionPojo = (formCartCollection) => {
 		return {
 			longName: model.attributes.longName,
 			instructions: model.attributes.instructions,
-			moduleIdseq: model.attributes.moduleIdseq,
+			id: model.attributes.moduleIdseq,
 			numQuestions:  model.attributes.questions.length,
 			originFormLongName: model.attributes.form.longName,
 			originFormContext: model.attributes.form.context,

@@ -79,7 +79,7 @@ export default class Datatable extends React.Component{
 			data: this.formatData(nextProps.data, nextProps.columnTitles),
 			selectedRows: [],
 			columnTitles : nextProps.columnTitles,
-			displayedData: (shouldHavePagination) ? nextProps.data.slice(0, nextProps.perPage) : this.state.data
+			displayedData: (shouldHavePagination) ? nextProps.data.slice(0, nextProps.perPage) : nextProps.data
 		};
 		if(shouldHavePagination){
 			newState.currentPage = 1;
@@ -119,7 +119,7 @@ export default class Datatable extends React.Component{
 				newItem[columnCollection[i].key] = dataItem[columnCollection[i].key];
 			}
 			newItem.selected = false; //set this to false so all of them are unselected at the start.
-			newItem.id = index;
+			newItem.id = dataItem.id;
 			newDataCollection.push(newItem);
 		});
 		return newDataCollection;
