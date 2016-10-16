@@ -2,24 +2,27 @@ import React, {Component, PropTypes} from 'react';
 import backboneReact from 'backbone-react-component';
 import cartActions from '../../constants/cartActions';
 import FormTable from '../formTable/formTable';
+import {getCdeCartCollectionPojo, getModuleCartCollectionPojo, getFormCartCollectionPojo} from '../../helpers/CartDataHelpers';
 import TABLECONFIG from '../../constants/TABLE_CONFIGS';
-import backboneModelHelpers from "../../helpers/backboneModelHelpers";
 
 export default class CartLayout extends Component {
 	constructor(props){
 		super(props);
-		this.massageFormCartData = this.massageFormCartData.bind(this);
+		this.massageCartData = this.massageCartData.bind(this);
 		this.data = [];
 	}
 
-	massageFormCartData(){
-		/* Store a local copy of list of modules as POJOs with its backbone model's cid included
-		 Getting cid vs moduleIdseq because new modules don't have a moduleIdseq */
-		let formData = this.props.data.models.map(model =>{
-			return Object.assign({}, model.attributes, {cid: model.cid, contextName:
-			 model.get('context').name, protocolLongName: model.get('protocols')[0].longName});
-		});
-		this.data = formData;
+	massageCartData(){
+		const actionMode = this.state.cartPageStateModel.actionMode;
+		if(actionMode === cartActions.VIEW_CDE_CART_PAGE) {
+			this.data = getCdeCartCollectionPojo(this.props.data);
+		}
+		else if (actionMode === cartActions.VIEW_FORM_CART_PAGE) {
+			this.data = getFormCartCollectionPojo(this.props.data);
+		}
+		else if (actionMode === cartActions.VIEW_MODULE_CART_PAGE) {
+			this.data = getModuleCartCollectionPojo(this.props.data);
+		}
 	}
 
 	componentWillMount(){
@@ -34,7 +37,7 @@ export default class CartLayout extends Component {
 		});
 	}
 	componentWillUpdate(nextProps, nextState) {
-		this.massageFormCartData();
+		this.massageCartData();
 	}
 	componentWillUnmount(){
 		backboneReact.off(this);
@@ -61,13 +64,19 @@ export default class CartLayout extends Component {
 			pageName = "Module Cart";
 			columnConfig = TABLECONFIG.MODULE;
 		}
-		return (
-			<div>
-
-				<h1 className="text--bold">Form Builder | {pageName}</h1>
-				<FormTable pagination={true} perPage={100} pageName={pageName} columnTitles={columnConfig} data={this.data}></FormTable>
-			</div>
-		);
+		if(this.data.length) {
+			return (
+				<div>
+					<h1 className="text--bold">Form Builder | {pageName}</h1>
+					<FormTable pagination={true} perPage={100} pageName={pageName} columnTitles={columnConfig} data={this.data}></FormTable>
+				</div>
+			);
+		}
+		else {
+			return (
+				<p>Loading</p>
+			);
+		}
 	}
 }
 

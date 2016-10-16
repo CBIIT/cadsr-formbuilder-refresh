@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component, PropTypes} from 'react';
 import {Table as Reactable, Thead, Th, Tr, Td} from 'reactable';
 import {Glyphicon, DropdownButton, MenuItem} from 'react-bootstrap';
 
@@ -407,4 +407,12 @@ export default class FormTable extends React.Component{
 			</section>
 		);
 	}
+};
+
+FormTable.propTypes = {
+	data: PropTypes.array,
+	columnTitles: PropTypes.array,
+	pagination: PropTypes.bool,
+	perPage: PropTypes.number,
+	pageName: PropTypes.string,
 };
