@@ -3,7 +3,7 @@
  */
 import React, {Component, PropTypes} from 'react';
 import {Col, Row} from 'react-bootstrap';
-import FormTable from '../formTable/formTable';
+import FormTable from '../formTable/DataTable';
 import TABLECONFIG from '../../constants/TABLE_CONFIGS';
 
 export default class CartLayout extends Component {
@@ -35,7 +35,7 @@ export default class CartLayout extends Component {
 		return (
 			<div>
 				<h1 className="text--bold">Form Builder | Form Cart</h1>
-				<FormTable pagination={true} perPage={100} columnTitles={TABLECONFIG.FORM} data={this.data}></FormTable>
+				<DataTable pagination={true} perPage={100} columnTitles={TABLECONFIG.FORM} data={this.data}></DataTable>
 			</div>
 		);
 	}
