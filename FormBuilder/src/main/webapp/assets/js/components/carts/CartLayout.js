@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import backboneReact from 'backbone-react-component';
 import cartActions from '../../constants/cartActions';
-import Datatable from '../formTable/Datatable';
+import Datatable from '../tables/Datatable';
 import {getCdeCartCollectionPojo, getModuleCartCollectionPojo, getFormCartCollectionPojo} from '../../helpers/CartDataHelpers';
 import TABLECONFIG from '../../constants/TABLE_CONFIGS';
 
@@ -79,6 +79,6 @@ export default class CartLayout extends Component {
 		}
 	}
 }
- 
+
 CartLayout.propTypes = {
 };

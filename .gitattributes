@@ -85,8 +85,8 @@ FormBuilder/src/main/webapp/assets/js/components/form/form-modules/QuestionEdita
 FormBuilder/src/main/webapp/assets/js/components/form/form-modules/QuestionStatic.js -text
 FormBuilder/src/main/webapp/assets/js/components/form/form-modules/ValidValueEditable.js -text
 FormBuilder/src/main/webapp/assets/js/components/form/form-modules/ValidValueStatic.js -text
-FormBuilder/src/main/webapp/assets/js/components/formTable/Datatable.js -text
 FormBuilder/src/main/webapp/assets/js/components/modals/ExitFormModal.js -text
+FormBuilder/src/main/webapp/assets/js/components/tables/Datatable.js -text
 FormBuilder/src/main/webapp/assets/js/constants/ENDPOINT_URLS.js -text
 FormBuilder/src/main/webapp/assets/js/constants/EVENTS.js -text
 FormBuilder/src/main/webapp/assets/js/constants/ROUTES.js -text
