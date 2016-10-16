@@ -1,6 +1,6 @@
-package gov.nih.nci.cadsr.model;
+package gov.nih.nci.cadsr.model.frontend;
 
-public class BBDataElement {
+public class FEDataElement implements FEBaseObject{
 	
 	private String longname;
 	private String longcdename;

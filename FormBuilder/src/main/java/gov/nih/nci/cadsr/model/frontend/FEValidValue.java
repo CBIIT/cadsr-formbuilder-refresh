@@ -1,6 +1,6 @@
-package gov.nih.nci.cadsr.model;
+package gov.nih.nci.cadsr.model.frontend;
 
-public class BBValidValue {
+public class FEValidValue implements FEBaseObject{
 
 	// private String vdIdSeq;
 	private String vpIdseq;

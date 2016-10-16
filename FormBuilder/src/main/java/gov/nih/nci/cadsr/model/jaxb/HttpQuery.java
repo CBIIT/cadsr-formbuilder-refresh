@@ -1,4 +1,4 @@
-package gov.nih.nci.cadsr.model;
+package gov.nih.nci.cadsr.model.jaxb;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;

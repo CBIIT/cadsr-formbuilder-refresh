@@ -5,9 +5,8 @@ import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 
 import gov.nih.nci.cadsr.authentication.AuthUtils;
-import gov.nih.nci.cadsr.model.BBForm;
-import gov.nih.nci.cadsr.model.BBUser;
-import gov.nih.nci.ncicb.cadsr.common.resource.NCIUser;
+import gov.nih.nci.cadsr.model.frontend.FEForm;
+import gov.nih.nci.cadsr.model.frontend.FEUser;
 
 @Component
 @Scope(proxyMode=ScopedProxyMode.TARGET_CLASS, value="session")
@@ -17,8 +16,8 @@ public class SessionObject {
 //	private String sessionValue = "";
 	private boolean loggedIn = false;
 //	private String token = "";
-	private BBUser user;
-	private BBForm workingCopy;
+	private FEUser user;
+	private FEForm workingCopy;
 	
 	
 	/*public String getCurrentUser() {
@@ -45,16 +44,16 @@ public class SessionObject {
 	public void setToken(String token) {
 		this.token = token;
 	}*/
-	public BBUser getUser() {
+	public FEUser getUser() {
 		return user;
 	}
-	public void setUser(BBUser user) {
+	public void setUser(FEUser user) {
 		this.user = user;
 	}
-	public BBForm getWorkingCopy() {
+	public FEForm getWorkingCopy() {
 		return workingCopy;
 	}
-	public void setWorkingCopy(BBForm workingCopy) {
+	public void setWorkingCopy(FEForm workingCopy) {
 		this.workingCopy = workingCopy;
 	}
 	

@@ -1,4 +1,4 @@
-package gov.nih.nci.cadsr.model;
+package gov.nih.nci.cadsr.model.jaxb;
 
 import java.util.List;
 
@@ -10,6 +10,7 @@ import javax.xml.bind.annotation.XmlTransient;
 public class Item {
 
 	String idSeq;
+	String longname;
 	String longcdename;
 	String preferreddefinition;
 	String contextname;
@@ -42,6 +43,15 @@ public class Item {
 	@XmlElement(name = "long-cDEName")
 	public void setLongcdename(String longcdename) {
 		this.longcdename = longcdename;
+	}
+	
+	public String getLongname() {
+		return longname;
+	}
+
+	@XmlElement(name = "long-name")
+	public void setLongname(String longname) {
+		this.longname = longname;
 	}
 
 	public String getPreferreddefinition() {

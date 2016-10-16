@@ -1,4 +1,4 @@
-package gov.nih.nci.cadsr.model;
+package gov.nih.nci.cadsr.model.jaxb;
 
 
 

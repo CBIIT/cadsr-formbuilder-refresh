@@ -1,14 +1,14 @@
-package gov.nih.nci.cadsr.model;
+package gov.nih.nci.cadsr.model.frontend;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class BBUser {
+public class FEUser implements FEBaseObject {
 	
 	private String username;
-	private List<BBContext> contexts = new ArrayList<BBContext>();
+	private List<FEContext> contexts = new ArrayList<FEContext>();
 	private String emailAddress;
 	private String phoneNumber;
 	
@@ -19,10 +19,10 @@ public class BBUser {
 	public void setUsername(String username) {
 		this.username = username;
 	}
-	public List<BBContext> getContexts() {
+	public List<FEContext> getContexts() {
 		return contexts;
 	}
-	public void setContexts(List<BBContext> contexts) {
+	public void setContexts(List<FEContext> contexts) {
 		this.contexts = contexts;
 	}
 	public String getEmailAddress() {

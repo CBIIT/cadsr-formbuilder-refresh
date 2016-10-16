@@ -6,27 +6,27 @@ import java.util.List;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import gov.nih.nci.cadsr.model.BBFormMetaData;
-import gov.nih.nci.cadsr.model.BBModule;
-import gov.nih.nci.cadsr.model.BBQuestion;
-import gov.nih.nci.cadsr.model.BBUser;
+import gov.nih.nci.cadsr.model.frontend.FEFormMetaData;
+import gov.nih.nci.cadsr.model.frontend.FEModule;
+import gov.nih.nci.cadsr.model.frontend.FEQuestion;
+import gov.nih.nci.cadsr.model.frontend.FEUser;
 
 public class CadsrUserDetails implements UserDetails{
 
-	private BBUser user;
+	private FEUser user;
 	private String password;
 	private String username;
 	private String token;
 	
-	private List<BBQuestion> cdeCart;
-	private List<BBModule> moduleCart;
-	private List<BBFormMetaData> formCart;
+	private List<FEQuestion> cdeCart;
+	private List<FEModule> moduleCart;
+	private List<FEFormMetaData> formCart;
 	
-	public BBUser getUser() {
+	public FEUser getUser() {
 		return user;
 	}
 
-	public void setUser(BBUser user) {
+	public void setUser(FEUser user) {
 		this.user = user;
 	}
 
@@ -79,27 +79,27 @@ public class CadsrUserDetails implements UserDetails{
 		this.token = token;
 	}
 
-	public List<BBQuestion> getCdeCart() {
+	public List<FEQuestion> getCdeCart() {
 		return cdeCart;
 	}
 
-	public void setCdeCart(List<BBQuestion> cdeCart) {
+	public void setCdeCart(List<FEQuestion> cdeCart) {
 		this.cdeCart = cdeCart;
 	}
 
-	public List<BBModule> getModuleCart() {
+	public List<FEModule> getModuleCart() {
 		return moduleCart;
 	}
 
-	public void setModuleCart(List<BBModule> moduleCart) {
+	public void setModuleCart(List<FEModule> moduleCart) {
 		this.moduleCart = moduleCart;
 	}
 
-	public List<BBFormMetaData> getFormCart() {
+	public List<FEFormMetaData> getFormCart() {
 		return formCart;
 	}
 
-	public void setFormCart(List<BBFormMetaData> formCart) {
+	public void setFormCart(List<FEFormMetaData> formCart) {
 		this.formCart = formCart;
 	}
 

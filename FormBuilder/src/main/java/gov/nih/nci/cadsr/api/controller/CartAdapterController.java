@@ -22,6 +22,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.oxm.XmlMappingException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,26 +35,26 @@ import org.xml.sax.SAXException;
 
 import gov.nih.nci.cadsr.FormBuilderConstants;
 import gov.nih.nci.cadsr.FormBuilderProperties;
-import gov.nih.nci.cadsr.model.CartObjectNew;
-import gov.nih.nci.cadsr.model.Field;
-import gov.nih.nci.cadsr.model.FormV2NewWrapper;
-import gov.nih.nci.cadsr.model.HttpQuery;
-import gov.nih.nci.cadsr.model.Item;
-import gov.nih.nci.cadsr.model.JaxbValidValue;
-import gov.nih.nci.cadsr.model.BBContext;
-import gov.nih.nci.cadsr.model.BBDataElement;
-import gov.nih.nci.cadsr.model.BBFormMetaData;
-import gov.nih.nci.cadsr.model.BBModule;
-import gov.nih.nci.cadsr.model.BBProtocol;
-import gov.nih.nci.cadsr.model.BBQuestion;
-import gov.nih.nci.cadsr.model.BBValidValue;
-import gov.nih.nci.cadsr.model.session.SessionCarts;
+import gov.nih.nci.cadsr.authentication.CadsrUserDetails;
+import gov.nih.nci.cadsr.model.frontend.FEContext;
+import gov.nih.nci.cadsr.model.frontend.FEDataElement;
+import gov.nih.nci.cadsr.model.frontend.FEFormMetaData;
+import gov.nih.nci.cadsr.model.frontend.FEModule;
+import gov.nih.nci.cadsr.model.frontend.FEProtocol;
+import gov.nih.nci.cadsr.model.frontend.FEQuestion;
+import gov.nih.nci.cadsr.model.frontend.FEValidValue;
+import gov.nih.nci.cadsr.model.jaxb.CartObjectNew;
+import gov.nih.nci.cadsr.model.jaxb.Field;
+import gov.nih.nci.cadsr.model.jaxb.FormV2NewWrapper;
+import gov.nih.nci.cadsr.model.jaxb.HttpQuery;
+import gov.nih.nci.cadsr.model.jaxb.Item;
+import gov.nih.nci.cadsr.model.jaxb.JaxbValidValue;
 
 //import gov.nih.nci.cadsr.model.XMLConverter;
 
 import gov.nih.nci.ncicb.cadsr.common.dto.FormTransferObject;
-import gov.nih.nci.ncicb.cadsr.common.dto.ModuleTransferObject;
-import gov.nih.nci.ncicb.cadsr.common.dto.QuestionTransferObject;
+//import gov.nih.nci.ncicb.cadsr.formbuilder.ejb.impl.ReferenceDocument;
+//import gov.nih.nci.ncicb.cadsr.formbuilder.ejb.impl.ReferenceDocumentDAO;
 import gov.nih.nci.objectCart.domain.Cart;
 
 /**
@@ -71,18 +72,11 @@ public class CartAdapterController {
 	@Autowired
 	private FormBuilderProperties props;
 
-	@Autowired
-	private SessionCarts carts;
-
-	/*
-	 * @Autowired private XMLConverter xmlConverter;
-	 */
-
-	@RequestMapping(value = "/moduleCart/{username}", method = RequestMethod.GET)
+	@RequestMapping(value = "/modulecart/{username}", method = RequestMethod.GET)
 	@ResponseBody
-	public ResponseEntity getModuleCart(@RequestParam(value = "username", required = true) String username) {
-
-		return new ResponseEntity(carts.getModuleCart(), HttpStatus.OK);
+	public ResponseEntity getModuleCart(@PathVariable String username) {
+		
+		return new ResponseEntity(this.getUserDetails().getModuleCart(), HttpStatus.OK);
 
 	}
 
@@ -90,15 +84,15 @@ public class CartAdapterController {
 	@ResponseBody
 	public ResponseEntity getCDECart(@PathVariable String username) {
 
-		return new ResponseEntity(carts.getCdeCart(), HttpStatus.OK);
+		return new ResponseEntity(this.getUserDetails().getCdeCart(), HttpStatus.OK);
 
 	}
 
 	@RequestMapping(value = "/formcart/{username}", method = RequestMethod.GET)
 	@ResponseBody
-	public ResponseEntity getFormCart(@RequestParam(value = "username", required = true) String username) {
+	public ResponseEntity getFormCart(@PathVariable String username) {
 
-		return new ResponseEntity(carts.getFormCart(), HttpStatus.OK);
+		return new ResponseEntity(this.getUserDetails().getFormCart(), HttpStatus.OK);
 
 	}
 
@@ -111,7 +105,7 @@ public class CartAdapterController {
 			return getDummyCdeCart("guest");
 		}
 
-		String ocURL = "http://objcart.nci.nih.gov/objcart10";
+		String ocURL = props.getObjectCartUrl();
 
 		String xmlURL = "GetXML";
 
@@ -163,19 +157,20 @@ public class CartAdapterController {
 
 		}
 
-		List<BBQuestion> questions = new ArrayList<BBQuestion>();
+		List<FEQuestion> questions = new ArrayList<FEQuestion>();
 		for (Item item : items) {
-			BBQuestion question = new BBQuestion();
-			BBDataElement element = new BBDataElement();
+			FEQuestion question = new FEQuestion();
+			FEDataElement element = new FEDataElement();
 			BeanUtils.copyProperties(item, element);
 
 			question.setDeIdseq(item.getIdSeq());
 			question.setVersion(Float.valueOf(item.getVersion()));
-			question.setPreferredQuestionText(item.getPreferredname());
+//			question.setPreferredQuestionText(item.getLongcdename());
+			question.setValueDomainLongName(item.getLongcdename());
+			question.setLongName(item.getLongname());
 			question.setMandatory(false);
 			question.setEditable(true);
 			question.setDeDerived(true);
-			question.setLongName(item.getLongcdename());
 			question.setDataType(item.getValueDomain().getDataType());
 			question.setUnitOfMeasure(item.getValueDomain().getUnitOfMeasure());
 			question.setDisplayFormat(item.getValueDomain().getDisplayFormat());
@@ -183,7 +178,7 @@ public class CartAdapterController {
 			
 			if(item.getValueDomain() != null){
 				for(JaxbValidValue jaxbvv : item.getValueDomain().getValidValues()){
-					BBValidValue bbval = new BBValidValue();
+					FEValidValue bbval = new FEValidValue();
 					BeanUtils.copyProperties(jaxbvv, bbval);
 					
 					bbval.setFormValueMeaningText(jaxbvv.getShortMeaning());
@@ -200,6 +195,7 @@ public class CartAdapterController {
 			questions.add(question);
 		}
 
+//		this.getUserDetails().setCdeCart(questions);
 		return new ResponseEntity(questions, HttpStatus.OK);
 
 	}
@@ -213,7 +209,7 @@ public class CartAdapterController {
 			return getDummyCdeCart("guest");
 		}
 
-		String ocURL = "http://objcart2-dev.nci.nih.gov/objcart103";
+		String ocURL = props.getObjectCartUrl();
 
 		String xmlURL = "GetXML";
 
@@ -236,7 +232,7 @@ public class CartAdapterController {
 		List<CartObjectNew> cartContents = query.getQueryResponse().getCartContents();
 
 		List<FormV2NewWrapper> forms = new ArrayList<FormV2NewWrapper>();
-		List<BBFormMetaData> feForms = new ArrayList<BBFormMetaData>();
+		List<FEFormMetaData> feForms = new ArrayList<FEFormMetaData>();
 		if (!cartContents.isEmpty()) {
 			String date = null;
 			for (CartObjectNew cartObj : cartContents) {
@@ -261,12 +257,15 @@ public class CartAdapterController {
 				form.setDateadded(date);
 				forms.add(form);
 				
-				BBFormMetaData feForm = new BBFormMetaData();
+				FEFormMetaData feForm = new FEFormMetaData();
 				BeanUtils.copyProperties(form, feForm);
 				feForms.add(feForm);
 			}
 
 		}
+		
+//		this.getUserDetails().setFormCart(feForms);
+		
 		return new ResponseEntity(feForms, HttpStatus.OK);
 	}
 
@@ -278,32 +277,24 @@ public class CartAdapterController {
 			return getDummyFormCart("guest");
 		}
 
-		return new ResponseEntity(carts.getFormCart(), HttpStatus.OK);
+		return new ResponseEntity(this.getUserDetails().getFormCart(), HttpStatus.OK);
 
-	}
-
-	@RequestMapping(value = "/questions/{cdeid}", method = RequestMethod.GET)
-	@ResponseBody
-	public ResponseEntity<QuestionTransferObject> getQuestionFromCDE(
-			@RequestParam(value = "cdeid", required = true) String cdeid) {
-
-		return null;
 	}
 
 	@RequestMapping(value = "/modules", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseEntity saveToModuleCart(@RequestBody ModuleTransferObject module) {
+	public ResponseEntity saveToModuleCart(@RequestBody FEModule module) {
 
-		carts.getModuleCart().add(module);
+		this.getUserDetails().getModuleCart().add(module);
 
 		return null;
 	}
 
 	@RequestMapping(value = "/forms", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseEntity saveToFormCart(@RequestBody FormTransferObject form) {
+	public ResponseEntity saveToFormCart(@RequestBody FEFormMetaData form) {
 
-		carts.getFormCart().add(form);
+		this.getUserDetails().getFormCart().add(form);
 
 		return null;
 	}
@@ -327,9 +318,9 @@ public class CartAdapterController {
 
 	@RequestMapping(value = "/modules", method = RequestMethod.DELETE)
 	@ResponseBody
-	public ResponseEntity removeFromModuleCart(@RequestBody ModuleTransferObject module) {
+	public ResponseEntity removeFromModuleCart(@RequestBody FEModule module) {
 
-		carts.getModuleCart().remove(module);
+		this.getUserDetails().getModuleCart().remove(module);
 
 		return null;
 	}
@@ -345,7 +336,7 @@ public class CartAdapterController {
 	@ResponseBody
 	public ResponseEntity getDummyCdeCart(@PathVariable String username) {
 
-		List<BBDataElement> dataElements = new ArrayList<BBDataElement>();
+		List<FEDataElement> dataElements = new ArrayList<FEDataElement>();
 
 		for (int i = 0; i < 15; i++) {
 			dataElements.add(createDummyCDE());
@@ -358,7 +349,7 @@ public class CartAdapterController {
 	@ResponseBody
 	public ResponseEntity getDummyModuleCart(@PathVariable String username) {
 
-		List<BBModule> modules = new ArrayList<BBModule>();
+		List<FEModule> modules = new ArrayList<FEModule>();
 
 		for (int i = 0; i < 15; i++) {
 			modules.add(createDummyModule(i));
@@ -371,7 +362,7 @@ public class CartAdapterController {
 	@ResponseBody
 	public ResponseEntity getDummyFormCart(@PathVariable String username) {
 
-		List<BBFormMetaData> forms = new ArrayList<BBFormMetaData>();
+		List<FEFormMetaData> forms = new ArrayList<FEFormMetaData>();
 
 		for (int i = 0; i < 15; i++) {
 			forms.add(createDummyForm(i));
@@ -380,9 +371,9 @@ public class CartAdapterController {
 		return new ResponseEntity(forms, HttpStatus.OK);
 	}
 
-	private BBDataElement createDummyCDE() {
+	private FEDataElement createDummyCDE() {
 
-		BBDataElement cde = new BBDataElement();
+		FEDataElement cde = new FEDataElement();
 		cde.setDeIdseq("A56E8150-8EAC-1CC3-E034-080020C9C0E0");
 		cde.setLongcdename("Time");
 		cde.setLongname("Lab Collection Time");
@@ -400,19 +391,19 @@ public class CartAdapterController {
 		return cde;
 	}
 
-	private BBModule createDummyModule(int i) {
+	private FEModule createDummyModule(int i) {
 
-		BBModule mod = new BBModule();
-		BBFormMetaData form = new BBFormMetaData();
+		FEModule mod = new FEModule();
+		FEFormMetaData form = new FEFormMetaData();
 
 		mod.setLongName("Test Module Long Name _ " + i);
 		mod.setInstructions("These are Instructions");
 		mod.setDispOrder(i);
 		mod.setModuleIdseq("A123123-B234-C456-567567567");
 		
-		List<BBQuestion> questions = new ArrayList<BBQuestion>();
+		List<FEQuestion> questions = new ArrayList<FEQuestion>();
 		for(int j=0; j<3; j++){
-			questions.add(new BBQuestion());
+			questions.add(new FEQuestion());
 		}
 		
 		mod.setQuestions(questions);
@@ -426,9 +417,9 @@ public class CartAdapterController {
 		return mod;
 	}
 
-	private BBFormMetaData createDummyForm(int i) {
+	private FEFormMetaData createDummyForm(int i) {
 
-		BBFormMetaData form = new BBFormMetaData();
+		FEFormMetaData form = new FEFormMetaData();
 
 		form.setLongName("Test Form Long Name_ " + i);
 		form.setWorkflow("Draft New");
@@ -436,12 +427,12 @@ public class CartAdapterController {
 		form.setCreatedBy("Guest 9/10/2011");
 		form.setVersion(1F);
 
-		BBContext c = new BBContext("123abc", "TEST", "testdesc");
+		FEContext c = new FEContext("123abc", "TEST", "testdesc");
 
 		form.setContext(c);
 
-		List<BBProtocol> prots = new ArrayList<BBProtocol>();
-		BBProtocol p = new BBProtocol();
+		List<FEProtocol> prots = new ArrayList<FEProtocol>();
+		FEProtocol p = new FEProtocol();
 		p.setLongName("Test Protocol Long Name");
 		prots.add(p);
 
@@ -449,5 +440,20 @@ public class CartAdapterController {
 
 		return form;
 	}
+	
+	private CadsrUserDetails getUserDetails(){
+		CadsrUserDetails userDetails =
+				 (CadsrUserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		
+		return userDetails;
+	}
+	
+	/*private List<ReferenceDocument> getReferenceDocuments(String acIdseq)
+    {
+        ReferenceDocumentDAO myDAO = (ReferenceDocumentDAO)daoFactory.getReferenceDocumentDAO();
+        List refDocs = myDAO.getAllReferenceDocuments(acIdseq, 
+                        null);
+        return refDocs;        
+    }*/
 
 }

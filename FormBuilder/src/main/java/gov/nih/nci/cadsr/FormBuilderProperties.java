@@ -6,6 +6,7 @@ public class FormBuilderProperties {
 	
 	private static final String DEFAULT_REMOTE_SERVICE_HOST = "http://localhost:8080/";
 	private static final String DEFAULT_SALT = "12345678abcdefgh";
+	private static final String DEFAULT_OBJECT_CART_URL = "http://objcart2-dev.nci.nih.gov/objcart10";
 	
 	@Value("#{propertyConfigurer['formservice.api.url']}")
 	private String formServiceApiUrl;
@@ -15,6 +16,9 @@ public class FormBuilderProperties {
 	
 	@Value("#{propertyConfigurer['formbuilder.local.mode']}")
 	private String formBuilderLocalMode;
+	
+	@Value("#{propertyConfigurer['object.cart.url']}")
+	private String objectCartUrl;
 	
 	public String getFormServiceApiUrl() {
 
@@ -41,6 +45,15 @@ public class FormBuilderProperties {
 		}
 		else{
 			return Boolean.valueOf(formBuilderLocalMode);
+		}
+	}
+	
+	public String getObjectCartUrl(){
+		if (objectCartUrl == null || objectCartUrl.isEmpty()) {
+			return DEFAULT_OBJECT_CART_URL;
+		}
+		else{
+			return objectCartUrl;
 		}
 	}
 }

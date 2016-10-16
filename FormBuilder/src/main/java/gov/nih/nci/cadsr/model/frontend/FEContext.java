@@ -1,18 +1,18 @@
-package gov.nih.nci.cadsr.model;
+package gov.nih.nci.cadsr.model.frontend;
 
-public class BBContext {
+public class FEContext implements FEBaseObject{
 	
 	private String conteIdseq;
 	private String name;
 	private String description;
 	
-	public BBContext(){
+	public FEContext(){
 		this.conteIdseq = "";
 		this.name = "";
 		this.description = "";
 	}
 	
-	public BBContext(String conteIdseq, String name, String description){
+	public FEContext(String conteIdseq, String name, String description){
 		this.conteIdseq = conteIdseq;
 		this.name = name;
 		this.description = description;

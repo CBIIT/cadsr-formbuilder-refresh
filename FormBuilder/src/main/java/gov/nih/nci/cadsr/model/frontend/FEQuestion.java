@@ -1,15 +1,15 @@
-package gov.nih.nci.cadsr.model;
+package gov.nih.nci.cadsr.model.frontend;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class BBQuestion {
+public class FEQuestion extends FECartItem implements FEBaseObject{
 	
 	private String quesIdseq;
-	private List<BBValidValue> validValues = new ArrayList<BBValidValue>();
+	private List<FEValidValue> validValues = new ArrayList<FEValidValue>();
 	private int displayOrder;
 	private String deIdseq;
-	private BBDataElement dataElement;
+	private FEDataElement dataElement;
 	private String instructions;
 	private String defaultValue;
 //	private List<BBQuestionRepetition> questionRepetitions;
@@ -21,6 +21,7 @@ public class BBQuestion {
 	private String preferredQuestionText;
 	private List<String> alternativeQuestionText = new ArrayList<String>();
 	private String longName;
+	private String valueDomainLongName;
 	private String dataType;
 	private String unitOfMeasure;
 	private String displayFormat;
@@ -37,10 +38,10 @@ public class BBQuestion {
 	public void setQuesIdseq(String quesIdseq) {
 		this.quesIdseq = quesIdseq;
 	}
-	public List<BBValidValue> getValidValues() {
+	public List<FEValidValue> getValidValues() {
 		return validValues;
 	}
-	public void setValidValues(List<BBValidValue> validValues) {
+	public void setValidValues(List<FEValidValue> validValues) {
 		this.validValues = validValues;
 	}
 	public int getDisplayOrder() {
@@ -97,10 +98,10 @@ public class BBQuestion {
 	public void setDeDerived(boolean deDerived) {
 		this.deDerived = deDerived;
 	}
-	public BBDataElement getDataElement() {
+	public FEDataElement getDataElement() {
 		return dataElement;
 	}
-	public void setDataElement(BBDataElement dataElement) {
+	public void setDataElement(FEDataElement dataElement) {
 		this.dataElement = dataElement;
 	}
 	public Float getVersion() {
@@ -126,6 +127,12 @@ public class BBQuestion {
 	}
 	public void setLongName(String longName) {
 		this.longName = longName;
+	}
+	public String getValueDomainLongName() {
+		return valueDomainLongName;
+	}
+	public void setValueDomainLongName(String valueDomainLongName) {
+		this.valueDomainLongName = valueDomainLongName;
 	}
 	public String getDataType() {
 		return dataType;

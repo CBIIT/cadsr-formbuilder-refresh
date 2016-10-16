@@ -1,4 +1,4 @@
-package gov.nih.nci.cadsr.model;
+package gov.nih.nci.cadsr.model.jaxb;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;

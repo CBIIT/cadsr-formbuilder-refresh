@@ -14,7 +14,7 @@ import org.springframework.web.client.RestTemplate;
 import gov.nih.nci.cadsr.FormBuilderConstants;
 import gov.nih.nci.cadsr.FormBuilderProperties;
 import gov.nih.nci.cadsr.authentication.CadsrUserDetails;
-import gov.nih.nci.cadsr.model.BBUser;
+import gov.nih.nci.cadsr.model.frontend.FEUser;
 import gov.nih.nci.cadsr.model.session.SessionObject;
 
 /**
@@ -121,7 +121,7 @@ public class UserAdapterController {
 	
 	@RequestMapping(value = { "/session/user" }, method = RequestMethod.GET)
 	@ResponseBody
-	public BBUser getUser() {
+	public FEUser getUser() {
 		return sessionObject.getUser();
 	}
 

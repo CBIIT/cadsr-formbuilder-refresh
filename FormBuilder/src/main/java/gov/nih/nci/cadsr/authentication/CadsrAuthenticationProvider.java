@@ -4,22 +4,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.client.RestTemplate;
 
 import gov.nih.nci.cadsr.FormBuilderConstants;
 import gov.nih.nci.cadsr.FormBuilderProperties;
 import gov.nih.nci.cadsr.api.controller.CartAdapterController;
-import gov.nih.nci.cadsr.model.BBContext;
-import gov.nih.nci.cadsr.model.BBFormMetaData;
-import gov.nih.nci.cadsr.model.BBQuestion;
-import gov.nih.nci.cadsr.model.session.SessionObject;
+import gov.nih.nci.cadsr.model.frontend.FEContext;
+import gov.nih.nci.cadsr.model.frontend.FEFormMetaData;
+import gov.nih.nci.cadsr.model.frontend.FEQuestion;
 
 public class CadsrAuthenticationProvider implements AuthenticationProvider{
 	
@@ -48,8 +49,22 @@ public class CadsrAuthenticationProvider implements AuthenticationProvider{
 			
 			CartAdapterController cartCont = new CartAdapterController();
 			try{
-				userDetails.setCdeCart((List<BBQuestion>)cartCont.loadCDECart(username).getBody());
-				userDetails.setFormCart((List<BBFormMetaData>)cartCont.loadFormV2Cart(username).getBody());
+				
+				String cdecart_uri = "http://localhost:8080/FormBuilder/api/v1/carts/objcart/cdecart/" + username;
+				
+				ParameterizedTypeReference<List<FEQuestion>> cderesponseType = new ParameterizedTypeReference<List<FEQuestion>>() {};
+				ResponseEntity<List<FEQuestion>> cderesp = restTemplate.exchange(cdecart_uri, HttpMethod.GET, null, cderesponseType);
+				List<FEQuestion> cdelist = cderesp.getBody();
+				
+				String formcart_uri = "http://localhost:8080/FormBuilder/api/v1/carts/objcart/formV2/" + username;
+				
+				ParameterizedTypeReference<List<FEFormMetaData>> formresponseType = new ParameterizedTypeReference<List<FEFormMetaData>>() {};
+				ResponseEntity<List<FEFormMetaData>> formresp = restTemplate.exchange(cdecart_uri, HttpMethod.GET, null, formresponseType);
+				List<FEFormMetaData> formlist = formresp.getBody();
+				
+				userDetails.setCdeCart(cdelist);
+				userDetails.setFormCart(formlist);
+				
 			} catch(Exception e){
 				e.printStackTrace();
 			}
@@ -62,7 +77,7 @@ public class CadsrAuthenticationProvider implements AuthenticationProvider{
 		List<GrantedAuthority> grantedAuths = new ArrayList();
 //        grantedAuths.add(new SimpleGrantedAuthority("ROLE_USER"));
         
-        for(BBContext context : userDetails.getUser().getContexts()){
+        for(FEContext context : userDetails.getUser().getContexts()){
         	grantedAuths.add(new SimpleGrantedAuthority(context.getName()));
         }
         

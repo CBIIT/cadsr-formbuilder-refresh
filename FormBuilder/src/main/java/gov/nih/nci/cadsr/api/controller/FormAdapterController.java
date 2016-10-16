@@ -26,7 +26,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import gov.nih.nci.cadsr.FormBuilderConstants;
 import gov.nih.nci.cadsr.FormBuilderProperties;
-import gov.nih.nci.cadsr.model.BBForm;
+import gov.nih.nci.cadsr.model.frontend.FEForm;
 import gov.nih.nci.cadsr.model.session.SessionObject;
 
 /**
@@ -198,7 +198,7 @@ public class FormAdapterController {
 	
 	@RequestMapping(value = { "/workingCopy" }, method = RequestMethod.POST, consumes = "application/json")
 	@ResponseBody
-	public ResponseEntity loadWorkingCopy(@RequestBody BBForm workingCopy){
+	public ResponseEntity loadWorkingCopy(@RequestBody FEForm workingCopy){
 		
 		sessionObject.setWorkingCopy(workingCopy);
 		
@@ -208,7 +208,7 @@ public class FormAdapterController {
 	
 	@RequestMapping(value = { "/workingCopy" }, method = RequestMethod.GET, consumes = "application/json")
 	@ResponseBody
-	public ResponseEntity<BBForm> getWorkingCopy(){
+	public ResponseEntity<FEForm> getWorkingCopy(){
 		return new ResponseEntity(sessionObject.getWorkingCopy(), HttpStatus.OK);
 	}
 

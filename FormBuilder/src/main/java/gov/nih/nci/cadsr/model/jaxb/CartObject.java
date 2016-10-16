@@ -1,3 +1,4 @@
+package gov.nih.nci.cadsr.model.jaxb;
 /*package gov.nih.nci.cadsr.model;
 
 import java.util.List;
