@@ -49,8 +49,24 @@ const TABLECONFIG = {
 			name: 'Module Instruction'
 		},
 		{
-			key: 'questions',
+			key: 'numQuestions',
 			name: 'Number of Questions'
+		},
+		{
+			key: 'originFormLongName',
+			name: 'Origin Form Long Name'
+		},
+		{
+			key: 'originFormContext',
+			name: 'Origin Context'
+		},
+		{
+			key: 'originFormPublicId',
+			name: 'Origin Public ID'
+		},
+		{
+			key: 'originFormVersion',
+			name: 'Origin Version'
 		}
 	],
 	FORM: [

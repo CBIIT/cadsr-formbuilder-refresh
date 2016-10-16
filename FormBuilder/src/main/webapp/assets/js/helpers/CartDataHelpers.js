@@ -13,6 +13,15 @@ export const getFormCartCollectionPojo = (formCartCollection) => {
 
 export const getModuleCartCollectionPojo = (formCartCollection) => {
 	return formCartCollection.models.map(model =>{
-		return {};
+		return {
+			longName: model.attributes.longName,
+			instructions: model.attributes.instructions,
+			moduleIdseq: model.attributes.moduleIdseq,
+			numQuestions:  model.attributes.questions.length,
+			originFormLongName: model.attributes.form.longName,
+			originFormContext: model.attributes.form.context,
+			originFormPublicId: model.attributes.form.publicId,
+			originFormVersion: model.attributes.form.version
+		};
 	});
 };
