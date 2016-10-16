@@ -2,12 +2,12 @@ package gov.nih.nci.cadsr.manager;
 
 import java.util.Collection;
 
+import gov.nih.nci.cadsr.model.frontend.FEForm;
+import gov.nih.nci.cadsr.model.frontend.FEFormMetaData;
 import gov.nih.nci.ncicb.cadsr.common.dto.FormTransferObject;
 import gov.nih.nci.ncicb.cadsr.common.dto.FormV2TransferObject;
 import gov.nih.nci.ncicb.cadsr.common.dto.InstructionTransferObject;
 import gov.nih.nci.ncicb.cadsr.common.resource.NCIUser;
-import gov.nih.nci.cadsr.model.BBForm;
-import gov.nih.nci.cadsr.model.BBFormMetaData;
 
 public interface FormManager {
 	/*
@@ -20,19 +20,19 @@ public interface FormManager {
 			String categoryName, String type, String classificationIdSeq, String publicId, String version,
 			String moduleLongName, String cdePublicId, NCIUser user, String contextRestriction);
 
-	public BBFormMetaData createFormComponent(BBFormMetaData form, InstructionTransferObject headerInstruction, InstructionTransferObject footerInstruction);
+	public FEFormMetaData createFormComponent(FEFormMetaData form, InstructionTransferObject headerInstruction, InstructionTransferObject footerInstruction);
 	
 	public FormTransferObject getFullForm(String formIdSeq);
 	public FormV2TransferObject getFullFormV2(String formIdSeq);
 	public FormTransferObject getFormRow(String formIdSeq);
 	
-	public InstructionTransferObject buildHeaderInstructions(BBFormMetaData form);
+	public InstructionTransferObject buildHeaderInstructions(FEFormMetaData form);
 	
-	public InstructionTransferObject buildFooterInstructions(BBFormMetaData form);
+	public InstructionTransferObject buildFooterInstructions(FEFormMetaData form);
 	
-	public String updateForm(BBForm form);
+	public String updateForm(FEForm form);
 	
-	public BBForm testTranslateDBFormToBBForm(FormTransferObject fullForm);
+	public FEForm testTranslateDBFormToBBForm(FormTransferObject fullForm);
 	
 	/**
 	 * 

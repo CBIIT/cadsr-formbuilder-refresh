@@ -1,6 +1,6 @@
-package gov.nih.nci.cadsr.model;
+package gov.nih.nci.cadsr.model.frontend;
 
-public class BBProtocol {
+public class FEProtocol implements FEBaseObject{
 	
 	private String protoIdseq;
 	private String longName;

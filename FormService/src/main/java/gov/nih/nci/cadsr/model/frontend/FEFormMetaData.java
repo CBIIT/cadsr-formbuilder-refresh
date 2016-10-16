@@ -1,15 +1,15 @@
-package gov.nih.nci.cadsr.model;
+package gov.nih.nci.cadsr.model.frontend;
 
 import java.util.List;
 
-public class BBFormMetaData {
+public class FEFormMetaData extends FECartItem implements FEBaseObject{
 	
 	private String formIdseq;
 	private String createdBy;
 	private String longName;
 	private String preferredDefinition;
-	private BBContext context;
-	private List<BBProtocol> protocols;
+	private FEContext context;
+	private List<FEProtocol> protocols;
 	private String workflow;
 	private String formCategory;
 	private String formType;
@@ -43,16 +43,16 @@ public class BBFormMetaData {
 	public void setPreferredDefinition(String preferredDefinition) {
 		this.preferredDefinition = preferredDefinition;
 	}
-	public BBContext getContext() {
+	public FEContext getContext() {
 		return context;
 	}
-	public void setContext(BBContext context) {
+	public void setContext(FEContext context) {
 		this.context = context;
 	}
-	public List<BBProtocol> getProtocols() {
+	public List<FEProtocol> getProtocols() {
 		return protocols;
 	}
-	public void setProtocols(List<BBProtocol> protocols) {
+	public void setProtocols(List<FEProtocol> protocols) {
 		this.protocols = protocols;
 	}
 	public String getWorkflow() {

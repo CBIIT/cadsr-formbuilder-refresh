@@ -15,13 +15,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import gov.nih.nci.cadsr.manager.FormManager;
-import gov.nih.nci.cadsr.model.BBContext;
-import gov.nih.nci.cadsr.model.BBForm;
-import gov.nih.nci.cadsr.model.BBFormMetaData;
-import gov.nih.nci.cadsr.model.BBModule;
-import gov.nih.nci.cadsr.model.BBProtocol;
-import gov.nih.nci.cadsr.model.BBQuestion;
-import gov.nih.nci.cadsr.model.BBValidValue;
+import gov.nih.nci.cadsr.model.frontend.FEContext;
+import gov.nih.nci.cadsr.model.frontend.FEForm;
+import gov.nih.nci.cadsr.model.frontend.FEFormMetaData;
+import gov.nih.nci.cadsr.model.frontend.FEModule;
+import gov.nih.nci.cadsr.model.frontend.FEProtocol;
+import gov.nih.nci.cadsr.model.frontend.FEQuestion;
+import gov.nih.nci.cadsr.model.frontend.FEValidValue;
 import gov.nih.nci.ncicb.cadsr.common.dto.ContextTransferObject;
 import gov.nih.nci.ncicb.cadsr.common.dto.DataElementTransferObject;
 import gov.nih.nci.ncicb.cadsr.common.dto.FormInstructionChangesTransferObject;
@@ -101,7 +101,7 @@ public class FormManagerImpl implements FormManager {
 	}
 
 	@Override
-	public BBFormMetaData createFormComponent(BBFormMetaData form, InstructionTransferObject headerInstruction,
+	public FEFormMetaData createFormComponent(FEFormMetaData form, InstructionTransferObject headerInstruction,
 			InstructionTransferObject footerInstruction) {
 		FormDAO fdao = daoFactory.getFormDAO();
 		FormTransferObject formTransferObject = new FormTransferObject();
@@ -117,7 +117,7 @@ public class FormManagerImpl implements FormManager {
 		formTransferObject.setFormType(form.getFormType());
 		formTransferObject.setVersion(form.getVersion());
 		List<ProtocolTransferObject> protocols = new ArrayList<ProtocolTransferObject>();
-		for(BBProtocol bbprot : form.getProtocols()){
+		for(FEProtocol bbprot : form.getProtocols()){
 			ProtocolTransferObject pto = new ProtocolTransferObject();
 			pto.setProtoIdseq(bbprot.getProtoIdseq());
 			protocols.add(pto);
@@ -137,7 +137,7 @@ public class FormManagerImpl implements FormManager {
 		}
 
 		//return full form that's been newly created from the DB
-		BBFormMetaData newForm = testTranslateDBFormToBBForm(getFullForm(id)).getFormMetadata();
+		FEFormMetaData newForm = testTranslateDBFormToBBForm(getFullForm(id)).getFormMetadata();
 		
 		
 		return newForm;
@@ -170,7 +170,7 @@ public class FormManagerImpl implements FormManager {
 	}
 
 
-	public InstructionTransferObject buildHeaderInstructions(BBFormMetaData form) {
+	public InstructionTransferObject buildHeaderInstructions(FEFormMetaData form) {
 
 		InstructionTransferObject instruction = new InstructionTransferObject();
 
@@ -188,7 +188,7 @@ public class FormManagerImpl implements FormManager {
 
 	}
 
-	public InstructionTransferObject buildFooterInstructions(BBFormMetaData form) {
+	public InstructionTransferObject buildFooterInstructions(FEFormMetaData form) {
 
 		InstructionTransferObject instruction = new InstructionTransferObject();
 
@@ -206,7 +206,7 @@ public class FormManagerImpl implements FormManager {
 
 	}
 
-	public String updateForm(BBForm form) {
+	public String updateForm(FEForm form) {
 
 		// FormTransferObject formHeader = adaptFormHeader(form);
 
@@ -244,7 +244,7 @@ public class FormManagerImpl implements FormManager {
 		return "SUCCESS";
 	}
 
-	private void adaptModels(BBForm form, FormTransferObject formHeader, Collection addedMods, Collection updatedMods,
+	private void adaptModels(FEForm form, FormTransferObject formHeader, Collection addedMods, Collection updatedMods,
 			Collection deletedMods, Collection addedProts, Collection deletedProts, Collection protTrigs,
 			FormInstructionChangesTransferObject instChanges, String username, String formIdSeq)
 			throws IllegalAccessException, InvocationTargetException {
@@ -266,7 +266,7 @@ public class FormManagerImpl implements FormManager {
 		}
 		
 		
-		for (BBModule module : form.getFormModules()) {
+		for (FEModule module : form.getFormModules()) {
 			ModuleTransferObject m = new ModuleTransferObject();
 			FormTransferObject f = new FormTransferObject();
 			ContextTransferObject c = new ContextTransferObject();
@@ -387,7 +387,7 @@ public class FormManagerImpl implements FormManager {
 			modChange.getInstructionChanges().setParentId(mto.getModuleIdseq());
 			
 			for(Object obj : mto.getQuestions()){
-				BBQuestion ques = (BBQuestion)obj;
+				FEQuestion ques = (FEQuestion)obj;
 				
 				QuestionTransferObject qto = new QuestionTransferObject();
 				qto.setDataElement(new DataElementTransferObject());
@@ -462,7 +462,7 @@ public class FormManagerImpl implements FormManager {
 					validValueChange.setNewValidValues(new ArrayList());
 					validValueChange.setUpdatedValidValues(new ArrayList());
 					
-					for(BBValidValue bbVV : ques.getValidValues()){
+					for(FEValidValue bbVV : ques.getValidValues()){
 						
 						ValidValueTransferObject vvto = new ValidValueTransferObject();
 						BeanUtils.copyProperties(bbVV, vvto);
@@ -493,9 +493,9 @@ public class FormManagerImpl implements FormManager {
 		}
 	}
 
-	public BBForm testTranslateDBFormToBBForm(FormTransferObject fullform) {
-		BBForm bbform = new BBForm();
-		BBFormMetaData bbmeta = new BBFormMetaData();
+	public FEForm testTranslateDBFormToBBForm(FormTransferObject fullform) {
+		FEForm bbform = new FEForm();
+		FEFormMetaData bbmeta = new FEFormMetaData();
 //		FormTransferObject fullform = getFullForm(formIdSeq);
 
 		long startTime = System.currentTimeMillis();
@@ -503,16 +503,16 @@ public class FormManagerImpl implements FormManager {
 		BeanUtils.copyProperties(fullform, bbform);
 		BeanUtils.copyProperties(fullform, bbmeta, "context", "protocols");
 		
-		BBContext bbcontext = new BBContext();
+		FEContext bbcontext = new FEContext();
 		bbcontext.setConteIdseq(fullform.getConteIdseq());
 		bbcontext.setName(fullform.getContextName());
 		bbcontext.setDescription(fullform.getContext().getDescription());
 		
-		List<BBProtocol> bbprotocols = new ArrayList<BBProtocol>();
+		List<FEProtocol> bbprotocols = new ArrayList<FEProtocol>();
 		for(Object obj : fullform.getProtocols()){
 			ProtocolTransferObject protocol = (ProtocolTransferObject)obj;
 			
-			BBProtocol bbprotocol = new BBProtocol();
+			FEProtocol bbprotocol = new FEProtocol();
 			bbprotocol.setLongName(protocol.getLongName());
 			bbprotocol.setProtoIdseq(protocol.getProtoIdseq());
 			
@@ -538,11 +538,11 @@ public class FormManagerImpl implements FormManager {
 		}
 		
 		bbform.setFormMetadata(bbmeta);
-		bbform.setFormModules(new ArrayList<BBModule>());
+		bbform.setFormModules(new ArrayList<FEModule>());
 
 		for (Object module : fullform.getModules()) {
 			ModuleTransferObject mto = (ModuleTransferObject) module;
-			BBModule bbmod = new BBModule();
+			FEModule bbmod = new FEModule();
 			BeanUtils.copyProperties(mto, bbmod, "instructions");
 			
 //			BBInstructions bbinst = new BBInstructions();
@@ -557,22 +557,25 @@ public class FormManagerImpl implements FormManager {
 			
 			bbform.getFormModules().add(bbmod);
 
-			bbmod.setQuestions(new ArrayList<BBQuestion>());
+			bbmod.setQuestions(new ArrayList<FEQuestion>());
 
 			for (Object question : mto.getQuestions()) {
 				QuestionTransferObject qto = (QuestionTransferObject) question;
-				BBQuestion bbques = new BBQuestion();
+				FEQuestion bbques = new FEQuestion();
 				BeanUtils.copyProperties(qto, bbques);
 				
 				bbques.setVersion(qto.getVersion());
-				bbques.setPreferredQuestionText(qto.getPreferredDefinition());//XXX: is correct?
 				bbques.setMandatory(false);
 				bbques.setEditable(true);
 				bbques.setDeDerived(true);
 				bbques.setLongName(qto.getLongName());
+				if(qto.getDefaultValue() != null){
+					bbques.setDefaultValue(qto.getDefaultValue());
+				}
 				
 				if(qto.getDataElement() != null){
 					bbques.setDeIdseq(qto.getDataElement().getIdseq());
+					bbques.setValueDomainLongName(qto.getDataElement().getValueDomain().getLongName());
 					bbques.setDataType(qto.getDataElement().getValueDomain().getDatatype());
 					bbques.setUnitOfMeasure(qto.getDataElement().getValueDomain().getUnitOfMeasure());
 					bbques.setDisplayFormat(qto.getDataElement().getValueDomain().getDisplayFormat());
@@ -583,23 +586,29 @@ public class FormManagerImpl implements FormManager {
 					for(Object obj : qto.getDataElement().getRefereceDocs()){
 						ReferenceDocumentTransferObject refDoc = (ReferenceDocumentTransferObject)obj;
 						
-						String altQuestionText = refDoc.getDocText();
-						
-						altQuestionTexts.add(altQuestionText);
+						if(refDoc.getDocType().equals("Preferred Question Text")){
+							bbques.setPreferredQuestionText(refDoc.getDocText());
+						}
+						else if(refDoc.getDocType().equals("Alternate Question Text")){
+							String altQuestionText = refDoc.getDocText();
+							
+							altQuestionTexts.add(altQuestionText);
+						}
 					}
 					
 					bbques.setAlternativeQuestionText(altQuestionTexts);
+					//TODO: need to translate dataelement as well and set in question
 				}
 				
 				
 				
 				bbmod.getQuestions().add(bbques);
 
-				bbques.setValidValues(new ArrayList<BBValidValue>());
+				bbques.setValidValues(new ArrayList<FEValidValue>());
 
 				for (Object validVal : qto.getValidValues()) {
 					FormValidValueTransferObject vvto = (FormValidValueTransferObject) validVal;
-					BBValidValue bbval = new BBValidValue();
+					FEValidValue bbval = new FEValidValue();
 					BeanUtils.copyProperties(vvto, bbval);
 					
 					bbques.getValidValues().add(bbval);
@@ -634,7 +643,7 @@ public class FormManagerImpl implements FormManager {
 
 		long startTimer2 = System.currentTimeMillis();
 
-		BBForm simpleForm = this.testTranslateDBFormToBBForm(fullForm);
+		FEForm simpleForm = this.testTranslateDBFormToBBForm(fullForm);
 
 		long endTimer2 = System.currentTimeMillis();
 		String translateObjectTime = "" + (endTimer2 - startTimer2);

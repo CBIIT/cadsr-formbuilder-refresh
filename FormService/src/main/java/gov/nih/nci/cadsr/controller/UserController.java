@@ -11,14 +11,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import gov.nih.nci.cadsr.model.BBContext;
-import gov.nih.nci.cadsr.model.BBUser;
+import gov.nih.nci.cadsr.model.frontend.FEContext;
+import gov.nih.nci.cadsr.model.frontend.FEUser;
 import gov.nih.nci.ncicb.cadsr.common.dto.ContextTransferObject;
 import gov.nih.nci.ncicb.cadsr.common.dto.NCIUserTransferObject;
 import gov.nih.nci.ncicb.cadsr.common.persistence.dao.AbstractDAOFactoryFB;
-import gov.nih.nci.ncicb.cadsr.common.persistence.dao.FormDAO;
 import gov.nih.nci.ncicb.cadsr.common.persistence.dao.UserManagerDAO;
-import gov.nih.nci.ncicb.cadsr.common.resource.NCIUser;
 
 @RestController
 @RequestMapping(value = "/users")
@@ -45,23 +43,25 @@ public class UserController {
 	
 	@RequestMapping(value = { "/{username}" }, method = RequestMethod.GET)
 	@ResponseBody
-	public BBUser getUser(@PathVariable String username) {
+	public FEUser getUser(@PathVariable String username) {
 		
 		UserManagerDAO userManagerDAO = daoFactory.getUserManagerDAO();
 		
         NCIUserTransferObject userTO = (NCIUserTransferObject)userManagerDAO.getNCIUser(username);
         Collection contextAdminContexts = userTO.getContextsByRoleAccess("CONTEXT_ADMIN");
         
-        BBUser bbuser = new BBUser();
-        List<BBContext> contexts = new ArrayList<BBContext>();
+        FEUser bbuser = new FEUser();
+        List<FEContext> contexts = new ArrayList<FEContext>();
         
-        for(Object adminContext : contextAdminContexts){
-        	ContextTransferObject cto = (ContextTransferObject)adminContext;
-        	BBContext context = new BBContext();
-        	context.setConteIdseq(cto.getConteIdseq());
-        	context.setName(cto.getName());
-        	
-        	contexts.add(context);
+        if(contextAdminContexts != null){
+	        for(Object adminContext : contextAdminContexts){
+	        	ContextTransferObject cto = (ContextTransferObject)adminContext;
+	        	FEContext context = new FEContext();
+	        	context.setConteIdseq(cto.getConteIdseq());
+	        	context.setName(cto.getName());
+	        	
+	        	contexts.add(context);
+	        }
         }
         
         bbuser.setUsername(username);

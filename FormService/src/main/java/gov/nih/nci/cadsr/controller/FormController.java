@@ -33,14 +33,15 @@ import org.xml.sax.SAXException;
 
 import gov.nih.nci.cadsr.FormServiceProperties;
 import gov.nih.nci.cadsr.manager.FormManager;
-import gov.nih.nci.cadsr.model.BBDataElement;
-import gov.nih.nci.cadsr.model.BBForm;
-import gov.nih.nci.cadsr.model.BBFormMetaData;
+import gov.nih.nci.cadsr.model.frontend.FEForm;
+import gov.nih.nci.cadsr.model.frontend.FEFormMetaData;
 import gov.nih.nci.ncicb.cadsr.common.dto.DataElementTransferObject;
 import gov.nih.nci.ncicb.cadsr.common.dto.FormTransferObject;
 import gov.nih.nci.ncicb.cadsr.common.dto.FormV2TransferObject;
 import gov.nih.nci.ncicb.cadsr.common.dto.InstructionTransferObject;
-
+import gov.nih.nci.ncicb.cadsr.common.dto.ModuleTransferObject;
+import gov.nih.nci.ncicb.cadsr.common.dto.QuestionTransferObject;
+import gov.nih.nci.ncicb.cadsr.common.dto.ReferenceDocumentTransferObject;
 import gov.nih.nci.ncicb.cadsr.common.resource.FormV2;
 
 import gov.nih.nci.ncicb.cadsr.common.resource.NCIUser;
@@ -102,7 +103,7 @@ public class FormController {
 	}
 
 	@RequestMapping(value = { "/forms/{formIdSeq}" }, method = RequestMethod.PUT, consumes = "application/json")
-	public ResponseEntity<String> updateForm(@RequestBody BBForm form) {
+	public ResponseEntity<String> updateForm(@RequestBody FEForm form) {
 
 		try {
 
@@ -119,7 +120,7 @@ public class FormController {
 
 	@RequestMapping(value = "/forms", method = RequestMethod.POST, consumes = "application/json")
 	@ResponseBody
-	public ResponseEntity<BBFormMetaData> createForm(@RequestBody BBFormMetaData form) {
+	public ResponseEntity<FEFormMetaData> createForm(@RequestBody FEFormMetaData form) {
 
 		InstructionTransferObject headerInstruction = new InstructionTransferObject();
 		InstructionTransferObject footerInstruction = new InstructionTransferObject();
@@ -136,19 +137,56 @@ public class FormController {
 			footerInstruction = formManager.buildFooterInstructions(form);
 		}
 
-		BBFormMetaData newForm = formManager.createFormComponent(form, headerInstruction, footerInstruction);
+		FEFormMetaData newForm = formManager.createFormComponent(form, headerInstruction, footerInstruction);
 
-		ResponseEntity<BBFormMetaData> response = new ResponseEntity(newForm, HttpStatus.OK);
+		ResponseEntity<FEFormMetaData> response = new ResponseEntity(newForm, HttpStatus.OK);
 
 		return response;
 	}
 
 	@RequestMapping(value = { "/forms/{formIdSeq}" }, method = RequestMethod.GET)
-	public BBForm testTranslateDBFormToBBForm(@PathVariable String formIdSeq) {
+	public FEForm testTranslateDBFormToBBForm(@PathVariable String formIdSeq) {
 
 		FormTransferObject fullForm = formManager.getFullForm(formIdSeq);
 
 		return formManager.testTranslateDBFormToBBForm(fullForm);
+	}
+	
+	@RequestMapping(value = { "/forms/db/{formIdSeq}/{modInd}/{quesInd}" }, method = RequestMethod.GET)
+	public QuestionTransferObject getDBForm(@PathVariable String formIdSeq, @PathVariable String modInd, @PathVariable String quesInd) {
+		
+		List<ReferenceDocumentTransferObject> refdocs = new ArrayList<ReferenceDocumentTransferObject>();
+
+		FormTransferObject fullForm = formManager.getFullForm(formIdSeq);
+		
+//		QuestionTransferObject qto = new QuestionTransferObject();
+//		qto = ((QuestionTransferObject)((ModuleTransferObject)fullForm.getModules().get(0)).getQuestions().get(0));
+		
+//		ReferenceDocumentTransferObject rdto = new ReferenceDocumentTransferObject();
+//		rdto = ((ReferenceDocumentTransferObject)qto.getRefereceDocs().get(0));
+		
+//		List<ModuleTransferObject> modlist = (List<ModuleTransferObject>)fullForm.getModules();
+		
+		return ((QuestionTransferObject)((ModuleTransferObject)fullForm.getModules().get(Integer.valueOf(modInd))).getQuestions().get(Integer.valueOf(quesInd)));
+		
+		
+		
+//		for(QuestionTransferObject qto : queslist){
+////			qto.setReferenceDocs((List<ReferenceDocumentTransferObject>)qto.getRefereceDocs());
+//			if(qto.getRefereceDocs() != null){
+//				refdocs.addAll((List<ReferenceDocumentTransferObject>)qto.getRefereceDocs());
+//			}
+//		}
+		
+//		for(ModuleTransferObject mod : modlist){
+//			mod.setQuestions(queslist);
+//		}
+		
+//		fullForm.setModules(modlist);
+//		List<ReferenceDocumentTransferObject> reflist = (List<ReferenceDocumentTransferObject>)qto.getRefereceDocs();
+		
+//		return queslist;
+
 	}
 
 	private ResponseEntity<Collection> createSuccessResponse(final Collection formList) {

@@ -1,30 +1,30 @@
-package gov.nih.nci.cadsr.model;
+package gov.nih.nci.cadsr.model.frontend;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class BBModule {
+public class FEModule extends FECartItem implements FEBaseObject{
 
 	private String moduleIdseq;
 	private String longName;
 	private String instructions;
 	private int repetitions;
 	private int dispOrder;
-	private List<BBQuestion> questions;
+	private List<FEQuestion> questions;
 	private int numQuestions;
 	
-	private BBFormMetaData form;
+	private FEFormMetaData form;
 	
 	private boolean isEdited = false;
 	private boolean isDeleted = false;
 	
-	public BBModule(){
+	public FEModule(){
 		moduleIdseq = "";
 		longName = "";
 		instructions = "";
 		repetitions = 0;
 		dispOrder = 0;
-		questions = new ArrayList<BBQuestion>();
+		questions = new ArrayList<FEQuestion>();
 		isEdited = false;
 	}
 	
@@ -59,18 +59,18 @@ public class BBModule {
 	public void setDispOrder(int dispOrder) {
 		this.dispOrder = dispOrder;
 	}
-	public List<BBQuestion> getQuestions() {
+	public List<FEQuestion> getQuestions() {
 		return questions;
 	}
-	public void setQuestions(List<BBQuestion> questions) {
+	public void setQuestions(List<FEQuestion> questions) {
 		this.questions = questions;
 	}
-	public BBFormMetaData getForm() {
+	public FEFormMetaData getForm() {
 		return form;
 	}
 
 
-	public void setForm(BBFormMetaData form) {
+	public void setForm(FEFormMetaData form) {
 		this.form = form;
 	}
 
