@@ -13,9 +13,7 @@ export default class QuestionEditable extends Component {
 		this.dispatchQuestionData = this.dispatchQuestionData.bind(this);
 		this.handleQuestionChanged = this.handleQuestionChanged.bind(this);
 		this.getAlternativeQuestionText = this.getAlternativeQuestionText.bind(this);
-		/*this.dispatchSetLongNameAsPreferredText = this.dispatchSetLongNameAsPreferredText.bind(this);
-		this.dispatchSetLongNameAsAlternateQuestionText = this.dispatchSetLongNameAsAlternateQuestionText.bind(this);*/
-
+		this.dispatchSetLongNameAsPreferredText = this.dispatchSetLongNameAsPreferredText.bind(this);
 		this.state = {
 			validatePristine: false,
 			/*the expanded accordion*/
@@ -86,12 +84,9 @@ export default class QuestionEditable extends Component {
 			}
 		}
 	}
-	/*dispatchSetLongNameAsPreferredText() {
+	dispatchSetLongNameAsPreferredText() {
 		this.dispatchQuestionData({questionData: {longName: this.props.question.preferredQuestionText}});
 	}
-	dispatchSetLongNameAsAlternateQuestionText() {
-		this.dispatchQuestionData({questionData: {longName: this.props.question.preferredQuestionText}});
-	}*/
 	dispatchQuestionData({questionData}) {
 		formChannel.trigger(EVENTS.FORM.SET_QUESTION,
 			{moduleId: this.props.moduleId,
@@ -109,7 +104,7 @@ export default class QuestionEditable extends Component {
 
 							<FormGroup>
 								<ControlLabel>Preferred Question Text</ControlLabel>
-								<FormControl.Static className="pull-left">{this.props.question.preferredQuestionText}<Button bsClass="btn-link pull-right">Use Text</Button></FormControl.Static>
+								<FormControl.Static className="pull-left">{this.props.question.preferredQuestionText}<Button onClick={this.dispatchSetLongNameAsPreferredText} bsClass="btn-link pull-right">Use Text</Button></FormControl.Static>
 
 							</FormGroup>
 
