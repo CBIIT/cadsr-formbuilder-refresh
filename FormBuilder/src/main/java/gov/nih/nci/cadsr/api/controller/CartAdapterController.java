@@ -72,33 +72,49 @@ public class CartAdapterController {
 	@Autowired
 	private FormBuilderProperties props;
 
-	@RequestMapping(value = "/modulecart/{username}", method = RequestMethod.GET)
+	@RequestMapping(value = "/modulecart", method = RequestMethod.GET)
 	@ResponseBody
-	public ResponseEntity getModuleCart(@PathVariable String username) {
+	public ResponseEntity getModuleCart() {
 		
 		return new ResponseEntity(this.getUserDetails().getModuleCart(), HttpStatus.OK);
 
 	}
 
-	@RequestMapping(value = "/cdecart/{username}", method = RequestMethod.GET)
+	@RequestMapping(value = "/cdecart", method = RequestMethod.GET)
 	@ResponseBody
-	public ResponseEntity getCDECart(@PathVariable String username) {
+	public ResponseEntity getCDECart(@RequestParam(value = "username", required = false) String username, @RequestParam(value = "cache", required = false) boolean cache) throws XmlMappingException, IOException, SAXException, ParserConfigurationException, JAXBException, XMLStreamException {
 
-		return new ResponseEntity(this.getUserDetails().getCdeCart(), HttpStatus.OK);
+		if(username == null){
+			username = this.getUserName();
+		}
+		
+		if(cache){
+			return new ResponseEntity(this.getUserDetails().getCdeCart(), HttpStatus.OK);
+		}
+		else{
+			return this.loadCDECart(username);
+		}
+		
+	}
+
+	@RequestMapping(value = "/formcart", method = RequestMethod.GET)
+	@ResponseBody
+	public ResponseEntity getFormCart(@RequestParam(value = "username", required = false) String username, @RequestParam(value = "cache", required = false) boolean cache) throws XmlMappingException, IOException, SAXException, ParserConfigurationException, JAXBException, XMLStreamException {
+
+		if(username == null){
+			username = this.getUserName();
+		}
+		
+		if(cache){
+			return new ResponseEntity(this.getUserDetails().getFormCart(), HttpStatus.OK);
+		}
+		else{
+			return this.loadFormV2Cart(username);
+		}
 
 	}
 
-	@RequestMapping(value = "/formcart/{username}", method = RequestMethod.GET)
-	@ResponseBody
-	public ResponseEntity getFormCart(@PathVariable String username) {
-
-		return new ResponseEntity(this.getUserDetails().getFormCart(), HttpStatus.OK);
-
-	}
-
-	@RequestMapping(value = "/objcart/cdecart/{username}", method = RequestMethod.GET)
-	@ResponseBody
-	public ResponseEntity loadCDECart(@PathVariable String username) throws XmlMappingException, IOException,
+	private ResponseEntity loadCDECart(String username) throws XmlMappingException, IOException,
 			SAXException, ParserConfigurationException, JAXBException, XMLStreamException {
 
 		if (props.getFormBuilderLocalMode()) {
@@ -195,14 +211,16 @@ public class CartAdapterController {
 			questions.add(question);
 		}
 
-//		this.getUserDetails().setCdeCart(questions);
+		try{
+			this.getUserDetails().setCdeCart(questions);
+		} catch(Exception e){
+			e.printStackTrace();
+		}
 		return new ResponseEntity(questions, HttpStatus.OK);
 
 	}
 
-	@RequestMapping(value = "/objcart/formV2/{username}", method = RequestMethod.GET)
-	@ResponseBody
-	public ResponseEntity loadFormV2Cart(@PathVariable String username) throws XmlMappingException, IOException,
+	private ResponseEntity loadFormV2Cart(String username) throws XmlMappingException, IOException,
 			SAXException, ParserConfigurationException, JAXBException, XMLStreamException {
 
 		if (props.getFormBuilderLocalMode()) {
@@ -264,7 +282,11 @@ public class CartAdapterController {
 
 		}
 		
-//		this.getUserDetails().setFormCart(feForms);
+		try{
+			this.getUserDetails().setFormCart(feForms);
+		} catch(Exception e){
+			e.printStackTrace();
+		}
 		
 		return new ResponseEntity(feForms, HttpStatus.OK);
 	}
@@ -446,6 +468,10 @@ public class CartAdapterController {
 				 (CadsrUserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		
 		return userDetails;
+	}
+	
+	private String getUserName(){
+		return SecurityContextHolder.getContext().getAuthentication().getName();
 	}
 	
 	/*private List<ReferenceDocument> getReferenceDocuments(String acIdseq)

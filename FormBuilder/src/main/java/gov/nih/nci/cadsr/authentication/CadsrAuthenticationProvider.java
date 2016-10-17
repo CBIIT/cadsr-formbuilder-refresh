@@ -50,13 +50,13 @@ public class CadsrAuthenticationProvider implements AuthenticationProvider{
 			CartAdapterController cartCont = new CartAdapterController();
 			try{
 				
-				String cdecart_uri = "http://localhost:8080/FormBuilder/api/v1/carts/objcart/cdecart/" + username;
+				String cdecart_uri = "http://localhost:8080/FormBuilder/api/v1/carts/cdecart?username=" + username + "&cache=false";
 				
 				ParameterizedTypeReference<List<FEQuestion>> cderesponseType = new ParameterizedTypeReference<List<FEQuestion>>() {};
 				ResponseEntity<List<FEQuestion>> cderesp = restTemplate.exchange(cdecart_uri, HttpMethod.GET, null, cderesponseType);
 				List<FEQuestion> cdelist = cderesp.getBody();
 				
-				String formcart_uri = "http://localhost:8080/FormBuilder/api/v1/carts/objcart/formV2/" + username;
+				String formcart_uri = "http://localhost:8080/FormBuilder/api/v1/carts/formcart?username=" + username + "&cache=false";
 				
 				ParameterizedTypeReference<List<FEFormMetaData>> formresponseType = new ParameterizedTypeReference<List<FEFormMetaData>>() {};
 				ResponseEntity<List<FEFormMetaData>> formresp = restTemplate.exchange(cdecart_uri, HttpMethod.GET, null, formresponseType);
@@ -68,21 +68,16 @@ public class CadsrAuthenticationProvider implements AuthenticationProvider{
 			} catch(Exception e){
 				e.printStackTrace();
 			}
-			//XXX: load user carts here?
-			//Session may not exist yet?
-			//Add Carts to userDetails object? Use this as primary session object?
 			
 		}
 		
 		List<GrantedAuthority> grantedAuths = new ArrayList();
-//        grantedAuths.add(new SimpleGrantedAuthority("ROLE_USER"));
         
         for(FEContext context : userDetails.getUser().getContexts()){
         	grantedAuths.add(new SimpleGrantedAuthority(context.getName()));
         }
         
         return new UsernamePasswordAuthenticationToken(userDetails, password, grantedAuths);
-
 		
 	}
 
