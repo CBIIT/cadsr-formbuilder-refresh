@@ -1,4 +1,40 @@
-
+.formItem{
+  width: 100%;
+}
+.formItem-input{
+  padding: 5px;
+}
+.formItem-input, .formItem-label{
+  display: block;
+  width: 100%;
+}
+.formColumn{
+  width: 45%;
+}
+.formItem--row{
+  display: inline-block;
+  width: 210px;
+  label, input{
+    display: inline-block;
+  }
+  input[type='checkbox']{
+    width: 10px;
+  }
+  input[type='checkbox'] + label{
+    width: 165px;
+    margin-left: 10px;
+  }
+}
+.formItem-submit{
+  width: 100px;
+  button{
+    padding: 10px 36px;
+  }
+}
+.formItem-reset{
+  width: 100px;
+  margin-right: 40px;
+}
 .control-label{
   font-weight: bold;
 }

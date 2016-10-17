@@ -5,6 +5,9 @@ import SearchRouter from  "../../routers/SearchRouter";
 import SearchLayoutView from '../../views/search/SearchLayoutView';
 import FormSearchModel from '../../models/search/form-search/FormSearchModel';
 import urlHelpers from '../../helpers/urlHelpers';
+import React from 'react';
+import {render} from 'react-dom';
+import SearchLayout from '../../components/search/SearchLayout';
 
 import SearchResultsCollection from '../../models/search/form-search/SearchResultsCollection';
 import GetSearchFormCriteriaCommand from '../../commands/GetSearchFormCriteriaCommand';
@@ -28,7 +31,8 @@ const SearchService = Marionette.Object.extend({
 		this.listenTo(this.searchResultsCollection, 'reset', this.dispatchSearchResultsReceived);
 	},
 	constructSearchLayout(){
-
+		//react entry point
+		//render(<SearchLayout/>, document.getElementById('main'));
 		return new SearchLayoutView(
 			{
 				searchResultsCollection: this.searchResultsCollection,
@@ -40,6 +44,7 @@ const SearchService = Marionette.Object.extend({
 		searchChannel.on('model:getDropDownOptionsSuccess', () =>{
 			appChannel.request(EVENTS.APP.SET_MAIN_CONTENT_LAYOUT, this.constructSearchLayout());
 		});
+		//this.constructSearchLayout();
 
 		new GetSearchFormCriteriaCommand({model: this.formSearchModel}).execute();
 
