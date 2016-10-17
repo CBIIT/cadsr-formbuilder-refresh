@@ -89,7 +89,7 @@ export default class CartLayout extends Component {
 }
 
 CartLayout.defaultProps = {
-	cartLastSortedState: []
+	cartLastSortedState: {}
 };
 
 CartLayout.propTypes = {
