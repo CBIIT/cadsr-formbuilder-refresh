@@ -171,11 +171,13 @@ const CartsService = Marionette.Object.extend({
 		});
 	},
 	setupModels() {
+		const user = appChannel.request(EVENTS.USER.GET_USERNAME);
+
 		this.cdeCartCollection = new CDECollection({
-			url: `${ENDPOINT_URLS.CDE_CART}`
+			url: `${ENDPOINT_URLS.CDE_CART}&username=${user}`
 		});
 		this.formCartCollection = new FormCollection({
-			url: `${ENDPOINT_URLS.FORM_CART}`
+			url: `${ENDPOINT_URLS.FORM_CART}&username=${user}`
 		});
 		this.moduleCartCollection = new ModuleCollection({
 			url: `${ENDPOINT_URLS.MODULE_CART}`
