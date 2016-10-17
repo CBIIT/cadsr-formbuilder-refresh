@@ -357,8 +357,8 @@ export default class Datatable extends React.Component{
 			return element.key === columnSort[0].key;
 		});
 		columnTitles[index] = columnSort[0]; //set the newly changed column object to be at the same index in the state
-		let displayData = this.getCurrentDisplayData(data); //re-calculate which data to display with new order
-		this.setState({data : data, columnTitles: columnTitles, displayData}); //update state
+		let displayedData = this.getCurrentDisplayData(data); //re-calculate which data to display with new order
+		this.setState({data : data, columnTitles: columnTitles, displayedData: displayedData}); //update state
 	}
 
 	makeArrows(title){
