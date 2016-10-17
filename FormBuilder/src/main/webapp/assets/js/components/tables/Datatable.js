@@ -50,7 +50,9 @@ export default class Datatable extends React.Component{
 
 		this.dispatchDownloadXML = this.dispatchDownloadXML.bind(this);
 		this.dispatchDownloadXLS = this.dispatchDownloadXLS.bind(this);
+/*
 		this.dispatchLastSortedByKey = this.dispatchLastSortedByKey.bind(this);
+*/
 		this.dispatchRemoveSelectedFromCart = this.dispatchRemoveSelectedFromCart.bind(this);
 		this.getSelectedItemIds = this.getSelectedItemIds.bind(this);
 	}
@@ -80,10 +82,10 @@ export default class Datatable extends React.Component{
 	/**
 	 * Consider this a temporary hack until we can use ComponentWillUnMount or React-Router's NavigateFrom to communicate the last way the collection was sorted before leaving the page. This currently does it every time the user sorts.
 	 */
-	dispatchLastSortedByKey({sortKey, sortOrder}) {
+	/*dispatchLastSortedByKey({sortKey, sortOrder}) {
 		cartChannel.request(EVENTS.CARTS.SET_LAST_CART_SORTED_BY,
 			{sortKey:sortKey, sortOrder:sortOrder});
-	}
+	}*/
 	dispatchRemoveSelectedFromCart() {
 		const itemsToRemove = this.getSelectedItemIds();
 		cartChannel.request(EVENTS.CARTS.REMOVE_CART_ITEM,
@@ -366,7 +368,7 @@ export default class Datatable extends React.Component{
 		columnTitles[index] = columnSort[0]; //set the newly changed column object to be at the same index in the state
 		let displayedData = this.getCurrentDisplayData(data); //re-calculate which data to display with new order
 		this.setState({data : data, columnTitles: columnTitles, displayedData: displayedData}); //update state
-		this.dispatchLastSortedByKey({sortKey: columnSort[0].key, sortOrder: columnSort[0].sort});
+		/*this.dispatchLastSortedByKey({sortKey: columnSort[0].key, sortOrder: columnSort[0].sort});*/
 	}
 
 	makeArrows(title){
