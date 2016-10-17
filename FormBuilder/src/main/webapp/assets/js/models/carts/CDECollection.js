@@ -3,8 +3,8 @@ import CDEModel from './CDEModel';
 
 const CDECollection = Collection.extend({
 	model: CDEModel,
-	initialize({url}) {
-		this.url = url;
+	initialize({baseUrl}) {
+		this.baseUrl = baseUrl;
 	}
 });
 

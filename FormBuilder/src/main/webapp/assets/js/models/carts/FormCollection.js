@@ -6,8 +6,8 @@ import ModuleModel from './ModuleModel';
 
 const FormCollection = Collection.extend({
 	model: ModuleModel,
-	initialize({url}) {
-		this.url = url;
+	initialize({baseUrl}) {
+		this.baseUrl = baseUrl;
 	}
 });
 

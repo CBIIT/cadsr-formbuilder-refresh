@@ -4,6 +4,7 @@ import {render} from 'react-dom';
 import cartsRouter from  "../../routers/CartsRouter";
 import ENDPOINT_URLS from '../../constants/ENDPOINT_URLS';
 import EVENTS from '../../constants/EVENTS';
+import urlHelpers from '../../helpers/urlHelpers';
 import cartActions from '../../constants/cartActions';
 import CartPageStateModel from '../../models/carts/CartPageStateModel';
 import {appChannel, cartChannel} from '../../channels/radioChannels';
@@ -21,13 +22,15 @@ const CartsService = Marionette.Object.extend({
 	initialize() {
 		const cartsRouter = cartsRouter;
 		this.cartPageStateModel = CartPageStateModel;
-
+		this.addInitialListeners();
+		this.setupModels();
+	},
+	addInitialListeners() {
 		cartChannel.reply(EVENTS.CARTS.SET_LAYOUT, (options) => this.dispatchLayout(options));
 		cartChannel.reply(EVENTS.CARTS.GET_DOWNLOAD_XLS, (options) => this.handleDownloadXLS(options));
 		cartChannel.reply(EVENTS.CARTS.GET_DOWNLOAD_XML, (options) => this.handleDownloadXML(options));
 		cartChannel.reply(EVENTS.CARTS.REMOVE_CART_ITEM, (options) => this.handleRemoveCartItem(options));
 		cartChannel.reply(EVENTS.CARTS.SET_LAST_CART_SORTED_BY, (options) => this.handleCartSortedBy(options));
-		this.setupModels();
 	},
 	constructLayout(cart){
 		/*Entry point for React. Backbone Views Keep Out
@@ -71,23 +74,35 @@ const CartsService = Marionette.Object.extend({
 	 *
 	 * @returns {Promise.<TResult>}
 	 */
-	fetchCarts({name}) {
-		let dataCollection;
+	fetchCarts({name, getCached = false}) {
+		const userName = appChannel.request(EVENTS.USER.GET_USERNAME);
+		let dataCollection,
+			urlQueryParams;
 
 		if(name === 'cdeCart'){
 			dataCollection = this.cdeCartCollection;
+			urlQueryParams = {
+				cached:   getCached,
+				username: userName
+			};
 		}
 		else if(name === 'moduleCart'){
 			dataCollection = this.moduleCartCollection;
 		}
 		else{
 			dataCollection = this.formCartCollection;
+			urlQueryParams = {
+				cached:   getCached,
+				username: userName
+			};
 		}
 
 		/* TODO refactor to handle array of carts */
 		const p = new Promise(
 			(resolve, reject) =>{
-				dataCollection.fetch().then(() =>{
+				dataCollection.fetch({
+					url: urlHelpers.buildUrl(dataCollection.baseUrl, urlQueryParams)
+				}).then(() =>{
 					resolve(dataCollection);
 				}).catch((error) =>{
 					console.log(error);
@@ -104,22 +119,28 @@ const CartsService = Marionette.Object.extend({
 		const action = this.cartPageStateModel.get("actionMode");
 		switch(action){
 			case cartActions.VIEW_CDE_CART_PAGE:
-				this.cartPageStateModel.set({CDECartUIState: {
-					lastSortedByKey: sortKey,
-					lastSortOrder: sortOrder
-				}});
+				this.cartPageStateModel.set({
+					CDECartUIState: {
+						lastSortedByKey: sortKey,
+						lastSortOrder:   sortOrder
+					}
+				});
 				break;
 			case cartActions.VIEW_FORM_CART_PAGE:
-				this.cartPageStateModel.set({FormCartUIState: {
-					lastSortedByKey: sortKey,
-					lastSortOrder: sortOrder
-				}});
+				this.cartPageStateModel.set({
+					FormCartUIState: {
+						lastSortedByKey: sortKey,
+						lastSortOrder:   sortOrder
+					}
+				});
 				break;
 			case cartActions.VIEW_MODULE_CART_PAGE:
-				this.cartPageStateModel.set({ModuleCartUIState: {
-					lastSortedByKey: sortKey,
-					lastSortOrder: sortOrder
-				}});
+				this.cartPageStateModel.set({
+					ModuleCartUIState: {
+						lastSortedByKey: sortKey,
+						lastSortOrder:   sortOrder
+					}
+				});
 				break;
 			default:
 				console.error("no valid action provided");
@@ -171,16 +192,14 @@ const CartsService = Marionette.Object.extend({
 		});
 	},
 	setupModels() {
-		const user = appChannel.request(EVENTS.USER.GET_USERNAME);
-
 		this.cdeCartCollection = new CDECollection({
-			url: `${ENDPOINT_URLS.CDE_CART}&username=${user}`
+			baseUrl: `${ENDPOINT_URLS.CDE_CART}`
 		});
 		this.formCartCollection = new FormCollection({
-			url: `${ENDPOINT_URLS.FORM_CART}&username=${user}`
+			baseUrl: `${ENDPOINT_URLS.FORM_CART}`
 		});
 		this.moduleCartCollection = new ModuleCollection({
-			url: `${ENDPOINT_URLS.MODULE_CART}`
+			baseUrl: `${ENDPOINT_URLS.MODULE_CART}`
 		});
 	}
 });
