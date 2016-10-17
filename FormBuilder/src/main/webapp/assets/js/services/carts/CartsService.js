@@ -21,7 +21,12 @@ const CartsService = Marionette.Object.extend({
 	initialize() {
 		const cartsRouter = cartsRouter;
 		this.cartPageStateModel = CartPageStateModel;
-		 cartChannel.reply(EVENTS.CARTS.SET_LAYOUT, (options) => this.dispatchLayout(options));
+
+		cartChannel.reply(EVENTS.CARTS.SET_LAYOUT, (options) => this.dispatchLayout(options));
+		cartChannel.reply(EVENTS.CARTS.GET_DOWNLOAD_XLS, (options) => this.handleDownloadXLS(options));
+		cartChannel.reply(EVENTS.CARTS.GET_DOWNLOAD_XML, (options) => this.handleDownloadXML(options));
+		cartChannel.reply(EVENTS.CARTS.REMOVE_CART_ITEM, (options) => this.handleRemoveCartItem(options));
+
 		this.setupModels();
 	},
 	constructLayout(cart){
@@ -38,7 +43,7 @@ const CartsService = Marionette.Object.extend({
 			data = this.cdeCartCollection;
 		}
 		render(
-			<CartLayout cartPageStateModel={this.cartPageStateModel} data={data} cart={cart} />, document.getElementById('main'));
+			<CartLayout cartPageStateModel={this.cartPageStateModel} data={data} cart={cart}/>, document.getElementById('main'));
 
 	},
 	dispatchLayout({action}) {
@@ -72,7 +77,7 @@ const CartsService = Marionette.Object.extend({
 		if(name === 'cdeCart'){
 			dataCollection = this.cdeCartCollection;
 		}
-		else if(name ==='moduleCart'){
+		else if(name === 'moduleCart'){
 			dataCollection = this.moduleCartCollection;
 		}
 		else{
@@ -92,6 +97,50 @@ const CartsService = Marionette.Object.extend({
 		return p.then((collection)=>{
 			return collection;
 		}).catch((error)=>{
+			console.log(error);
+		});
+	},
+	handleDownloadXLS() {
+
+	},
+	handleDownloadXML() {
+
+	},
+	handleRemoveCartItem({itemsToRemove}) {
+		const action = this.cartPageStateModel.get("actionMode");
+		switch(action){
+			case cartActions.VIEW_CDE_CART_PAGE:
+				this.cdeCartCollection.remove(itemsToRemove);
+				this.saveCart({cart: this.cdeCartCollection, successMessage: "CDE Cart Saved"});
+				break;
+			case cartActions.VIEW_FORM_CART_PAGE:
+				this.formCartCollection.remove(itemsToRemove);
+				this.saveCart({cart: this.formCartCollection, successMessage: "Form Cart Saved"});
+				break;
+			case cartActions.VIEW_MODULE_CART_PAGE:
+				this.moduleCartCollection.remove(itemsToRemove);
+				this.saveCart({cart: this.moduleCartCollection, successMessage: "Module Cart Saved"});
+				break;
+			default:
+				console.error("no valid action provided");
+		}
+	},
+	saveCart({cart, successMessage} = {}) {
+		const p = new Promise(
+			(resolve, reject) =>{
+				cart.save(null, {
+					dataType: 'text'
+				}).then(() =>{
+					resolve();
+				}).catch((error) =>{
+					reject(error);
+				});
+			}
+		);
+		return p.then(()=>{
+			if(successMessage) alert(successMessage);
+		}).catch((error)=>{
+			alert("error");
 			console.log(error);
 		});
 	},

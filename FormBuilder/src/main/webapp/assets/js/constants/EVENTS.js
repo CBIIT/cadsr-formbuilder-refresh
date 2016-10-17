@@ -32,7 +32,10 @@ const EVENTS = {
 	},
 	CARTS:  {
 		GET_CART_DATA: 'get:cartData',
-		SET_LAYOUT: 'set:layout'
+		SET_LAYOUT: 'set:layout',
+		GET_DOWNLOAD_XLS: 'get:downloadXLS',
+		GET_DOWNLOAD_XML: 'get:downloadXML',
+		REMOVE_CART_ITEM: 'remove:cartItem'
 	}
 };
 

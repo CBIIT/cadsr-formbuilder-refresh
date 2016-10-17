@@ -1,4 +1,6 @@
 import React, {Component, PropTypes} from 'react';
+import EVENTS from '../../constants/EVENTS';
+import {cartChannel} from '../../channels/radioChannels';
 import {Table as Reactable, Thead, Th, Tr, Td} from 'reactable';
 import {Glyphicon, DropdownButton, MenuItem} from 'react-bootstrap';
 
@@ -45,6 +47,11 @@ export default class Datatable extends React.Component{
 		this.updateState = this.updateState.bind(this);
 		//initial state setup. This may need to be moved into another function other than the constructor
 		this.setInitialState();
+
+		this.dispatchDownloadXML = this.dispatchDownloadXML.bind(this);
+		this.dispatchDownloadXLS = this.dispatchDownloadXLS.bind(this);
+		this.dispatchRemoveSelectedFromCart = this.dispatchRemoveSelectedFromCart.bind(this);
+		this.getSelectedItemIds = this.getSelectedItemIds.bind(this);
 	}
 
 	componentWillReceiveProps(nextProps){
@@ -53,6 +60,26 @@ export default class Datatable extends React.Component{
 	}
 	componentWillUpdate(){
 		console.log('will update table');
+	}
+	getSelectedItemIds() {
+		let selectedItemIds = [];
+		this.state.displayedData.forEach((item) => {
+			if (item.selected){
+				selectedItemIds.push(item.id);
+			}
+		});
+		return selectedItemIds;
+	}
+	dispatchDownloadXLS() {
+
+	}
+	dispatchDownloadXML() {
+
+	}
+	dispatchRemoveSelectedFromCart() {
+		const itemsToRemove = this.getSelectedItemIds();
+		cartChannel.request(EVENTS.CARTS.REMOVE_CART_ITEM,
+			{itemsToRemove: itemsToRemove});
 	}
 	setInitialState() {
 		const shouldHavePagination = this.props.pagination;
@@ -126,20 +153,22 @@ export default class Datatable extends React.Component{
 	}
 
 	selectAllRows(e){ //select all the rows at once and add (or remove) each row to / from the selectedRows collection.
+		let selectAllIsChecked = e.target.checked;
 		let data = this.state.data,
 			selectedRows = [];
 
 		for(let item of data){
-			item.selected = e.target.checked;
+			item.selected = selectAllIsChecked;
 		}
-		if(e.target.checked){
+		if(selectAllIsChecked){
 			selectedRows = data;
 		}
 		else{
 			selectedRows = [];
 		}
+		let displayedData = this.getCurrentDisplayData(data);
 
-		this.setState({data: data, selectedRows: selectedRows});
+		this.setState({data: data, selectedRows: selectedRows, displayedData: displayedData});
 	}
 
 	selectRow(e){ //ensures a row is selected when a checkbox is clicked
@@ -163,7 +192,8 @@ export default class Datatable extends React.Component{
 				return (row.id != e);
 			});
 		}
-		this.setState({data : data, selectedRows : selectedRows });
+		let displayedData = this.getCurrentDisplayData(data);
+		this.setState({data : data, selectedRows : selectedRows, displayedData: displayedData });
 
 	}
 
@@ -281,12 +311,12 @@ export default class Datatable extends React.Component{
 				<ul className="controlPanel-list">
 					<li>{this.state.selectedRows.length} {this.props.pageName}(s) Selected</li>
 					<li>
-						<button className="controlPanel-btn"> REMOVE FROM CART <Glyphicon glyph="trash"/></button>
+						<button onClick={this.dispatchRemoveSelectedFromCart} className="controlPanel-btn"> REMOVE FROM CART <Glyphicon glyph="trash"/></button>
 					</li>
 					<li>
 						<DropdownButton className="controlPanel-btn" title="DOWNLOAD">
-							<MenuItem eventKey="1"><i className="controlPanel-icon fa fa-file-excel-o"></i> DOWNLOAD EXCEL</MenuItem>
-							<MenuItem eventKey="2"><i className="controlPanel-icon fa fa-file-code-o"></i> DOWNLOAD XML</MenuItem>
+							<MenuItem onClick={this.dispatchDownloadXLS} eventKey="1"><i className="controlPanel-icon fa fa-file-excel-o"></i> DOWNLOAD EXCEL</MenuItem>
+							<MenuItem onClick={this.dispatchDownloadXML} eventKey="2"><i className="controlPanel-icon fa fa-file-code-o"></i> DOWNLOAD XML</MenuItem>
 						</DropdownButton>
 					</li>
 				</ul>
@@ -346,7 +376,6 @@ export default class Datatable extends React.Component{
 
 	render(){
 		const displayedData = this.state.displayedData;
-		const selectedRows = this.state.selectedRows;
 
 		return(
 			<section>
