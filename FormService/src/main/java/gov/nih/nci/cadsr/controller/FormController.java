@@ -278,6 +278,59 @@ public class FormController {
 		ResponseEntity<Cart> response = new ResponseEntity(cart, HttpStatus.OK);
 		return response;
 	}
+	@RequestMapping(value = "/forms/deleteFormv2/{username}/{formIdSeq}", method = RequestMethod.DELETE)
+	@ResponseBody
+	public ResponseEntity<Cart> DeletFormFromOC(@PathVariable String username, @PathVariable String formIdSeq)
+			throws ObjectCartException {
+
+		ObjectCartClient cartClient = new ObjectCartClient();
+		String str = formIdSeq;
+		String[] id = str.split(",");
+		Cart cart = cartClient.retrieveCart(username, "formCart");
+		Collection<CartObject> cObject = cart.getCartObjectCollection();
+		for (String i : id) {
+			try {
+
+				for (CartObject co : cObject) {
+					cartClient.removeObject(cart, co);
+				}
+			} catch (Exception e1) {
+				return new ResponseEntity(e1.getMessage(), HttpStatus.BAD_REQUEST);
+			}
+		}
+		ResponseEntity<Cart> response = new ResponseEntity(cart,HttpStatus.OK);
+		return response;
+
+	}
+	
+
+	@RequestMapping(value = "/forms/deleteCde/{username}/{formIdSeq}", method = RequestMethod.DELETE)
+	@ResponseBody
+	public ResponseEntity<Cart> DeletCdeFromOC(@PathVariable String username, @PathVariable String cdeId)
+			throws ObjectCartException {
+		
+	
+		ObjectCartClient cartClient = new ObjectCartClient();
+		String str = cdeId;
+		String[] id = str.split(",");
+		Cart cart = cartClient.retrieveCart(username, "cdeCart");
+		Collection<CartObject> cObject = cart.getCartObjectCollection();
+		for (String i : id) {
+			try {
+
+				for (CartObject co : cObject) {
+					cartClient.removeObject(cart, co);
+				}
+			} catch (Exception e1) {
+				return new ResponseEntity(e1.getMessage(), HttpStatus.BAD_REQUEST);
+			}
+		}
+		ResponseEntity<Cart> response = new ResponseEntity(cart,HttpStatus.OK);
+		return response;
+
+	}
+	
+	
 	
 	@RequestMapping(value = "/objcart/cdecart/{username}", method = RequestMethod.GET)
 	@ResponseBody
