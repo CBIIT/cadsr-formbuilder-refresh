@@ -66,7 +66,7 @@ export default class QuestionEditable extends Component {
 				};
 			}));
 			return (
-				<Select name="alternativeQuestionText" label="Alternate Question Text" options={alternativeQuestionTextItems} value={this.props.question.longName} />
+				<Select name="alternativeQuestionText" label="Alternate Question Text" options={alternativeQuestionTextItems} />
 			);
 		}
 	}
@@ -88,9 +88,11 @@ export default class QuestionEditable extends Component {
 		this.dispatchQuestionData({questionData: {longName: this.props.question.preferredQuestionText}});
 	}
 	dispatchQuestionData({questionData}) {
+		/* the select elem for alternativeQuestionText has a name attrib of that value and Formsy camputures it. exlcuding it sow it doesn't overrwite alternativeQuestionText */
+		const newQuestionData = _.omit(questionData, "alternativeQuestionText");
 		formChannel.trigger(EVENTS.FORM.SET_QUESTION,
 			{moduleId: this.props.moduleId,
-				questionData: questionData,
+				questionData: newQuestionData,
 				questionId:  this.props.question.cid
 			});
 	}
