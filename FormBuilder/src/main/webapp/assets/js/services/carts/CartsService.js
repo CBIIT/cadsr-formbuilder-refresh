@@ -26,7 +26,7 @@ const CartsService = Marionette.Object.extend({
 		cartChannel.reply(EVENTS.CARTS.GET_DOWNLOAD_XLS, (options) => this.handleDownloadXLS(options));
 		cartChannel.reply(EVENTS.CARTS.GET_DOWNLOAD_XML, (options) => this.handleDownloadXML(options));
 		cartChannel.reply(EVENTS.CARTS.REMOVE_CART_ITEM, (options) => this.handleRemoveCartItem(options));
-
+		cartChannel.reply(EVENTS.CARTS.SET_LAST_CART_SORTED_BY, (options) => this.handleCartSortedBy(options));
 		this.setupModels();
 	},
 	constructLayout(cart){
@@ -99,6 +99,32 @@ const CartsService = Marionette.Object.extend({
 		}).catch((error)=>{
 			console.log(error);
 		});
+	},
+	handleCartSortedBy ({sortKey, sortOrder}){
+		const action = this.cartPageStateModel.get("actionMode");
+		switch(action){
+			case cartActions.VIEW_CDE_CART_PAGE:
+				this.cartPageStateModel.set({CDECartUIState: {
+					lastSortedByKey: sortKey,
+					lastSortOrder: sortOrder
+				}});
+				break;
+			case cartActions.VIEW_FORM_CART_PAGE:
+				this.cartPageStateModel.set({FormCartUIState: {
+					lastSortedByKey: sortKey,
+					lastSortOrder: sortOrder
+				}});
+				break;
+			case cartActions.VIEW_MODULE_CART_PAGE:
+				this.cartPageStateModel.set({ModuleCartUIState: {
+					lastSortedByKey: sortKey,
+					lastSortOrder: sortOrder
+				}});
+				break;
+			default:
+				console.error("no valid action provided");
+		}
+
 	},
 	handleDownloadXLS() {
 

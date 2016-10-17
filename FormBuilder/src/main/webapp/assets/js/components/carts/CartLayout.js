@@ -55,24 +55,28 @@ export default class CartLayout extends Component {
 		const actionMode = this.state.cartPageStateModel.actionMode;
 		let pageName = ""; //page name used to display title and configure which columns to display
 		let columnConfig = {}; //collection of titles and model properties derived from the TABLECONFIG constant
+		let cartLastSortedState ={};
 		//determine which page to use based on cartActions object
 		if(actionMode === cartActions.VIEW_CDE_CART_PAGE) {
 			 pageName = "CDE";
 			columnConfig = TABLECONFIG.CDE;
+			cartLastSortedState = this.state.cartPageStateModel.CDECartUIState;
 		}
 		else if (actionMode === cartActions.VIEW_FORM_CART_PAGE) {
 			pageName = "Form";
 			columnConfig = TABLECONFIG.FORM;
+			cartLastSortedState = this.state.cartPageStateModel.FormCartUIState;
 		}
 		else if (actionMode === cartActions.VIEW_MODULE_CART_PAGE) {
 			pageName = "Module";
 			columnConfig = TABLECONFIG.MODULE;
+			cartLastSortedState = this.state.cartPageStateModel.ModuleCartUIState;
 		}
 		if(this.data.length) {
 			return (
 				<div>
 					<h1 className="text--bold">Form Builder | {pageName} Cart</h1>
-					<Datatable pagination={true} perPage={10} pageName={pageName} columnTitles={columnConfig} data={this.data}></Datatable>
+					<Datatable cartLastSortedState={cartLastSortedState} pagination={true} perPage={10} pageName={pageName} columnTitles={columnConfig} data={this.data}></Datatable>
 				</div>
 			);
 		}
@@ -84,5 +88,10 @@ export default class CartLayout extends Component {
 	}
 }
 
+CartLayout.defaultProps = {
+	cartLastSortedState: []
+};
+
 CartLayout.propTypes = {
+	cartLastSortedState: PropTypes.object
 };

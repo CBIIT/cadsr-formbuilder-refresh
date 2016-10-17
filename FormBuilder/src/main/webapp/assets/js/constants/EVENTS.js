@@ -35,7 +35,8 @@ const EVENTS = {
 		SET_LAYOUT: 'set:layout',
 		GET_DOWNLOAD_XLS: 'get:downloadXLS',
 		GET_DOWNLOAD_XML: 'get:downloadXML',
-		REMOVE_CART_ITEM: 'remove:cartItem'
+		REMOVE_CART_ITEM: 'remove:cartItem',
+		SET_LAST_CART_SORTED_BY: 'set:LastCartSortedBy'
 	}
 };
 

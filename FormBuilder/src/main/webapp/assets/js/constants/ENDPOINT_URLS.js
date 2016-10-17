@@ -11,6 +11,10 @@ const ENDPOINT_URLS = {
 	CDE_CART:           `${formBuilderHost}/FormBuilder/api/v1/carts/objcart/cdecart`,
 	MODULE_CART:        `${formBuilderHost}/FormBuilder/api/v1/carts/dummy/objcart/modulecart`,
 	FORM_CART:        `${formBuilderHost}/FormBuilder/api/v1/carts/dummy/objcart/formcart`,
+	FORM_DOWNLOAD_XML: `${formBuilderHost}/FormBuilder/api/v1/forms/xml`,
+	FORM_DOWNLOAD_XLS: `${formBuilderHost}/FormBuilder/api/v1/forms/xls`,
+	CDE_DOWNLOAD_XML: `${formBuilderHost}/FormBuilder/api/v1/cde/xml`,
+	CDE_DOWNLOAD_XLS: `${formBuilderHost}/FormBuilder/api/v1/cde/xls`
 };
 
 /*Make immutable */

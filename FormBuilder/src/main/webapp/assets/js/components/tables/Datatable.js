@@ -50,12 +50,12 @@ export default class Datatable extends React.Component{
 
 		this.dispatchDownloadXML = this.dispatchDownloadXML.bind(this);
 		this.dispatchDownloadXLS = this.dispatchDownloadXLS.bind(this);
+		this.dispatchLastSortedByKey = this.dispatchLastSortedByKey.bind(this);
 		this.dispatchRemoveSelectedFromCart = this.dispatchRemoveSelectedFromCart.bind(this);
 		this.getSelectedItemIds = this.getSelectedItemIds.bind(this);
 	}
 
 	componentWillReceiveProps(nextProps){
-		console.log(nextProps);
 		this.updateState(nextProps);
 	}
 	componentWillUpdate(){
@@ -75,6 +75,14 @@ export default class Datatable extends React.Component{
 	}
 	dispatchDownloadXML() {
 
+	}
+
+	/**
+	 * Consider this a temporary hack until we can use ComponentWillUnMount or React-Router's NavigateFrom to communicate the last way the collection was sorted before leaving the page. This currently does it every time the user sorts.
+	 */
+	dispatchLastSortedByKey({sortKey, sortOrder}) {
+		cartChannel.request(EVENTS.CARTS.SET_LAST_CART_SORTED_BY,
+			{sortKey:sortKey, sortOrder:sortOrder});
 	}
 	dispatchRemoveSelectedFromCart() {
 		const itemsToRemove = this.getSelectedItemIds();
@@ -218,8 +226,7 @@ export default class Datatable extends React.Component{
 		//pagesArr is an array of JSX <li> elements that represent each page button
 		//By default, a button that says "Previous" should be added to the first spot in the array
 		let pagesArr = [(<li className="reactTable-pagination-item" key={'left'} aria-hidden="true">
-			<button  onClick={()=>{this.changePage(this.state.currentPage - 1);}}
-			         className={(this.state.currentPage == 1)? " reactTable-pagination-control disabled": "reactTable-pagination-control"}>PREV</button>
+			<button onClick={()=>{this.changePage(this.state.currentPage - 1);}} className={(this.state.currentPage == 1)? " reactTable-pagination-control disabled": "reactTable-pagination-control"}>PREV</button>
 		</li>)];
 		if(this.totalPages === 1){
 			//If there is only one page, remove that first button
@@ -359,6 +366,7 @@ export default class Datatable extends React.Component{
 		columnTitles[index] = columnSort[0]; //set the newly changed column object to be at the same index in the state
 		let displayedData = this.getCurrentDisplayData(data); //re-calculate which data to display with new order
 		this.setState({data : data, columnTitles: columnTitles, displayedData: displayedData}); //update state
+		this.dispatchLastSortedByKey({sortKey: columnSort[0].key, sortOrder: columnSort[0].sort});
 	}
 
 	makeArrows(title){

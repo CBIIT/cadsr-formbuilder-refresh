@@ -5,7 +5,10 @@ import {Model} from 'backbone';
  */
 const CartPageStateModel = Model.extend({
 	defaults: {
-		actionMode:       null
+		actionMode:       null,
+		CDECartUIState: {},
+		FormCartUIState: {},
+		ModuleCartUIState: {}
 	}
 });
 
