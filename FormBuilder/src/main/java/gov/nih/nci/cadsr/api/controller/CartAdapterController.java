@@ -76,7 +76,13 @@ public class CartAdapterController {
 	@ResponseBody
 	public ResponseEntity getModuleCart() {
 		
+		try{
+			
 		return new ResponseEntity(this.getUserDetails().getModuleCart(), HttpStatus.OK);
+		
+		} catch(NullPointerException npe){
+			return new ResponseEntity("No authenticated user could be found. Unable to return module cart.",HttpStatus.NOT_FOUND);
+		}
 
 	}
 
@@ -89,7 +95,13 @@ public class CartAdapterController {
 		}
 		
 		if(cache){
-			return new ResponseEntity(this.getUserDetails().getCdeCart(), HttpStatus.OK);
+			try{
+				
+				return new ResponseEntity(this.getUserDetails().getCdeCart(), HttpStatus.OK);
+				
+			} catch(NullPointerException npe){
+				return new ResponseEntity("No authenticated user could be found. Unable to return CDE cart.",HttpStatus.NOT_FOUND);
+			}
 		}
 		else{
 			return this.loadCDECart(username);
@@ -106,7 +118,13 @@ public class CartAdapterController {
 		}
 		
 		if(cache){
-			return new ResponseEntity(this.getUserDetails().getFormCart(), HttpStatus.OK);
+			try{
+				
+				return new ResponseEntity(this.getUserDetails().getFormCart(), HttpStatus.OK);
+				
+			}catch(NullPointerException npe){
+				return new ResponseEntity("No authenticated user could be found. Unable to return form cart.",HttpStatus.NOT_FOUND);
+			}
 		}
 		else{
 			return this.loadFormV2Cart(username);
@@ -140,8 +158,16 @@ public class CartAdapterController {
 		URL url = new URL(uri);
 		Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 		HttpQuery query = (HttpQuery) jaxbUnmarshaller.unmarshal(url);
+		
+		List<CartObjectNew> cartContents = new ArrayList<CartObjectNew>();
 
-		List<CartObjectNew> cartContents = query.getQueryResponse().getCartContents();
+		try{
+			
+			cartContents = query.getQueryResponse().getCartContents();
+			
+		} catch(NullPointerException npe){
+			return new ResponseEntity(new ArrayList<FEQuestion>(),HttpStatus.OK);
+		}
 
 		List<Item> items = new ArrayList<Item>();
 		if (!cartContents.isEmpty()) {
@@ -247,7 +273,15 @@ public class CartAdapterController {
 		Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 		HttpQuery query = (HttpQuery) jaxbUnmarshaller.unmarshal(url);
 
-		List<CartObjectNew> cartContents = query.getQueryResponse().getCartContents();
+		List<CartObjectNew> cartContents = new ArrayList<CartObjectNew>();
+
+		try{
+			
+			cartContents = query.getQueryResponse().getCartContents();
+			
+		} catch(NullPointerException npe){
+			return new ResponseEntity(new ArrayList<FEFormMetaData>(),HttpStatus.OK);
+		}
 
 		List<FormV2NewWrapper> forms = new ArrayList<FormV2NewWrapper>();
 		List<FEFormMetaData> feForms = new ArrayList<FEFormMetaData>();
