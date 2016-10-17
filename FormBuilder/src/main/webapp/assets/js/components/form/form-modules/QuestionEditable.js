@@ -66,7 +66,7 @@ export default class QuestionEditable extends Component {
 				};
 			}));
 			return (
-				<Select name="alternativeQuestionText" label="Alternate Question Text" options={alternativeQuestionTextItems} />
+				<Select name="alternativeQuestionTextSelector" label="Alternate Question Text" options={alternativeQuestionTextItems} />
 			);
 		}
 	}
@@ -75,9 +75,9 @@ export default class QuestionEditable extends Component {
 		if(isChanged) {
 			/*TODO Move this somewhere more reusable: Sets the string "true" back to boolean for BE */
 			currentValues.mandatory = currentValues.mandatory === "true";
-			/* currentValues.alternativeQuestionText here is the selected alternativeQuestionTexts dropdonw value, not the array of props.question.alternativeQuestionText */
-			if(currentValues.alternativeQuestionText !== this.props.question.longName) {
-				this.dispatchQuestionData({questionData: {longName: currentValues.alternativeQuestionText}});
+			/* currentValues.alternativeQuestionTextSelector here is the selected alternativeQuestionTexts dropdonw value, not the array of props.question.alternativeQuestionText */
+			if(currentValues.alternativeQuestionTextSelector !== undefined && (currentValues.alternativeQuestionTextSelector !== this.props.question.longName)) {
+				this.dispatchQuestionData({questionData: {longName: currentValues.alternativeQuestionTextSelector}});
 			}
 			else {
 				this.dispatchQuestionData({questionData: currentValues});
@@ -89,7 +89,7 @@ export default class QuestionEditable extends Component {
 	}
 	dispatchQuestionData({questionData}) {
 		/* the select elem for alternativeQuestionText has a name attrib of that value and Formsy camputures it. exlcuding it sow it doesn't overrwite alternativeQuestionText */
-		const newQuestionData = _.omit(questionData, "alternativeQuestionText");
+		const newQuestionData = _.omit(questionData, "alternativeQuestionTextSelectorValue");
 		formChannel.trigger(EVENTS.FORM.SET_QUESTION,
 			{moduleId: this.props.moduleId,
 				questionData: newQuestionData,
