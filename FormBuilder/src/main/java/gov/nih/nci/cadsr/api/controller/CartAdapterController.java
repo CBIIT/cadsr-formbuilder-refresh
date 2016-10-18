@@ -287,6 +287,7 @@ public class CartAdapterController {
 		List<FEFormMetaData> feForms = new ArrayList<FEFormMetaData>();
 		if (!cartContents.isEmpty()) {
 			String date = null;
+			String idseq = null;
 			for (CartObjectNew cartObj : cartContents) {
 				FormV2NewWrapper form = null;
 				for (Field field : cartObj.getFields()) {
@@ -294,6 +295,9 @@ public class CartAdapterController {
 					if (field.getName().equalsIgnoreCase("dateAdded")) {
 						date = field.getValue();
 
+					}
+					else if (field.getName().equalsIgnoreCase("nativeid")){
+						idseq = field.getValue();
 					}
 
 					if (field.getName().equalsIgnoreCase("Data")) {
@@ -311,6 +315,13 @@ public class CartAdapterController {
 				
 				FEFormMetaData feForm = new FEFormMetaData();
 				BeanUtils.copyProperties(form, feForm);
+				
+				feForm.setFormIdseq(idseq);
+				feForm.setWorkflow(form.getWorkflowStatusName());
+				FEContext context = new FEContext();
+				context.setName(form.getContext());
+				feForm.setContext(context);
+				feForm.setPersisted(true);
 				feForms.add(feForm);
 			}
 
@@ -371,6 +382,8 @@ public class CartAdapterController {
 		return response;
 
 	}
+	
+	
 
 	@RequestMapping(value = "/modules", method = RequestMethod.DELETE)
 	@ResponseBody
