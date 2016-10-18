@@ -1,6 +1,6 @@
 export const getCdeCartCollectionPojo = (cdeCollection) =>{
 	return cdeCollection.models.map(model =>{
-		return Object.assign({}, model.attributes.dataElement, {id: model.cid});
+		return Object.assign({}, model.attributes.dataElement, {id: model.attributes.deIdseq});
 	});
 };
 

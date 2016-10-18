@@ -1,11 +1,8 @@
-/**
- * Created by nmilos on 10/11/16.
- */
 import {Collection} from 'backbone';
-import ModuleModel from './ModuleModel';
+import FormModel from './FormModel';
 
 const FormCollection = Collection.extend({
-	model: ModuleModel,
+	model: FormModel,
 	initialize({baseUrl}) {
 		this.baseUrl = baseUrl;
 	}

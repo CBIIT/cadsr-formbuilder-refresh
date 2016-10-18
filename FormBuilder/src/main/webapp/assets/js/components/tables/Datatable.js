@@ -73,12 +73,15 @@ export default class Datatable extends React.Component{
 		return selectedItemIds;
 	}
 	dispatchDownloadXLS() {
-
+		const itemsIds = this.getSelectedItemIds();
+		cartChannel.request(EVENTS.CARTS.GET_DOWNLOAD_XLS,
+			{itemsIds: itemsIds});
 	}
 	dispatchDownloadXML() {
-
+		const itemsIds = this.getSelectedItemIds();
+		cartChannel.request(EVENTS.CARTS.GET_DOWNLOAD_XML,
+			{itemsIds: itemsIds});
 	}
-
 	/**
 	 * Consider this a temporary hack until we can use ComponentWillUnMount or React-Router's NavigateFrom to communicate the last way the collection was sorted before leaving the page. This currently does it every time the user sorts.
 	 */
@@ -459,5 +462,5 @@ Datatable.propTypes = {
 	columnTitles: PropTypes.array,
 	pagination: PropTypes.bool,
 	perPage: PropTypes.number,
-	pageName: PropTypes.string,
+	pageName: PropTypes.string
 };
