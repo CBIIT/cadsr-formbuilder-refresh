@@ -43,6 +43,7 @@ export default class Datatable extends React.Component{
 		this.addControls = this.addControls.bind(this);
 		this.sortColumn = this.sortColumn.bind(this);
 		this.makeArrows = this.makeArrows.bind(this);
+		this.renderToolbarDropdown = this.renderToolbarDropdown.bind(this);
 		this.setInitialState = this.setInitialState.bind(this);
 		this.updateState = this.updateState.bind(this);
 		//initial state setup. This may need to be moved into another function other than the constructor
@@ -325,17 +326,23 @@ export default class Datatable extends React.Component{
 					<li>
 						<button onClick={this.dispatchRemoveSelectedFromCart} className="controlPanel-btn"> REMOVE FROM CART <Glyphicon glyph="trash"/></button>
 					</li>
-					<li>
-						<DropdownButton className="controlPanel-btn" title="DOWNLOAD">
-							<MenuItem onClick={this.dispatchDownloadXLS} eventKey="1"><i className="controlPanel-icon fa fa-file-excel-o"></i> DOWNLOAD EXCEL</MenuItem>
-							<MenuItem onClick={this.dispatchDownloadXML} eventKey="2"><i className="controlPanel-icon fa fa-file-code-o"></i> DOWNLOAD XML</MenuItem>
-						</DropdownButton>
-					</li>
+					{this.renderToolbarDropdown()}
 				</ul>
 			</div>
 		);
 	}
-
+	renderToolbarDropdown () {
+		if (this.props.pageName === 'CDE' || this.props.pageName === 'FORM') {
+			return (
+				<li>
+					<DropdownButton className="controlPanel-btn" title="DOWNLOAD">
+						<MenuItem onClick={this.dispatchDownloadXLS} eventKey="1"><i className="controlPanel-icon fa fa-file-excel-o"></i> DOWNLOAD EXCEL</MenuItem>
+						<MenuItem onClick={this.dispatchDownloadXML} eventKey="2"><i className="controlPanel-icon fa fa-file-code-o"></i> DOWNLOAD XML</MenuItem>
+					</DropdownButton>
+				</li>
+			);
+		}
+	}
 	sortColumn(columnName, elem){
 		//sorts column based on which title was clicked
 		let data = this.state.data;
