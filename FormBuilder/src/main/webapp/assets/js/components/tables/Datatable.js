@@ -332,7 +332,7 @@ export default class Datatable extends React.Component{
 		);
 	}
 	renderToolbarDropdown () {
-		if (this.props.pageName === 'CDE' || this.props.pageName === 'FORM') {
+		if (this.props.pageName === 'CDE' || this.props.pageName === 'Form') {
 			return (
 				<li>
 					<DropdownButton className="controlPanel-btn" title="DOWNLOAD">
