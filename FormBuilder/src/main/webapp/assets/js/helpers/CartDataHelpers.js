@@ -7,7 +7,7 @@ export const getCdeCartCollectionPojo = (cdeCollection) =>{
 export const getFormCartCollectionPojo = (formCartCollection) =>{
 	return formCartCollection.models.map(model =>{
 		return Object.assign({}, model.attributes, {
-			id:               model.cid,
+			id:    model.attributes.formIdseq,
 			contextName:      (model.get('context')) ? model.get('context').name : '',
 			protocolLongName: (model.get('protocols')) ? model.get('protocols')[0].longName : ''
 		});
