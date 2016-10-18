@@ -332,7 +332,7 @@ export default class Datatable extends React.Component{
 		);
 	}
 	renderToolbarDropdown () {
-		if (this.props.pageName === 'CDE' || this.props.pageName === 'Form') {
+		if (this.props.pageName === 'Form') {
 			return (
 				<li>
 					<DropdownButton className="controlPanel-btn" title="DOWNLOAD">
@@ -342,6 +342,15 @@ export default class Datatable extends React.Component{
 				</li>
 			);
 		}
+		else if (this.props.pageName === 'CDE') {
+				return (
+					<li>
+						<DropdownButton className="controlPanel-btn" title="DOWNLOAD">
+							<MenuItem onClick={this.dispatchDownloadXLS} eventKey="1"><i className="controlPanel-icon fa fa-file-excel-o"></i> DOWNLOAD EXCEL</MenuItem>
+						</DropdownButton>
+					</li>
+				);
+			}
 	}
 	sortColumn(columnName, elem){
 		//sorts column based on which title was clicked
