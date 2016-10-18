@@ -119,7 +119,7 @@ const FormService = Marionette.Object.extend({
 
 		/*Only retrieve carts if user actually exists */
 		if(appChannel.request(EVENTS.USER.GET_USERNAME)){
-			return this.app.cartsService.fetchCarts({name}).then((cart)=>{
+			return this.app.cartsService.fetchCarts({name, getCached: true}).then((cart)=>{
 				this.formUIStateModel.set({cdeCartPopulated: true});
 			});
 		}
