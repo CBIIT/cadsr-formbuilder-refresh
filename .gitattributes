@@ -86,6 +86,7 @@ FormBuilder/src/main/webapp/assets/js/components/form/form-modules/QuestionEdita
 FormBuilder/src/main/webapp/assets/js/components/form/form-modules/QuestionStatic.js -text
 FormBuilder/src/main/webapp/assets/js/components/form/form-modules/ValidValueEditable.js -text
 FormBuilder/src/main/webapp/assets/js/components/form/form-modules/ValidValueStatic.js -text
+FormBuilder/src/main/webapp/assets/js/components/layout/AppLayout.js -text
 FormBuilder/src/main/webapp/assets/js/components/layout/Footer.js -text
 FormBuilder/src/main/webapp/assets/js/components/layout/Header.js -text
 FormBuilder/src/main/webapp/assets/js/components/modals/ExitFormModal.js -text

@@ -5,7 +5,7 @@ export default class Footer extends Component {
   render(){
     return (
 
-        <footer className="footer_mc">
+        <footer  id="footer" className="footer_mc">
           <div className="_footer ">
             <div className="container-fluid banner">
               <div className="container">

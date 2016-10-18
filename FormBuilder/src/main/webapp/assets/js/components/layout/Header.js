@@ -6,6 +6,7 @@ class Header extends Component {
   }
   render(){
     return (
+        <header id="header" className="navbar navbar-static-top">
         <div className="app-nav banner">
           <div className="container">
             <nav className="nav">
@@ -21,6 +22,7 @@ class Header extends Component {
             </nav>
           </div>
         </div>
+      </header>
     );
   }
 }
