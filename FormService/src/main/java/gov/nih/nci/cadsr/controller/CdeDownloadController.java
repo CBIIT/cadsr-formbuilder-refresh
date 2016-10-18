@@ -22,6 +22,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -96,14 +97,21 @@ public class CdeDownloadController {
 
 	@RequestMapping(value = "/cdexlsDownload", method = RequestMethod.GET)
 	@ResponseBody
-	public ResponseEntity<byte[]> downloadFormXls(HttpServletRequest request) throws Exception {
+	public ResponseEntity<byte[]> downloadCdeXls(@RequestParam(value = "cdeId") String cdeId, HttpServletRequest request) throws Exception {
+		
+		String str = cdeId;
+		String[] ids = str.split(",");
 		
 		String fileName = null;
 		
 		Collection items = new HashSet();
-		CDECartItem item1 = new CDECartItemTransferObject();
-		item1.setId("99BA9DC8-29C9-4E69-E034-080020C9C0E0");
-		items.add(item1);
+		
+		for(String id : ids){
+			CDECartItem cart = new CDECartItemTransferObject();
+			cart.setId(id);
+			items.add(cart);
+		}
+		
 		
 		CDECart sessionCart = new CDECartTransferObject();
 		sessionCart.setDataElements(items);
