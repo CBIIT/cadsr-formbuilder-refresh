@@ -25,6 +25,12 @@
       color: $color-accent-bright;
     }
   }
+  .btn-primary{
+    background-color: $color-accent-dark;
+    &:hover{
+      background-color: $color-accent;
+    }
+  }
 }
 .search-left{
   float: left;
@@ -34,15 +40,15 @@
   float: right;
   padding-left: 10px;
   width: 70%;
-  .search-subtitle{
-    float: left;
+}
+.search-desc{
+  font-size: 12px;
+}
+.search-form-wrapper{
+  p{
+    margin-top: 10px;
   }
-
 }
-.search-desc-wrap{
-  float: right;
-  padding-right: 20px;
-}
-.search-desc:first-of-type{
-  margin-bottom: 21px;
+.searchActions{
+  margin-top: 10px;
 }

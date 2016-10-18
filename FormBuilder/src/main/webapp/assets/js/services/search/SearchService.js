@@ -31,21 +31,19 @@ const SearchService = Marionette.Object.extend({
 		this.listenTo(this.searchResultsCollection, 'reset', this.dispatchSearchResultsReceived);
 	},
 	constructSearchLayout(){
-		//react entry point
-		//render(<SearchLayout/>, document.getElementById('main'));
-		return new SearchLayoutView(
+		render(<SearchLayout/>, document.getElementById('main'));
+		/*return new SearchLayoutView(
 			{
 				searchResultsCollection: this.searchResultsCollection,
 				formSearchModel:         this.formSearchModel
 			}
-		);
+		);*/
 	},
 	dispatchSearchLayout() {
-		searchChannel.on('model:getDropDownOptionsSuccess', () =>{
+		/*searchChannel.on('model:getDropDownOptionsSuccess', () =>{
 			appChannel.request(EVENTS.APP.SET_MAIN_CONTENT_LAYOUT, this.constructSearchLayout());
-		});
-		//this.constructSearchLayout();
-
+		});*/
+		this.constructSearchLayout();
 		new GetSearchFormCriteriaCommand({model: this.formSearchModel}).execute();
 
 	},

@@ -2,13 +2,9 @@
  * Created by nmilos on 10/14/16.
  */
 import React, {Component, PropTypes} from 'react';
-import backboneReact from 'backbone-react-component';
 import ROUTES from '../../constants/ROUTES';
 import formRouter from  "../../routers/FormRouter";
-//import cartActions from '../../constants/cartActions';
-//import FormTable from '../formTable/formTable';
-//import TABLECONFIG from '../../constants/TABLE_CONFIGS';
-import backboneModelHelpers from "../../helpers/backboneModelHelpers";
+import ENDPOINT_URLS from '../../constants/ENDPOINT_URLS';
 
 export default class SearchLayout extends Component {
 	constructor(props){
@@ -17,19 +13,30 @@ export default class SearchLayout extends Component {
 		this.renderLeft = this.renderLeft.bind(this);
 		this.renderMiddle = this.renderMiddle.bind(this);
 		this.renderFormItems = this.renderFormItems.bind(this);
+		this.state = {
+			contexts: [],
+			workflows: [],
+			categories: [],
+			types: []
+		};
 	}
 
-	/*componentWillMount(){
-		/* watch for changes on these backbone models/collections and re-render
-		backboneReact.on(this, {
-			models: {
-				searchPageStateModel: this.props.searchPageStateModel
-			},
-			collections: {
-				data: this.props.data
-			}
+	componentDidMount(){
+		const urls = [ENDPOINT_URLS.CATEGORIES, ENDPOINT_URLS.CONTEXTS, ENDPOINT_URLS.TYPES, ENDPOINT_URLS.WORKFLOWS];
+		let promises = urls.map(url => fetch(url).then(response => response.json()));
+		Promise.all(promises).then(results => {
+			this.setState({
+				contexts: results[1],
+				categories: results[0],
+				types: results[2],
+				workflows: results[3]
+			});
 		});
-	}*/
+
+	}
+	componentWillReceiveProps(nextProps){
+		console.log('WillReceiveProps');
+	}
 	componentWillUpdate(nextProps, nextState) {
 
 	}
@@ -58,6 +65,26 @@ export default class SearchLayout extends Component {
 						<label for="CSI" className="formItem-label">CS / CSI</label>
 						<input type="text" className="formItem-input" id="CSI"/>
 					</div>
+					<div className="formItem">
+						<label for="Contexts" className="formItem-label">CONTEXT</label>
+						<select className="formItem-input" id="Contexts">
+							{
+								this.state.contexts.map((item)=>{
+									return (<option key={item.conteIdseq} value={item.conteIdseq}>{item.name}</option>)
+								})
+							}
+						</select>
+					</div>
+					<div className="formItem">
+						<label for="Workflows" className="formItem-label">WORKFLOW STATUS</label>
+						<select className="formItem-input" id="Workflows">
+							{
+								this.state.workflows.map((item)=>{
+									return (<option key={item} value={item}>{item}</option>)
+								})
+							}
+						</select>
+					</div>
 				</div>
 				<div className="pull-right formColumn">
 					<div className="formItem">
@@ -68,13 +95,33 @@ export default class SearchLayout extends Component {
 						<label for="Protocol" className="formItem-label">PROTOCOL</label>
 						<input type="text" className="formItem-input" id="Protocol"/>
 					</div>
+					<div className="formItem">
+						<label for="Categories" className="formItem-label">CATEGORY</label>
+						<select className="formItem-input" id="Categories">
+							{
+								this.state.categories.map((item)=>{
+									return (<option key={item} value={item}>{item}</option>)
+								})
+							}
+						</select>
+					</div>
+					<div className="formItem">
+						<label for="Types" className="formItem-label">TYPE</label>
+						<select className="formItem-input" id="Types">
+							{
+								this.state.types.map((item)=>{
+									return (<option key={item} value={item}>{item}</option>)
+								})
+							}
+						</select>
+					</div>
 				</div>
 			</div>
 			<div className="formItem">
 				<label for="Module Input" className="formItem-label">Module</label>
 				<input type="text" className="formItem-input" id="Module Input"/>
 			</div>
-			<div className="formItem">
+			<div className="formItem searchActions">
 				<div className="formItem--row">
 					<input type="checkbox" className="formItem-input" id="Latest"/>
 					<label for="Latest" className="formItem-label">LATEST VERSIONS ONLY</label>
@@ -109,6 +156,9 @@ export default class SearchLayout extends Component {
 		return(
 			<div className="search-left">
 				<h3 className="search-subtitle">FORM DIRECTORY</h3>
+				<p className="search-desc">
+					Use the Form Directory to browse and view all existing forms in the database.
+				</p>
 				<div className="panel">
 					<p className="panel-temp">
 						<em>Coming soon...</em>
@@ -120,17 +170,11 @@ export default class SearchLayout extends Component {
 	renderMiddle(){
 		return(
 			<div id="search-form-wrapper" className="search-middle">
-				<div className="clearfix">
-					<h3 className="search-subtitle">FORM SEARCH</h3>
-					<div className="search-desc-wrap">
-						<p className="search-desc">
-						Not sure what you're looking for? Use the Form Directory to browse and view all existing forms in the database.
-						</p>
-						<p className="search-desc">
-							Alternatively, use Form Search to find and view forms. The Wildcard character is " * ".
-						</p>
-					</div>
-				</div>
+
+				<h3 className="search-subtitle">FORM SEARCH</h3>
+				<p className="search-desc">
+					Form Search to find and view forms. The Wildcard character is " * ".
+				</p>
 				{
 					this.renderFormItems()
 				}
