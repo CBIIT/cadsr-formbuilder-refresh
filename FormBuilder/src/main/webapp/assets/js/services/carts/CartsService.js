@@ -5,6 +5,7 @@ import cartsRouter from  "../../routers/CartsRouter";
 import ENDPOINT_URLS from '../../constants/ENDPOINT_URLS';
 import EVENTS from '../../constants/EVENTS';
 import urlHelpers from '../../helpers/urlHelpers';
+import {ajaxDownloadFile} from '../../helpers/ajaXHelpers';
 import cartActions from '../../constants/cartActions';
 import CartPageStateModel from '../../models/carts/CartPageStateModel';
 import {appChannel, cartChannel} from '../../channels/radioChannels';
@@ -147,11 +148,35 @@ const CartsService = Marionette.Object.extend({
 		}
 
 	},
-	handleDownloadXLS() {
+
+	handleDownloadXML({itemsIds}) {
+		const idsString = itemsIds.join();
+		const action = this.cartPageStateModel.get("actionMode");
+		switch(action){
+			case cartActions.VIEW_CDE_CART_PAGE:
+				ajaxDownloadFile(`${ENDPOINT_URLS.CDE_DOWNLOAD_XML}/${idsString}`, 'xml');
+				break;
+			case cartActions.VIEW_FORM_CART_PAGE:
+				ajaxDownloadFile(`${ENDPOINT_URLS.FORM_DOWNLOAD_XML}/${idsString}`, 'xml');
+				break;
+			default:
+				console.error("no valid action provided");
+		}
 
 	},
-	handleDownloadXML() {
-
+	handleDownloadXLS({itemsIds}) {
+		const idsString = itemsIds.join();
+		const action = this.cartPageStateModel.get("actionMode");
+		switch(action){
+			case cartActions.VIEW_CDE_CART_PAGE:
+				ajaxDownloadFile(`${ENDPOINT_URLS.CDE_DOWNLOAD_XLS}/${idsString}`, 'xls');
+				break;
+			case cartActions.VIEW_FORM_CART_PAGE:
+				ajaxDownloadFile(`${ENDPOINT_URLS.FORM_DOWNLOAD_XLS}/${idsString}`, 'xls');
+				break;
+			default:
+				console.error("no valid action provided");
+		}
 	},
 	handleRemoveCartItem({itemsToRemove}) {
 		const action = this.cartPageStateModel.get("actionMode");
