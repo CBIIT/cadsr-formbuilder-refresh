@@ -567,9 +567,9 @@ public class FormManagerImpl implements FormManager {
 				BeanUtils.copyProperties(qto, bbques);
 				
 				bbques.setVersion(qto.getVersion());
-				bbques.setMandatory(false);
-				bbques.setEditable(true);
-				bbques.setDeDerived(true);
+				bbques.setMandatory(qto.isMandatory());
+				bbques.setEditable(qto.isEditable());
+				bbques.setDeDerived(qto.isDeDerived());
 				bbques.setLongName(qto.getLongName());
 				
 				if(qto.getInstruction() != null){
