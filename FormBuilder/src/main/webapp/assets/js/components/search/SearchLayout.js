@@ -2,22 +2,33 @@
  * Created by nmilos on 10/14/16.
  */
 import React, {Component, PropTypes} from 'react';
+import {Input, Select} from 'formsy-react-components';
 import ROUTES from '../../constants/ROUTES';
 import formRouter from  "../../routers/FormRouter";
 import ENDPOINT_URLS from '../../constants/ENDPOINT_URLS';
+import Form from '../common/Form';
+import EVENTS from '../../constants/EVENTS';
+import {searchChannel} from '../../channels/radioChannels';
 
 export default class SearchLayout extends Component {
 	constructor(props){
 		super(props);
 		this.dispatchCreateForm = this.dispatchCreateForm.bind(this);
+		this.dispatchFormData = this.dispatchFormData.bind(this);
 		this.renderLeft = this.renderLeft.bind(this);
 		this.renderMiddle = this.renderMiddle.bind(this);
 		this.renderFormItems = this.renderFormItems.bind(this);
+		this.getOptions = this.getOptions.bind(this);
 		this.state = {
 			contexts: [],
 			workflows: [],
 			categories: [],
-			types: []
+			types: [],
+			selectedWorkflow: '',
+			selectedCategory: '',
+			selectedType: '',
+			selectedContextID: '',
+			validatePristine: false
 		};
 	}
 
@@ -43,83 +54,93 @@ export default class SearchLayout extends Component {
 	componentWillUnmount(){
 		//backboneReact.off(this);
 	}
+	getOptions(options, optionKey){
+
+		let mappedOptions = [];
+		if(typeof optionKey === 'undefined'){
+			mappedOptions = options.map((item) =>{
+				return {value: item, label: item};
+			});
+		}
+		else{
+			mappedOptions = options.map((item) =>{
+				return {value: item.conteIdseq, label: item.name};
+			});
+		}
+
+
+		/* Add a default item */
+		mappedOptions.unshift({value: '', label: 'Select...'});
+		return mappedOptions;
+	}
 
 	dispatchCreateForm () {
 		formRouter.navigate(ROUTES.FORM.CREATE_FORM, {trigger: true});
 	}
 
+	dispatchFormData(data){
+		console.log(data);
+		//searchChannel.request(EVENTS.SEARCH.SEND_SEARCH_INPUTS, data);
+	}
+
 	renderFormItems(){
 		return(
-		<form className="search-form">
+		<Form id="searchForm" onSubmit={this.dispatchFormData} validatePristine={this.state.validatePristine} className="search-form">
 			<div className="formItem">
-				<label for="Long Name" className="formItem-label">FORM LONG NAME</label>
-				<input type="text" className="formItem-input" id="Long Name"/>
+				<Input name="longName" id="longName"
+				       label="FORM LONG NAME" type="text"
+				/>
 			</div>
 			<div className="clearfix formColumns">
 				<div className="pull-left formColumn">
 					<div className="formItem">
-						<label for="Public ID" className="formItem-label">PUBLIC ID</label>
-						<input type="text" className="formItem-input" id="Public ID"/>
+						<Input name="publicID" id="publicID"
+						       label="PUBLIC ID" type="text"
+						/>
 					</div>
 					<div className="formItem">
-						<label for="CSI" className="formItem-label">CS / CSI</label>
-						<input type="text" className="formItem-input" id="CSI"/>
+						<Input name="csi" id="csi"
+						       label="CS / CSI" type="text"
+						/>
 					</div>
 					<div className="formItem">
-						<label for="Contexts" className="formItem-label">CONTEXT</label>
-						<select className="formItem-input" id="Contexts">
-							{
-								this.state.contexts.map((item)=>{
-									return (<option key={item.conteIdseq} value={item.conteIdseq}>{item.name}</option>)
-								})
-							}
-						</select>
+						<Select name="WorkFlows" label="CONTEXT" options={this.getOptions(
+							this.state.contexts, 'key'
+						)} value={this.state.selectedContextID}/>
 					</div>
 					<div className="formItem">
-						<label for="Workflows" className="formItem-label">WORKFLOW STATUS</label>
-						<select className="formItem-input" id="Workflows">
-							{
-								this.state.workflows.map((item)=>{
-									return (<option key={item} value={item}>{item}</option>)
-								})
-							}
-						</select>
+						<Select name="WorkFlows" label="WORKFLOW STATUS" options={this.getOptions(
+							this.state.workflows
+						)} value={this.state.selectedWorkflow}/>
 					</div>
 				</div>
 				<div className="pull-right formColumn">
 					<div className="formItem">
-						<label for="CDE Public ID" className="formItem-label">CDE PUBLIC ID</label>
-						<input type="text" className="formItem-input" id="CDE Public ID"/>
+						<Input name="cde" id="cde"
+						       label="CDE Public ID" type="text"
+						/>
 					</div>
 					<div className="formItem">
-						<label for="Protocol" className="formItem-label">PROTOCOL</label>
-						<input type="text" className="formItem-input" id="Protocol"/>
+						<Input name="protocol" id="protocol"
+						       label="PROTOCOL" type="text"
+						/>
 					</div>
 					<div className="formItem">
-						<label for="Categories" className="formItem-label">CATEGORY</label>
-						<select className="formItem-input" id="Categories">
-							{
-								this.state.categories.map((item)=>{
-									return (<option key={item} value={item}>{item}</option>)
-								})
-							}
-						</select>
+						<Select name="WorkFlows" label="CATEGORY" options={this.getOptions(
+							this.state.categories
+						)} value={this.state.selectedCategory}/>
 					</div>
 					<div className="formItem">
-						<label for="Types" className="formItem-label">TYPE</label>
-						<select className="formItem-input" id="Types">
-							{
-								this.state.types.map((item)=>{
-									return (<option key={item} value={item}>{item}</option>)
-								})
-							}
-						</select>
+						<Select name="WorkFlows" label="TYPE" options={this.getOptions(
+							this.state.types
+						)} value={this.state.selectedType}/>
 					</div>
 				</div>
 			</div>
 			<div className="formItem">
-				<label for="Module Input" className="formItem-label">Module</label>
-				<input type="text" className="formItem-input" id="Module Input"/>
+				<Input name="module" id="module"
+				       label="MODULE INPUT" type="text"
+				/>
 			</div>
 			<div className="formItem searchActions">
 				<div className="formItem--row">
@@ -138,13 +159,10 @@ export default class SearchLayout extends Component {
 					<button type="reset" className="btn btn-link">CLEAR ALL</button>
 				</div>
 				<div className="formItem--row formItem-submit">
-					<button type="reset" value="Submit" id="search-button" className="btn btn-primary">SEARCH</button>
+					<button type="submit" value="Submit" id="search-button" className="btn btn-primary">SEARCH</button>
 				</div>
 			</div>
-			<div className="button-group">
-				<input type="submit" className="btn btn-primary" id="search-button" value="Submit"/>
-			</div>
-		</form>
+		</Form>
 		);
 	}
 

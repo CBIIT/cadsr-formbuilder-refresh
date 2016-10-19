@@ -1,5 +1,10 @@
 .formItem{
   width: 100%;
+  .form-group{
+    label + div{
+      width: 100%;
+    }
+  }
 }
 .formItem-input{
   padding: 5px;
