@@ -36,6 +36,10 @@
     padding: 10px 36px;
   }
 }
+.formItem-reset, .formItem-submit{
+  position: relative;
+  top: -29px;
+}
 .formItem-reset{
   width: 100px;
   margin-right: 40px;

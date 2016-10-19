@@ -2,7 +2,7 @@
  * Created by nmilos on 10/14/16.
  */
 import React, {Component, PropTypes} from 'react';
-import {Input, Select} from 'formsy-react-components';
+import {Input, Select, Checkbox} from 'formsy-react-components';
 import ROUTES from '../../constants/ROUTES';
 import formRouter from  "../../routers/FormRouter";
 import ENDPOINT_URLS from '../../constants/ENDPOINT_URLS';
@@ -19,6 +19,7 @@ export default class SearchLayout extends Component {
 		this.renderMiddle = this.renderMiddle.bind(this);
 		this.renderFormItems = this.renderFormItems.bind(this);
 		this.getOptions = this.getOptions.bind(this);
+		this.resetForm = this.resetForm.bind(this);
 		this.state = {
 			contexts: [],
 			workflows: [],
@@ -28,8 +29,29 @@ export default class SearchLayout extends Component {
 			selectedCategory: '',
 			selectedType: '',
 			selectedContextID: '',
-			validatePristine: false
+			validatePristine: false,
+			excludeTest: false,
+			latestVersions: false,
+			excludeTraining: false
 		};
+	}
+
+	updateCheckBoxes(which){
+		if(which == 'training'){
+			this.setState({
+				excludeTraining : !this.state.excludeTraining
+			});
+		}
+		else if(which == 'latest'){
+			this.setState({
+				latestVersions : !this.state.latestVersions
+			});
+		}
+		else{
+			this.setState({
+				excludeTest : !this.state.excludeTest
+			});
+		}
 	}
 
 	componentDidMount(){
@@ -79,13 +101,16 @@ export default class SearchLayout extends Component {
 	}
 
 	dispatchFormData(data){
-		console.log(data);
 		//searchChannel.request(EVENTS.SEARCH.SEND_SEARCH_INPUTS, data);
+		console.log(JSON.stringify(data));
+	}
+	resetForm(){
+		this.refs.form.refs.form.reset(); //javascript is fun
 	}
 
 	renderFormItems(){
 		return(
-		<Form id="searchForm" onSubmit={this.dispatchFormData} validatePristine={this.state.validatePristine} className="search-form">
+		<Form id="searchForm" ref="form" onSubmit={this.dispatchFormData} validatePristine={this.state.validatePristine} className="search-form">
 			<div className="formItem">
 				<Input name="longName" id="longName"
 				       label="FORM LONG NAME" type="text"
@@ -94,39 +119,39 @@ export default class SearchLayout extends Component {
 			<div className="clearfix formColumns">
 				<div className="pull-left formColumn">
 					<div className="formItem">
-						<Input name="publicID" id="publicID"
+						<Input name="publicId" id="publicId"
 						       label="PUBLIC ID" type="text"
 						/>
 					</div>
 					<div className="formItem">
-						<Input name="csi" id="csi"
+						<Input name="classification" id="classification"
 						       label="CS / CSI" type="text"
 						/>
 					</div>
 					<div className="formItem">
-						<Select name="WorkFlows" label="CONTEXT" options={this.getOptions(
+						<Select name="contextIdSeq" label="CONTEXT" options={this.getOptions(
 							this.state.contexts, 'key'
 						)} value={this.state.selectedContextID}/>
 					</div>
 					<div className="formItem">
-						<Select name="WorkFlows" label="WORKFLOW STATUS" options={this.getOptions(
+						<Select name="workflow" label="WORKFLOW STATUS" options={this.getOptions(
 							this.state.workflows
 						)} value={this.state.selectedWorkflow}/>
 					</div>
 				</div>
 				<div className="pull-right formColumn">
 					<div className="formItem">
-						<Input name="cde" id="cde"
+						<Input name="cdePublicId" id="cdePublicId"
 						       label="CDE Public ID" type="text"
 						/>
 					</div>
 					<div className="formItem">
-						<Input name="protocol" id="protocol"
+						<Input name="protocolLongName" id="protocolLongName"
 						       label="PROTOCOL" type="text"
 						/>
 					</div>
 					<div className="formItem">
-						<Select name="WorkFlows" label="CATEGORY" options={this.getOptions(
+						<Select name="categoryName" label="CATEGORY" options={this.getOptions(
 							this.state.categories
 						)} value={this.state.selectedCategory}/>
 					</div>
@@ -138,25 +163,52 @@ export default class SearchLayout extends Component {
 				</div>
 			</div>
 			<div className="formItem">
-				<Input name="module" id="module"
+				<Input name="moduleLongName" id="moduleLongName"
 				       label="MODULE INPUT" type="text"
 				/>
 			</div>
 			<div className="formItem searchActions">
 				<div className="formItem--row">
-					<input type="checkbox" className="formItem-input" id="Latest"/>
-					<label for="Latest" className="formItem-label">LATEST VERSIONS ONLY</label>
+					{/*<input type="checkbox"
+					       onClick={ () => {this.updateCheckBoxes('latest')}}
+					       checked={this.state.latestVersions}
+					       className="formItem-input"
+					       id="Latest"/>
+					<label for="Latest" className="formItem-label">LATEST VERSIONS ONLY</label>*/}
+					<Checkbox
+						name="latestVersion"
+						value={this.state.latestVersions}
+						label="LATEST VERSIONS ONLY"
+					/>
 				</div>
 				<div className="formItem--row">
-					<input type="checkbox" className="formItem-input" id="Test"/>
-					<label for="Test" className="formItem-label">EXCLUDE TEST</label>
+					{/*<input type="checkbox"
+					       checked={this.state.excludeTest}
+					       className="formItem-input"
+					       onClick={ () => {this.updateCheckBoxes('test')}}
+					       id="Test"/>
+					<label for="Test" className="formItem-label">EXCLUDE TEST</label>*/}
+					<Checkbox
+						name="TEST"
+					    value={this.state.excludeTest}
+					    label="EXCLUDE TEST"
+					    />
 				</div>
 				<div className="formItem--row">
-					<input type="checkbox" className="formItem-input" id="Training"/>
-					<label for="Training" className="formItem-label">EXCLUDE TRAINING</label>
+					{/*<input type="checkbox"
+					       checked={this.state.excludeTraining}
+					       onClick={ () => {this.updateCheckBoxes('training')}}
+					       className="formItem-input"
+					       id="Training"/>
+					<label for="Training" className="formItem-label">EXCLUDE TRAINING</label>*/}
+					<Checkbox
+						name="Training"
+						value={this.state.excludeTraining}
+						label="EXCLUDE TRAINING"
+					/>
 				</div>
 				<div className="formItem--row formItem-reset">
-					<button type="reset" className="btn btn-link">CLEAR ALL</button>
+					<button type="button" onClick={ () =>{ this.resetForm()}} className="btn btn-link">CLEAR ALL</button>
 				</div>
 				<div className="formItem--row formItem-submit">
 					<button type="submit" value="Submit" id="search-button" className="btn btn-primary">SEARCH</button>

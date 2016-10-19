@@ -12,7 +12,7 @@ const Form = React.createClass({
 	},
 	render() {
 		return (
-			<Formsy.Form  {...this.props}>
+			<Formsy.Form  {...this.props} ref="form">
 				{this.props.children}
 			</Formsy.Form>
 		);

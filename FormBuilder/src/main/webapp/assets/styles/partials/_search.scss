@@ -25,6 +25,9 @@
       color: $color-accent-bright;
     }
   }
+  .form-group label{
+    width: 100%;
+  }
   .btn-primary{
     background-color: $color-accent-dark;
     &:hover{
