@@ -617,6 +617,8 @@ public class FormManagerImpl implements FormManager {
 					FEValidValue bbval = new FEValidValue();
 					BeanUtils.copyProperties(vvto, bbval);
 					
+					bbval.setInstructions(vvto.getInstruction().getPreferredDefinition());
+					
 					bbques.getValidValues().add(bbval);
 				}
 			}
