@@ -159,6 +159,13 @@
 			<artifactId>acegi-security</artifactId>
 			<version>1.0.4</version>
 		</dependency>
+
+		<!-- rewrite dependency -->
+		<dependency>
+			<groupId>org.ocpsoft.rewrite</groupId>
+			<artifactId>rewrite-servlet</artifactId>
+			<version>3.4.1.Final</version> <!-- or latest version -->
+		</dependency>
 	</dependencies>
 	<build>
 		<finalName>${project.artifactId}</finalName>
