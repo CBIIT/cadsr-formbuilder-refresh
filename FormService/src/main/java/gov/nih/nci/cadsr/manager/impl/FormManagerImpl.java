@@ -45,6 +45,7 @@ import gov.nih.nci.ncicb.cadsr.common.persistence.dao.AbstractDAOFactoryFB;
 import gov.nih.nci.ncicb.cadsr.common.persistence.dao.ContextDAO;
 import gov.nih.nci.ncicb.cadsr.common.persistence.dao.FormDAO;
 import gov.nih.nci.ncicb.cadsr.common.persistence.dao.FormInstructionDAO;
+import gov.nih.nci.ncicb.cadsr.common.persistence.dao.FormValidValueInstructionDAO;
 import gov.nih.nci.ncicb.cadsr.common.persistence.dao.ModuleInstructionDAO;
 import gov.nih.nci.ncicb.cadsr.common.persistence.dao.QuestionInstructionDAO;
 import gov.nih.nci.ncicb.cadsr.common.persistence.dao.jdbc.JDBCFormDAOFB;
@@ -364,6 +365,7 @@ public class FormManagerImpl implements FormManager {
 		System.out.println("IN MANAGER UPDATE MODULES");
 		
 		QuestionInstructionDAO questionInstrDao = daoFactory.getQuestionInstructionDAO();
+		FormValidValueInstructionDAO vvInstrDao = daoFactory.getFormValidValueInstructionDAO();
 		
 		for(Object mod : mods){
 			ModuleTransferObject mto = (ModuleTransferObject)mod;
@@ -468,6 +470,29 @@ public class FormManagerImpl implements FormManager {
 						
 						ValidValueTransferObject vvto = new ValidValueTransferObject();
 						BeanUtils.copyProperties(bbVV, vvto);
+						
+						InstructionTransferObject vvinstr = new InstructionTransferObject();
+						List vvInstructions = vvInstrDao.getInstructions(vvto.getVdIdseq());
+						if(vvInstructions.size() > 0){
+							vvto.setInstructions(vvInstructions);
+						}
+						
+						vvinstr.setLongName(ques.getLongName());
+						vvinstr.setAslName(mto.getAslName());
+						vvinstr.setDisplayOrder(1);
+						vvinstr.setVersion(1F);
+						vvinstr.setContext(mto.getForm().getContext());
+						vvinstr.setCreatedBy(mto.getForm().getCreatedBy());
+						
+						if(bbVV.getInstructions() == null || bbVV.getInstructions().equals("")){
+							vvinstr.setPreferredDefinition(" ");
+						}
+						else{
+							vvinstr.setPreferredDefinition(ques.getInstructions());
+						}
+						
+						vvInstructions.add(vvinstr);
+						vvto.setInstructions(vvInstructions);
 						
 						if(bbVV.getIsEdited()){
 							validValueChange.getUpdatedValidValues().add(vvto);
@@ -617,7 +642,9 @@ public class FormManagerImpl implements FormManager {
 					FEValidValue bbval = new FEValidValue();
 					BeanUtils.copyProperties(vvto, bbval);
 					
-					bbval.setInstructions(vvto.getInstruction().getPreferredDefinition());
+					if(vvto.getInstruction() != null){
+						bbval.setInstructions(vvto.getInstruction().getPreferredDefinition());
+					}
 					
 					bbques.getValidValues().add(bbval);
 				}
