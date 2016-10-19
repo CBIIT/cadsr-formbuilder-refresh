@@ -13,6 +13,7 @@ FormBuilder/src/main/java/gov/nih/nci/cadsr/authentication/AuthUtils.java -text
 FormBuilder/src/main/java/gov/nih/nci/cadsr/authentication/CadsrAuthenticationProvider.java -text
 FormBuilder/src/main/java/gov/nih/nci/cadsr/authentication/CadsrUserDetails.java -text
 FormBuilder/src/main/java/gov/nih/nci/cadsr/authentication/CadsrUserDetailsService.java -text
+FormBuilder/src/main/java/gov/nih/nci/cadsr/config/PushStateConfigurationProvider.java -text
 FormBuilder/src/main/java/gov/nih/nci/cadsr/model/BBInstructions.java -text
 FormBuilder/src/main/java/gov/nih/nci/cadsr/model/XMLConverter.java -text
 FormBuilder/src/main/java/gov/nih/nci/cadsr/model/XmlFormat.java -text
