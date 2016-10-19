@@ -15,7 +15,7 @@ public class FEValidValue implements FEBaseObject{
 	// private String endDate;
 	// private String context;
 	// private String workflowstatus;
-	// private String instructions;
+	 private String instructions;
 	// ConceptDerivationRule?
 	// ValueMeaning?
 	
@@ -111,12 +111,12 @@ public class FEValidValue implements FEBaseObject{
 	// public void setWorkflowstatus(String workflowstatus) {
 	// this.workflowstatus = workflowstatus;
 	// }
-	// public String getInstructions() {
-	// return instructions;
-	// }
-	// public void setInstructions(String instructions) {
-	// this.instructions = instructions;
-	// }
+	 public String getInstructions() {
+		 return instructions;
+	 }
+	 public void setInstructions(String instructions) {
+		 this.instructions = instructions;
+	 }
 	public String getLongName() {
 		return longName;
 	}
