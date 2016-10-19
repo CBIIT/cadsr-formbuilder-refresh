@@ -403,6 +403,8 @@ public class FormManagerImpl implements FormManager {
 				qto.getDataElement().getValueDomain().setDatatype(ques.getDataType());
 				qto.getDataElement().getValueDomain().setUnitOfMeasure(ques.getUnitOfMeasure());
 				
+				qto.setDefaultValue(ques.getDefaultValue());
+				
 				InstructionTransferObject instr = new InstructionTransferObject();
 				List dbinstructions = questionInstrDao.getInstructions(ques.getQuesIdseq());
 				System.out.println("TEST # of instructions for " + ques.getLongName() + ": " + dbinstructions.size());
@@ -569,6 +571,10 @@ public class FormManagerImpl implements FormManager {
 				bbques.setEditable(true);
 				bbques.setDeDerived(true);
 				bbques.setLongName(qto.getLongName());
+				
+				if(qto.getInstruction() != null){
+					bbques.setInstructions(qto.getInstruction().getPreferredDefinition());
+				}
 				if(qto.getDefaultValue() != null){
 					bbques.setDefaultValue(qto.getDefaultValue());
 				}
