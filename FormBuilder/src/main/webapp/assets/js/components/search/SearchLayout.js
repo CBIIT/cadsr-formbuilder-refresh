@@ -101,8 +101,7 @@ export default class SearchLayout extends Component {
 	}
 
 	dispatchFormData(data){
-		//searchChannel.request(EVENTS.SEARCH.SEND_SEARCH_INPUTS, data);
-		console.log(JSON.stringify(data));
+		searchChannel.request(EVENTS.SEARCH.SEND_SEARCH_INPUTS, data);
 	}
 	resetForm(){
 		this.refs.form.refs.form.reset(); //javascript is fun
