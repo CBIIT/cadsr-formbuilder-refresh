@@ -102,6 +102,40 @@ const TABLECONFIG = {
 			key:'version',
 			name:'Version'
 		}
+	],
+	SEARCH_FORM: [
+		{
+			key: 'longName',
+			name: 'Form Long Name'
+		},
+		{
+			key: 'contextName',
+			name: 'Context'
+		},
+		{
+			key: 'delimitedProtocolLongNames',
+			name:'Protocol Long Name(s)'
+		},
+		{
+			key: 'aslName',
+			name: 'Workflow'
+		},
+		{
+			key: 'publicId',
+			name: 'Public Id'
+		},
+		{
+			key: 'createdBy',
+			name: 'Created '
+		},
+		{
+			key: 'modifiedBy',
+			name: 'Modified'
+		},
+		{
+			key:'version',
+			name:'Version'
+		}
 	]
 
 };
