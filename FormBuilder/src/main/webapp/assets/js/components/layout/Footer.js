@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
+import {Link} from 'react-router';
 
 export default class Footer extends Component {
 
   render(){
     return (
 
-        <footer  id="footer" className="footer_mc">
+        <footer className="footer_mc">
           <div className="_footer ">
             <div className="container-fluid banner">
               <div className="container">
@@ -17,13 +18,13 @@ export default class Footer extends Component {
                 <div className="_footer_menu">
                   <div className="_footer_menubar">
                     <div className="_footer_menu_item">
-                      <a className="footer_link" href="/FormBuilder/#carts/cdecart">CDE Cart</a>
+                      <Link className="footer_link" to="/carts/cdecart">CDE Cart</Link>
                     </div>
                     <div className="_footer_menu_item">
-                      <a className="footer_link" href="/FormBuilder/#carts/modulecart">Module Cart</a>
+                      <Link className="footer_link" to="/carts/modulecart">Module Cart</Link>
                     </div>
                     <div className="_footer_menu_item">
-                      <a className="footer_link" href="/FormBuilder/#carts/formcart">Form Cart</a>
+                      <Link className="footer_link" to="/carts/formcart">Form Cart</Link>
                     </div>
                   </div>
                   <div className="_footer_menubar">

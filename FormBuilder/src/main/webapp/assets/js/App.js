@@ -1,13 +1,11 @@
-import {Application} from 'backbone.marionette';
-import AppLayoutView from "./views/AppLayoutView";
+import searchService from  "./services/search/SearchService";
+import cartsService from  "./services/carts/CartsService";
+import formService from  "./services/form/FormService";
+import userService from  "./services/user/UserService";
 
-const App = Application.extend({
-	region:         "#app",
-	onStart() {
-		this.showView(new AppLayoutView());
-	}
-});
-
-const app = new App();
-
-export default app;
+export const app = {};
+app.formService = formService;
+app.searchService = searchService;
+app.userService = userService;
+app.cartsService = cartsService;
+window.Application = app;

@@ -102,6 +102,7 @@ FormBuilder/src/main/webapp/assets/js/constants/formActions.js -text
 FormBuilder/src/main/webapp/assets/js/helpers/CartDataHelpers.js -text
 FormBuilder/src/main/webapp/assets/js/helpers/ajaXHelpers.js -text
 FormBuilder/src/main/webapp/assets/js/helpers/backboneModelHelpers.js -text
+FormBuilder/src/main/webapp/assets/js/helpers/formHelpers.js -text
 FormBuilder/src/main/webapp/assets/js/helpers/uiInputHelpers.js -text
 FormBuilder/src/main/webapp/assets/js/helpers/urlHelpers.js -text
 FormBuilder/src/main/webapp/assets/js/main.js -text
@@ -131,6 +132,7 @@ FormBuilder/src/main/webapp/assets/js/models/search/form-search/SearchResultsCol
 FormBuilder/src/main/webapp/assets/js/routers/CartsRouter.js -text
 FormBuilder/src/main/webapp/assets/js/routers/FormRouter.js -text
 FormBuilder/src/main/webapp/assets/js/routers/SearchRouter.js -text
+FormBuilder/src/main/webapp/assets/js/routers/rootRoute.js -text
 FormBuilder/src/main/webapp/assets/js/services/carts/CartsService.js -text
 FormBuilder/src/main/webapp/assets/js/services/form/FormService.js -text
 FormBuilder/src/main/webapp/assets/js/services/search/SearchService.js -text

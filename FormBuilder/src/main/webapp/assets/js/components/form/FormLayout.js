@@ -17,6 +17,7 @@ export default class FormLayout extends Component {
 		this.getActionMode = this.getActionMode.bind(this);
 		this.getEditItems = this.getEditItems.bind(this);
 		this.getModuleCart = this.getModuleCart.bind(this);
+		this.getUIDropDownOptions = this.getUIDropDownOptions.bind(this);
 		this.showTreeNav = this.showTreeNav.bind(this);
 		this.showCartsPanel = this.showCartsPanel.bind(this);
 	}
@@ -24,12 +25,23 @@ export default class FormLayout extends Component {
 	componentWillMount(){
 		/* backboneReact will pass these models/collections through setState, creating this.state.*
 		It listens to specific events on them and reflects the change in this.state (and therefore a re-render)  */
+
+		/*
+		formIdseq={this.formModel.attributes.formIdseq}
+		formMetadata={this.formModel.attributes.formMetadata.attributes}
+		formModules={this.formModel.attributes.formModules}
+		moduleCartCollection={this.app.cartsService.moduleCartCollection}
+		cdeCartCollection={this.app.cartsService.cdeCartCollection}
+		uiDropDownOptionsModel={this.uiDropDownOptionsModel}
+		formUIState={this.formUIStateModel}
+		*/
 		backboneReact.on(this, {
 			models:      {
-				formUIState: this.props.formUIState
+				formUIState: Application.formService.formUIStateModel,
+				uiDropDownOptionsModel: Application.formService.uiDropDownOptionsModel
 			},
 			collections: {
-				formModules: this.props.formModules
+				formModules: Application.formService.formModel.attributes.formModules
 			}
 		});
 		this.getFormModules();
@@ -40,6 +52,7 @@ export default class FormLayout extends Component {
 	}
 	componentWillUpdate(nextProps, nextState) {
 		this.getFormModules();
+		this.getUIDropDownOptions(nextState.uiDropDownOptionsModel);
 		console.log("FormLayout componentWillUpdate");
 	}
 	/**
@@ -60,7 +73,7 @@ export default class FormLayout extends Component {
 	}
 
 	getFormMetaData(){
-		return this.props.formMetadata;
+		return Application.formService.formModel.attributes.formMetadata.attributes;
 	}
 
 	/* TODO maybe get rid of "edit items" because whatever item you're viewing inside FormLayoutMain is editable, if "edit mode" is turned on */
@@ -69,23 +82,31 @@ export default class FormLayout extends Component {
 	}
 
 	getCDECart(){
-		if(this.props.cdeCartCollection){
-			return getCdeCartCollectionPojo(this.props.cdeCartCollection);
+		if(Application.cartsService.cdeCartCollection){
+			return getCdeCartCollectionPojo(Application.cartsService.cdeCartCollection);
 		}
 	}
 
 	getModuleCart(){
-		if(this.props.moduleCartCollection){
-			return getModuleCartCollectionPojo(this.props.moduleCartCollection);
+		if(Application.cartsService.moduleCartCollection){
+			return getModuleCartCollectionPojo(Application.cartsService.moduleCartCollection);
 		}
 	}
-
+	getUIDropDownOptions(uiDropDownOptionsModel) {
+		uiDropDownOptionsModel = uiDropDownOptionsModel || this.state.uiDropDownOptionsModel;
+		return {
+			contexts: uiDropDownOptionsModel.contexts.toJSON(),
+			formCategories: uiDropDownOptionsModel.formCategories.toJSON(),
+			formTypes: uiDropDownOptionsModel.formTypes.toJSON(),
+			workflows: uiDropDownOptionsModel.workflows.toJSON()
+		};
+	}
 	getFormModules(){
 		/* Store a local copy of list of modules as POJOs with its backbone model's cid included
 		 Getting cid vs moduleIdseq because new modules don't have a moduleIdseq */
-		this.formModules = this.props.formModules.models.map(model =>{
-			return Object.assign({}, backboneModelHelpers.getDeepModelPojo(model), {cid: model.cid});
-		});
+			this.formModules = Application.formService.formModel.attributes.formModules.models.map(model =>{
+				return Object.assign({}, backboneModelHelpers.getDeepModelPojo(model), {cid: model.cid});
+			});
 	}
 
 	showCartsPanel(){
@@ -115,7 +136,7 @@ export default class FormLayout extends Component {
 				<Row className="eq-height-wrapper"> <Col lg={3} className="eq-height-item">
 				{this.showTreeNav()}
 				</Col> <Col lg={6} className="eq-height-item panel-lg">
-					<FormLayoutMain uiDropDownOptionsModel={this.props.uiDropDownOptionsModel.toJSON()} shouldShowFormEditControls={this.shouldShowFormEditControls()} actionMode={this.getActionMode()} formMetadata={this.getFormMetaData()} editItems={this.getEditItems()} formModules={this.formModules}/>
+					<FormLayoutMain uiDropDownOptionsModel={Application.formService.uiDropDownOptionsModel.toJSON()} shouldShowFormEditControls={this.shouldShowFormEditControls()} actionMode={this.getActionMode()} formMetadata={this.getFormMetaData()} editItems={this.getEditItems()} formModules={this.formModules}/>
 				</Col> <Col lg={3} className="eq-height-item">
 					{this.showCartsPanel()}
 

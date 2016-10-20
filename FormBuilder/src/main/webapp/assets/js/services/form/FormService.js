@@ -3,17 +3,15 @@ import {Model, Collection} from "backbone";
 import React from 'react';
 import {render} from 'react-dom';
 import EVENTS from '../../constants/EVENTS';
-import ROUTES from '../../constants/ROUTES';
+import cartsService from  "../carts/CartsService";
+import { browserHistory } from 'react-router'
 import formActions from '../../constants/formActions';
 import {formChannel, appChannel} from '../../channels/radioChannels';
 import FormModel from '../../models/forms/FormModel';
 import FormModuleModel from '../../models/forms/FormModuleModel';
 import formUIStateModel from '../../models/forms/FormUIStateModel';
-import formRouter from  "../../routers/FormRouter";
 import DropDownOptionsCollection from '../../models/forms/DropDownOptionsCollection';
 import GetFormMetadataCriteriaCommand from '../../commands/GetFormMetadataCriteriaCommand';
-import FormLayout from '../../components/form/FormLayout';
-
 /**
  * This is a service that maintains the state of a form, modules, and questions. We may want to break out module-specific and question-specific functionality into their own modules
  */
@@ -39,15 +37,13 @@ const FormService = Marionette.Object.extend({
 	},
 	/* Stores cart data retrieved from carService */
 	carts:         null,
-	initialize({app}) {
-		this.app = app;
+	initialize() {
 		this.setupModels();
 	},
 	dispatchLayout({action, formIdseq = this.formModel.get('formIdseq')}) {
 		switch(action){
 			case formActions.CREATE_FORM:
 				this.formUIStateModel.set({actionMode: action});
-				formRouter.navigate(ROUTES.FORM.CREATE_FORM, {trigger: true});
 				if(!this.formModel.isNew()){
 					delete this.formModel;
 					this.formModel = new FormModel();
@@ -72,7 +68,7 @@ const FormService = Marionette.Object.extend({
 				if(formIdseq !== this.formModel.get('formIdseq')){
 					/* IF going to view a different form, make sure edit controls are turned off */
 					this.formUIStateModel.set({isEditing: false});
-					this.fetchForm({formIdseq: formIdseq});
+					//this.fetchForm({formIdseq: formIdseq});
 				}
 				this.getCartData({name: "cdeCart"});
 				this.getCartData({name: "moduleCart"});
@@ -80,13 +76,6 @@ const FormService = Marionette.Object.extend({
 			default:
 				console.error("no valid action provided");
 		}
-	},
-	constructLayout(){
-		/*Entry point for React. Backbone Views Keep Out.
-		Once React is the top level view currently handled by Marionette (i.e.  AppLayoutView,js), we can render FormLayout from there instead   */
-		render(
-			<FormLayout formIdseq={this.formModel.attributes.formIdseq} formMetadata={this.formModel.attributes.formMetadata.attributes} formModules={this.formModel.attributes.formModules} moduleCartCollection={this.app.cartsService.moduleCartCollection} cdeCartCollection={this.app.cartsService.cdeCartCollection} uiDropDownOptionsModel={this.uiDropDownOptionsModel} formUIState={this.formUIStateModel}/>, document.getElementById('main'));
-
 	},
 	createForm() {
 		/* TODO turn this into a promise like in saveForm() */
@@ -96,7 +85,7 @@ const FormService = Marionette.Object.extend({
 				this.formModel.set({
 					formIdseq: formIdseq
 				});
-				formRouter.navigate(`forms/${formIdseq}`, {trigger: false});
+				browserHistory.push(`/FormBuilder/forms/${formIdseq}`);
 				this.formUIStateModel.set({isEditing: true});
 				this.dispatchLayout({action: formActions.VIEW_FULL_FORM});
 //				alert("Form created. formIdseq is: " + formIdseq);
@@ -107,10 +96,10 @@ const FormService = Marionette.Object.extend({
 			}
 		});
 	},
-	fetchForm({formIdseq}) {
-		this.formModel.set({formIdseq: formIdseq});
+	fetchForm({formIdseq, params}) {
+		formIdseq = formIdseq || params.formIdseq;
+		this.formModel.set("formIdseq", formIdseq);
 		this.formModel.fetch().then(() =>{
-			this.constructLayout();
 		}).catch((error) =>{
 			console.log(error);
 		});
@@ -119,7 +108,7 @@ const FormService = Marionette.Object.extend({
 
 		/*Only retrieve carts if user actually exists */
 		if(appChannel.request(EVENTS.USER.GET_USERNAME)){
-			return this.app.cartsService.fetchCarts({name, getCached: true}).then((cart)=>{
+			return cartsService.fetchCarts({name, getCached: true}).then((cart)=>{
 				this.formUIStateModel.set({cdeCartPopulated: true});
 			});
 		}
@@ -128,19 +117,19 @@ const FormService = Marionette.Object.extend({
 		const moduleModel = this.formModel.get('formModules').get(moduleId);
 		return moduleModel.get("questions").get(questionId);
 	},
-	fetchFormMetaDataCriteria() {
+	fetchFormMetaDataCriteria(nextState, replace, callback) {
 		formChannel.on(EVENTS.FORM.GET_FORM_CORE_DETAILS_CRITERIA, () =>{
-			this.constructLayout();
-			/* Kind of a hack because we're telling Form Layout to re-render after getting data by changing a
-			 property that's set to it as state, like a switch, but changing isEditing is an arbitrary property that
-			  might not be very intuitive. Could be a better way to do this. */
 			this.formUIStateModel.set({isEditing: true});
 		});
-
 		new GetFormMetadataCriteriaCommand({
 			model:    this.uiDropDownOptionsModel,
 			userName: appChannel.request(EVENTS.USER.GET_USERNAME)
 		}).execute();
+		/* GetFormMetadataCriteriaCommand({
+			model:    formService.uiDropDownOptionsModel,
+			userName: appChannel.request(EVENTS.USER.GET_USERNAME),
+			 callback: callback
+		});*/
 	},
 	handleAddModule(data) {
 		const newModuleModel = this.formModel.get('formModules').add(new FormModuleModel(data));
@@ -236,7 +225,9 @@ const FormService = Marionette.Object.extend({
 		else{
 			this.saveForm({successMessage: "Entire form saved to DB. This is what \"Global Save\" will do."});
 		}
-
+	},
+	setForm(model) {
+	this.formModel = model;
 	},
 	setupModels() {
 		/* Should only contain data to populate the form UI's immutable data */
@@ -253,5 +244,5 @@ const FormService = Marionette.Object.extend({
 		this.formUIStateModel = formUIStateModel;
 	}
 });
-
-export default FormService;
+const formService = new FormService();
+export default formService;

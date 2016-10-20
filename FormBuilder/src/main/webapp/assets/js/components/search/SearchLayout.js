@@ -3,8 +3,7 @@
  */
 import React, {Component, PropTypes} from 'react';
 import {Input, Select, Checkbox} from 'formsy-react-components';
-import ROUTES from '../../constants/ROUTES';
-import formRouter from  "../../routers/FormRouter";
+import {Link} from 'react-router';
 import ENDPOINT_URLS from '../../constants/ENDPOINT_URLS';
 import Form from '../common/Form';
 import EVENTS from '../../constants/EVENTS';
@@ -13,7 +12,6 @@ import {searchChannel} from '../../channels/radioChannels';
 export default class SearchLayout extends Component {
 	constructor(props){
 		super(props);
-		this.dispatchCreateForm = this.dispatchCreateForm.bind(this);
 		this.dispatchFormData = this.dispatchFormData.bind(this);
 		this.renderLeft = this.renderLeft.bind(this);
 		this.renderMiddle = this.renderMiddle.bind(this);
@@ -95,11 +93,6 @@ export default class SearchLayout extends Component {
 		mappedOptions.unshift({value: '', label: 'Select...'});
 		return mappedOptions;
 	}
-
-	dispatchCreateForm () {
-		formRouter.navigate(ROUTES.FORM.CREATE_FORM, {trigger: true});
-	}
-
 	dispatchFormData(data){
 		searchChannel.request(EVENTS.SEARCH.SEND_SEARCH_INPUTS, data);
 	}
@@ -257,14 +250,7 @@ export default class SearchLayout extends Component {
 			<div id="search">
 				<div className="clearfix">
 					<h2 className="search-title">FormBuilder</h2>
-					<button className="create-new-form-button btn btn-primary" type="button" onClick={
-						() =>{
-							this.dispatchCreateForm();
-						}
-					}>
-						Create a New Form
-					</button>
-
+					<Link className="create-new-form-button btn btn-primary" to="/form/create">Create a New Form</Link>
 				</div>
 				<hr className="panel-divider"/>
 				<div className="clearFix">

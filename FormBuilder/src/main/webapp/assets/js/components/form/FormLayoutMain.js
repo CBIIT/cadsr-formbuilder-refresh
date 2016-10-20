@@ -43,7 +43,7 @@ export default class FormLayoutMain extends Component {
 				</div>
 			);
 		}
-		else if(actionMode === formActions.CREATE_FORM || (actionMode === formActions.VIEW_FORM_METADATA && this.props.shouldShowFormEditControls)){
+		else if(this.props.uiDropDownOptionsModel.contexts.models.length && actionMode === formActions.CREATE_FORM || (actionMode === formActions.VIEW_FORM_METADATA && this.props.shouldShowFormEditControls)){
 			const metaDataFormHeadingTitle = actionMode === formActions.CREATE_FORM ? 'Create New Form' : 'Edit Form',
 				submitButtonText = (actionMode === formActions.CREATE_FORM) ? 'Create Form' : 'Save';
 			const buttons = [

@@ -30,4 +30,5 @@ const UserService = Marionette.Object.extend({
 	}
 });
 
-export default UserService;
+const userService = new UserService();
+export default userService;

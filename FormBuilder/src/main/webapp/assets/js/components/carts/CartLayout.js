@@ -9,39 +9,41 @@ export default class CartLayout extends Component {
 	constructor(props){
 		super(props);
 		this.massageCartData = this.massageCartData.bind(this);
+		this.cartPageFetchedData = [];
 		this.data = [];
 	}
 
-	massageCartData(nextProps){
-		const props = nextProps || this.props;
+	massageCartData(cartData){
 		const actionMode = this.state.cartPageStateModel.actionMode;
 		if(actionMode === cartActions.VIEW_CDE_CART_PAGE) {
-			this.data = getCdeCartCollectionPojo(props.data);
+			this.data = getCdeCartCollectionPojo(cartData);
 		}
 		else if (actionMode === cartActions.VIEW_FORM_CART_PAGE) {
-			this.data = getFormCartCollectionPojo(props.data);
+			this.data = getFormCartCollectionPojo(cartData);
 		}
 		else if (actionMode === cartActions.VIEW_MODULE_CART_PAGE) {
-			this.data = getModuleCartCollectionPojo(props.data);
+			this.data = getModuleCartCollectionPojo(cartData);
 		}
 	}
 
 	componentWillMount(){
+		this.cartPageFetchedData = Application.cartsService[this.props.route.cartData];
+		const cartPageStateModel = Application.cartsService.cartPageStateModel;
 		/* watch for changes on these backbone models/collections and re-render */
 		backboneReact.on(this, {
 			models: {
-				cartPageStateModel: this.props.cartPageStateModel
+				cartPageStateModel: cartPageStateModel
 			},
 			collections: {
-				data: this.props.data
+				data: Application.cartsService[this.props.route.cartData]
 			}
 		});
 	}
 	componentWillReceiveProps(nextProps) {
-		this.massageCartData(nextProps);
+		//this.massageCartData(nextProps);
 	}
 	componentWillUpdate(nextProps, nextState) {
-		this.massageCartData(nextProps);
+		this.massageCartData(this.cartPageFetchedData);
 	}
 	componentWillUnmount(){
 		backboneReact.off(this);

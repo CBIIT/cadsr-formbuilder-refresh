@@ -1,29 +1,12 @@
-import app from './App';
-import * as Backbone from 'backbone';
-import SearchService from  "./services/search/SearchService";
-import CartsService from  "./services/carts/CartsService";
-import FormService from  "./services/form/FormService";
-import UserService from  "./services/user/UserService";
-
-app.on('start', function(){
-
-	app.formService = new FormService({
-		app: app
-	});
-
-	app.searchService = new SearchService({
-		app: app
-	});
-
-	app.userService = new UserService({
-		app: app
-	});
-
-	app.cartsService = new CartsService({
-		app: app
-	});
-
-	Backbone.history.start();
+import React from 'react';
+import {render} from 'react-dom';
+import {app} from './App';
+import {Router, useRouterHistory} from 'react-router';
+import rootRoute from './routers/rootRoute';
+import { createHistory } from 'history';
+const history = useRouterHistory(createHistory)({
+	basename: '/FormBuilder'
 });
 
-app.start();
+render((
+	<Router history={history} routes={rootRoute} />    ), document.getElementById('app'));

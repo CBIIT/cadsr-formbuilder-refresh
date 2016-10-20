@@ -1,7 +1,4 @@
 import Marionette from "backbone.marionette";
-import React from 'react';
-import {render} from 'react-dom';
-import cartsRouter from  "../../routers/CartsRouter";
 import ENDPOINT_URLS from '../../constants/ENDPOINT_URLS';
 import EVENTS from '../../constants/EVENTS';
 import urlHelpers from '../../helpers/urlHelpers';
@@ -12,7 +9,6 @@ import {appChannel, cartChannel} from '../../channels/radioChannels';
 import CDECollection from '../../models/carts/CDECollection';
 import FormCollection from '../../models/carts/FormCollection';
 import ModuleCollection from '../../models/carts/ModuleCollection';
-import CartLayout from '../../components/carts/CartLayout';
 
 /**
  * This is a service object that maintains the state of the CDE Cart, Module Cart, and Form Cart.
@@ -38,7 +34,7 @@ const CartsService = Marionette.Object.extend({
 		 * Once React is the top level view currently handled by Marionette (i.e.  AppLayoutView,js), we can render CartLayout from there instead  */
 		let data = '';
 		if(cart === 'Module'){
-			data = this.moduleCartCollection;
+			this.data = this.moduleCartCollection;
 		}
 		else if(cart === 'Form'){
 			data = this.formCartCollection;
@@ -46,8 +42,11 @@ const CartsService = Marionette.Object.extend({
 		else{
 			data = this.cdeCartCollection;
 		}
-		render(
-			<CartLayout cartPageStateModel={this.cartPageStateModel} data={data} cart={cart}/>, document.getElementById('main'));
+		return {
+			cartPageStateModel: this.cartPageStateModel,
+			data: data,
+			cart: cart
+		}
 
 	},
 	dispatchLayout({action}) {
@@ -248,4 +247,6 @@ const CartsService = Marionette.Object.extend({
 	}
 });
 
-export default CartsService;
+const cartsService = new CartsService();
+Object.freeze(cartsService);
+export default cartsService;

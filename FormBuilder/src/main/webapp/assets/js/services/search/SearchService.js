@@ -1,14 +1,8 @@
 import Marionette from "backbone.marionette";
 import EVENTS from '../../constants/EVENTS';
 import {appChannel, searchChannel} from '../../channels/radioChannels';
-import SearchRouter from  "../../routers/SearchRouter";
-import SearchLayoutView from '../../views/search/SearchLayoutView';
 import FormSearchModel from '../../models/search/form-search/FormSearchModel';
 import urlHelpers from '../../helpers/urlHelpers';
-import React from 'react';
-import {render} from 'react-dom';
-import SearchLayout from '../../components/search/SearchLayout';
-
 import SearchResultsCollection from '../../models/search/form-search/SearchResultsCollection';
 import GetSearchFormCriteriaCommand from '../../commands/GetSearchFormCriteriaCommand';
 
@@ -22,30 +16,14 @@ const SearchService = Marionette.Object.extend({
 		[EVENTS.SEARCH.SEND_SEARCH_LAYOUT]: 'dispatchSearchLayout',
 		[EVENTS.SEARCH.SEND_SEARCH_INPUTS]: 'handleSearchSubmitData'
 	},
-	initialize(options = {}) {
-		const searchRouter = new SearchRouter();
-		this.container = options.container;
+	initialize() {
 		/* use singleton instead if we want to persist the search results client side */
 		this.searchResultsCollection = new SearchResultsCollection();
 		this.formSearchModel = new FormSearchModel();
 		this.listenTo(this.searchResultsCollection, 'reset', this.dispatchSearchResultsReceived);
 	},
-	constructSearchLayout(){
-		render(<SearchLayout/>, document.getElementById('main'));
-		/*return new SearchLayoutView(
-			{
-				searchResultsCollection: this.searchResultsCollection,
-				formSearchModel:         this.formSearchModel
-			}
-		);*/
-	},
 	dispatchSearchLayout() {
-		/*searchChannel.on('model:getDropDownOptionsSuccess', () =>{
-			appChannel.request(EVENTS.APP.SET_MAIN_CONTENT_LAYOUT, this.constructSearchLayout());
-		});*/
-		this.constructSearchLayout();
 		new GetSearchFormCriteriaCommand({model: this.formSearchModel}).execute();
-
 	},
 	dispatchSearchResultsReceived(){
 		searchChannel.request(EVENTS.SEARCH.RESULTS_COLLECTION_RESET);
@@ -93,5 +71,5 @@ const SearchService = Marionette.Object.extend({
 		return paramString;
 	}
 });
-
-export default SearchService;
+const searchService = new SearchService ();
+export default searchService;

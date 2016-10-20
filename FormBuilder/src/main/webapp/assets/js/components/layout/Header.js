@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react';
+import {Link} from 'react-router';
 
 class Header extends Component {
   constructor(props) {
@@ -11,7 +12,7 @@ class Header extends Component {
           <div className="container">
             <nav className="nav">
               <div className="navbar-header">
-                <a className="application-logo logo-image" aria-hidden="true" href="#">NIH</a>
+                <Link className="application-logo logo-image" aria-hidden="true" to="/">NIH</Link>
               </div>
               <div className="navbar-subheader">
                 <ul>
