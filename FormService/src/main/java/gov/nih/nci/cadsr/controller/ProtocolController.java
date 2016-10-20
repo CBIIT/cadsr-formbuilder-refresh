@@ -22,15 +22,18 @@ public class ProtocolController {
 	@Autowired
 	private ProtocolManager protocolManager;
 
-	@RequestMapping(value = "/Protocol", method = RequestMethod.GET)
+	@RequestMapping(value = "/protocols/{keyword}", method = RequestMethod.GET)
 	@ResponseBody
 	public ResponseEntity<List<ProtocolTransferObject>> getProtocol(
-			@RequestParam(value = "longName", required = false) String longName,
-			@RequestParam(value = "shortName", required = false) String PreferedName,
+			@PathVariable String keyword,
 			@RequestParam(value = "checked", required = false) Boolean checked) {
-		List<ProtocolTransferObject> protocolList = protocolManager.getProtocol(longName, PreferedName, checked);
+		
+		checked = false;
+		
+		List<ProtocolTransferObject> protocolList = protocolManager.getProtocol(keyword, keyword, checked);
 		ResponseEntity<List<ProtocolTransferObject>> response = createSuccessResponse(protocolList);
 
+		System.out.println("getting prots: " + protocolList.size());
 		return response;
 
 	}

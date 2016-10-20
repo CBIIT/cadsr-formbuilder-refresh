@@ -10,7 +10,8 @@ import org.springframework.stereotype.Repository;
 
 import gov.nih.nci.cadsr.dao.ProtocolTrDao;
 import gov.nih.nci.ncicb.cadsr.common.dto.ProtocolTransferObject;
-import gov.nih.nci.ncicb.cadsr.common.persistence.dao.jdbc.JDBCBaseDAOFB;;
+import gov.nih.nci.ncicb.cadsr.common.persistence.dao.jdbc.JDBCBaseDAOFB;
+import gov.nih.nci.ncicb.cadsr.common.util.StringUtils;;
 
 @Repository
 public class ProtocolTrDaoImpl extends JDBCBaseDAOFB implements ProtocolTrDao {
@@ -38,29 +39,30 @@ public class ProtocolTrDaoImpl extends JDBCBaseDAOFB implements ProtocolTrDao {
 			if (longName != null) {
 				String lName = longName.trim();
 				if (lName.length() > 0) {
+					
+					String temp = StringUtils.strReplace(longName, "*", "%");
+					temp = StringUtils.strReplace(temp, "'", "''");
+					
 					where += (where.equals("")) ? " WHERE " : " AND ";
-					if (checked) {
-						where += "LONG_NAME = '" + lName + "'";
-					} else {
-						where += "LONG_NAME like '%" + lName + "%'";
-					}
+					where += "LONG_NAME like '" + temp + "'";
 				}
 			}
 
 			if (preferedName != null) {
 				String pName = preferedName.trim();
 				if (pName.length() > 0) {
+					
+					String temp = StringUtils.strReplace(pName, "*", "%");
+					temp = StringUtils.strReplace(temp, "'", "''");
+					
 					where += (where.equals("")) ? " WHERE " : " AND ";
-					if (checked) {
-						where += "preferred_name = '" + pName + "'";
-					} else {
-						where += "preferred_name like '%" + pName + "%'";
-					}
+					where += "preferred_name like '" + temp + "'";
 				}
 			}
 			String sql = "SELECT preferred_name pn, preferred_definition pd, LONG_NAME pln from protocols_view_ext"
 					+ where;
 
+			System.out.println("Executing searchProtocol query: " + sql);
 			super.setSql(sql);
 
 		}
