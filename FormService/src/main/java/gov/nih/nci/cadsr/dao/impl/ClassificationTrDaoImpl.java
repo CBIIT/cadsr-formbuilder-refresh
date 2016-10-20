@@ -43,26 +43,24 @@ public class ClassificationTrDaoImpl extends JDBCBaseDAOFB implements Classifica
 			if (csLongName != null) {
 				String cName = csLongName.trim();
 				if (cName.length() > 0) {
+					
+					String temp = StringUtils.strReplace(cName, "*", "%");
+					temp = StringUtils.strReplace(temp, "'", "''");
+					
 					where += (where.equals("")) ? " WHERE " : " AND ";
-					if (checked) {
-						where += " cs.LONG_NAME= '" + cName + "'";
-						
-					} else {
-						where += "cs.LONG_NAME like '%" + cName + "%'";
-					}
+					where += "cs.LONG_NAME like '%" + temp + "%'";
 				}
 			}
 
 			if (csName != null) {
 				String Name = csName.trim();
 				if (Name.length() > 0) {
+					
+					String temp = StringUtils.strReplace(Name, "*", "%");
+					temp = StringUtils.strReplace(temp, "'", "''");
+					
 					where += (where.equals("")) ? " WHERE " : " AND ";
-					if (checked) {
-						where += " csi.LONG_NAME= '" + Name + "'";
-						
-					} else {
-						where += "csi.LONG_NAME like '%" + Name + "%'";
-					}
+					where += "csi.LONG_NAME like '%" + temp + "%'";
 				}
 			}
 
