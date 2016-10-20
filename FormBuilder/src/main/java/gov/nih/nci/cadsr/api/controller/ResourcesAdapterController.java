@@ -184,5 +184,18 @@ public class ResourcesAdapterController {
 
 		return response;
 	}
+	
+	@RequestMapping(value = "/protocols/{keyword}", method = RequestMethod.GET)
+	@ResponseBody
+	public ResponseEntity searchProtocols(@PathVariable String keyword) throws RuntimeException {
+		String uri = props.getFormServiceApiUrl() + FormBuilderConstants.FORMSERVICE_BASE_URL
+				+ FormBuilderConstants.FORMSERVICE_PROTOCOLS + "/" + keyword;
+
+		RestTemplate restTemplate = new RestTemplate();
+		ResponseEntity<String> response = restTemplate.getForEntity(uri, String.class);
+
+		return response;
+
+	}
 
 }
