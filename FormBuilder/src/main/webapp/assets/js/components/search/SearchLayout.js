@@ -111,7 +111,7 @@ export default class SearchLayout extends Component {
 		return(
 		<Form id="searchForm" ref="form" onSubmit={this.dispatchFormData} validatePristine={this.state.validatePristine} className="search-form">
 			<div className="formItem">
-				<Input name="longName" id="longName"
+				<Input name="formLongName" id="longName"
 				       label="FORM LONG NAME" type="text"
 				/>
 			</div>
@@ -123,7 +123,7 @@ export default class SearchLayout extends Component {
 						/>
 					</div>
 					<div className="formItem">
-						<Input name="classification" id="classification"
+						<Input name="classificationIdSeq" id="classification"
 						       label="CS / CSI" type="text"
 						/>
 					</div>
@@ -145,7 +145,7 @@ export default class SearchLayout extends Component {
 						/>
 					</div>
 					<div className="formItem">
-						<Input name="protocolLongName" id="protocolLongName"
+						<Input name="protocolIdSeq" id="protocolLongName"
 						       label="PROTOCOL" type="text"
 						/>
 					</div>
@@ -155,7 +155,7 @@ export default class SearchLayout extends Component {
 						)} value={this.state.selectedCategory}/>
 					</div>
 					<div className="formItem">
-						<Select name="WorkFlows" label="TYPE" options={this.getOptions(
+						<Select name="type" label="TYPE" options={this.getOptions(
 							this.state.types
 						)} value={this.state.selectedType}/>
 					</div>
