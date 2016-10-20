@@ -197,5 +197,18 @@ public class ResourcesAdapterController {
 		return response;
 
 	}
+	
+	@RequestMapping(value = "/classifications/{keyword}", method = RequestMethod.GET)
+	@ResponseBody
+	public ResponseEntity searchClassifications(@PathVariable String keyword) throws RuntimeException {
+		String uri = props.getFormServiceApiUrl() + FormBuilderConstants.FORMSERVICE_BASE_URL
+				+ FormBuilderConstants.FORMSERVICE_CLASSIFICATIONS + "/" + keyword;
+
+		RestTemplate restTemplate = new RestTemplate();
+		ResponseEntity<String> response = restTemplate.getForEntity(uri, String.class);
+
+		return response;
+
+	}
 
 }
