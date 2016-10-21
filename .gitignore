@@ -1,3 +1,7 @@
+FormBuilder/.classpath
+FormBuilder/.project
+FormBuilder/.settings
+FormBuilder/.tern-project
 FormBuilder/FormBuilder.iml
 FormBuilder/node
 FormBuilder/node_modules
@@ -11,3 +15,5 @@ FormBuilder/src/main/webapp/frontend-tools/node
 FormBuilder/src/main/webapp/frontend-tools/node_modules
 FormBuilder/src/main/webapp/node
 FormBuilder/src/main/webapp/node_modules
+FormService/.tern-project
+FormService/target

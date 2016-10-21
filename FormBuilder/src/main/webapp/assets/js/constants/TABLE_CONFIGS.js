@@ -136,6 +136,54 @@ const TABLECONFIG = {
 			key:'version',
 			name:'Version'
 		}
+	],
+	SEARCH_PROTOCOL: [
+		{
+			key: 'longName',
+			name: 'PROTOCOL LONG NAME'
+		},
+		{
+			key: 'id',
+			name: 'PROTOCOL ID'
+		},
+		{
+			key: 'shortName',
+			name:'SHORT NAME'
+		},
+		{
+			key: 'context',
+			name: 'CONTEXT'
+		},
+		{
+			key: 'definition',
+			name: 'DEFINITION'
+		}
+	],
+	SEARCH_CLASSIFICATION: [
+		{
+			key: 'longName',
+			name: 'CS NAME'
+		},
+		{
+			key: 'publicId',
+			name: 'CSI NAME'
+		},
+		{
+			key: 'preferredName',
+			name:'DEFINITION'
+		},
+		{
+			key: 'context',
+			name: 'CS CONTEXT'
+		},
+		{
+			key: 'preferredDefinition',
+			name: 'CS PUBLIC ID'
+		},
+		{
+			key: 'version',
+			name: 'CS VERSION'
+		}
 	]
 
 };

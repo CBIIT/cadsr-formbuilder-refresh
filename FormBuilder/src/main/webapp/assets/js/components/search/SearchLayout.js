@@ -8,6 +8,8 @@ import ENDPOINT_URLS from '../../constants/ENDPOINT_URLS';
 import Form from '../common/Form';
 import EVENTS from '../../constants/EVENTS';
 import {searchChannel} from '../../channels/radioChannels';
+import ProtocolSelectModal from '../modals/ProtocolSelectModal';
+import ClassificationSelectModal from '../modals/ClassificationSelectModal';
 
 export default class SearchLayout extends Component {
 	constructor(props){
@@ -18,6 +20,10 @@ export default class SearchLayout extends Component {
 		this.renderFormItems = this.renderFormItems.bind(this);
 		this.getOptions = this.getOptions.bind(this);
 		this.resetForm = this.resetForm.bind(this);
+		this.openProtocolsModal = this.openProtocolsModal.bind(this);
+		this.closeProtocolsModal = this.closeProtocolsModal.bind(this);
+		this.openClassificationModal = this.openClassificationModal.bind(this);
+		this.closeClassificationModal = this.closeClassificationModal.bind(this);
 		this.state = {
 			contexts: [],
 			workflows: [],
@@ -30,7 +36,9 @@ export default class SearchLayout extends Component {
 			validatePristine: false,
 			excludeTest: false,
 			latestVersions: false,
-			excludeTraining: false
+			excludeTraining: false,
+			protocolModalOpen: false,
+			classificationModalOpen: false
 		};
 	}
 
@@ -96,6 +104,31 @@ export default class SearchLayout extends Component {
 	dispatchFormData(data){
 		searchChannel.request(EVENTS.SEARCH.SEND_SEARCH_INPUTS, data);
 	}
+	
+	openProtocolsModal() {
+		this.setState({
+			protocolModalOpen: true
+		});
+	}
+	
+	closeProtocolsModal() {
+		this.setState({
+			protocolModalOpen: false
+		});
+	}
+	
+	openClassificationModal() {
+		this.setState({
+			classificationModalOpen: true
+		});
+	}
+	
+	closeClassificationModal() {
+		this.setState({
+			classificationModalOpen: false
+		});
+	}
+	
 	resetForm(){
 		this.refs.form.refs.form.reset(); //javascript is fun
 	}
@@ -117,7 +150,7 @@ export default class SearchLayout extends Component {
 					</div>
 					<div className="formItem">
 						<Input name="classificationIdSeq" id="classification"
-						       label="CS / CSI" type="text"
+						       label="CS / CSI" type="text" onClick={this.openClassificationModal}
 						/>
 					</div>
 					<div className="formItem">
@@ -139,7 +172,7 @@ export default class SearchLayout extends Component {
 					</div>
 					<div className="formItem">
 						<Input name="protocolIdSeq" id="protocolLongName"
-						       label="PROTOCOL" type="text"
+						       label="PROTOCOL" type="text" onClick={this.openProtocolsModal}
 						/>
 					</div>
 					<div className="formItem">
@@ -264,6 +297,8 @@ export default class SearchLayout extends Component {
 
 				<div id="search-results-wrapper">
 				</div>
+				<ProtocolSelectModal isOpen={this.state.protocolModalOpen} closeButtonClicked={this.closeProtocolsModal} data={[]} />
+				<ClassificationSelectModal isOpen={this.state.classificationModalOpen} closeButtonClicked={this.closeClassificationModal} data={[]} />
 			</div>
 		);
 	}

@@ -14,7 +14,9 @@ const ENDPOINT_URLS = {
 	FORM_DOWNLOAD_XML: `${formBuilderHost}/FormBuilder/api/v1/forms/xml`,
 	FORM_DOWNLOAD_XLS: `${formBuilderHost}/FormBuilder/api/v1/forms/xls`,
 	CDE_DOWNLOAD_XML: `${formBuilderHost}/FormBuilder/api/v1/cde/xml`,
-	CDE_DOWNLOAD_XLS: `${formBuilderHost}/FormBuilder/api/v1/cde/xls`
+	CDE_DOWNLOAD_XLS: `${formBuilderHost}/FormBuilder/api/v1/cde/xls`,
+	PROTOCOLS:			`${formBuilderHost}/FormBuilder/api/v1/protocols`,
+	CLASSIFICATIONS:	`${formBuilderHost}/FormBuilder/api/v1/classifications`,
 };
 
 /*Make immutable */

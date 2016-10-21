@@ -90,7 +90,9 @@ FormBuilder/src/main/webapp/assets/js/components/form/form-modules/ValidValueSta
 FormBuilder/src/main/webapp/assets/js/components/layout/AppLayout.js -text
 FormBuilder/src/main/webapp/assets/js/components/layout/Footer.js -text
 FormBuilder/src/main/webapp/assets/js/components/layout/Header.js -text
+FormBuilder/src/main/webapp/assets/js/components/modals/ClassificationSelectModal.js -text
 FormBuilder/src/main/webapp/assets/js/components/modals/ExitFormModal.js -text
+FormBuilder/src/main/webapp/assets/js/components/modals/ProtocolSelectModal.js -text
 FormBuilder/src/main/webapp/assets/js/components/search/SearchLayout.js -text
 FormBuilder/src/main/webapp/assets/js/components/tables/Datatable.js -text
 FormBuilder/src/main/webapp/assets/js/constants/ENDPOINT_URLS.js -text
@@ -129,12 +131,17 @@ FormBuilder/src/main/webapp/assets/js/models/search/SearchModel.js -text
 FormBuilder/src/main/webapp/assets/js/models/search/form-search/FormSearchModel.js -text
 FormBuilder/src/main/webapp/assets/js/models/search/form-search/SearchResultModel.js -text
 FormBuilder/src/main/webapp/assets/js/models/search/form-search/SearchResultsCollection.js -text
+FormBuilder/src/main/webapp/assets/js/models/search/modals/ClassificationCollection.js -text
+FormBuilder/src/main/webapp/assets/js/models/search/modals/ClassificationModel.js -text
+FormBuilder/src/main/webapp/assets/js/models/search/modals/ProtocolCollection.js -text
+FormBuilder/src/main/webapp/assets/js/models/search/modals/ProtocolModel.js -text
 FormBuilder/src/main/webapp/assets/js/routers/CartsRouter.js -text
 FormBuilder/src/main/webapp/assets/js/routers/FormRouter.js -text
 FormBuilder/src/main/webapp/assets/js/routers/SearchRouter.js -text
 FormBuilder/src/main/webapp/assets/js/routers/rootRoute.js -text
 FormBuilder/src/main/webapp/assets/js/services/carts/CartsService.js -text
 FormBuilder/src/main/webapp/assets/js/services/form/FormService.js -text
+FormBuilder/src/main/webapp/assets/js/services/search/ModalsService.js -text
 FormBuilder/src/main/webapp/assets/js/services/search/SearchService.js -text
 FormBuilder/src/main/webapp/assets/js/services/user/UserService.js -text
 FormBuilder/src/main/webapp/assets/js/views/AppLayoutView.js -text

@@ -22,9 +22,14 @@ const EVENTS = {
 		VIEW_MODULE:                    "view:module",
 	},
 	SEARCH: {
-		SEND_SEARCH_LAYOUT:       'set:searchLayout',
-		SEND_SEARCH_INPUTS:       'send:searchInputs',
-		RESULTS_COLLECTION_RESET: 'search:resultsCollectionReset'
+		SEND_SEARCH_LAYOUT:       			'set:searchLayout',
+		SEND_SEARCH_INPUTS:       			'send:searchInputs',
+		RESULTS_COLLECTION_RESET: 			'search:resultsCollectionReset',
+		PROTOCOLS_SEARCH_INPUTS:			'send:protocolSearch',
+		PROTOCOLS_COLLECTION_RESET:			'search:protocolsCollectionReset',
+		CLASSIFICATIONS_SEARCH_INPUTS:		'send:classificationSearch',
+		CLASSIFICATIONS_COLLECTION_RESET:	'search:classificationsCollectionReset'
+		
 	},
 	USER:   {
 		GET_USERNAME:  'get:userName',

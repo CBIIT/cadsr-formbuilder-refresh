@@ -10,7 +10,8 @@ Props:
 	columnTitles (arr),
 	pagination (bool),
 	perPage (int),
-	pageName (string)
+	pageName (string),
+	displayControls (bool)
  */
 
 /*
@@ -319,17 +320,19 @@ export default class Datatable extends React.Component{
 	}
 	addControls(){
 		//adds the blue bar to the top fo the table. This currently doesn't do anything
-		return(
-			<div className="reactTable-controlPanel">
-				<ul className="controlPanel-list">
-					<li>{this.state.selectedRows.length} {this.props.pageName}(s) Selected</li>
-					<li>
-						<button onClick={this.dispatchRemoveSelectedFromCart} className="controlPanel-btn"> REMOVE FROM CART <Glyphicon glyph="trash"/></button>
-					</li>
-					{this.renderToolbarDropdown()}
-				</ul>
-			</div>
-		);
+		if (this.props.displayControls) {
+			return(
+				<div className="reactTable-controlPanel">
+					<ul className="controlPanel-list">
+						<li>{this.state.selectedRows.length} {this.props.pageName}(s) Selected</li>
+						<li>
+							<button onClick={this.dispatchRemoveSelectedFromCart} className="controlPanel-btn"> REMOVE FROM CART <Glyphicon glyph="trash"/></button>
+						</li>
+						{this.renderToolbarDropdown()}
+					</ul>
+				</div>
+			);
+		}
 	}
 	renderToolbarDropdown () {
 		if (this.props.pageName === 'Form') {
@@ -426,7 +429,7 @@ export default class Datatable extends React.Component{
 									return(
 										<Th key={title.name} column={title.name}>
 											<span
-											      onClick={ (e)=>{ this.sortColumn(title.name, e.target)}}
+											      onClick={(e)=>{ this.sortColumn(title.name, e.target);}}
 											>
 												{
 													title.name
@@ -446,13 +449,13 @@ export default class Datatable extends React.Component{
 									<Tr key={item.id}>
 										<Td key={'checkbox'} column="checkbox">
 											<input type="checkbox" value={item.id}
-										       onChange={() =>{ this.selectRow(item.id);}}
-											   checked={item.selected}/>
+												onChange={() =>{ this.selectRow(item.id);}}
+												checked={item.selected}/>
 										</Td>
 										{
 											this.props.columnTitles.map( (title, index) => {
 												return(
-													<Td key={ title+index} column={title.name}>
+													<Td key={title+index} column={title.name}>
 														{item[title.key]}
 													</Td>
 												);
@@ -471,12 +474,15 @@ export default class Datatable extends React.Component{
 			</section>
 		);
 	}
+}
+Datatable.defaultProps = {
+	displayControls: true
 };
-
 Datatable.propTypes = {
 	data: PropTypes.array,
 	columnTitles: PropTypes.array,
 	pagination: PropTypes.bool,
 	perPage: PropTypes.number,
-	pageName: PropTypes.string
+	pageName: PropTypes.string,
+	displayControls: PropTypes.bool
 };
