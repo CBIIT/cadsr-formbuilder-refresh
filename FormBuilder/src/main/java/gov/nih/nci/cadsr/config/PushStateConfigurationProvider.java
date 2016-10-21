@@ -20,22 +20,33 @@ public class PushStateConfigurationProvider extends HttpConfigurationProvider
     @Override
     public Configuration getConfiguration(final ServletContext context)
     {
-    	
         return ConfigurationBuilder.begin()
             .addRule()
             .when(Direction.isInbound().and(Path.matches("/{path}"))
             		.andNot(Resource.exists("/{path}"))
                     .andNot(ServletMapping.includes("/{path}"))
             		.andNot(Path.matches("/index.jsp"))
+            		.andNot(Path.matches("/form/dist/style.css"))
+            		.andNot(Path.matches("/form/dist/bundle.js"))
                 )
             .perform((Log.message(Level.INFO, "Forwarding to index.jsp from {path}").and(Forward.to("/index.jsp"))))
-            .where("path").matches(".*");
+            .where("path").matches(".*")
+            
+            .addRule()
+            .when(Direction.isInbound().and(Path.matches("/{path}/dist/style.css"))
+            		.andNot(Path.matches("/dist/style.css")))
+            .perform((Log.message(Level.INFO, "Forwarding to style from").and(Forward.to("/dist/style.css"))))
+            
+            .addRule()
+            .when(Direction.isInbound().and(Path.matches("/{path}/dist/bundle.js"))
+            		.andNot(Path.matches("/dist/bundle.js")))
+            .perform((Log.message(Level.INFO, "Forwarding to bundle from").and(Forward.to("/dist/bundle.js"))));
+        
     }
 
     @Override
     public int priority()
     {
-        /* This provides ordering if you have multiple configurations */
         return 10; 
     } 
 }
