@@ -26,21 +26,21 @@ public class PushStateConfigurationProvider extends HttpConfigurationProvider
             		.andNot(Resource.exists("/{path}"))
                     .andNot(ServletMapping.includes("/{path}"))
             		.andNot(Path.matches("/index.jsp"))
-            		.andNot(Path.matches("/form/dist/style.css"))
-            		.andNot(Path.matches("/form/dist/bundle.js"))
+            		.andNot(Path.matches("/{path2}/dist/style.css"))
+            		.andNot(Path.matches("/{path2}/dist/bundle.js"))
                 )
-            .perform((Log.message(Level.INFO, "Forwarding to index.jsp from {path}").and(Forward.to("/index.jsp"))))
+            .perform(Forward.to("/index.jsp"))
             .where("path").matches(".*")
             
             .addRule()
-            .when(Direction.isInbound().and(Path.matches("/{path}/dist/style.css"))
+            .when(Direction.isInbound().and(Path.matches("/{path2}/dist/style.css"))
             		.andNot(Path.matches("/dist/style.css")))
-            .perform((Log.message(Level.INFO, "Forwarding to style from").and(Forward.to("/dist/style.css"))))
+            .perform(Forward.to("/dist/style.css"))
             
             .addRule()
-            .when(Direction.isInbound().and(Path.matches("/{path}/dist/bundle.js"))
+            .when(Direction.isInbound().and(Path.matches("/{path2}/dist/bundle.js"))
             		.andNot(Path.matches("/dist/bundle.js")))
-            .perform((Log.message(Level.INFO, "Forwarding to bundle from").and(Forward.to("/dist/bundle.js"))));
+            .perform(Forward.to("/dist/bundle.js"));
         
     }
 
