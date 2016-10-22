@@ -26,7 +26,7 @@ const SearchService = Marionette.Object.extend({
 		new GetSearchFormCriteriaCommand({model: this.formSearchModel}).execute();
 	},
 	dispatchSearchResultsReceived(){
-		searchChannel.request(EVENTS.SEARCH.RESULTS_COLLECTION_RESET);
+		searchChannel.request(EVENTS.SEARCH.RESULTS_COLLECTION_RESET, this.searchResultsCollection);
 	},
 	handleSearchSubmitData(data) {
 

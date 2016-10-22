@@ -10,6 +10,9 @@ import EVENTS from '../../constants/EVENTS';
 import {searchChannel} from '../../channels/radioChannels';
 import ProtocolSelectModal from '../modals/ProtocolSelectModal';
 import ClassificationSelectModal from '../modals/ClassificationSelectModal';
+import SearchResultsCollection from '../../models/search/form-search/SearchResultsCollection';
+import TABLECONFIG from '../../constants/TABLE_CONFIGS';
+import Datatable from '../tables/Datatable';
 
 export default class SearchLayout extends Component {
 	constructor(props){
@@ -17,6 +20,7 @@ export default class SearchLayout extends Component {
 		this.dispatchFormData = this.dispatchFormData.bind(this);
 		this.renderLeft = this.renderLeft.bind(this);
 		this.renderMiddle = this.renderMiddle.bind(this);
+		this.renderResults = this.renderResults.bind(this);
 		this.renderFormItems = this.renderFormItems.bind(this);
 		this.getOptions = this.getOptions.bind(this);
 		this.resetForm = this.resetForm.bind(this);
@@ -29,6 +33,7 @@ export default class SearchLayout extends Component {
 			workflows: [],
 			categories: [],
 			types: [],
+			tableData : [],
 			selectedWorkflow: '',
 			selectedCategory: '',
 			selectedType: '',
@@ -71,6 +76,10 @@ export default class SearchLayout extends Component {
 				workflows: results[3]
 			});
 		});
+		
+		searchChannel.reply(EVENTS.SEARCH.RESULTS_COLLECTION_RESET, function(searchResultsCollection) {
+			this.showResults(searchResultsCollection);
+		}, this);
 
 	}
 	componentWillReceiveProps(nextProps){
@@ -103,6 +112,12 @@ export default class SearchLayout extends Component {
 	}
 	dispatchFormData(data){
 		searchChannel.request(EVENTS.SEARCH.SEND_SEARCH_INPUTS, data);
+	}
+	
+	showResults(collection) {
+		this.setState({
+			tableData: collection.toJSON()
+		});
 	}
 	
 	openProtocolsModal() {
@@ -277,6 +292,25 @@ export default class SearchLayout extends Component {
 			</div>
 		);
 	}
+	renderResults(){
+		
+		let pageName = "Search Results";
+		let columnConfig = TABLECONFIG.SEARCH_FORM;
+		
+		if(this.state.tableData.length) {
+			return (
+				<div>
+					<h1 className="text--bold">{pageName}</h1>
+					<Datatable pagination={true} perPage={100} pageName={pageName} columnTitles={columnConfig} data={this.state.tableData}></Datatable>
+				</div>
+			);
+		}
+		else {
+			return (
+				<p>Loading</p>
+			);
+		}
+	}
 
 	render(){
 		return (
@@ -296,6 +330,9 @@ export default class SearchLayout extends Component {
 				</div>
 
 				<div id="search-results-wrapper">
+					{
+						this.renderResults()
+					}
 				</div>
 				<ProtocolSelectModal isOpen={this.state.protocolModalOpen} closeButtonClicked={this.closeProtocolsModal} data={[]} />
 				<ClassificationSelectModal isOpen={this.state.classificationModalOpen} closeButtonClicked={this.closeClassificationModal} data={[]} />
