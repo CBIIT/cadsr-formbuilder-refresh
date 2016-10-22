@@ -158,7 +158,12 @@ export default class Datatable extends React.Component{
 		dataCollection.map( (dataItem, index) =>{
 			let newItem = {};
 			for(let i=0; i < columnCollection.length; i++){
+				
 				newItem[columnCollection[i].key] = dataItem[columnCollection[i].key];
+				
+				//Hacky solution to retrieve formidseq for search result links.
+				newItem[columnCollection[i].uri] = dataItem[columnCollection[i].uri];
+				
 			}
 			newItem.selected = false; //set this to false so all of them are unselected at the start.
 			newItem.id = dataItem.id;
@@ -454,11 +459,21 @@ export default class Datatable extends React.Component{
 										</Td>
 										{
 											this.props.columnTitles.map( (title, index) => {
-												return(
-													<Td key={title+index} column={title.name}>
-														{item[title.key]}
-													</Td>
-												);
+												
+												if(title.link == 'true'){
+													return(
+														<Td key={title+index} column={title.name}>
+															<a href={`/${title.hrefPrefix}${item[title.uri]}`} >{item[title.key]}</a>
+														</Td>
+													);
+												}
+												else{
+													return(
+														<Td key={title+index} column={title.name}>
+															{item[title.key]}
+														</Td>
+													);
+												}
 											})
 										}
 									</Tr>

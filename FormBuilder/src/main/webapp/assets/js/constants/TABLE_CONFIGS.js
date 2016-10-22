@@ -106,7 +106,10 @@ const TABLECONFIG = {
 	SEARCH_FORM: [
 		{
 			key: 'longName',
-			name: 'Form Long Name'
+			name: 'Form Long Name',
+			link: 'true',
+			hrefPrefix: 'FormBuilder/forms/',
+			uri: 'formIdseq'
 		},
 		{
 			key: 'contextName',
