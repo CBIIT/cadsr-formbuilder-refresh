@@ -1,48 +1,24 @@
-import Marionette from "backbone.marionette";
-import {formChannel, appChannel} from '../channels/radioChannels';
 import ENDPOINT_URLS from '../constants/ENDPOINT_URLS';
+import {formChannel} from '../channels/radioChannels';
 import EVENTS from '../constants/EVENTS';
 
-const GetFormMetadataCriteriaCommand = Marionette.Object.extend({
-	initialize({model, userName}) {
-		this.model = model;
-		this.userName = userName;
-	},
-	execute() {
-		const fetchCollectionData = (collection, url)=>{
-			return new Promise(
-				(resolve, reject) =>{
-					collection.fetch({
-						url: url
-					}).then(() =>{
-						resolve();
-					}).catch((error) =>{
-						reject(error);
-					});
-				}
-			);
+export const GetFormMetadataCriteriaInputOptions = function({userName}){
+
+	const urls = [
+		`${ENDPOINT_URLS.CONTEXTS}/${userName}`,
+		ENDPOINT_URLS.CATEGORIES,
+		ENDPOINT_URLS.TYPES,
+		ENDPOINT_URLS.WORKFLOWS];
+
+	let promises = urls.map(url => fetch(url).then(response => response.json()));
+	Promise.all(promises).then(results => {
+		const formMetaDataDropdownOptions = {
+			contexts: results[0],
+			categories: results[1],
+			types: results[2],
+			workflows: results[3]
 		};
 
-		const collectionsToFetch = [
-			[this.model.get("contexts"), `${ENDPOINT_URLS.CONTEXTS}/${this.userName}`],
-			[this.model.get("formCategories"), ENDPOINT_URLS.CATEGORIES],
-			[this.model.get("formTypes"), ENDPOINT_URLS.TYPES],
-			[this.model.get("workflows"), ENDPOINT_URLS.WORKFLOWS]
-		];
-
-		Promise.all(collectionsToFetch.map((collection) =>{
-				if(!collection[0].length){
-					fetchCollectionData(collection[0], collection[1]);
-				}
-			}
-		)).then(() =>{
-			formChannel.trigger(EVENTS.FORM.GET_FORM_CORE_DETAILS_CRITERIA);
-		}).catch(function(error){
-			console.log(error);
-			appChannel.trigger('request:fail', error);
-		});
-	}
-
-});
-
-export default GetFormMetadataCriteriaCommand;
+		formChannel.trigger(EVENTS.FORM.GET_FORM_CORE_DETAILS_CRITERIA, formMetaDataDropdownOptions);
+	});
+};

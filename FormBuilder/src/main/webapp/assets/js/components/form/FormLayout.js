@@ -17,28 +17,16 @@ export default class FormLayout extends Component {
 		this.getActionMode = this.getActionMode.bind(this);
 		this.getEditItems = this.getEditItems.bind(this);
 		this.getModuleCart = this.getModuleCart.bind(this);
-		this.getUIDropDownOptions = this.getUIDropDownOptions.bind(this);
 		this.showTreeNav = this.showTreeNav.bind(this);
 		this.showCartsPanel = this.showCartsPanel.bind(this);
 	}
 
 	componentWillMount(){
 		/* backboneReact will pass these models/collections through setState, creating this.state.*
-		It listens to specific events on them and reflects the change in this.state (and therefore a re-render)  */
-
-		/*
-		formIdseq={this.formModel.attributes.formIdseq}
-		formMetadata={this.formModel.attributes.formMetadata.attributes}
-		formModules={this.formModel.attributes.formModules}
-		moduleCartCollection={this.app.cartsService.moduleCartCollection}
-		cdeCartCollection={this.app.cartsService.cdeCartCollection}
-		uiDropDownOptionsModel={this.uiDropDownOptionsModel}
-		formUIState={this.formUIStateModel}
-		*/
+		 It listens to specific events on them and reflects the change in this.state (and therefore a re-render)  */
 		backboneReact.on(this, {
 			models:      {
-				formUIState: Application.formService.formUIStateModel,
-				uiDropDownOptionsModel: Application.formService.uiDropDownOptionsModel
+				formUIState: Application.formService.formUIStateModel
 			},
 			collections: {
 				formModules: Application.formService.formModel.attributes.formModules
@@ -50,9 +38,9 @@ export default class FormLayout extends Component {
 	componentWillUnmount(){
 		backboneReact.off(this);
 	}
-	componentWillUpdate(nextProps, nextState) {
+
+	componentWillUpdate(nextProps, nextState){
 		this.getFormModules();
-		this.getUIDropDownOptions(nextState.uiDropDownOptionsModel);
 		console.log("FormLayout componentWillUpdate");
 	}
 	/**
@@ -92,15 +80,7 @@ export default class FormLayout extends Component {
 			return getModuleCartCollectionPojo(Application.cartsService.moduleCartCollection);
 		}
 	}
-	getUIDropDownOptions(uiDropDownOptionsModel) {
-		uiDropDownOptionsModel = uiDropDownOptionsModel || this.state.uiDropDownOptionsModel;
-		return {
-			contexts: uiDropDownOptionsModel.contexts.toJSON(),
-			formCategories: uiDropDownOptionsModel.formCategories.toJSON(),
-			formTypes: uiDropDownOptionsModel.formTypes.toJSON(),
-			workflows: uiDropDownOptionsModel.workflows.toJSON()
-		};
-	}
+
 	getFormModules(){
 		/* Store a local copy of list of modules as POJOs with its backbone model's cid included
 		 Getting cid vs moduleIdseq because new modules don't have a moduleIdseq */
@@ -136,7 +116,7 @@ export default class FormLayout extends Component {
 				<Row className="eq-height-wrapper"> <Col lg={3} className="eq-height-item">
 				{this.showTreeNav()}
 				</Col> <Col lg={6} className="eq-height-item panel-lg">
-					<FormLayoutMain uiDropDownOptionsModel={Application.formService.uiDropDownOptionsModel.toJSON()} shouldShowFormEditControls={this.shouldShowFormEditControls()} actionMode={this.getActionMode()} formMetadata={this.getFormMetaData()} editItems={this.getEditItems()} formModules={this.formModules}/>
+					<FormLayoutMain shouldShowFormEditControls={this.shouldShowFormEditControls()} actionMode={this.getActionMode()} formMetadata={this.getFormMetaData()} editItems={this.getEditItems()} formModules={this.formModules}/>
 				</Col> <Col lg={3} className="eq-height-item">
 					{this.showCartsPanel()}
 
@@ -148,10 +128,9 @@ export default class FormLayout extends Component {
 
 FormLayout.propTypes = {
 	/*formUIState:            PropTypes.shape({
-	TODO: needs to be formUIState.attributes.actionMode
-		actionMode: PropTypes.string.isRequired
-	}),*/
-	uiDropDownOptionsModel: PropTypes.object.isRequired,
+	 TODO: needs to be formUIState.attributes.actionMode
+	 actionMode: PropTypes.string.isRequired
+	 }),*/
 	formModel:              PropTypes.shape({
 		formMetaData: PropTypes.object.isRequired,
 		formModules:  PropTypes.object.isRequired

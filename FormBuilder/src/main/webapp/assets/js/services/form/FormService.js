@@ -4,14 +4,13 @@ import React from 'react';
 import {render} from 'react-dom';
 import EVENTS from '../../constants/EVENTS';
 import cartsService from  "../carts/CartsService";
-import { browserHistory } from 'react-router'
+import { browserHistory } from 'react-router';
 import formActions from '../../constants/formActions';
 import {formChannel, appChannel} from '../../channels/radioChannels';
 import FormModel from '../../models/forms/FormModel';
 import FormModuleModel from '../../models/forms/FormModuleModel';
 import formUIStateModel from '../../models/forms/FormUIStateModel';
-import DropDownOptionsCollection from '../../models/forms/DropDownOptionsCollection';
-import GetFormMetadataCriteriaCommand from '../../commands/GetFormMetadataCriteriaCommand';
+import {GetFormMetadataCriteriaInputOptions} from '../../commands/GetFormMetadataCriteriaCommand';
 /**
  * This is a service that maintains the state of a form, modules, and questions. We may want to break out module-specific and question-specific functionality into their own modules
  */
@@ -105,7 +104,6 @@ const FormService = Marionette.Object.extend({
 		});
 	},
 	getCartData({name}) {
-
 		/*Only retrieve carts if user actually exists */
 		if(appChannel.request(EVENTS.USER.GET_USERNAME)){
 			return cartsService.fetchCarts({name, getCached: true}).then((cart)=>{
@@ -117,19 +115,8 @@ const FormService = Marionette.Object.extend({
 		const moduleModel = this.formModel.get('formModules').get(moduleId);
 		return moduleModel.get("questions").get(questionId);
 	},
-	fetchFormMetaDataCriteria(nextState, replace, callback) {
-		formChannel.on(EVENTS.FORM.GET_FORM_CORE_DETAILS_CRITERIA, () =>{
-			this.formUIStateModel.set({isEditing: true});
-		});
-		new GetFormMetadataCriteriaCommand({
-			model:    this.uiDropDownOptionsModel,
-			userName: appChannel.request(EVENTS.USER.GET_USERNAME)
-		}).execute();
-		/* GetFormMetadataCriteriaCommand({
-			model:    formService.uiDropDownOptionsModel,
-			userName: appChannel.request(EVENTS.USER.GET_USERNAME),
-			 callback: callback
-		});*/
+	fetchFormMetaDataCriteria() {
+		GetFormMetadataCriteriaInputOptions({userName: appChannel.request(EVENTS.USER.GET_USERNAME)});
 	},
 	handleAddModule(data) {
 		const newModuleModel = this.formModel.get('formModules').add(new FormModuleModel(data));
@@ -230,16 +217,6 @@ const FormService = Marionette.Object.extend({
 	this.formModel = model;
 	},
 	setupModels() {
-		/* Should only contain data to populate the form UI's immutable data */
-		const UIDropDownOptionsModel = Model.extend({
-			defaults: {
-				contexts:       new DropDownOptionsCollection(),
-				formCategories: new DropDownOptionsCollection(),
-				formTypes:      new DropDownOptionsCollection(),
-				workflows:      new DropDownOptionsCollection()
-			}
-		});
-		this.uiDropDownOptionsModel = new UIDropDownOptionsModel();
 		this.formModel = new FormModel();
 		this.formUIStateModel = formUIStateModel;
 	}

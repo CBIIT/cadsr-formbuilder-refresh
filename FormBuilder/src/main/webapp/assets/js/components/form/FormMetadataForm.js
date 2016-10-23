@@ -13,20 +13,38 @@ export default class FormMetadataForm extends Component {
 		this.dispatchData = this.dispatchData.bind(this);
 		// Default state
 		this.state = {
-			validatePristine: false
+			validatePristine: false,
+			contexts: [],
+			categories:[],
+			types: [],
+			workflows: []
 		};
 	}
-
+	componentDidMount(){
+		formChannel.on(EVENTS.FORM.GET_FORM_CORE_DETAILS_CRITERIA, (formMetaDataDropdownOptions) =>{
+			this.setState({contexts: formMetaDataDropdownOptions.contexts,
+				categories:formMetaDataDropdownOptions.categories,
+				types: formMetaDataDropdownOptions.types,
+				workflows: formMetaDataDropdownOptions.workflows
+			});
+		});
+	}
 	dispatchData(data){
 		formChannel.request(EVENTS.FORM.SET_CORE_FORM_DETAILS, data);
 	}
-
 	/* TODO Move this out to a util */
-	getOptions({options, optionKey}){
-		let mappedOptions = options.map((item) =>{
-			return {value: item.get(optionKey) || item.get("name"), label: item.get("name")};
-		});
-
+	getOptions(options, optionKey){
+		let mappedOptions = [];
+		if(typeof optionKey === 'undefined'){
+			mappedOptions = options.map((item) =>{
+				return {value: item, label: item};
+			});
+		}
+		else{
+			mappedOptions = options.map((item) =>{
+				return {value: item.conteIdseq, label: item.name};
+			});
+		}
 		/* Add a default item */
 		mappedOptions.unshift({value: '', label: 'Select...'});
 		return mappedOptions;
@@ -41,44 +59,48 @@ export default class FormMetadataForm extends Component {
 		}
 		else{
 			return (
-				<Select name="formCategory" label="Workflow" options={this.getOptions({
-					options: this.props.uiDropDownOptionsModel.workflows
-				})} value={this.props.formMetadata.workflow}/>
+				<Select name="workflow" label="Workflow" options={this.getOptions(
+					this.state.workflows
+				)} value={this.props.formMetadata.workflow}/>
 			);
 		}
 	}
 	render(){
-		return (
-			<Row>
-				<Form onSubmit={this.dispatchData} id="editForm" validatePristine={this.state.validatePristine} disabled={this.props.disabled} ref="formMetata">
-					<fieldset name={this.props.mainHeadingTitle}>
-						<legend>{this.props.mainHeadingTitle}</legend>
-						<Row> <Col sm={6}>
-							<Input value={this.props.formMetadata.longName} name="longName" id="longName" label="
+		if(this.state.contexts.length) {
+			return (
+				<Row>
+					<Form onSubmit={this.dispatchData} id="editForm" validatePristine={this.state.validatePristine} disabled={this.props.disabled} ref="formMetata">
+						<fieldset name={this.props.mainHeadingTitle}>
+							<legend>{this.props.mainHeadingTitle}</legend>
+							<Row> <Col sm={6}>
+								<Input value={this.props.formMetadata.longName} name="longName" id="longName" label="
 Long Name" type="text" required/>
-							<Textarea value={this.props.formMetadata.preferredDefinition} rows={3} cols={40} name="preferredDefinition" label="Preferred Definition" required/>
-							<Textarea value={this.props.formMetadata.headerInstructions} rows={3} cols={40} name="headerInstructions" label="Header Instructions"/>
-							<Textarea value={this.props.formMetadata.footerInstructions} rows={3} cols={40} name="footerInstructions" label="
+								<Textarea value={this.props.formMetadata.preferredDefinition} rows={3} cols={40} name="preferredDefinition" label="Preferred Definition" required/>
+								<Textarea value={this.props.formMetadata.headerInstructions} rows={3} cols={40} name="headerInstructions" label="Header Instructions"/>
+								<Textarea value={this.props.formMetadata.footerInstructions} rows={3} cols={40} name="footerInstructions" label="
 Footer Instructions"/> </Col> <Col sm={6}>
-							{this.getWorFlowField()}
+								{this.getWorFlowField()}
 
-							<Select name="conteIdseq" label="Context" options={this.getOptions({
-								options:   this.props.uiDropDownOptionsModel.contexts,
-								optionKey: 'contextIdSeq'
-							})} value={this.props.formMetadata.context.conteIdseq} required/>
-							<Select name="formCategory" label="Category" options={this.getOptions({
-								options: this.props.uiDropDownOptionsModel.formCategories
-							})} value={this.props.formMetadata.formCategory}/>
-							<Select name="formType" label="Type" options={this.getOptions({
-								options: this.props.uiDropDownOptionsModel.formTypes
-							})} value={this.props.formMetadata.formType} required/> <FormGroup>
-							<ControlLabel>Version</ControlLabel>
+								<Select name="conteIdseq" label="Context"  options={this.getOptions(
+									this.state.contexts, 'key'
+								)} value={this.props.formMetadata.context.conteIdseq} required/>
+								<Select name="formCategory" label="Category" options={this.getOptions(
+									this.state.categories
+								)} value={this.props.formMetadata.formCategory}/>
+								<Select name="formType" label="Type" options={this.getOptions(
+									this.state.types
+								)} value={this.props.formMetadata.formType} required/> <FormGroup>
+								<ControlLabel>Version</ControlLabel>
 
-							<FormControl.Static>{this.props.formMetadata.version}</FormControl.Static> </FormGroup>
-						</Col> </Row>
-					</fieldset>
-					{this.props.children}
-				</Form> </Row>
+								<FormControl.Static>{this.props.formMetadata.version}</FormControl.Static> </FormGroup>
+							</Col> </Row>
+						</fieldset>
+						{this.props.children}
+					</Form> </Row>
+			);
+		}
+		else return(
+			<div></div>
 		);
 	}
 }
@@ -92,6 +114,5 @@ FormMetadataForm.propTypes = {
 	mainHeadingTitle:       PropTypes.string.isRequired,
 	children:               PropTypes.node,
 	actionMode:             PropTypes.string,
-	formMetadata:           PropTypes.object.isRequired,
-	uiDropDownOptionsModel: PropTypes.object.isRequired
+	formMetadata:           PropTypes.object.isRequired
 };

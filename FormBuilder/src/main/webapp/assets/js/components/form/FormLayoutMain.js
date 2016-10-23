@@ -15,13 +15,8 @@ export default class FormLayoutMain extends Component {
 	constructor(props){
 		super(props);
 		this.getMainPanelComponents = this.getMainPanelComponents.bind(this);
-
 		this.dispatchSaveFormClicked = this.dispatchSaveFormClicked.bind(this);
 		this.showGlobalToolbar = this.showGlobalToolbar.bind(this);
-
-		this.state = {
-			clicked: false
-		};
 	}
 
 	dispatchSaveFormClicked(){
@@ -43,7 +38,7 @@ export default class FormLayoutMain extends Component {
 				</div>
 			);
 		}
-		else if(this.props.uiDropDownOptionsModel.contexts.models.length && actionMode === formActions.CREATE_FORM || (actionMode === formActions.VIEW_FORM_METADATA && this.props.shouldShowFormEditControls)){
+		else if(actionMode === formActions.CREATE_FORM || (actionMode === formActions.VIEW_FORM_METADATA && this.props.shouldShowFormEditControls)){
 			const metaDataFormHeadingTitle = actionMode === formActions.CREATE_FORM ? 'Create New Form' : 'Edit Form',
 				submitButtonText = (actionMode === formActions.CREATE_FORM) ? 'Create Form' : 'Save';
 			const buttons = [
@@ -54,7 +49,7 @@ export default class FormLayoutMain extends Component {
 			];
 			return (
 				<div>
-					<FormMetadataForm actionMode={actionMode} formMetadata={this.props.formMetadata} uiDropDownOptionsModel={this.props.uiDropDownOptionsModel} mainHeadingTitle={metaDataFormHeadingTitle}>
+					<FormMetadataForm actionMode={actionMode} formMetadata={this.props.formMetadata} mainHeadingTitle={metaDataFormHeadingTitle}>
 						<ButtonsGroup buttons={buttons}/> </FormMetadataForm>
 				</div>
 			);
