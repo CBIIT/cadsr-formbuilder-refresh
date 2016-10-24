@@ -221,7 +221,7 @@ export default class Datatable extends React.Component{
 		if(this.props.pagination){
 			return (
 				<div className="clearfix">
-					<ul className={ (top)?"reactTable-pagination reactTable-pagination--top" : "reactTable-pagination"}>
+					<ul className={(top)?"reactTable-pagination reactTable-pagination--top" : "reactTable-pagination"}>
 						{
 							this.createPageItem().map( (item) =>{
 								return (item);
@@ -276,7 +276,7 @@ export default class Datatable extends React.Component{
 			else if(i !== this.totalPages){
 				//if you're not the last page, add a button
 				pagesArr.push(<li className="reactTable-pagination-item" key={i}>
-					<button onClick={()=>{this.changePage(i)}} className={(this.state.currentPage == i)? "active" : ""}>{i}</button>
+					<button onClick={()=>{this.changePage(i);}} className={(this.state.currentPage == i)? "active" : ""}>{i}</button>
 				</li>);
 			}
 			else{
@@ -336,6 +336,17 @@ export default class Datatable extends React.Component{
 						{this.renderToolbarDropdown()}
 					</ul>
 				</div>
+			);
+		}
+	}
+	addRowCheckbox(item) {
+		if (this.props.showCheckboxes) {
+			return (
+				<Td key={'checkbox'} column="checkbox">
+					<input type="checkbox" value={item.id}
+						onChange={() =>{ this.selectRow(item.id);}}
+						checked={item.selected}/>
+				</Td>
 			);
 		}
 	}
@@ -426,9 +437,17 @@ export default class Datatable extends React.Component{
 				<div className="reactTable-wrap">
 					<Reactable id="table" className="table reactTable">
 						<Thead>
-							<Th column="checkbox">
-								<input type='checkbox' onChange={this.selectAllRows}/>
-							</Th>
+							{
+								() => {
+									if (this.props.showCheckboxes) {
+										return(
+											<Th column="checkbox">
+												<input type="checkbox" onChange={this.selectAllRows}/>
+											</Th>
+										);
+									}
+								}
+							}
 							{
 								this.state.columnTitles.map( (title) =>{
 									return(
@@ -452,11 +471,19 @@ export default class Datatable extends React.Component{
 							displayedData.map( (item) => {
 								return (
 									<Tr key={item.id}>
-										<Td key={'checkbox'} column="checkbox">
-											<input type="checkbox" value={item.id}
-												onChange={() =>{ this.selectRow(item.id);}}
-												checked={item.selected}/>
-										</Td>
+										{
+											() => {
+												if (this.props.showCheckboxes) {
+													return (
+														<Td key={'checkbox'} column="checkbox">
+															<input type="checkbox" value={item.id}
+																onChange={() =>{ this.selectRow(item.id);}}
+																checked={item.selected}/>
+														</Td>
+													);
+												}
+											}
+										}
 										{
 											this.props.columnTitles.map( (title, index) => {
 												
@@ -464,6 +491,13 @@ export default class Datatable extends React.Component{
 													return(
 														<Td key={title+index} column={title.name}>
 															<a href={`/${title.hrefPrefix}${item[title.uri]}`} >{item[title.key]}</a>
+														</Td>
+													);
+												}
+												else if (title.clickable) {
+													return(
+														<Td key={title+index} column={title.name}>
+															<a href="javascript:;" onClick={()=>{this.props.clickCallback(title.key, item[title.key]);}}>{item[title.key]}</a>
 														</Td>
 													);
 												}
@@ -491,7 +525,8 @@ export default class Datatable extends React.Component{
 	}
 }
 Datatable.defaultProps = {
-	displayControls: true
+	displayControls: true,
+	showCheckboxes: true
 };
 Datatable.propTypes = {
 	data: PropTypes.array,
@@ -499,5 +534,7 @@ Datatable.propTypes = {
 	pagination: PropTypes.bool,
 	perPage: PropTypes.number,
 	pageName: PropTypes.string,
-	displayControls: PropTypes.bool
+	displayControls: PropTypes.bool,
+	showCheckboxes: PropTypes.bool,
+	clickCallback: PropTypes.func
 };

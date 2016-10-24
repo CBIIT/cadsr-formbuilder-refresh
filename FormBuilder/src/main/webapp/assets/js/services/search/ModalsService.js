@@ -35,11 +35,11 @@ const ModalsService = Marionette.Object.extend({
 	},
 	
 	dispatchProtocolResults() {
-		searchChannel.request(EVENTS.SEARCH.PROTOCOLS_COLLECTION_RESET, this.protocolCollection);
+		searchChannel.request(EVENTS.SEARCH.PROTOCOLS_COLLECTION_RESET, this.transformToProtocolTable(this.protocolCollection));
 	},
 	
 	dispatchClassificationResults() {
-		searchChannel.request(EVENTS.SEARCH.CLASSIFICATION_COLLECTION_RESET, this.classificationCollection);
+		searchChannel.request(EVENTS.SEARCH.CLASSIFICATION_COLLECTION_RESET, this.transformToClassificationsTable(this.classificationCollection));
 	},
 	
 	handleProtocolSearchGo(data) {
@@ -70,23 +70,23 @@ const ModalsService = Marionette.Object.extend({
 		return collection.toJSON().map(function(model) {
 			return {
 				longName:		model.longName,
-				id:				model.publicId,
+				id:				model.protocolId,
 				shortName:		model.preferredName,
-				context:		model.context,
+				context:		(model.context == null) ? "" : model.context.name,
 				definition:		model.preferredDefinition
 			};
 		});
 	},
 	
 	transformToClassificationsTable(collection) {
-		// TODO: this mapping is wrong for classifications: need an example of mapped data
 		return collection.toJSON().map(function(model) {
 			return {
-				longName:		model.longName,
-				id:				model.publicId,
-				shortName:		model.preferredName,
-				context:		model.context,
-				definition:		model.definition
+				csName:			model.csLongName,
+				csiName:		model.csiName,
+				definition:		model.definition,
+				csContext:		model.csContext,
+				csPublicId:		model.csId,
+				csVersion:		model.csVersion
 			};
 		});
 	}

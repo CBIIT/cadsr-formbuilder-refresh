@@ -24,14 +24,25 @@ export default class ProtocolSelectModal extends Component {
 		}, this);
 	}
 	
+	componentWillReceiveProps() {
+		this.setState({
+			tableData: []
+		});
+	}
+	
 	dispatchFormData(data){
 		searchChannel.request(EVENTS.SEARCH.PROTOCOLS_SEARCH_INPUTS, data);
 	}
 	
 	showResults(protocolCollection) {
 		this.setState({
-			tableData: protocolCollection.toJSON()
+			tableData: protocolCollection
 		});
+	}
+	
+	dispatchSelection(title, id) {
+		this.props.closeButtonClicked();
+		this.props.selectionCallback(id);
 	}
 	
 	render(){
@@ -40,7 +51,7 @@ export default class ProtocolSelectModal extends Component {
 		
 		return (
 			<div>
-				<Modal show={this.props.isOpen} onHide={this.close} aria-labelledby="modal-cancel-edit-form" bsSize="lg">
+				<Modal show={this.props.isOpen} aria-labelledby="modal-cancel-edit-form" bsSize="lg">
 					<Modal.Header>
 					<div>
 					<Form id="protocolForm" ref="form" onSubmit={this.dispatchFormData} className="search-form">
@@ -64,7 +75,7 @@ export default class ProtocolSelectModal extends Component {
 					</div>	
 					</Modal.Header> 
 					<Modal.Body>
-						<Datatable pagination={true} perPage={100} pageName={pageName} columnTitles={columnConfig} data={this.state.tableData} displayControls={false} />
+						<Datatable pagination={true} perPage={100} pageName={pageName} columnTitles={columnConfig} data={this.state.tableData} displayControls={false} showCheckboxes={false} clickCallback={this.dispatchSelection} />
 					</Modal.Body> 
 					<Modal.Footer> 
 						<Button onClick={this.props.closeButtonClicked}>close</Button>
@@ -77,5 +88,6 @@ export default class ProtocolSelectModal extends Component {
 ProtocolSelectModal.propTypes = {
 	closeButtonClicked: PropTypes.func,
 	isOpen:              PropTypes.bool,
-	resultCount: 		PropTypes.number
+	resultCount: 		PropTypes.number,
+	selectionCallback:	PropTypes.func
 };

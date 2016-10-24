@@ -143,7 +143,8 @@ const TABLECONFIG = {
 	SEARCH_PROTOCOL: [
 		{
 			key: 'longName',
-			name: 'PROTOCOL LONG NAME'
+			name: 'PROTOCOL LONG NAME',
+			clickable: true
 		},
 		{
 			key: 'id',
@@ -164,27 +165,28 @@ const TABLECONFIG = {
 	],
 	SEARCH_CLASSIFICATION: [
 		{
-			key: 'longName',
-			name: 'CS NAME'
+			key: 'csName',
+			name: 'CS NAME',
+			clickable: true
 		},
 		{
-			key: 'publicId',
+			key: 'csiName',
 			name: 'CSI NAME'
 		},
 		{
-			key: 'preferredName',
+			key: 'definition',
 			name:'DEFINITION'
 		},
 		{
-			key: 'context',
+			key: 'csContext',
 			name: 'CS CONTEXT'
 		},
 		{
-			key: 'preferredDefinition',
+			key: 'csPublicId',
 			name: 'CS PUBLIC ID'
 		},
 		{
-			key: 'version',
+			key: 'csVersion',
 			name: 'CS VERSION'
 		}
 	]

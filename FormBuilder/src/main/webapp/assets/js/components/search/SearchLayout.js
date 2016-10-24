@@ -47,24 +47,6 @@ export default class SearchLayout extends Component {
 		};
 	}
 
-	updateCheckBoxes(which){
-		if(which == 'training'){
-			this.setState({
-				excludeTraining : !this.state.excludeTraining
-			});
-		}
-		else if(which == 'latest'){
-			this.setState({
-				latestVersions : !this.state.latestVersions
-			});
-		}
-		else{
-			this.setState({
-				excludeTest : !this.state.excludeTest
-			});
-		}
-	}
-
 	componentDidMount(){
 		const urls = [ENDPOINT_URLS.CATEGORIES, ENDPOINT_URLS.CONTEXTS, ENDPOINT_URLS.TYPES, ENDPOINT_URLS.WORKFLOWS];
 		let promises = urls.map(url => fetch(url).then(response => response.json()));
@@ -91,6 +73,25 @@ export default class SearchLayout extends Component {
 	componentWillUnmount(){
 		//backboneReact.off(this);
 	}
+	
+	updateCheckBoxes(which){
+		if(which == 'training'){
+			this.setState({
+				excludeTraining : !this.state.excludeTraining
+			});
+		}
+		else if(which == 'latest'){
+			this.setState({
+				latestVersions : !this.state.latestVersions
+			});
+		}
+		else{
+			this.setState({
+				excludeTest : !this.state.excludeTest
+			});
+		}
+	}
+	
 	getOptions(options, optionKey){
 
 		let mappedOptions = [];
@@ -147,25 +148,40 @@ export default class SearchLayout extends Component {
 	resetForm(){
 		this.refs.form.refs.form.reset(); //javascript is fun
 	}
+	
+	selectProtocolCallback(value) {
+		// TODO: fill in to populate the protocol form field 
+		alert("protocol " + value + " selected");
+	}
+	
+	selectClassificationCallback(value) {
+		// TODO: fill in to populate the protocol form field
+		alert("classification " + value + " selected");
+	}
 
 	renderFormItems(){
 		return(
 		<Form id="searchForm" ref="form" onSubmit={this.dispatchFormData} validatePristine={this.state.validatePristine} className="search-form">
 			<div className="formItem">
 				<Input name="formLongName" id="longName"
-				       label="FORM LONG NAME" type="text"
+					label="FORM LONG NAME" type="text"
 				/>
 			</div>
 			<div className="clearfix formColumns">
 				<div className="pull-left formColumn">
 					<div className="formItem">
 						<Input name="publicId" id="publicId"
-						       label="PUBLIC ID" type="text"
+							label="PUBLIC ID" type="text"
 						/>
 					</div>
 					<div className="formItem">
-						<Input name="classificationIdSeq" id="classification"
-						       label="CS / CSI" type="text" onClick={this.openClassificationModal}
+						<Input name="classificationIdSeq" 
+							id="classification"
+							label="CS / CSI" 
+							type="text" 
+							onClick={this.openClassificationModal}  
+							readOnly="readonly"
+							value=""
 						/>
 					</div>
 					<div className="formItem">
@@ -182,12 +198,17 @@ export default class SearchLayout extends Component {
 				<div className="pull-right formColumn">
 					<div className="formItem">
 						<Input name="cdePublicId" id="cdePublicId"
-						       label="CDE Public ID" type="text"
+							label="CDE Public ID" type="text"
 						/>
 					</div>
 					<div className="formItem">
-						<Input name="protocolIdSeq" id="protocolLongName"
-						       label="PROTOCOL" type="text" onClick={this.openProtocolsModal}
+						<Input name="protocolIdSeq" 
+							id="protocolLongName"
+							label="PROTOCOL" 
+							type="text"
+							onClick={this.openProtocolsModal} 
+							readOnly="readonly"
+							value=""
 						/>
 					</div>
 					<div className="formItem">
@@ -204,7 +225,7 @@ export default class SearchLayout extends Component {
 			</div>
 			<div className="formItem">
 				<Input name="moduleLongName" id="moduleLongName"
-				       label="MODULE INPUT" type="text"
+					label="MODULE INPUT" type="text"
 				/>
 			</div>
 			<div className="formItem searchActions">
@@ -230,9 +251,9 @@ export default class SearchLayout extends Component {
 					<label for="Test" className="formItem-label">EXCLUDE TEST</label>*/}
 					<Checkbox
 						name="TEST"
-					    value={this.state.excludeTest}
-					    label="EXCLUDE TEST"
-					    />
+						value={this.state.excludeTest}
+						label="EXCLUDE TEST"
+						/>
 				</div>
 				<div className="formItem--row">
 					{/*<input type="checkbox"
@@ -248,7 +269,7 @@ export default class SearchLayout extends Component {
 					/>
 				</div>
 				<div className="formItem--row formItem-reset">
-					<button type="button" onClick={ () =>{ this.resetForm()}} className="btn btn-link">CLEAR ALL</button>
+					<button type="button" onClick={() =>{this.resetForm();}} className="btn btn-link">CLEAR ALL</button>
 				</div>
 				<div className="formItem--row formItem-submit">
 					<button type="submit" value="Submit" id="search-button" className="btn btn-primary">SEARCH</button>
@@ -334,8 +355,8 @@ export default class SearchLayout extends Component {
 						this.renderResults()
 					}
 				</div>
-				<ProtocolSelectModal isOpen={this.state.protocolModalOpen} closeButtonClicked={this.closeProtocolsModal} data={[]} />
-				<ClassificationSelectModal isOpen={this.state.classificationModalOpen} closeButtonClicked={this.closeClassificationModal} data={[]} />
+				<ProtocolSelectModal isOpen={this.state.protocolModalOpen} closeButtonClicked={this.closeProtocolsModal} data={[]} selectionCallback={this.selectProtocolCallback} />
+				<ClassificationSelectModal isOpen={this.state.classificationModalOpen} closeButtonClicked={this.closeClassificationModal} data={[]} selectionCallback={this.selectClassificationCallback} />
 			</div>
 		);
 	}

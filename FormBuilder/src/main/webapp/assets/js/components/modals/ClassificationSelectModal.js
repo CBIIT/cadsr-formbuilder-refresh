@@ -64,7 +64,7 @@ export default class ClassificationSelectModal extends Component {
 					</div>	
 					</Modal.Header> 
 					<Modal.Body>
-					<Datatable pagination={true} perPage={100} pageName={pageName} columnTitles={columnConfig} data={this.state.tableData} displayControls={false} />
+					<Datatable pagination={true} perPage={100} pageName={pageName} columnTitles={columnConfig} data={this.state.tableData} displayControls={false} showCheckboxes={false} />
 					</Modal.Body> 
 					<Modal.Footer> 
 						<div>
