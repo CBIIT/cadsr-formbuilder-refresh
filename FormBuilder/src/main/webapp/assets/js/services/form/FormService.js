@@ -1,7 +1,5 @@
 import Marionette from "backbone.marionette";
 import {Model, Collection} from "backbone";
-import React from 'react';
-import {render} from 'react-dom';
 import EVENTS from '../../constants/EVENTS';
 import cartsService from  "../carts/CartsService";
 import { browserHistory } from 'react-router';
