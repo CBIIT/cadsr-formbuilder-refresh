@@ -25,14 +25,10 @@ public class ProtocolController {
 	@RequestMapping(value = "/protocols/{keyword}", method = RequestMethod.GET)
 	@ResponseBody
 	public ResponseEntity<List<ProtocolTransferObject>> getProtocol(
-			@PathVariable String keyword,
-			@RequestParam(value = "checked", required = false) Boolean checked) {
-		
-		checked = false;
-		
-		List<ProtocolTransferObject> protocolList = protocolManager.getProtocol(keyword, keyword, checked);
+			@PathVariable String keyword) {
+	
+		List<ProtocolTransferObject> protocolList = protocolManager.getProtocol(keyword);
 		ResponseEntity<List<ProtocolTransferObject>> response = createSuccessResponse(protocolList);
-
 		System.out.println("getting prots: " + protocolList.size());
 		return response;
 

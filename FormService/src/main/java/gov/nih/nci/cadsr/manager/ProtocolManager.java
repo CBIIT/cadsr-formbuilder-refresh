@@ -9,8 +9,7 @@ import gov.nih.nci.ncicb.cadsr.common.resource.Protocol;
 public interface ProtocolManager {
 	
 
-	public List<ProtocolTransferObject> getProtocol(String longName, String PreferedName,Boolean checked);
-
+	public List<ProtocolTransferObject> getProtocol(String KeyWord);
 	public ProtocolTransferObject getProtocolByPK(String protocoldIdseq);
 
 }

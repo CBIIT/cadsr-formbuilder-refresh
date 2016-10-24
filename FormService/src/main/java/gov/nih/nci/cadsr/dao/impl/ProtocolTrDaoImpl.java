@@ -9,18 +9,21 @@ import org.springframework.jdbc.object.MappingSqlQuery;
 import org.springframework.stereotype.Repository;
 
 import gov.nih.nci.cadsr.dao.ProtocolTrDao;
+import gov.nih.nci.ncicb.cadsr.common.dto.ContextTransferObject;
 import gov.nih.nci.ncicb.cadsr.common.dto.ProtocolTransferObject;
 import gov.nih.nci.ncicb.cadsr.common.persistence.dao.jdbc.JDBCBaseDAOFB;
+
+import gov.nih.nci.ncicb.cadsr.common.resource.Context;
 import gov.nih.nci.ncicb.cadsr.common.util.StringUtils;;
 
 @Repository
 public class ProtocolTrDaoImpl extends JDBCBaseDAOFB implements ProtocolTrDao {
 
-	public List<ProtocolTransferObject> getProtocol(String longName, String PreferedName, Boolean checked) {
+	public List<ProtocolTransferObject> getProtocol(String KeyWord) {
 		ProtocolQueryNew query = new ProtocolQueryNew();
 		query.setDataSource(getDataSource());
 
-		query.setSql(longName, PreferedName, checked);
+		query.setSql(KeyWord);
 
 		List<ProtocolTransferObject> protocols = query.execute();
 		return protocols;
@@ -33,36 +36,26 @@ public class ProtocolTrDaoImpl extends JDBCBaseDAOFB implements ProtocolTrDao {
 			super();
 		}
 
-		public void setSql(String longName, String preferedName, boolean checked) {
+		public void setSql(String KeyWord) {
 
 			String where = "";
-			if (longName != null) {
-				String lName = longName.trim();
+			if (KeyWord != null) {
+				String lName = KeyWord.trim();
 				if (lName.length() > 0) {
-					
-					String temp = StringUtils.strReplace(longName, "*", "%");
+
+					String temp = StringUtils.strReplace(KeyWord, "*", "%");
 					temp = StringUtils.strReplace(temp, "'", "''");
-					
+
 					where += (where.equals("")) ? " WHERE " : " AND ";
-					where += "LONG_NAME like '" + temp + "'";
+					where += "(LONG_NAME like '%" + temp + "%'or preferred_name like '%" + temp + "%') ";
 				}
 			}
 
-			if (preferedName != null) {
-				String pName = preferedName.trim();
-				if (pName.length() > 0) {
-					
-					String temp = StringUtils.strReplace(pName, "*", "%");
-					temp = StringUtils.strReplace(temp, "'", "''");
-					
-					where += (where.equals("")) ? " WHERE " : " AND ";
-					where += "preferred_name like '" + temp + "'";
-				}
-			}
-			String sql = "SELECT preferred_name pn, preferred_definition pd, LONG_NAME pln from protocols_view_ext"
+			String sql = "SELECT p.preferred_name pn, p.preferred_definition pd, p.LONG_NAME pln, "
+					+ "p.PROTO_ID publicId,p.conte_idseq contextId,c.name contextname  from protocols_view_ext p,sbr.contexts_view c"
 					+ where;
 
-			System.out.println("Executing searchProtocol query: " + sql);
+			// System.out.println("Executing searchProtocol query: " + sql);
 			super.setSql(sql);
 
 		}
@@ -75,6 +68,14 @@ public class ProtocolTrDaoImpl extends JDBCBaseDAOFB implements ProtocolTrDao {
 			protocol.setPreferredName(rs.getString("pn"));
 			protocol.setLongName(rs.getString("pln"));
 			protocol.setPreferredDefinition(rs.getString("pd"));
+
+			protocol.setPublicId(rs.getInt("publicId"));
+			String contextName = rs.getString("contextname");
+
+			Context context = new ContextTransferObject();
+			context.setConteIdseq(rs.getString("contextId"));
+			context.setName(contextName);
+			protocol.setContext(context);
 
 			return protocol;
 		}

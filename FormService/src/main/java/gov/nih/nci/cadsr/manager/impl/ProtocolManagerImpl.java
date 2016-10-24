@@ -20,9 +20,8 @@ public class ProtocolManagerImpl implements ProtocolManager {
 	AbstractDAOFactoryFB daoFactory;
 
 	@Override
-	public List<ProtocolTransferObject> getProtocol(String longName, String PreferedName, Boolean checked) {
-
-		return protocolTrDao.getProtocol(longName, PreferedName, checked);
+	public List<ProtocolTransferObject> getProtocol(String KeyWord) {
+		return protocolTrDao.getProtocol(KeyWord);
 	}
 
 	@Override
