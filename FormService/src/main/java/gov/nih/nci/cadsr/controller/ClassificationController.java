@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import gov.nih.nci.cadsr.dao.impl.ClassificationTrDaoImpl;
 import gov.nih.nci.cadsr.manager.ClassificationManager;
 import gov.nih.nci.ncicb.cadsr.common.resource.ClassSchemeItem;
 
@@ -20,14 +21,15 @@ public class ClassificationController {
 
 	@Autowired
 	private ClassificationManager classificationManager;
+	
 
 	@RequestMapping(value = "/classifications/{keyword}", method = RequestMethod.GET)
 	@ResponseBody
 	public ResponseEntity<List<ClassSchemeItem>> getClassification(@PathVariable String keyword) {
 		
-		List<ClassSchemeItem> classificationList = classificationManager.getClassification(keyword, keyword, false);
+		List<ClassSchemeItem> classificationList = classificationManager.getClassification(keyword);
 		ResponseEntity<List<ClassSchemeItem>> response = createSuccessResponse(classificationList);
-
+		
 		return response;
 	}
 

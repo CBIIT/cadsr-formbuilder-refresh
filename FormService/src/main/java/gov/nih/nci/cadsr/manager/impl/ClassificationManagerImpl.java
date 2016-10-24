@@ -30,9 +30,9 @@ public class ClassificationManagerImpl implements ClassificationManager {
 	ContextsManager contextsManager;
 
 	@Override
-	public List<ClassSchemeItem> getClassification(String csLongName, String csName, Boolean checked) {
+	public List<ClassSchemeItem> getClassification(String keyword) {
 
-		return classificationTrDao.getClassification(csLongName, csName, checked);
+		return classificationTrDao.getClassification(keyword);
 	}
 
 	@Override

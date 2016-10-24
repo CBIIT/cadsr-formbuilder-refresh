@@ -20,67 +20,77 @@ import gov.nih.nci.ncicb.cadsr.common.util.StringUtils;
 public class ClassificationTrDaoImpl extends JDBCBaseDAOFB implements ClassificationTrDao {
 
 	@Override
-	public List<ClassSchemeItem> getClassification(String csLongName, String csName, Boolean checked) {
+	public List<ClassSchemeItem> getClassification(String keyword) {
 
 		ClassificationQueryNew query = new ClassificationQueryNew();
 		query.setDataSource(getDataSource());
 
-		query.setSql(csLongName, csName, checked);
+		query.setSql(keyword);
 
 		List<ClassSchemeItem> classifications = query.execute();
 		return classifications;
 	}
+	
 
 	class ClassificationQueryNew extends MappingSqlQuery {
 		ClassificationQueryNew() {
 			super();
 		}
 
-		public void setSql(String csLongName, String csName, Boolean checked) {
+		public void setSql(String keyword) {
 
 			String where = "accsi.cs_csi_idseq = cscsi.cs_csi_idseq " + " AND cscsi.csi_idseq = csi.csi_idseq "
 					+ " AND cscsi.cs_idseq = cs.cs_idseq";
-			if (csLongName != null) {
-				String cName = csLongName.trim();
+			if (keyword != null) {
+				String cName = keyword.trim();
 				if (cName.length() > 0) {
 					
 					String temp = StringUtils.strReplace(cName, "*", "%");
 					temp = StringUtils.strReplace(temp, "'", "''");
 					
-					where += (where.equals("")) ? " WHERE " : " AND ";
-					where += "cs.LONG_NAME like '%" + temp + "%'";
+					where += (where.equals("")) ?" ":" AND ";
+					where += "(cs.LONG_NAME like '%"+temp+"%'or csi.LONG_NAME like '%"+temp+"%') ";
 				}
 			}
 
-			if (csName != null) {
+			/*if (csName != null) {
 				String Name = csName.trim();
 				if (Name.length() > 0) {
 					
 					String temp = StringUtils.strReplace(Name, "*", "%");
 					temp = StringUtils.strReplace(temp, "'", "''");
 					
-					where += (where.equals("")) ? " WHERE " : " AND ";
-					where += "csi.LONG_NAME like '%" + temp + "%'";
+					where += (where.equals("")) ? " WHERE " : " or ";
+					where += "csi.LONG_NAME like '%"+temp+"%'";
 				}
-			}
+			}*/
 
-			String sql = "select csi.LONG_NAME ln, cs.LONG_NAME csn FROM sbr.ac_csi_view accsi, sbr.cs_csi_view cscsi, "
+			String sql = "select cs.preferred_definition csDefination,cs.version csVersion,cs.cs_id csPublicId, csi.csi_id csiPublicId,csi.LONG_NAME csiName,"
+					+ " cs.LONG_NAME csLongName FROM sbr.ac_csi_view accsi, sbr.cs_csi_view cscsi, "
 					+ "sbr.cs_items_view csi, sbr.classification_schemes_view cs where " + where;
 			super.setSql(sql);
+			
 
 		}
 
 		@Override
 		protected Object mapRow(ResultSet rs, int rowNum) throws SQLException {
-			ClassSchemeItem csiTO = new CSITransferObject();
+			CSITransferObject csiTO = new CSITransferObject();
 
-			csiTO.setClassSchemeLongName(rs.getString("csn"));
-
-			csiTO.setClassSchemeItemName(rs.getString("ln"));
+			csiTO.setClassSchemeLongName(rs.getString("csLongName"));
+			csiTO.setClassSchemeItemName(rs.getString("csiName"));
+			csiTO.setCsVersion(rs.getFloat("csVersion"));
+			csiTO.setCsID(rs.getString("csPublicId"));
+			csiTO.setClassSchemeDefinition(rs.getString("csDefination"));
+			csiTO.setCsiId(rs.getInt("csiPublicId"));
+			//csiTO.setCsContext(csContext);
 
 			return csiTO;
 
 		}
+
 	}
+	
+
 
 }

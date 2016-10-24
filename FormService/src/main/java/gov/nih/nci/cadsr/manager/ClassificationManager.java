@@ -8,7 +8,7 @@ import gov.nih.nci.ncicb.cadsr.common.resource.ClassificationScheme;
 
 public interface ClassificationManager {
 
-	public List<ClassSchemeItem> getClassification(String csLongName, String csName, Boolean checked);
+	public List<ClassSchemeItem> getClassification(String keyword);
 
 	public Collection<ClassificationScheme> getRootClassificationSchemes(String conteIdseq);
 
