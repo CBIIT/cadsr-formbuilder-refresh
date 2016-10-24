@@ -115,5 +115,16 @@
   .button-link{
     color: $color-accent-bright;
     margin-top: 15px;
+    width: calc(100% - 15px);
+    text-decoration: none;
+    &.add-text {
+      &:hover, &:active, &:focus {
+        &:after {
+          text-decoration: none;
+          content: "Add";
+          text-transform: uppercase;
+        }
+      }
+    }
   }
 }
