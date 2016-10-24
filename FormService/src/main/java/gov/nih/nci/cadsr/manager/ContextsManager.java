@@ -8,4 +8,6 @@ public interface ContextsManager {
 	
 	public Collection getContextsByUser(String username);
 
+	public Collection getAllContextsExcludeTest(String test);
+
 }
