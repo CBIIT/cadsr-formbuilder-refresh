@@ -14,14 +14,13 @@ import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import gov.nih.nci.cadsr.model.CartObjectNew;
-import gov.nih.nci.cadsr.model.Field;
-import gov.nih.nci.cadsr.model.FormV2NewWrapper;
-import gov.nih.nci.cadsr.model.HttpQuery;
+import gov.nih.nci.cadsr.model.jaxb.CartObjectNew;
+import gov.nih.nci.cadsr.model.jaxb.Field;
+import gov.nih.nci.cadsr.model.jaxb.FormV2NewWrapper;
+import gov.nih.nci.cadsr.model.jaxb.HttpQuery;
+
 
 @Service
 public class CartAdapterManger {
