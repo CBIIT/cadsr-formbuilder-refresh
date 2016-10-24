@@ -24,7 +24,7 @@ export default class ModuleMetadataEditable extends Component {
 		}
 	}
 	dispatchData(data){
-			this.props.dispatchModuleMetadata({data: data});
+			this.props.dispatchModuleMetadata(data);
 	}
 	render(){
 		return (
