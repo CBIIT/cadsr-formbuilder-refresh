@@ -1,0 +1,17 @@
+/.classpath
+/.project
+/.settings
+/.tern-project
+/FormBuilder.iml
+/node
+/node_modules
+src/main/resources/rebel.xml
+src/main/resources/test.properties
+src/main/webapp/dist
+src/main/webapp/etc
+src/main/webapp/frontend-tools/dist
+src/main/webapp/frontend-tools/etc
+src/main/webapp/frontend-tools/node
+src/main/webapp/frontend-tools/node_modules
+src/main/webapp/node
+src/main/webapp/node_modules
