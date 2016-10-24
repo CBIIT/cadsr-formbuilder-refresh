@@ -30,6 +30,23 @@
 
 	<bean id="formBuilderProperties" class="gov.nih.nci.cadsr.FormBuilderProperties"
 		scope="singleton" />
+			<!-- <bean id="Test" class="gov.nih.nci.cadsr.Test" /> -->
+
+	<bean id="EditInterceptor" class="gov.nih.nci.cadsr.EditInterceptor" />
+
+	<mvc:interceptors>
+
+		<mvc:interceptor>
+
+			<mvc:mapping path="/test" />
+
+			<bean class="gov.nih.nci.cadsr.EditInterceptor">
+
+			</bean>
+
+		</mvc:interceptor>
+
+	</mvc:interceptors>
 
 	<context:component-scan base-package="gov.nih.nci.cadsr" />
 	<mvc:annotation-driven />

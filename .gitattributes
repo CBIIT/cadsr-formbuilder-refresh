@@ -1,13 +1,17 @@
 * text=auto !eol
 FormBuilder/deploy.cli -text
 FormBuilder/pom.xml -text
+FormBuilder/src/main/java/gov/nih/nci/cadsr/EditInterceptor.java -text
+FormBuilder/src/main/java/gov/nih/nci/cadsr/EditInterceptorCount.java -text
 FormBuilder/src/main/java/gov/nih/nci/cadsr/FormBuilderConstants.java -text
 FormBuilder/src/main/java/gov/nih/nci/cadsr/FormBuilderProperties.java -text
+FormBuilder/src/main/java/gov/nih/nci/cadsr/Manger/CartAdapterManger.java -text
 FormBuilder/src/main/java/gov/nih/nci/cadsr/api/controller/BaseAdapterController.java -text
 FormBuilder/src/main/java/gov/nih/nci/cadsr/api/controller/CDEAdapterController.java -text
 FormBuilder/src/main/java/gov/nih/nci/cadsr/api/controller/CartAdapterController.java -text
 FormBuilder/src/main/java/gov/nih/nci/cadsr/api/controller/FormAdapterController.java -text
 FormBuilder/src/main/java/gov/nih/nci/cadsr/api/controller/ResourcesAdapterController.java -text
+FormBuilder/src/main/java/gov/nih/nci/cadsr/api/controller/TestController.java -text
 FormBuilder/src/main/java/gov/nih/nci/cadsr/api/controller/UserAdapterController.java -text
 FormBuilder/src/main/java/gov/nih/nci/cadsr/authentication/AuthUtils.java -text
 FormBuilder/src/main/java/gov/nih/nci/cadsr/authentication/CadsrAuthenticationProvider.java -text
