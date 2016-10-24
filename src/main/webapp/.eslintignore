@@ -1,0 +1,4 @@
+# Ignore files from being linted by ESLint
+#Backbone views and templates will be removed soon
+assets/js/views/**/*.js
+assets/templates/**/*.html
