@@ -28,6 +28,9 @@ const CartsService = Marionette.Object.extend({
 		cartChannel.reply(EVENTS.CARTS.GET_DOWNLOAD_XML, (options) => this.handleDownloadXML(options));
 		cartChannel.reply(EVENTS.CARTS.REMOVE_CART_ITEM, (options) => this.handleRemoveCartItem(options));
 		cartChannel.reply(EVENTS.CARTS.SET_LAST_CART_SORTED_BY, (options) => this.handleCartSortedBy(options));
+
+		appChannel.reply(EVENTS.CARTS.GET_QUESTION_MODEL, (options) => this.getQuestionModelFromCDECartById(options));
+
 	},
 	constructLayout(cart){
 		/*Entry point for React. Backbone Views Keep Out
@@ -114,6 +117,9 @@ const CartsService = Marionette.Object.extend({
 		}).catch((error)=>{
 			console.log(error);
 		});
+	},
+	getQuestionModelFromCDECartById(id) {
+		return this.cdeCartCollection.get(id);
 	},
 	handleCartSortedBy ({sortKey, sortOrder}){
 		const action = this.cartPageStateModel.get("actionMode");

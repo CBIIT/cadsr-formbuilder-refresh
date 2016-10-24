@@ -4,10 +4,11 @@ import {Button} from 'react-bootstrap';
 const ButtonList = (props) =>{
 	const createListItem = (item, index) => {
 		const activeItem = props.activeItem === item[props.itemKey];
+		const itemId = item[props.itemKey] || item.cid;
 		return (
 			<li key={index}>
 				<Button bsClass={`${(activeItem ? props.activeButtonClass : props.buttonItemClassName)}`} onClick={() =>{
-					props.onClickCallback(item.cid);
+					props.onClickCallback(itemId);
 				}}>{item[props.itemTextKey]}
 				</Button>
 			</li>

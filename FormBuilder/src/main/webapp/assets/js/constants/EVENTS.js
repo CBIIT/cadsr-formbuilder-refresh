@@ -11,6 +11,7 @@ const EVENTS = {
 		CREATE_FORM:                    'createForm',
 		EDIT_FORM:                      'editForm',
 		CREATE_MODULE:                  "create:module",
+		CREATE_QUESTION_FROM_CDE:        "create:questionFromCde",
 		SET_NEW_MODULE:                 "set:newModule",
 		SAVE_FORM:                      'saveForm',
 		SET_MODULE:                     "set:module",
@@ -36,6 +37,7 @@ const EVENTS = {
 		LOGIN_SUCCESS: "loginSuccess"
 	},
 	CARTS:  {
+		GET_QUESTION_MODEL: 'get:questionModel',
 		GET_CART_DATA: 'get:cartData',
 		SET_LAYOUT: 'set:layout',
 		GET_DOWNLOAD_XLS: 'get:downloadXLS',

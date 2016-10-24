@@ -2,7 +2,7 @@ import Marionette from "backbone.marionette";
 import {Model, Collection} from "backbone";
 import EVENTS from '../../constants/EVENTS';
 import cartsService from  "../carts/CartsService";
-import { browserHistory } from 'react-router';
+import {browserHistory} from 'react-router';
 import formActions from '../../constants/formActions';
 import {formChannel, appChannel} from '../../channels/radioChannels';
 import FormModel from '../../models/forms/FormModel';
@@ -17,19 +17,20 @@ import {GetFormMetadataCriteriaInputOptions} from '../../commands/GetFormMetadat
 const FormService = Marionette.Object.extend({
 	channelName:   'form',
 	radioRequests: {
-		[EVENTS.FORM.CANCEL_EDIT_FORM]:      'handleCancelEditForm',
-		[EVENTS.FORM.EDIT_FORM]:             'handleSetFormEditable',
-		[EVENTS.FORM.SET_FORM_LAYOUT]:       'dispatchLayout',
-		[EVENTS.FORM.CREATE_MODULE]:         'dispatchLayout',
-		[EVENTS.FORM.SET_CORE_FORM_DETAILS]: 'handleFormMetadataSubmitData',
-		[EVENTS.FORM.SET_NEW_MODULE]:        'handleAddModule',
-		[EVENTS.FORM.SET_MODULE]:            'handleSetModule',
-		[EVENTS.FORM.SAVE_FORM]:             'handleSaveForm',
-		[EVENTS.FORM.VIEW_MODULE]:           'setModuleView'
+		[EVENTS.FORM.CANCEL_EDIT_FORM]:         'handleCancelEditForm',
+		[EVENTS.FORM.EDIT_FORM]:                'handleSetFormEditable',
+		[EVENTS.FORM.SET_FORM_LAYOUT]:          'dispatchLayout',
+		[EVENTS.FORM.CREATE_MODULE]:            'dispatchLayout',
+		[EVENTS.FORM.CREATE_QUESTION_FROM_CDE]: 'handleCreateQuestionFromCde',
+		[EVENTS.FORM.SET_CORE_FORM_DETAILS]:    'handleFormMetadataSubmitData',
+		[EVENTS.FORM.SET_NEW_MODULE]:           'handleAddModule',
+		[EVENTS.FORM.SET_MODULE]:               'handleSetModule',
+		[EVENTS.FORM.SAVE_FORM]:                'handleSaveForm',
+		[EVENTS.FORM.VIEW_MODULE]:              'setModuleView'
 	},
-	radioEvents: {
-		[EVENTS.FORM.SET_QUESTION]:      'handleSetModuleQuestion',
-		[EVENTS.FORM.SET_VALID_VALUE]:      'handleSetModuleQuestionValidValue'
+	radioEvents:   {
+		[EVENTS.FORM.SET_QUESTION]:    'handleSetModuleQuestion',
+		[EVENTS.FORM.SET_VALID_VALUE]: 'handleSetModuleQuestionValidValue'
 
 	},
 	/* Stores cart data retrieved from carService */
@@ -85,7 +86,7 @@ const FormService = Marionette.Object.extend({
 				browserHistory.push(`/FormBuilder/forms/${formIdseq}`);
 				this.formUIStateModel.set({isEditing: true});
 				this.dispatchLayout({action: formActions.VIEW_FULL_FORM});
-//				alert("Form created. formIdseq is: " + formIdseq);
+				//				alert("Form created. formIdseq is: " + formIdseq);
 			},
 			error:   (model, response) =>{
 				/*TODO: of course this is too basic. Improve error handling */
@@ -133,6 +134,14 @@ const FormService = Marionette.Object.extend({
 			isEditing:  false
 		});
 	},
+	handleCreateQuestionFromCde({questionCid, activeModuleId} = {}) {
+		this.formUIStateModel.set({actionMode: formActions.CREATE_QUESTION});
+		this.formUIStateModel.set({isEditing: true});
+		const moduleModel = this.formModel.get('formModules').get(activeModuleId);
+		const questionModelFromCDECart = appChannel.request(EVENTS.CARTS.GET_QUESTION_MODEL, questionCid);
+		moduleModel.get("questions").add(questionModelFromCDECart);
+		this.formUIStateModel.set({actionMode: formActions.VIEW_MODULE});
+	},
 	handleSaveForm() {
 		this.saveForm({successMessage: "Entire form saved to DB. This is what \"Global Save\" will do."});
 	},
@@ -155,18 +164,21 @@ const FormService = Marionette.Object.extend({
 		/* Adding isEdited: true so BE knows question has chagned */
 		const questionAttributes = (questionModel.isNew() ? data.questionData : Object.assign({}, data.questionData, {isEdited: true}));
 		questionModel.set(questionAttributes);
-/*
-		console.log("question updated");
-*/
+		/*
+		 console.log("question updated");
+		 */
 	},
 	handleSetModuleQuestionValidValue(data) {
-	const validValueModel = this.getModuleQuestionModel({moduleId: data.moduleId, questionId: data.questionId}).get("validValues").get(data.validValueId);
+		const validValueModel = this.getModuleQuestionModel({
+			moduleId:   data.moduleId,
+			questionId: data.questionId
+		}).get("validValues").get(data.validValueId);
 		/* Adding isEdited: true so BE knows valid value has chagned */
 		const validValueAttributes = (validValueModel.isNew() ? data.validValueData : Object.assign({}, data.validValueData, {isEdited: true}));
 		validValueModel.set(validValueAttributes);
-/*
-		console.log("valid value updated");
-*/
+		/*
+		 console.log("valid value updated");
+		 */
 	},
 	saveForm({persistToDB = false, successMessage} = {}) {
 		const p = new Promise(
@@ -212,7 +224,7 @@ const FormService = Marionette.Object.extend({
 		}
 	},
 	setForm(model) {
-	this.formModel = model;
+		this.formModel = model;
 	},
 	setupModels() {
 		this.formModel = new FormModel();

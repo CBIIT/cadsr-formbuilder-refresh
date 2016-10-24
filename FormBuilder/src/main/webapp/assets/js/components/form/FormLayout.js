@@ -90,9 +90,12 @@ export default class FormLayout extends Component {
 	}
 
 	showCartsPanel(){
+		const actionMode = this.getActionMode();
+		const activeModuleId = actionMode == formActions.VIEW_MODULE && this.getEditItems() ? this.getEditItems().cid : null;
+		const permitAddQuestionFromCde = actionMode === formActions.VIEW_MODULE && this.shouldShowFormEditControls();
 		if(this.getActionMode() !== formActions.CREATE_FORM){
 			return (
-				<SidePanel cdeCartList={this.getCDECart()}/>
+				<SidePanel permitAddQuestionFromCde={permitAddQuestionFromCde} activeModuleId={activeModuleId} cdeCartList={this.getCDECart()}/>
 			);
 		}
 

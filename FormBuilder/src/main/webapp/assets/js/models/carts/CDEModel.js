@@ -1,24 +1,35 @@
 import {Model} from 'backbone';
+import ValidValuesCollection from './../forms/ValidValuesCollection';
 
 const CDEModel = Model.extend({
 	idAttribute: "deIdseq",
-	defaults:    {
-		longname:            "",
-		/*TODO DO we need this on the front end?*/
-		longcdename:         "",
-		publicid:            "",
-		contextname:         "",
-		/*TODO DO we need this on the front end?*/
-		deIdseq:             "",
-		/*TODO DO we need this on the front end? Will contexztname suffice? */
-		conteIdseq:          "",
-		version:             "",
-		registrationstatus:  "",
-		/*TODO DO we need this on the front end?*/
-		preferredname:       "",
-		preferreddefinition: "",
-		workflow:            "",
-		dateadded:           ""
+	defaults: {
+		cdeId: "",
+		version: "1.0",
+		preferredQuestionText : "",
+		mandatory: false,
+		editable: false,
+		instructions: "",
+		longName: "",
+		dataType: "",
+		unitOfMeasure: "",
+		displayFormat: "",
+		concepts: "",
+		/* used for editing */
+		defaultValue: "",
+		instruction: "",
+		cdeWorkflow: "",
+		alternateQuestionText: "",
+		validValues: new ValidValuesCollection(),
+		/* isEdited used for letting the backend know whether this has changed */
+		isEdited: false
+	},
+	constructor(attributes, options) {
+		/* Pass any validValues into new ValidValuesCollection so each nested object becomes a ValidValueModel */
+		if(attributes.validValues) {
+			attributes.validValues = new ValidValuesCollection(attributes.validValues);
+		}
+		Model.apply(this, arguments);
 	}
 });
 
