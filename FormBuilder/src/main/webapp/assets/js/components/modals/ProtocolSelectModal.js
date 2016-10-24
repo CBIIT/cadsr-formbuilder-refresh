@@ -12,6 +12,7 @@ export default class ProtocolSelectModal extends Component {
 		super(props);
 		
 		this.dispatchFormData = this.dispatchFormData.bind(this);
+		this.dispatchSelection = this.dispatchSelection.bind(this);
 		
 		this.state = {
 			tableData : []
