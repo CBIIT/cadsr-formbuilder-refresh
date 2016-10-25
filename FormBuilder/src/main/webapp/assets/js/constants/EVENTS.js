@@ -38,6 +38,7 @@ const EVENTS = {
 		LOGIN_SUCCESS: "loginSuccess"
 	},
 	CARTS:  {
+		GET_MODULE_MODEL: 'get:moduleFromModuleCart',
 		GET_QUESTION_MODEL: 'get:questionModel',
 		GET_CART_DATA: 'get:cartData',
 		SET_LAYOUT: 'set:layout',

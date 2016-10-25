@@ -19,6 +19,7 @@ import {GetFormMetadataCriteriaInputOptions} from '../../commands/GetFormMetadat
 const FormService = Marionette.Object.extend({
 	channelName:   'form',
 	radioRequests: {
+		[EVENTS.FORM.ADD_MODULE_FROM_CART]:         'handleAddModuleFormCart',
 		[EVENTS.FORM.CANCEL_EDIT_FORM]:         'handleCancelEditForm',
 		[EVENTS.FORM.EDIT_FORM]:                'handleSetFormEditable',
 		[EVENTS.FORM.SET_FORM_LAYOUT]:          'dispatchLayout',
@@ -129,6 +130,17 @@ const FormService = Marionette.Object.extend({
 			/* End Hack*/
 			this.setModuleView(newModuleModel.cid);
 		});
+	},
+	handleAddModuleFormCart({moduleId}) {
+		const questionModelFromCDECart = appChannel.request(EVENTS.CARTS.GET_MODULE_MODEL, moduleId);
+
+		/*Make sure the new question model doesn't include any info from the one i the CDE cart
+		 * http://stackoverflow.com/questions/15163952/how-to-clone-models-from-backbone-collection-to-another#answer-15165027
+		 * */
+		const newModulePojo = backboneModelHelpers.getDeepModelPojo(questionModelFromCDECart);
+		/* set displayOrder as 0 in case it's something else */
+		newModulePojo.dispOrder = 0;
+		this.formModel.get('formModules').add(new FormModuleModel(newModulePojo));
 	},
 	handleCancelEditForm({action = this.formUIStateModel.attributes.actionMode}) {
 		this.formUIStateModel.set({

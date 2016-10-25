@@ -30,6 +30,7 @@ const CartsService = Marionette.Object.extend({
 		cartChannel.reply(EVENTS.CARTS.SET_LAST_CART_SORTED_BY, (options) => this.handleCartSortedBy(options));
 
 		appChannel.reply(EVENTS.CARTS.GET_QUESTION_MODEL, (options) => this.getQuestionModelFromCDECartById(options));
+		appChannel.reply(EVENTS.CARTS.GET_MODULE_MODEL, (options) => this.getQuestionModuleFromModuleCartById(options));
 
 	},
 	constructLayout(cart){
@@ -104,8 +105,8 @@ const CartsService = Marionette.Object.extend({
 		const p = new Promise(
 			(resolve, reject) =>{
 				dataCollection.fetch({
-					url: urlHelpers.buildUrl(dataCollection.baseUrl, urlQueryParams)
-				}).then(() =>{
+					url: urlHelpers.buildUrl(dataCollection.baseUrl || dataCollection.url, urlQueryParams)
+				}).then((model, results) =>{
 					resolve(dataCollection);
 				}).catch((error) =>{
 					console.log(error);
@@ -117,6 +118,10 @@ const CartsService = Marionette.Object.extend({
 		}).catch((error)=>{
 			console.log(error);
 		});
+	},
+	/*TODO modules in the module colleciton don't current have an idAttribute set, so I'm specifically getting by the moduleSeqId */
+	getQuestionModuleFromModuleCartById({id}) {
+		return this.moduleCartCollection.findWhere("moduleIdseq", id);
 	},
 	getQuestionModelFromCDECartById(id) {
 		return this.cdeCartCollection.get(id);

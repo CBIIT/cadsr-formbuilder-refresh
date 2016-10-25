@@ -15,11 +15,8 @@ export default class SidePanel extends Component {
 
 	}
 	dispatchAddModuleFromModuleCart(id){
-		formChannel.request(EVENTS.FORM.CREATE_QUESTION_FROM_CDE, {
-			action:         formActions.CREATE_QUESTION,
-			questionCid:    id,
-			activeModuleId: this.props.activeModuleId
-		});
+		formChannel.request(EVENTS.FORM.ADD_MODULE_FROM_CART, {
+			moduleId:    id});
 	}
 	dispatchAddQuestionFromCDE(id){
 		formChannel.request(EVENTS.FORM.CREATE_QUESTION_FROM_CDE, {
@@ -48,7 +45,7 @@ export default class SidePanel extends Component {
 	showModuleCart(){
 		const extraButtonListProps = {};
 		if(this.props.canAddModuleFromCart){
-			extraButtonListProps.canAddModuleFromCart = this.dispatchAddModuleFromModuleCart;
+			extraButtonListProps.onClickCallback = this.dispatchAddModuleFromModuleCart;
 		}
 		return (
 			<div className="bordered-container panel panel-half">
