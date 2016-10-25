@@ -13,5 +13,6 @@ public class FormBuilderConstants {
 //	public static final String FORMSERVICE_LOGIN = "login";
 	public static final String FORMSERVICE_USERS = "users";
 	public static final String FORMSERVICE_FORMS_PERFORMANCE = "performancetest";
+	public static final String TREE_SERVICE="tree";
 
 }

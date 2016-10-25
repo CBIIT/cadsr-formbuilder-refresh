@@ -12,6 +12,7 @@ FormBuilder/src/main/java/gov/nih/nci/cadsr/api/controller/CartAdapterController
 FormBuilder/src/main/java/gov/nih/nci/cadsr/api/controller/FormAdapterController.java -text
 FormBuilder/src/main/java/gov/nih/nci/cadsr/api/controller/ResourcesAdapterController.java -text
 FormBuilder/src/main/java/gov/nih/nci/cadsr/api/controller/TestController.java -text
+FormBuilder/src/main/java/gov/nih/nci/cadsr/api/controller/TreeAdapterController.java -text
 FormBuilder/src/main/java/gov/nih/nci/cadsr/api/controller/UserAdapterController.java -text
 FormBuilder/src/main/java/gov/nih/nci/cadsr/authentication/AuthUtils.java -text
 FormBuilder/src/main/java/gov/nih/nci/cadsr/authentication/CadsrAuthenticationProvider.java -text
