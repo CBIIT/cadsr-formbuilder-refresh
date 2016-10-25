@@ -6,6 +6,8 @@ import {browserHistory} from 'react-router';
 import formActions from '../../constants/formActions';
 import {formChannel, appChannel} from '../../channels/radioChannels';
 import FormModel from '../../models/forms/FormModel';
+import backboneModelHelpers from '../../helpers/backboneModelHelpers';
+import QuestionsModel from '../../models/forms/QuestionsModel';
 import FormModuleModel from '../../models/forms/FormModuleModel';
 import formUIStateModel from '../../models/forms/FormUIStateModel';
 import {GetFormMetadataCriteriaInputOptions} from '../../commands/GetFormMetadataCriteriaCommand';
@@ -134,12 +136,33 @@ const FormService = Marionette.Object.extend({
 			isEditing:  false
 		});
 	},
+	handleCreateModuleFromModuleCart({questionCid, activeModuleId} = {}) {
+		this.formUIStateModel.set({actionMode: formActions.CREATE_QUESTION});
+		this.formUIStateModel.set({isEditing: true});
+		const moduleModel = this.formModel.get('formModules').get(activeModuleId);
+		const questionModelFromCDECart = appChannel.request(EVENTS.CARTS.GET_QUESTION_MODEL, questionCid);
+
+		/*Make sure the new question model doesn't include any info from the one i the CDE cart
+		* http://stackoverflow.com/questions/15163952/how-to-clone-models-from-backbone-collection-to-another#answer-15165027
+		* */
+		const newQuestionPojo = backboneModelHelpers.getDeepModelPojo(questionModelFromCDECart);
+		/* set displayOrder as 0 in case it's something else */
+		newQuestionPojo.displayOrder = 0;
+
+		moduleModel.get("questions").add(new QuestionsModel(newQuestionPojo));
+		this.formUIStateModel.set({actionMode: formActions.VIEW_MODULE});
+	},
 	handleCreateQuestionFromCde({questionCid, activeModuleId} = {}) {
 		this.formUIStateModel.set({actionMode: formActions.CREATE_QUESTION});
 		this.formUIStateModel.set({isEditing: true});
 		const moduleModel = this.formModel.get('formModules').get(activeModuleId);
 		const questionModelFromCDECart = appChannel.request(EVENTS.CARTS.GET_QUESTION_MODEL, questionCid);
-		moduleModel.get("questions").add(questionModelFromCDECart);
+
+		const newQuestionPojo = backboneModelHelpers.getDeepModelPojo(questionModelFromCDECart);
+		/* set displayOrder as 0 in case it's something else */
+		newQuestionPojo.displayOrder = 0;
+
+		moduleModel.get("questions").add(new QuestionsModel(newQuestionPojo));
 		this.formUIStateModel.set({actionMode: formActions.VIEW_MODULE});
 	},
 	handleSaveForm() {
