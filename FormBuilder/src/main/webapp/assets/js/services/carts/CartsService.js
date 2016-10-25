@@ -37,7 +37,7 @@ const CartsService = Marionette.Object.extend({
 		 * Once React is the top level view currently handled by Marionette (i.e.  AppLayoutView,js), we can render CartLayout from there instead  */
 		let data = '';
 		if(cart === 'Module'){
-			this.data = this.moduleCartCollection;
+			data = this.moduleCartCollection;
 		}
 		else if(cart === 'Form'){
 			data = this.formCartCollection;
