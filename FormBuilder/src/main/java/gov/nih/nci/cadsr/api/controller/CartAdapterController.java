@@ -35,6 +35,7 @@ import org.xml.sax.SAXException;
 
 import gov.nih.nci.cadsr.FormBuilderConstants;
 import gov.nih.nci.cadsr.FormBuilderProperties;
+import gov.nih.nci.cadsr.authentication.AuthUtils;
 import gov.nih.nci.cadsr.authentication.CadsrUserDetails;
 import gov.nih.nci.cadsr.model.frontend.FEContext;
 import gov.nih.nci.cadsr.model.frontend.FEDataElement;
@@ -71,19 +72,79 @@ public class CartAdapterController {
 
 	@Autowired
 	private FormBuilderProperties props;
+	
+	@Autowired
+	private AuthUtils authUtil;
+	
+	@RequestMapping(value = "/{type}cart", method = RequestMethod.GET)
+	@ResponseBody
+	public ResponseEntity getCart(@PathVariable String type, @RequestParam(value = "cache", required = false) boolean cache, @RequestParam(value = "username", required = false) String username) {
+		
+		if(!authUtil.getLoggedIn()){
+			return new ResponseEntity("No authenticated user could be found. Unable to return module cart.",HttpStatus.UNAUTHORIZED);
+		}
+		else{
+			
+			if(username == null){
+				username = this.getUserName();
+			}
+			
+			if(type.equals("cde")){
+				if(cache){
+					return new ResponseEntity(this.getUserDetails().getCdeCart(), HttpStatus.OK);
+				}
+				else{
+					try {
+						return this.loadCDECart(username);
+					} catch (XmlMappingException | IOException | SAXException | ParserConfigurationException
+							| JAXBException | XMLStreamException e) {
+						
+						return new ResponseEntity("The CDE Cart could not be retrieved from the Object Cart service. Please try again later.",HttpStatus.NOT_FOUND);
+						
+					}
+				}
+			}
+			else if(type.equals("module")){
+				
+				if(!authUtil.getLoggedIn()){
+					return new ResponseEntity(new ArrayList<FEModule>(), HttpStatus.OK);
+				}
+				
+				return new ResponseEntity(this.getUserDetails().getModuleCart(), HttpStatus.OK);
+			}
+			else if(type.equals("form")){
+				if(cache){
+					return new ResponseEntity(this.getUserDetails().getFormCart(), HttpStatus.OK);
+				}
+				else{
+					try {
+						return this.loadFormV2Cart(username);
+					} catch (XmlMappingException | IOException | SAXException | ParserConfigurationException
+							| JAXBException | XMLStreamException e) {
 
-	@RequestMapping(value = "/modulecart", method = RequestMethod.GET)
+						return new ResponseEntity("The Form Cart could not be retrieved from the Object Cart service. Please try again later.",HttpStatus.NOT_FOUND);
+						
+					}
+				}
+			}
+		}
+		
+		return new ResponseEntity(HttpStatus.BAD_REQUEST);
+		
+	}
+
+	/*@RequestMapping(value = "/modulecart", method = RequestMethod.GET)
 	@ResponseBody
 	public ResponseEntity getModuleCart() {
 		
-		try{
-			
-		return new ResponseEntity(this.getUserDetails().getModuleCart(), HttpStatus.OK);
-		
-		} catch(NullPointerException npe){
-			return new ResponseEntity("No authenticated user could be found. Unable to return module cart.",HttpStatus.NOT_FOUND);
+		if(authUtil.getLoggedIn()){
+			return new ResponseEntity(this.getUserDetails().getModuleCart(), HttpStatus.OK);
 		}
-
+		
+		else{
+			return new ResponseEntity("No authenticated user could be found. Unable to return module cart.",HttpStatus.UNAUTHORIZED);
+		}
+		
 	}
 
 	@RequestMapping(value = "/cdecart", method = RequestMethod.GET)
@@ -95,12 +156,12 @@ public class CartAdapterController {
 		}
 		
 		if(cache){
-			try{
-				
+			
+			if(authUtil.getLoggedIn()){
 				return new ResponseEntity(this.getUserDetails().getCdeCart(), HttpStatus.OK);
-				
-			} catch(NullPointerException npe){
-				return new ResponseEntity("No authenticated user could be found. Unable to return CDE cart.",HttpStatus.NOT_FOUND);
+			}
+			else{
+				return new ResponseEntity("No authenticated user could be found. Unable to return module cart.",HttpStatus.UNAUTHORIZED);
 			}
 		}
 		else{
@@ -118,19 +179,20 @@ public class CartAdapterController {
 		}
 		
 		if(cache){
-			try{
-				
+			
+			if(authUtil.getLoggedIn()){
 				return new ResponseEntity(this.getUserDetails().getFormCart(), HttpStatus.OK);
-				
-			}catch(NullPointerException npe){
-				return new ResponseEntity("No authenticated user could be found. Unable to return form cart.",HttpStatus.NOT_FOUND);
 			}
+			else{
+				return new ResponseEntity("No authenticated user could be found. Unable to return module cart.",HttpStatus.UNAUTHORIZED);
+			}
+			
 		}
 		else{
 			return this.loadFormV2Cart(username);
 		}
 
-	}
+	}*/
 
 	private ResponseEntity loadCDECart(String username) throws XmlMappingException, IOException,
 			SAXException, ParserConfigurationException, JAXBException, XMLStreamException {
@@ -336,7 +398,7 @@ public class CartAdapterController {
 		return new ResponseEntity(feForms, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/objcart/formcart/{username}", method = RequestMethod.GET)
+	/*@RequestMapping(value = "/objcart/formcart/{username}", method = RequestMethod.GET)
 	@ResponseBody
 	public ResponseEntity loadFormCart(@RequestParam(value = "username", required = true) String username) {
 
@@ -346,7 +408,7 @@ public class CartAdapterController {
 
 		return new ResponseEntity(this.getUserDetails().getFormCart(), HttpStatus.OK);
 
-	}
+	}*/
 
 	@RequestMapping(value = "/modules", method = RequestMethod.POST)
 	@ResponseBody
@@ -521,12 +583,5 @@ public class CartAdapterController {
 		return SecurityContextHolder.getContext().getAuthentication().getName();
 	}
 	
-	/*private List<ReferenceDocument> getReferenceDocuments(String acIdseq)
-    {
-        ReferenceDocumentDAO myDAO = (ReferenceDocumentDAO)daoFactory.getReferenceDocumentDAO();
-        List refDocs = myDAO.getAllReferenceDocuments(acIdseq, 
-                        null);
-        return refDocs;        
-    }*/
 
 }

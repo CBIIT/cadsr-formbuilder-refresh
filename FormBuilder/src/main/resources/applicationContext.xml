@@ -30,6 +30,10 @@
 
 	<bean id="formBuilderProperties" class="gov.nih.nci.cadsr.FormBuilderProperties"
 		scope="singleton" />
+		
+	<bean id="authUtils" class="gov.nih.nci.cadsr.authentication.AuthUtils"
+		scope="singleton" />	
+		
 			<!-- <bean id="Test" class="gov.nih.nci.cadsr.Test" /> -->
 
 	<bean id="EditInterceptor" class="gov.nih.nci.cadsr.EditInterceptor" />

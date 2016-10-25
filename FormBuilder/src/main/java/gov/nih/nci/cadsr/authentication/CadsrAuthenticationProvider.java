@@ -70,12 +70,17 @@ public class CadsrAuthenticationProvider implements AuthenticationProvider{
 			}
 			
 		}
+		else{
+			return null;
+		}
 		
 		List<GrantedAuthority> grantedAuths = new ArrayList();
         
-        for(FEContext context : userDetails.getUser().getContexts()){
-        	grantedAuths.add(new SimpleGrantedAuthority(context.getName()));
-        }
+		if(userDetails.getUser() != null){
+	        for(FEContext context : userDetails.getUser().getContexts()){
+	        	grantedAuths.add(new SimpleGrantedAuthority(context.getName()));
+	        }
+		}
         
         return new UsernamePasswordAuthenticationToken(userDetails, password, grantedAuths);
 		
