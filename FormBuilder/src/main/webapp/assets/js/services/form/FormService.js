@@ -135,10 +135,12 @@ const FormService = Marionette.Object.extend({
 		const questionModelFromCDECart = appChannel.request(EVENTS.CARTS.GET_MODULE_MODEL, moduleId);
 
 		/*Make sure the new question model doesn't include any info from the one i the CDE cart
-		 * http://stackoverflow.com/questions/15163952/how-to-clone-models-from-backbone-collection-to-another#answer-15165027
-		 * */
-		const newModulePojo = backboneModelHelpers.getDeepModelPojo(questionModelFromCDECart);
-		/* set displayOrder as 0 in case it's something else */
+		 * http://stackoverflow.com/questions/15163952/how-to-clone-models-from-backbone-collection-to-another#answer-15165027 */
+		const newModulePojo = backboneModelHelpers.getDeepModelPojo(_.omit(questionModelFromCDECart, "form"));
+		/* nested object "form" was used to note what form this module was  part of but shouldn't be included here*/
+		delete newModulePojo.moduleIdseq;
+		delete newModulePojo.form;
+		/* set dispOrder as 0 in case it's something else */
 		newModulePojo.dispOrder = 0;
 		this.formModel.get('formModules').add(new FormModuleModel(newModulePojo));
 	},
@@ -147,22 +149,6 @@ const FormService = Marionette.Object.extend({
 			actionMode: action,
 			isEditing:  false
 		});
-	},
-	handleCreateModuleFromModuleCart({questionCid, activeModuleId} = {}) {
-		this.formUIStateModel.set({actionMode: formActions.CREATE_QUESTION});
-		this.formUIStateModel.set({isEditing: true});
-		const moduleModel = this.formModel.get('formModules').get(activeModuleId);
-		const questionModelFromCDECart = appChannel.request(EVENTS.CARTS.GET_QUESTION_MODEL, questionCid);
-
-		/*Make sure the new question model doesn't include any info from the one i the CDE cart
-		* http://stackoverflow.com/questions/15163952/how-to-clone-models-from-backbone-collection-to-another#answer-15165027
-		* */
-		const newQuestionPojo = backboneModelHelpers.getDeepModelPojo(questionModelFromCDECart);
-		/* set displayOrder as 0 in case it's something else */
-		newQuestionPojo.displayOrder = 0;
-
-		moduleModel.get("questions").add(new QuestionsModel(newQuestionPojo));
-		this.formUIStateModel.set({actionMode: formActions.VIEW_MODULE});
 	},
 	handleCreateQuestionFromCde({questionCid, activeModuleId} = {}) {
 		this.formUIStateModel.set({actionMode: formActions.CREATE_QUESTION});
