@@ -1,14 +1,10 @@
-/**
- * Created by nmilos on 10/11/16.
- */
 import {Collection} from 'backbone';
 import ModuleModel from './ModuleModel';
+import ENDPOINT_URLS from '../../constants/ENDPOINT_URLS';
 
 const ModuleCollection = Collection.extend({
 	model: ModuleModel,
-	initialize({baseUrl}) {
-		this.baseUrl = baseUrl;
-	}
+	url: ENDPOINT_URLS.MODULE_CART
 });
 
 export default ModuleCollection;

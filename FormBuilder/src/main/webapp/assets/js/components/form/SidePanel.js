@@ -8,10 +8,19 @@ export default class SidePanel extends Component {
 	constructor(props){
 		super(props);
 
+		this.dispatchAddModuleFromModuleCart = this.dispatchAddModuleFromModuleCart.bind(this);
 		this.dispatchAddQuestionFromCDE = this.dispatchAddQuestionFromCDE.bind(this);
-		this.showCDECar = this.showCDECar.bind(this);
-	}
+		this.showCDECart = this.showCDECart.bind(this);
+		this.showModuleCart = this.showModuleCart.bind(this);
 
+	}
+	dispatchAddModuleFromModuleCart(id){
+		formChannel.request(EVENTS.FORM.CREATE_QUESTION_FROM_CDE, {
+			action:         formActions.CREATE_QUESTION,
+			questionCid:    id,
+			activeModuleId: this.props.activeModuleId
+		});
+	}
 	dispatchAddQuestionFromCDE(id){
 		formChannel.request(EVENTS.FORM.CREATE_QUESTION_FROM_CDE, {
 			action:         formActions.CREATE_QUESTION,
@@ -20,7 +29,7 @@ export default class SidePanel extends Component {
 		});
 	}
 
-	showCDECar(){
+	showCDECart(){
 		const extraButtonListProps = {};
 		if(this.props.permitAddQuestionFromCde){
 			extraButtonListProps.onClickCallback = this.dispatchAddQuestionFromCDE;
@@ -36,22 +45,28 @@ export default class SidePanel extends Component {
 			</div>
 		);
 	}
+	showModuleCart(){
+		const extraButtonListProps = {};
+		if(this.props.canAddModuleFromCart){
+			extraButtonListProps.canAddModuleFromCart = this.dispatchAddModuleFromModuleCart;
+		}
+		return (
+			<div className="bordered-container panel panel-half">
+				<p className="panel-header">
+					<span className="panel-header-heading">Module Cart</span>
+				</p>
+				<div className="panel-content">
+					<ButtonList  {...extraButtonListProps} itemKey={"id"} className={"panel-list-cart panel-item"} buttonItemClassName={"button-link button-link-default " + (this.props.canAddModuleFromCart ? "add-text center-v-spread-h" : "")} itemTextKey={"longName"} data={this.props.moduleCartList}/>
+				</div>
+			</div>
+		);
+	}
 
 	render(){
 		return (
 			<div>
-				{this.showCDECar()}
-				<div className="bordered-container panel panel-half">
-					<p className="panel-header">
-						<span className="panel-header-heading">Module Cart</span>
-					</p>
-					<div className="panel-content">
-						{/*<ButtonList itemKey={"deIdseq"} className="panel-list-cart panel-item" itemTextKey={"longcdename"} data={this.props.moduleCartList}/>*/}
-					</div>
-					<div className="panel-content">
-						<p className="panel-temp"><em>Coming Soon...</em></p>
-					</div>
-				</div>
+				{this.showCDECart()}
+				{this.showModuleCart()}
 			</div>
 
 		);
@@ -59,11 +74,11 @@ export default class SidePanel extends Component {
 }
 
 SidePanel.defaultProps = {
-	cdeList:                  [],
+	cdeCartList:                  [],
 	permitAddQuestionFromCde: false
 };
 
 SidePanel.propTypes = {
 	permitAddQuestionFromCde: PropTypes.bool,
-	cdeList:                  PropTypes.array
+	cdeCartList:                  PropTypes.array
 };
