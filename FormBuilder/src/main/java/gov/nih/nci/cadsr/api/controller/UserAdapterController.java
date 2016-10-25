@@ -1,8 +1,12 @@
 package gov.nih.nci.cadsr.api.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,7 +17,9 @@ import org.springframework.web.client.RestTemplate;
 
 import gov.nih.nci.cadsr.FormBuilderConstants;
 import gov.nih.nci.cadsr.FormBuilderProperties;
+import gov.nih.nci.cadsr.authentication.AuthUtils;
 import gov.nih.nci.cadsr.authentication.CadsrUserDetails;
+import gov.nih.nci.cadsr.model.frontend.FEContext;
 import gov.nih.nci.cadsr.model.frontend.FEUser;
 import gov.nih.nci.cadsr.model.session.SessionObject;
 
@@ -30,6 +36,9 @@ public class UserAdapterController {
 	
 	@Autowired
 	private FormBuilderProperties props;
+	
+	@Autowired
+	private AuthUtils authUtil;
 	
 	@Autowired
 	SessionObject sessionObject;
@@ -49,12 +58,7 @@ public class UserAdapterController {
 	@RequestMapping(value = { "/loggedIn" }, method = RequestMethod.GET)
 	@ResponseBody
 	public boolean getLoggedIn() {
-		
-		CadsrUserDetails userDetails =
-				 (CadsrUserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		
-		return !userDetails.getUsername().equals("anonymousUser");
-		
+		return authUtil.getLoggedIn();
 	}
 
 	@RequestMapping(value = { "/username" }, method = RequestMethod.GET)
@@ -83,6 +87,20 @@ public class UserAdapterController {
 				 (CadsrUserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		
 		return new ResponseEntity(userDetails.getUser().getContexts(), HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = { "/contextnames" }, method = RequestMethod.GET)
+	@ResponseBody
+	public ResponseEntity getCuratorContextNames() {
+		CadsrUserDetails userDetails =
+				 (CadsrUserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		List<String> contextNames = new ArrayList<String>();
+		
+		for(FEContext context : userDetails.getUser().getContexts()){
+			contextNames.add(context.getName());
+		}
+		
+		return new ResponseEntity(contextNames, HttpStatus.OK);
 	}
 	
 	/*@RequestMapping(value = { "/session/username" }, method = RequestMethod.GET)
