@@ -326,11 +326,6 @@ export default class SearchLayout extends Component {
 				</div>
 			);
 		}
-		else {
-			return (
-				<p>Loading</p>
-			);
-		}
 	}
 
 	render(){
