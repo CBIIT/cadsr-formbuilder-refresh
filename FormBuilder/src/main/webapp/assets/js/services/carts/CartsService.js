@@ -247,9 +247,7 @@ const CartsService = Marionette.Object.extend({
 		this.formCartCollection = new FormCollection({
 			baseUrl: `${ENDPOINT_URLS.FORM_CART}`
 		});
-		this.moduleCartCollection = new ModuleCollection({
-			baseUrl: `${ENDPOINT_URLS.MODULE_CART}`
-		});
+		this.moduleCartCollection = new ModuleCollection();
 	}
 });
 

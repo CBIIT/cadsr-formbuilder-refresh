@@ -16,8 +16,8 @@ export const getFormCartCollectionPojo = (formCartCollection) =>{
 	});
 };
 
-export const getModuleCartCollectionPojo = (formCartCollection) =>{
-	return formCartCollection.models.map(model =>{
+export const getModuleCartCollectionPojo = (moduleCartCollection) =>{
+	return moduleCartCollection.models.map(model =>{
 		return {
 			longName:           model.attributes.longName,
 			instructions:       model.attributes.instructions,

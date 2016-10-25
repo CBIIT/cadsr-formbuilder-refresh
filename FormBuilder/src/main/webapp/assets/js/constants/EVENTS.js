@@ -12,6 +12,7 @@ const EVENTS = {
 		EDIT_FORM:                      'editForm',
 		CREATE_MODULE:                  "create:module",
 		CREATE_QUESTION_FROM_CDE:        "create:questionFromCde",
+		ADD_MODULE_FROM_CART:        "add:moduleFromModuleCart",
 		SET_NEW_MODULE:                 "set:newModule",
 		SAVE_FORM:                      'saveForm',
 		SET_MODULE:                     "set:module",
