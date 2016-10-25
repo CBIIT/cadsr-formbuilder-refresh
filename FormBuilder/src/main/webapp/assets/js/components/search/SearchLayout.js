@@ -39,9 +39,9 @@ export default class SearchLayout extends Component {
 			selectedType: '',
 			selectedContextID: '',
 			validatePristine: false,
-			excludeTest: false,
-			latestVersions: false,
-			excludeTraining: false,
+			excludeTest: true,
+			latestVersions: true,
+			excludeTraining: true,
 			protocolModalOpen: false,
 			classificationModalOpen: false
 		};
