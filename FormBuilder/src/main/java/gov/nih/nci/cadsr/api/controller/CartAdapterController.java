@@ -23,6 +23,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.oxm.XmlMappingException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -54,6 +55,7 @@ import gov.nih.nci.cadsr.model.jaxb.JaxbValidValue;
 //import gov.nih.nci.cadsr.model.XMLConverter;
 
 import gov.nih.nci.ncicb.cadsr.common.dto.FormTransferObject;
+import gov.nih.nci.objectCart.client.ObjectCartException;
 //import gov.nih.nci.ncicb.cadsr.formbuilder.ejb.impl.ReferenceDocument;
 //import gov.nih.nci.ncicb.cadsr.formbuilder.ejb.impl.ReferenceDocumentDAO;
 import gov.nih.nci.objectCart.domain.Cart;
@@ -456,11 +458,32 @@ public class CartAdapterController {
 		return null;
 	}
 
-	@RequestMapping(value = "/forms", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/deleteFormv2/{username}/{formIdSeq}", method = RequestMethod.DELETE)
 	@ResponseBody
-	public ResponseEntity removeFromFormCart(@RequestBody FormTransferObject form) {
+	public ResponseEntity DeletFormFromOC(@PathVariable String username, @PathVariable String formIdSeq) {
 
-		return null;
+		String base_uri = props.getFormServiceApiUrl() + FormBuilderConstants.FORMSERVICE_BASE_URL
+				+ FormBuilderConstants.FORMSERVICE_FORMS + FormBuilderConstants.DELETE_FORMV2_FROMOC + "/" + username
+				+ "/" + formIdSeq;
+		RestTemplate restTemplate = new RestTemplate();
+		restTemplate.delete(base_uri);
+
+		return new ResponseEntity(formIdSeq, HttpStatus.OK);
+
+	}
+
+	@RequestMapping(value = "/deleteCde/{username}/{cdeId}", method = RequestMethod.DELETE)
+	@ResponseBody
+	public ResponseEntity DeletCdeFromOC(@PathVariable String username, @PathVariable String cdeId) {
+
+		String base_uri = props.getFormServiceApiUrl() + FormBuilderConstants.FORMSERVICE_BASE_URL
+				+ FormBuilderConstants.FORMSERVICE_FORMS + FormBuilderConstants.DELETE_CDE_FROMOC + "/" + username + "/"
+				+ cdeId;
+		RestTemplate restTemplate = new RestTemplate();
+		restTemplate.delete(base_uri);
+
+		return new ResponseEntity(cdeId, HttpStatus.OK);
+
 	}
 
 	@RequestMapping(value = "/dummy/objcart/cdecart/{username}", method = RequestMethod.GET)
