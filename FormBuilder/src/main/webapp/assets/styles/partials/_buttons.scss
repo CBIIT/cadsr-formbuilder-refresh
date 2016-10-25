@@ -7,6 +7,10 @@ Styleguide 2
 */
 @import "global-colors-mixins";
 
+button {
+  outline: none;
+}
+
 @mixin blueButton {
   background-color: $activeBlue;
   border-bottom: 1px solid #b2b2b2;
