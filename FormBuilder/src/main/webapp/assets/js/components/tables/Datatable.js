@@ -433,7 +433,7 @@ export default class Datatable extends React.Component{
 				{
 					this.addPagination(true)
 				}
-				<span className="reactTable-total">TOTAL ITEMS IN CART: {this.state.data.length}</span>
+				<span className="reactTable-total">{this.props.resultsText} {this.state.data.length}</span>
 				<div className="reactTable-wrap">
 					<Reactable id="table" className="table reactTable">
 						<Thead>
@@ -516,7 +516,7 @@ export default class Datatable extends React.Component{
 						}
 					</Reactable>
 					</div>
-				<span className="reactTable-total reactTable-total--bottom">TOTAL ITEMS IN CART: {this.state.data.length}</span>
+				<span className="reactTable-total reactTable-total--bottom">{this.props.resultsText} {this.state.data.length}</span>
 				{
 					this.addPagination()
 				}
@@ -526,7 +526,8 @@ export default class Datatable extends React.Component{
 }
 Datatable.defaultProps = {
 	displayControls: true,
-	showCheckboxes: true
+	showCheckboxes: true,
+	resultsText: "TOTAL ITEMS IN CART:"
 };
 Datatable.propTypes = {
 	data: PropTypes.array,
@@ -536,5 +537,6 @@ Datatable.propTypes = {
 	pageName: PropTypes.string,
 	displayControls: PropTypes.bool,
 	showCheckboxes: PropTypes.bool,
-	clickCallback: PropTypes.func
+	clickCallback: PropTypes.func,
+	resultsText: PropTypes.string
 };
