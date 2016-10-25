@@ -394,16 +394,23 @@ public class FormManagerImpl implements FormManager {
 				QuestionTransferObject qto = new QuestionTransferObject();
 				qto.setDataElement(new DataElementTransferObject());
 				qto.getDataElement().setValueDomain(new ValueDomainTransferObject());
+				qto.getDataElement().setDeIdseq(ques.getDeIdseq());
+				
+				qto.setModule(mto);
 				
 				qto.setQuesIdseq(ques.getQuesIdseq());
 				qto.setVersion(ques.getVersion());
-				qto.setPreferredDefinition(ques.getPreferredQuestionText()); //XXX: is correct?
+				qto.setPreferredDefinition(ques.getLongName()); //XXX: is correct?
 				qto.setMandatory(ques.isMandatory());
 				qto.setEditable(ques.isEditable());
 				qto.setDeDerived(ques.isDeDerived());
 				qto.setLongName(ques.getLongName());
 				qto.getDataElement().getValueDomain().setDatatype(ques.getDataType());
 				qto.getDataElement().getValueDomain().setUnitOfMeasure(ques.getUnitOfMeasure());
+				qto.setAslName(mto.getAslName());
+				qto.setContext(mto.getContext());
+				qto.setCreatedBy(mto.getCreatedBy());
+				qto.setDisplayOrder(ques.getDisplayOrder());
 				
 				qto.setDefaultValue(ques.getDefaultValue());
 				
@@ -439,8 +446,6 @@ public class FormManagerImpl implements FormManager {
 				
 				dbinstructions.add(instr);
 				qto.setInstructions(dbinstructions);
-				
-				
 				
 				if(ques.getIsDeleted()){
 					modChange.getDeletedQuestions().add(qto);
@@ -510,7 +515,7 @@ public class FormManagerImpl implements FormManager {
 					
 					modChange.getUpdatedQuestions().add(quesChange);
 				}
-				else if(ques.getQuesIdseq().isEmpty()){
+				else if(ques.getQuesIdseq() == null || ques.getQuesIdseq() == ""){
 					modChange.getNewQuestions().add(qto);
 				}
 			}
