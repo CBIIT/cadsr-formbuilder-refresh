@@ -1,5 +1,6 @@
 package gov.nih.nci.cadsr.authentication;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -21,6 +22,16 @@ public class CadsrUserDetails implements UserDetails{
 	private List<FEQuestion> cdeCart;
 	private List<FEModule> moduleCart;
 	private List<FEFormMetaData> formCart;
+	
+	public CadsrUserDetails(){
+		user = new FEUser();
+		password = "";
+		username = "";
+		token = "";
+		cdeCart = new ArrayList<FEQuestion>();
+		moduleCart = new ArrayList<FEModule>();
+		formCart = new ArrayList<FEFormMetaData>();
+	}
 	
 	public FEUser getUser() {
 		return user;
