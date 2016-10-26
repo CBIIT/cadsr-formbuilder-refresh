@@ -51,7 +51,7 @@ public class ProtocolTrDaoImpl extends JDBCBaseDAOFB implements ProtocolTrDao {
 				}
 			}
 
-			String sql = "SELECT p.preferred_name pn, p.preferred_definition pd, p.LONG_NAME pln, "
+			String sql = "SELECT p.proto_idseq idseq,p.preferred_name pn, p.preferred_definition pd, p.LONG_NAME pln, "
 					+ "p.PROTO_ID publicId,p.conte_idseq contextId,c.name contextname  from protocols_view_ext p,sbr.contexts_view c"
 					+ where;
 
@@ -64,7 +64,8 @@ public class ProtocolTrDaoImpl extends JDBCBaseDAOFB implements ProtocolTrDao {
 		protected Object mapRow(ResultSet rs, int rowNum) throws SQLException {
 
 			ProtocolTransferObject protocol = new ProtocolTransferObject();
-
+			
+            protocol.setProtoIdseq(rs.getString("idseq"));
 			protocol.setPreferredName(rs.getString("pn"));
 			protocol.setLongName(rs.getString("pln"));
 			protocol.setPreferredDefinition(rs.getString("pd"));

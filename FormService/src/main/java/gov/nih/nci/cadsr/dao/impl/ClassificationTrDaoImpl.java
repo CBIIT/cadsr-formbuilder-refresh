@@ -65,7 +65,7 @@ public class ClassificationTrDaoImpl extends JDBCBaseDAOFB implements Classifica
 				}
 			}*/
 
-			String sql = "select cs.preferred_definition csDefination,cs.version csVersion,cs.cs_id csPublicId, csi.csi_id csiPublicId,csi.LONG_NAME csiName,"
+			String sql = "select cscsi.cs_csi_idseq cscsiID, csi.csi_idseq csid,cs.preferred_definition csDefination,cs.version csVersion,cs.cs_id csPublicId, csi.csi_id csiPublicId,csi.LONG_NAME csiName,"
 					+ " cs.LONG_NAME csLongName FROM sbr.ac_csi_view accsi, sbr.cs_csi_view cscsi, "
 					+ "sbr.cs_items_view csi, sbr.classification_schemes_view cs where " + where;
 			super.setSql(sql);
@@ -76,7 +76,8 @@ public class ClassificationTrDaoImpl extends JDBCBaseDAOFB implements Classifica
 		@Override
 		protected Object mapRow(ResultSet rs, int rowNum) throws SQLException {
 			CSITransferObject csiTO = new CSITransferObject();
-
+			csiTO.setCsiIdseq(rs.getString("csid"));
+			csiTO.setCsCsiIdseq(rs.getString("cscsiID"));
 			csiTO.setClassSchemeLongName(rs.getString("csLongName"));
 			csiTO.setClassSchemeItemName(rs.getString("csiName"));
 			csiTO.setCsVersion(rs.getFloat("csVersion"));
@@ -84,6 +85,7 @@ public class ClassificationTrDaoImpl extends JDBCBaseDAOFB implements Classifica
 			csiTO.setClassSchemeDefinition(rs.getString("csDefination"));
 			csiTO.setCsiId(rs.getInt("csiPublicId"));
 			//csiTO.setCsContext(csContext);
+			
 
 			return csiTO;
 
