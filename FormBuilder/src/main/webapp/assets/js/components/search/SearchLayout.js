@@ -156,19 +156,15 @@ export default class SearchLayout extends Component {
 		this.refs.form.refs.form.reset(); //javascript is fun
 	}
 	
-	selectProtocolCallback(value) {
-
-
+	selectProtocolCallback(itemRow) {
 		this.setState({
-			selectedProtocol: value
+			selectedProtocol: itemRow
 		});
 	}
 	
-	selectClassificationCallback(value) {
-
-
+	selectClassificationCallback(itemRow) {
 		this.setState({
-			selectedClassification: value
+			selectedClassification: itemRow
 		});
 	}
 	
@@ -207,11 +203,11 @@ export default class SearchLayout extends Component {
 							onClick={this.openClassificationModal}  
 
 
-							value={this.state.selectedClassification}
+							value={this.state.selectedClassification.csCsiIdseq}
 							className="hidden"
 							readOnly="readOnly"
 						/>
-						<FilterPill text={this.state.selectedClassification} closeButtonCallback={this.removeClassificationPill} />
+						<FilterPill text={this.state.selectedClassification.csName} closeButtonCallback={this.removeClassificationPill} />
 						<button type="button" onClick={() =>{this.openClassificationModal();}} className="btn btn-link align-left">SEARCH FOR CLASSIFICATION</button>
 					</div>
 					<div className="formItem">
@@ -239,11 +235,11 @@ export default class SearchLayout extends Component {
 							onClick={this.openProtocolsModal} 
 
 
-							value={this.state.selectedProtocol}
+							value={this.state.selectedProtocol.protoIdseq}
 							className="hidden"
 							readOnly="readOnly"
 						/>
-						<FilterPill text={this.state.selectedProtocol} closeButtonCallback={this.removeProtocolPill} />
+						<FilterPill text={this.state.selectedProtocol.longName} closeButtonCallback={this.removeProtocolPill} />
 						<button type="button" onClick={() =>{this.openProtocolsModal();}} className="btn btn-link align-left">SEARCH FOR PROTOCOL</button>
 					</div>
 					<div className="formItem">

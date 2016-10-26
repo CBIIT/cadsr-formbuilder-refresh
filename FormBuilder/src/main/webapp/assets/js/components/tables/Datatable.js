@@ -473,7 +473,7 @@ export default class Datatable extends React.Component{
 												else if (title.clickable) {
 													return(
 														<Td key={title+index} column={title.name}>
-															<a href="javascript:;" onClick={()=>{this.props.clickCallback(title.key, item[title.key]);}}>{item[title.key]}</a>
+															<a href="javascript:;" onClick={()=>{this.props.clickCallback(title.key, item);}}>{item[title.key]}</a>
 														</Td>
 													);
 												}

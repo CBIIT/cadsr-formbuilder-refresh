@@ -73,7 +73,8 @@ const ModalsService = Marionette.Object.extend({
 				id:				model.protocolId,
 				shortName:		model.preferredName,
 				context:		(model.context == null) ? "" : model.context.name,
-				definition:		model.preferredDefinition
+				definition:		model.preferredDefinition,
+				protoIdseq:		(model.protoIdseq == null) ? "" : model.protoIdseq 
 			};
 		});
 	},
@@ -86,7 +87,8 @@ const ModalsService = Marionette.Object.extend({
 				definition:		model.classSchemeDefinition,
 				csContext:		model.csContext,
 				csPublicId:		model.csID,
-				csVersion:		model.csVersion
+				csVersion:		model.csVersion,
+				csCsiIdseq: 	(model.csCsiIdseq == null) ? "" : model.csCsiIdseq
 			};
 		});
 	}

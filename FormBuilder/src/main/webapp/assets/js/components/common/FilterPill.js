@@ -24,7 +24,7 @@ export default class FilterPill extends Component {
 	}
 	
 	render() {
-		if (this.props.text != "") {
+		if (this.props.text) {
 			return (
 				<div className="filterPill">
 					{

@@ -55,9 +55,9 @@ export default class ProtocolSelectModal extends Component {
 		});
 	}
 	
-	dispatchSelection(title, id) {
+	dispatchSelection(title, item) {
 		this.props.closeButtonClicked();
-		this.props.selectionCallback(id);
+		this.props.selectionCallback(item);
 	}
 	
 	render(){
