@@ -21,7 +21,7 @@ export const getModuleCartCollectionPojo = (moduleCartCollection) =>{
 		return {
 			longName:           model.attributes.longName,
 			instructions:       model.attributes.instructions,
-			id:                 model.attributes.moduleIdseq,
+			id:                 model.cid,
 			numQuestions:       model.attributes.numQuestions,
 			originFormLongName: model.attributes.form.longName,
 			originFormContext:  model.attributes.form.context,

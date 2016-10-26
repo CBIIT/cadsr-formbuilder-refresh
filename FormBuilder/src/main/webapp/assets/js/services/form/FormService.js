@@ -142,9 +142,10 @@ const FormService = Marionette.Object.extend({
 		/*Make sure the new question model doesn't include any info from the one i the CDE cart
 		 * http://stackoverflow.com/questions/15163952/how-to-clone-models-from-backbone-collection-to-another#answer-15165027 */
 		const newModulePojo = backboneModelHelpers.getDeepModelPojo(_.omit(questionModelFromCDECart, "form"), false);
-		/* nested object "form" was used to note what form this module was  part of but shouldn't be included here*/
-		delete newModulePojo.moduleIdseq;
-		delete newModulePojo.form;
+		/*TODO is this still needed? */
+		if(newModulePojo.moduleIdseq){
+			delete newModulePojo.moduleIdseq;
+		}
 		/* set dispOrder as 0 in case it's something else */
 		newModulePojo.dispOrder = 0;
 		this.formModel.get('formModules').add(new FormModuleModel(newModulePojo));

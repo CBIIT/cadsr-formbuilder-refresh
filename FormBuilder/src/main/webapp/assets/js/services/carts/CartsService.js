@@ -50,8 +50,8 @@ const CartsService = Marionette.Object.extend({
 		}
 		return {
 			cartPageStateModel: this.cartPageStateModel,
-			data: data,
-			cart: cart
+			data:               data,
+			cart:               cart
 		}
 
 	},
@@ -122,8 +122,8 @@ const CartsService = Marionette.Object.extend({
 		});
 	},
 	/*TODO modules in the module colleciton don't current have an idAttribute set, so I'm specifically getting by the moduleSeqId */
-	getQuestionModuleFromModuleCartById({id}) {
-		return this.moduleCartCollection.findWhere("moduleIdseq", id);
+	getQuestionModuleFromModuleCartById(id) {
+		return this.moduleCartCollection.get(id);
 	},
 	getQuestionModelFromCDECartById(id) {
 		return this.cdeCartCollection.get(id);
@@ -132,7 +132,10 @@ const CartsService = Marionette.Object.extend({
 		const moduleModelFromForm = formChannel.request(EVENTS.FORM.GET_MODULE, id);
 		const modulePojo = backboneModelHelpers.getDeepModelPojo(moduleModelFromForm, false);
 		delete modulePojo.isEdited;
-		delete modulePojo.moduleIdseq;
+		/*TODO is this still needed? */
+		if(modulePojo.moduleIdseq){
+			delete modulePojo.moduleIdseq;
+		}
 		const newModuleModel = this.moduleCartCollection.add(new ModuleModel(modulePojo));
 		newModuleModel.url = ENDPOINT_URLS.MODULE_CART_PERSIST;
 		newModuleModel.save();
