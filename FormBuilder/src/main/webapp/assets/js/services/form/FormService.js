@@ -22,6 +22,7 @@ const FormService = Marionette.Object.extend({
 		[EVENTS.FORM.ADD_MODULE_FROM_CART]:         'handleAddModuleFormCart',
 		[EVENTS.FORM.CANCEL_EDIT_FORM]:         'handleCancelEditForm',
 		[EVENTS.FORM.EDIT_FORM]:                'handleSetFormEditable',
+		[EVENTS.FORM.GET_MODULE]:              'getModuleModel',
 		[EVENTS.FORM.SET_FORM_LAYOUT]:          'dispatchLayout',
 		[EVENTS.FORM.CREATE_MODULE]:            'dispatchLayout',
 		[EVENTS.FORM.CREATE_QUESTION_FROM_CDE]: 'handleCreateQuestionFromCde',
@@ -29,7 +30,7 @@ const FormService = Marionette.Object.extend({
 		[EVENTS.FORM.SET_NEW_MODULE]:           'handleAddModule',
 		[EVENTS.FORM.SET_MODULE]:               'handleSetModule',
 		[EVENTS.FORM.SAVE_FORM]:                'handleSaveForm',
-		[EVENTS.FORM.VIEW_MODULE]:              'setModuleView'
+		[EVENTS.FORM.VIEW_MODULE]:              'setModuleView',
 	},
 	radioEvents:   {
 		[EVENTS.FORM.SET_QUESTION]:    'handleSetModuleQuestion',
@@ -113,6 +114,10 @@ const FormService = Marionette.Object.extend({
 			});
 		}
 	},
+	/* TODO have other methods here use this method */
+	getModuleModel(id) {
+		return this.formModel.get('formModules').get(id);
+	},
 	getModuleQuestionModel({moduleId, questionId}) {
 		const moduleModel = this.formModel.get('formModules').get(moduleId);
 		return moduleModel.get("questions").get(questionId);
@@ -136,7 +141,7 @@ const FormService = Marionette.Object.extend({
 
 		/*Make sure the new question model doesn't include any info from the one i the CDE cart
 		 * http://stackoverflow.com/questions/15163952/how-to-clone-models-from-backbone-collection-to-another#answer-15165027 */
-		const newModulePojo = backboneModelHelpers.getDeepModelPojo(_.omit(questionModelFromCDECart, "form"));
+		const newModulePojo = backboneModelHelpers.getDeepModelPojo(_.omit(questionModelFromCDECart, "form"), false);
 		/* nested object "form" was used to note what form this module was  part of but shouldn't be included here*/
 		delete newModulePojo.moduleIdseq;
 		delete newModulePojo.form;
@@ -156,12 +161,11 @@ const FormService = Marionette.Object.extend({
 		const moduleModel = this.formModel.get('formModules').get(activeModuleId);
 		const questionModelFromCDECart = appChannel.request(EVENTS.CARTS.GET_QUESTION_MODEL, questionCid);
 
-		const newQuestionPojo = backboneModelHelpers.getDeepModelPojo(questionModelFromCDECart);
+		const newQuestionPojo = backboneModelHelpers.getDeepModelPojo(questionModelFromCDECart, false);
 		/* set displayOrder as 0 in case it's something else */
 		newQuestionPojo.displayOrder = 0;
 
 		moduleModel.get("questions").add(new QuestionsModel(newQuestionPojo));
-		this.formUIStateModel.set({actionMode: formActions.VIEW_MODULE});
 	},
 	handleSaveForm() {
 		this.saveForm({successMessage: "Entire form saved to DB. This is what \"Global Save\" will do."});

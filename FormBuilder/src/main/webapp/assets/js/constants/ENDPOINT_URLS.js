@@ -9,6 +9,9 @@ const ENDPOINT_URLS = {
 	TYPES:              `${formBuilderHost}/FormBuilder/api/v1/types`,
 	WORKFLOWS:          `${formBuilderHost}/FormBuilder/api/v1/workflows`,
 	CDE_CART:           `${formBuilderHost}/FormBuilder/api/v1/carts/cdecart`,
+	/*For POST/PUT*/
+	MODULE_CART_PERSIST:        `${formBuilderHost}/FormBuilder/api/v1/carts/modules`,
+	/*FOR GET: TODO Update property name to be more intuitive */
 	MODULE_CART:        `${formBuilderHost}/FormBuilder/api/v1/carts/modulecart`,
 	FORM_CART:        `${formBuilderHost}/FormBuilder/api/v1/carts/formcart`,
 	FORM_DOWNLOAD_XML: `${formBuilderHost}/FormBuilder/api/v1/forms/xml`,

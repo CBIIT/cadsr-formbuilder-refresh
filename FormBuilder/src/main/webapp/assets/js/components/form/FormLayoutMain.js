@@ -33,7 +33,7 @@ export default class FormLayoutMain extends Component {
 					<p className="panel-subtitle">Modules</p>
 					<div className="module-wrap">
 						{this.props.formModules.map((moduleModel, index) =>(
-							<FormModuleStatic questions={moduleModel.questions} key={index} longName={moduleModel.longName} instructions={moduleModel.instructions}/>))}
+							<FormModuleStatic moduleId={moduleModel.cid} questions={moduleModel.questions} key={index} longName={moduleModel.longName} instructions={moduleModel.instructions}/>))}
 					</div>
 				</div>
 			);
@@ -87,7 +87,6 @@ export default class FormLayoutMain extends Component {
 		}
 		else if(actionMode === formActions.VIEW_MODULE && !this.props.shouldShowFormEditControls){
 			const moduleEditing = this.props.editItems;
-			/*Passing in moduleId here might not be necessary but currently the most straightforward way I can think of when there will be an array of modules (parent module, repetition) to edit and gather each one's id from the form when saving */
 			return (
 				<FormModuleStatic moduleId={moduleEditing.cid} longName={moduleEditing.longName} instructions={moduleEditing.instructions} questions={moduleEditing.questions} actionMode={actionMode} mainHeadingTitle="Module"/>
 			);

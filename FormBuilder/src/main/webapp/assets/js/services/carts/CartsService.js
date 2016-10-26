@@ -4,8 +4,10 @@ import EVENTS from '../../constants/EVENTS';
 import urlHelpers from '../../helpers/urlHelpers';
 import {ajaxDownloadFile} from '../../helpers/ajaXHelpers';
 import cartActions from '../../constants/cartActions';
+import ModuleModel from '../../models/carts/ModuleModel';
+import backboneModelHelpers from '../../helpers/backboneModelHelpers';
 import CartPageStateModel from '../../models/carts/CartPageStateModel';
-import {appChannel, cartChannel} from '../../channels/radioChannels';
+import {appChannel, cartChannel, formChannel} from '../../channels/radioChannels';
 import CDECollection from '../../models/carts/CDECollection';
 import FormCollection from '../../models/carts/FormCollection';
 import ModuleCollection from '../../models/carts/ModuleCollection';
@@ -31,7 +33,7 @@ const CartsService = Marionette.Object.extend({
 
 		appChannel.reply(EVENTS.CARTS.GET_QUESTION_MODEL, (options) => this.getQuestionModelFromCDECartById(options));
 		appChannel.reply(EVENTS.CARTS.GET_MODULE_MODEL, (options) => this.getQuestionModuleFromModuleCartById(options));
-
+		appChannel.reply(EVENTS.APP.ADD_MODULE_FROM_FORM_TO_CART, (options) => this.handleAddModuleToModuleCart(options));
 	},
 	constructLayout(cart){
 		/*Entry point for React. Backbone Views Keep Out
@@ -126,6 +128,16 @@ const CartsService = Marionette.Object.extend({
 	getQuestionModelFromCDECartById(id) {
 		return this.cdeCartCollection.get(id);
 	},
+	handleAddModuleToModuleCart({id}) {
+		const moduleModelFromForm = formChannel.request(EVENTS.FORM.GET_MODULE, id);
+		const modulePojo = backboneModelHelpers.getDeepModelPojo(moduleModelFromForm, false);
+		delete modulePojo.isEdited;
+		delete modulePojo.moduleIdseq;
+		const newModuleModel = this.moduleCartCollection.add(new ModuleModel(modulePojo));
+		newModuleModel.url = ENDPOINT_URLS.MODULE_CART_PERSIST;
+		newModuleModel.save();
+	},
+	/*TODO Incomplete */
 	handleCartSortedBy ({sortKey, sortOrder}){
 		const action = this.cartPageStateModel.get("actionMode");
 		switch(action){

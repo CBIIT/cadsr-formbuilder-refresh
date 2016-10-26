@@ -4,7 +4,8 @@
  */
 const EVENTS = {
 	APP:    {
-		SET_MAIN_CONTENT_LAYOUT: 'set:mainContentLayout'
+		SET_MAIN_CONTENT_LAYOUT: 'set:mainContentLayout',
+		ADD_MODULE_FROM_FORM_TO_CART:        "add:moduleFromModuleCart"
 	},
 	FORM:   {
 		CANCEL_EDIT_FORM:               'cancelEditForm',
@@ -13,6 +14,8 @@ const EVENTS = {
 		CREATE_MODULE:                  "create:module",
 		CREATE_QUESTION_FROM_CDE:        "create:questionFromCde",
 		ADD_MODULE_FROM_CART:        "add:moduleFromModuleCart",
+		GET_MODULE: "get:module",
+		GET_FORM_ACTION_MODE: "get:formActionMode",
 		SET_NEW_MODULE:                 "set:newModule",
 		SAVE_FORM:                      'saveForm',
 		SET_MODULE:                     "set:module",
