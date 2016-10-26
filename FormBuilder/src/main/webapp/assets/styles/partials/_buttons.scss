@@ -265,3 +265,28 @@ button.btn {
     text-decoration: underline;
   }
 }
+.btn-modal-close {
+    font-size: 24px;
+    height: 30px;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    right: -27px;
+    top: -30px;
+}
+.filterPill {
+	background-color: $color-highlight;
+}
+.filterPill .btn-remove {
+	color: $dfRed !important; 
+	float: right;
+}
+.filterPill .filterPillText {
+	float: left;
+	line-height: 34px;
+	padding-left: 15px;
+}
+.align-left {
+	padding-left: 0px;
+	margin-left: 0px;
+}

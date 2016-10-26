@@ -13,6 +13,7 @@ import ClassificationSelectModal from '../modals/ClassificationSelectModal';
 import SearchResultsCollection from '../../models/search/form-search/SearchResultsCollection';
 import TABLECONFIG from '../../constants/TABLE_CONFIGS';
 import Datatable from '../tables/Datatable';
+import FilterPill from '../common/FilterPill.js';
 
 export default class SearchLayout extends Component {
 	constructor(props){
@@ -28,6 +29,10 @@ export default class SearchLayout extends Component {
 		this.closeProtocolsModal = this.closeProtocolsModal.bind(this);
 		this.openClassificationModal = this.openClassificationModal.bind(this);
 		this.closeClassificationModal = this.closeClassificationModal.bind(this);
+		this.selectProtocolCallback = this.selectProtocolCallback.bind(this);
+		this.selectClassificationCallback = this.selectClassificationCallback.bind(this);
+		this.removeProtocolPill = this.removeProtocolPill.bind(this);
+		this.removeClassificationPill = this.removeClassificationPill.bind(this);
 		this.state = {
 			contexts: [],
 			workflows: [],
@@ -43,7 +48,9 @@ export default class SearchLayout extends Component {
 			latestVersions: true,
 			excludeTraining: true,
 			protocolModalOpen: false,
-			classificationModalOpen: false
+			classificationModalOpen: false,
+			selectedProtocol: "",
+			selectedClassification: ""
 		};
 	}
 
@@ -150,13 +157,31 @@ export default class SearchLayout extends Component {
 	}
 	
 	selectProtocolCallback(value) {
-		// TODO: fill in to populate the protocol form field 
-		alert("protocol " + value + " selected");
+
+
+		this.setState({
+			selectedProtocol: value
+		});
 	}
 	
 	selectClassificationCallback(value) {
-		// TODO: fill in to populate the protocol form field
-		alert("classification " + value + " selected");
+
+
+		this.setState({
+			selectedClassification: value
+		});
+	}
+	
+	removeProtocolPill() {
+		this.setState({
+			selectedProtocol: ""
+		});
+	}
+	
+	removeClassificationPill() {
+		this.setState({
+			selectedClassification: ""
+		});
 	}
 
 	renderFormItems(){
@@ -180,9 +205,14 @@ export default class SearchLayout extends Component {
 							label="CS / CSI" 
 							type="text" 
 							onClick={this.openClassificationModal}  
-							readOnly="readonly"
-							value=""
+
+
+							value={this.state.selectedClassification}
+							className="hidden"
+							readOnly="readOnly"
 						/>
+						<FilterPill text={this.state.selectedClassification} closeButtonCallback={this.removeClassificationPill} />
+						<button type="button" onClick={() =>{this.openClassificationModal();}} className="btn btn-link align-left">SEARCH FOR CLASSIFICATION</button>
 					</div>
 					<div className="formItem">
 						<Select name="contextIdSeq" label="CONTEXT" options={this.getOptions(
@@ -207,9 +237,14 @@ export default class SearchLayout extends Component {
 							label="PROTOCOL" 
 							type="text"
 							onClick={this.openProtocolsModal} 
-							readOnly="readonly"
-							value=""
+
+
+							value={this.state.selectedProtocol}
+							className="hidden"
+							readOnly="readOnly"
 						/>
+						<FilterPill text={this.state.selectedProtocol} closeButtonCallback={this.removeProtocolPill} />
+						<button type="button" onClick={() =>{this.openProtocolsModal();}} className="btn btn-link align-left">SEARCH FOR PROTOCOL</button>
 					</div>
 					<div className="formItem">
 						<Select name="categoryName" label="CATEGORY" options={this.getOptions(
@@ -324,6 +359,11 @@ export default class SearchLayout extends Component {
 					<h1 className="text--bold">{pageName}</h1>
 					<Datatable pagination={true} perPage={100} pageName={pageName} columnTitles={columnConfig} data={this.state.tableData}></Datatable>
 				</div>
+			);
+		}
+		else {
+			return (
+				<p>Loading</p>
 			);
 		}
 	}

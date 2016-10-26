@@ -1,7 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import {Modal, Button} from 'react-bootstrap';
-import Form from '../common/Form';
-import {Input} from 'formsy-react-components';
+import {Modal, Glyphicon} from 'react-bootstrap';
 import {searchChannel} from '../../channels/radioChannels';
 import EVENTS from '../../constants/EVENTS';
 import TABLECONFIG from '../../constants/TABLE_CONFIGS';
@@ -13,10 +11,17 @@ export default class ProtocolSelectModal extends Component {
 		
 		this.dispatchFormData = this.dispatchFormData.bind(this);
 		this.dispatchSelection = this.dispatchSelection.bind(this);
+		this.handleFormChange = this.handleFormChange.bind(this);
 		
 		this.state = {
 			tableData : []
 		};
+	}
+	
+	componentWillMount() {
+		this.setState({
+			protocolKeyword: ""
+		});
 	}
 	
 	componentDidMount() {
@@ -27,12 +32,21 @@ export default class ProtocolSelectModal extends Component {
 	
 	componentWillReceiveProps() {
 		this.setState({
-			tableData: []
+			tableData: [],
+			protocolKeyword: ""
 		});
 	}
 	
-	dispatchFormData(data){
+	dispatchFormData(event){
+		let data = {
+			protocolKeyword: this.state.protocolKeyword
+		};
 		searchChannel.request(EVENTS.SEARCH.PROTOCOLS_SEARCH_INPUTS, data);
+		event.preventDefault();
+	}
+	
+	handleFormChange(event) {
+		this.setState({protocolKeyword: event.target.value});
 	}
 	
 	showResults(protocolCollection) {
@@ -52,34 +66,36 @@ export default class ProtocolSelectModal extends Component {
 		
 		return (
 			<div>
-				<Modal show={this.props.isOpen} aria-labelledby="modal-cancel-edit-form" bsSize="lg">
+				<Modal show={this.props.isOpen} aria-labelledby="modal-cancel-edit-form" dialogClassName="modal-xl modal-dialog">
 					<Modal.Header>
 					<div>
-					<Form id="protocolForm" ref="form" onSubmit={this.dispatchFormData} className="search-form">
+					<form id="protocolForm" ref="form" onSubmit={this.dispatchFormData} className="search-form">
 						<div>
-							<Input 
-								name="protocolKeyword" 
-								id="protocolKeyword" 
-								type="text"
-								label="PROTOCOL" 
-								placeholder="Search by Long and Short Name"
-							/>
-							<button type="submit" className="btn btn-primary">GO</button>
+							<div className="col-md-3">
+								<label className="control-label" data-required="false" htmlFor="protocolKeyword">
+									PROTOCOL
+								</label>
+							</div>
+							<div className="col-md-7">
+								<input type="text" value={this.state.protocolKeyword} onChange={this.handleFormChange} id="protocolKeyword" className="form-control" name="protocolKeyword" placeholder="Search by Long and Short Name" />
+							</div>
+							<div className="col-md-2 nopadding">
+								<button type="submit" className="btn btn-primary">GO</button>
+							</div>
 						</div>
-						<div>
-							RESULTS: {this.state.tableData.length}
-						</div>
-						<div>
+						<div className="clearfix">
 							The Wildcard character is " * ".
 						</div>
-					</Form>
+					</form>
 					</div>	
 					</Modal.Header> 
 					<Modal.Body>
-						<Datatable pagination={true} perPage={100} pageName={pageName} columnTitles={columnConfig} data={this.state.tableData} displayControls={false} showCheckboxes={false} clickCallback={this.dispatchSelection} />
+						<Datatable pagination={true} perPage={100} pageName={pageName} columnTitles={columnConfig} data={this.state.tableData} displayControls={false} showCheckboxes={false} clickCallback={this.dispatchSelection} resultsText="RESULTS:" />
 					</Modal.Body> 
 					<Modal.Footer> 
-						<Button onClick={this.props.closeButtonClicked}>close</Button>
+						<button className="btn btn-link btn-modal-close" onClick={this.props.closeButtonClicked}>
+							<Glyphicon glyph="remove" />
+						</button>
 					</Modal.Footer> </Modal>
 			</div>
 		);

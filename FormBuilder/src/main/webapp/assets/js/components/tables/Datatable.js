@@ -1,4 +1,4 @@
-import React, {Component, PropTypes} from 'react';
+import React, {PropTypes} from 'react';
 import EVENTS from '../../constants/EVENTS';
 import {cartChannel} from '../../channels/radioChannels';
 import {Table as Reactable, Thead, Th, Tr, Td} from 'reactable';
@@ -339,17 +339,7 @@ export default class Datatable extends React.Component{
 			);
 		}
 	}
-	addRowCheckbox(item) {
-		if (this.props.showCheckboxes) {
-			return (
-				<Td key={'checkbox'} column="checkbox">
-					<input type="checkbox" value={item.id}
-						onChange={() =>{ this.selectRow(item.id);}}
-						checked={item.selected}/>
-				</Td>
-			);
-		}
-	}
+
 	renderToolbarDropdown () {
 		if (this.props.pageName === 'Form') {
 			return (
@@ -424,7 +414,7 @@ export default class Datatable extends React.Component{
 
 	render(){
 		const displayedData = this.state.displayedData;
-
+		
 		return(
 			<section>
 				{
@@ -437,23 +427,15 @@ export default class Datatable extends React.Component{
 				<div className="reactTable-wrap">
 					<Reactable id="table" className="table reactTable">
 						<Thead>
-							{
-								() => {
-									if (this.props.showCheckboxes) {
-										return(
-											<Th column="checkbox">
-												<input type="checkbox" onChange={this.selectAllRows}/>
-											</Th>
-										);
-									}
-								}
-							}
+							<Th column="checkbox" className={(this.props.showCheckboxes) ? "" : "hidden"}>
+								<input type="checkbox" onChange={this.selectAllRows}/>
+							</Th>
 							{
 								this.state.columnTitles.map( (title) =>{
 									return(
 										<Th key={title.name} column={title.name}>
 											<span
-											      onClick={(e)=>{ this.sortColumn(title.name, e.target);}}
+												onClick={(e)=>{ this.sortColumn(title.name, e.target);}}
 											>
 												{
 													title.name
@@ -472,17 +454,11 @@ export default class Datatable extends React.Component{
 								return (
 									<Tr key={item.id}>
 										{
-											() => {
-												if (this.props.showCheckboxes) {
-													return (
-														<Td key={'checkbox'} column="checkbox">
-															<input type="checkbox" value={item.id}
-																onChange={() =>{ this.selectRow(item.id);}}
-																checked={item.selected}/>
-														</Td>
-													);
-												}
-											}
+											<Td key={'checkbox'} column="checkbox" className={(this.props.showCheckboxes) ? "" : "hidden"}>
+												<input type="checkbox" value={item.id}
+													onChange={() =>{ this.selectRow(item.id);}}
+													checked={item.selected} />
+											</Td>
 										}
 										{
 											this.props.columnTitles.map( (title, index) => {

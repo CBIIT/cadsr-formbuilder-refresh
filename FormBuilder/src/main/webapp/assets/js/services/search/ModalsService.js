@@ -81,11 +81,11 @@ const ModalsService = Marionette.Object.extend({
 	transformToClassificationsTable(collection) {
 		return collection.toJSON().map(function(model) {
 			return {
-				csName:			model.csLongName,
-				csiName:		model.csiName,
-				definition:		model.definition,
+				csName:			model.classSchemeLongName,
+				csiName:		model.classSchemeItemName,
+				definition:		model.classSchemeDefinition,
 				csContext:		model.csContext,
-				csPublicId:		model.csId,
+				csPublicId:		model.csID,
 				csVersion:		model.csVersion
 			};
 		});
