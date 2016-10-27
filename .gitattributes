@@ -293,6 +293,7 @@ FormService/src/main/java/gov/nih/nci/cadsr/model/Type.java -text
 FormService/src/main/java/gov/nih/nci/cadsr/model/WorkFlow.java -text
 FormService/src/main/java/gov/nih/nci/cadsr/model/frontend/FEBaseObject.java -text
 FormService/src/main/java/gov/nih/nci/cadsr/model/frontend/FECartItem.java -text
+FormService/src/main/java/gov/nih/nci/cadsr/model/frontend/FEClassification.java -text
 FormService/src/main/java/gov/nih/nci/cadsr/model/frontend/FEContext.java -text
 FormService/src/main/java/gov/nih/nci/cadsr/model/frontend/FEDataElement.java -text
 FormService/src/main/java/gov/nih/nci/cadsr/model/frontend/FEForm.java -text

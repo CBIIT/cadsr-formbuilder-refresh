@@ -10,6 +10,7 @@ public class FEFormMetaData extends FECartItem implements FEBaseObject{
 	private String preferredDefinition;
 	private FEContext context;
 	private List<FEProtocol> protocols;
+	private List<FEClassification> classifications;
 	private String workflow;
 	private String formCategory;
 	private String formType;
@@ -54,6 +55,12 @@ public class FEFormMetaData extends FECartItem implements FEBaseObject{
 	}
 	public void setProtocols(List<FEProtocol> protocols) {
 		this.protocols = protocols;
+	}
+	public List<FEClassification> getClassifications() {
+		return classifications;
+	}
+	public void setClassifications(List<FEClassification> classifications) {
+		this.classifications = classifications;
 	}
 	public String getWorkflow() {
 		return workflow;
