@@ -63,12 +63,9 @@ public class UserAdapterController {
 
 	@RequestMapping(value = { "/username" }, method = RequestMethod.GET)
 	@ResponseBody
-	public String getloggedinuser() {
+	public String getloggedinusername() {
 		
-		CadsrUserDetails userDetails =
-				 (CadsrUserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		
-		return userDetails.getUsername();
+		return authUtil.getloggedinuser().getUsername();
 	}
 	
 	@RequestMapping(value = { "/details" }, method = RequestMethod.GET)
@@ -80,28 +77,38 @@ public class UserAdapterController {
 		return new ResponseEntity(userDetails, HttpStatus.OK);
 	}
 	
+	@RequestMapping(value = { "/user" }, method = RequestMethod.GET)
+	@ResponseBody
+	public ResponseEntity getloggedinuser() {
+		
+		if(authUtil.getLoggedIn()){
+//			CadsrUserDetails userDetails =
+//					 (CadsrUserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//			
+//			FEUser user = userDetails.getUser();
+			FEUser user = authUtil.getloggedinuser();
+			
+			return new ResponseEntity(user, HttpStatus.OK);
+		}
+		
+		return new ResponseEntity(HttpStatus.UNAUTHORIZED);
+	}
+	
 	@RequestMapping(value = { "/contexts" }, method = RequestMethod.GET)
 	@ResponseBody
 	public ResponseEntity getCuratorContexts() {
-		CadsrUserDetails userDetails =
-				 (CadsrUserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		
-		return new ResponseEntity(userDetails.getUser().getContexts(), HttpStatus.OK);
-	}
-	
-	@RequestMapping(value = { "/contextnames" }, method = RequestMethod.GET)
-	@ResponseBody
-	public ResponseEntity getCuratorContextNames() {
-		CadsrUserDetails userDetails =
-				 (CadsrUserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		List<String> contextNames = new ArrayList<String>();
-		
-		for(FEContext context : userDetails.getUser().getContexts()){
-			contextNames.add(context.getName());
+		if(authUtil.getLoggedIn()){
+			CadsrUserDetails userDetails =
+					 (CadsrUserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			
+			return new ResponseEntity(userDetails.getUser().getContexts(), HttpStatus.OK);
 		}
 		
-		return new ResponseEntity(contextNames, HttpStatus.OK);
+		return new ResponseEntity(HttpStatus.UNAUTHORIZED);
+		
 	}
+	
 	
 	/*@RequestMapping(value = { "/session/username" }, method = RequestMethod.GET)
 	@ResponseBody
