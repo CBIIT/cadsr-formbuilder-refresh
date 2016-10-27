@@ -440,12 +440,12 @@ public class CartAdapterController {
 		return null;
 	}
 
-	@RequestMapping(value = "/forms/{username}/{formIdseq}", method = RequestMethod.GET)
+	@RequestMapping(value = "/forms/{formIdseq}", method = RequestMethod.GET)
 	@ResponseBody
-	public ResponseEntity saveFormToOC(@PathVariable String username, @PathVariable String formIdseq) {
+	public ResponseEntity saveFormToOC(@PathVariable String formIdseq) {
 
 		String uri = props.getFormServiceApiUrl() + FormBuilderConstants.FORMSERVICE_BASE_URL
-				+ FormBuilderConstants.FORMSERVICE_FORMS + "/objcart" + "/" + username + "/" + formIdseq;
+				+ FormBuilderConstants.FORMSERVICE_FORMS + "/objcart" + "/" + this.getUserName() + "/" + formIdseq;
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
@@ -654,7 +654,12 @@ public class CartAdapterController {
 	}
 	
 	private String getUserName(){
-		return SecurityContextHolder.getContext().getAuthentication().getName();
+		try{
+			return SecurityContextHolder.getContext().getAuthentication().getName();
+		}
+		catch(Exception e){
+			return "";
+		}
 	}
 	
 
