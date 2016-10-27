@@ -12,7 +12,7 @@ const backboneModelHelpers = {
 
 				if(json[attr] && (json[attr].attributes || json[attr].models)){
 					if(json[attr].attributes){
-						json[attr] = Object.assign({},  json[attr].attributes, (includeCid ? {cid: json[attr].cid} : {}));
+						json[attr] = Object.assign({}, json[attr].attributes, (includeCid ? {cid: json[attr].cid} : {}));
 					}
 					else if(json[attr].models){
 						json[attr] = json[attr].models.map((model) =>{
@@ -24,7 +24,8 @@ const backboneModelHelpers = {
 				/*TODO Fix hardcoding of validValues here*/
 				else if(json[attr] && json[attr].validValues){
 					json[attr].validValues = json[attr].validValues.models.map((model) =>{
-						return Object.assign({}, model.attributes, (includeCid ? {cid: model.cid} : {}));					});
+						return Object.assign({}, model.attributes, (includeCid ? {cid: model.cid} : {}));
+					});
 				}
 			}
 		}
@@ -32,6 +33,19 @@ const backboneModelHelpers = {
 		checkKeys(json);
 		return json;
 
+	},
+	setCollectionModelsComparatorValue ({collection, comparator, increment, otherAttrsToSet}) {
+		comparator = comparator || collection.comparator;
+		collection.models.forEach((model) =>{
+			const modelIndex = model.attributes[comparator];
+			const newModelIndex = modelIndex + increment;
+			if(typeof otherAttrsToSet === "object"){
+				model.set(Object.assign({}, {[comparator]: newModelIndex}, otherAttrsToSet));
+			}
+			else{
+				model.set({[comparator]: newModelIndex});
+			}
+		});
 	}
 };
 

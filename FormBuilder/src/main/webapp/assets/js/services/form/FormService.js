@@ -19,10 +19,10 @@ import {GetFormMetadataCriteriaInputOptions} from '../../commands/GetFormMetadat
 const FormService = Marionette.Object.extend({
 	channelName:   'form',
 	radioRequests: {
-		[EVENTS.FORM.ADD_MODULE_FROM_CART]:         'handleAddModuleFormCart',
+		[EVENTS.FORM.ADD_MODULE_FROM_CART]:     'handleAddModuleFormCart',
 		[EVENTS.FORM.CANCEL_EDIT_FORM]:         'handleCancelEditForm',
 		[EVENTS.FORM.EDIT_FORM]:                'handleSetFormEditable',
-		[EVENTS.FORM.GET_MODULE]:              'getModuleModel',
+		[EVENTS.FORM.GET_MODULE]:               'getModuleModel',
 		[EVENTS.FORM.SET_FORM_LAYOUT]:          'dispatchLayout',
 		[EVENTS.FORM.CREATE_MODULE]:            'dispatchLayout',
 		[EVENTS.FORM.CREATE_QUESTION_FROM_CDE]: 'handleCreateQuestionFromCde',
@@ -119,7 +119,7 @@ const FormService = Marionette.Object.extend({
 		return this.formModel.get('formModules').get(id);
 	},
 	getModuleQuestionModel({moduleId, questionId}) {
-		const moduleModel = this.formModel.get('formModules').get(moduleId);
+		const moduleModel = this.getModuleModel(moduleId);
 		return moduleModel.get("questions").get(questionId);
 	},
 	fetchFormMetaDataCriteria() {
@@ -139,13 +139,21 @@ const FormService = Marionette.Object.extend({
 	handleAddModuleFormCart({moduleId}) {
 		const questionModelFromCDECart = appChannel.request(EVENTS.CARTS.GET_MODULE_MODEL, moduleId);
 
-		/*Make sure the new question model doesn't include any info from the one i the CDE cart
+		/*Make sure the new question model doesn't include any info from the one in the CDE cart
 		 * http://stackoverflow.com/questions/15163952/how-to-clone-models-from-backbone-collection-to-another#answer-15165027 */
 		const newModulePojo = backboneModelHelpers.getDeepModelPojo(_.omit(questionModelFromCDECart, "form"), false);
 		/*TODO is this still needed? */
 		if(newModulePojo.moduleIdseq){
 			delete newModulePojo.moduleIdseq;
 		}
+
+		backboneModelHelpers.setCollectionModelsComparatorValue({
+			collection:      this.formModel.get('formModules'),
+			increment:       1,
+			otherAttrsToSet: {
+				isEdited: true
+			}
+		});
 		/* set dispOrder as 0 in case it's something else */
 		newModulePojo.dispOrder = 0;
 		this.formModel.get('formModules').add(new FormModuleModel(newModulePojo));
@@ -157,15 +165,20 @@ const FormService = Marionette.Object.extend({
 		});
 	},
 	handleCreateQuestionFromCde({questionCid, activeModuleId} = {}) {
-		this.formUIStateModel.set({actionMode: formActions.CREATE_QUESTION});
 		this.formUIStateModel.set({isEditing: true});
-		const moduleModel = this.formModel.get('formModules').get(activeModuleId);
+		const moduleModel = this.getModuleModel(activeModuleId);
 		const questionModelFromCDECart = appChannel.request(EVENTS.CARTS.GET_QUESTION_MODEL, questionCid);
 
 		const newQuestionPojo = backboneModelHelpers.getDeepModelPojo(questionModelFromCDECart, false);
+		backboneModelHelpers.setCollectionModelsComparatorValue({
+			collection:      moduleModel.get("questions"),
+			increment:       1,
+			otherAttrsToSet: {
+				isEdited: true
+			}
+		});
 		/* set displayOrder as 0 in case it's something else */
 		newQuestionPojo.displayOrder = 0;
-
 		moduleModel.get("questions").add(new QuestionsModel(newQuestionPojo));
 	},
 	handleSaveForm() {
@@ -176,7 +189,7 @@ const FormService = Marionette.Object.extend({
 		this.formUIStateModel.set({isEditing: true});
 	},
 	handleSetModule(data) {
-		const module = this.formModel.get('formModules').get(data.id);
+		const module = this.getModuleModel(data.id);
 		/* Removing the cid we used to track the module via the UI, so it doesn't get added as an attibute of the module when setting the rest of the data */
 		const moduleAttributes = _.omit(data, "id");
 		module.set(moduleAttributes);
