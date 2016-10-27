@@ -17,7 +17,9 @@ import org.springframework.web.client.RestTemplate;
 
 import gov.nih.nci.cadsr.FormBuilderConstants;
 import gov.nih.nci.cadsr.FormBuilderProperties;
+import gov.nih.nci.cadsr.authentication.AuthUtils;
 import gov.nih.nci.cadsr.model.frontend.FEContext;
+import gov.nih.nci.cadsr.model.frontend.FEUser;
 
 /**
  * 
@@ -32,30 +34,47 @@ public class ResourcesAdapterController {
 
 	@Autowired
 	private FormBuilderProperties props;
+	
+	@Autowired
+	private AuthUtils authUtil;
 
-	/*@RequestMapping(value = { "/contexts", "/contexts/{username}" }, method = RequestMethod.GET)
+	@RequestMapping(value = "/contexts", method = RequestMethod.GET)
 	@ResponseBody
-	public ResponseEntity getAllContexts(@PathVariable Optional<String> username) throws RuntimeException {
+	public ResponseEntity getAllContexts() throws RuntimeException {
 		String uri = props.getFormServiceApiUrl() + FormBuilderConstants.FORMSERVICE_BASE_URL
 				+ FormBuilderConstants.FORMSERVICE_CONTEXTS;
-
-		if (username != null && !username.equals("")) {
-			uri = uri + "/" + username;
-		}
 
 		RestTemplate restTemplate = new RestTemplate();
 		ResponseEntity<String> response = restTemplate.getForEntity(uri, String.class);
 
 		return response;
 
-	}*/
+	}
+	
+	@RequestMapping(value = "/contexts/{username}", method = RequestMethod.GET)
+	@ResponseBody
+	public ResponseEntity getAllContexts(@PathVariable String username) throws RuntimeException {
+
+		List<FEContext> contexts = new ArrayList<FEContext>();
+		
+		if(authUtil.getLoggedIn()){
+			FEUser user = authUtil.getloggedinuser();
+			contexts = user.getContexts();
+		}
+			
+		ResponseEntity response = new ResponseEntity(contexts, HttpStatus.OK);
+
+		return response;
+
+	}
 	
 	//temporary fix for Bug CADSRFBTR-248. revert to previous method after updating search UI to React.
-	@RequestMapping(value = { "/contexts", "/contexts/{username}" }, method = RequestMethod.GET)
+	/*@RequestMapping(value = "/contexts", method = RequestMethod.GET)
 	@ResponseBody
-	public ResponseEntity getAllContexts(@PathVariable Optional<String> username) throws RuntimeException {
+	public ResponseEntity getAllContexts() throws RuntimeException {
 		
 		List<FEContext> contexts = new ArrayList<FEContext>();
+		
 		contexts.add(new FEContext("F6117C06-C689-F9FD-E040-BB89AD432E40","ABTC",""));
 		contexts.add(new FEContext("D8D849BC-68CF-10AA-E040-BB89AD430348","AECC",""));
 		contexts.add(new FEContext("E73A2559-FDAF-96CB-E040-BB89AD431DD5","Alliance",""));
@@ -106,9 +125,9 @@ public class ResourcesAdapterController {
 
 		return response;
 
-	}
+	}*/
 
-	/*@RequestMapping(value = "/categories", method = RequestMethod.GET)
+	@RequestMapping(value = "/categories", method = RequestMethod.GET)
 	@ResponseBody
 	public ResponseEntity getAllCategories() throws RuntimeException {
 		String uri = props.getFormServiceApiUrl() + FormBuilderConstants.FORMSERVICE_BASE_URL
@@ -119,10 +138,10 @@ public class ResourcesAdapterController {
 
 		return response;
 
-	}*/
+	}
 	
 	//temporary fix for Bug CADSRFBTR-248. revert to previous method after updating search UI to React.
-	@RequestMapping(value = "/categories", method = RequestMethod.GET)
+	/*@RequestMapping(value = "/categories", method = RequestMethod.GET)
 	@ResponseBody
 	public ResponseEntity getAllCategories() throws RuntimeException {
 		
@@ -133,9 +152,9 @@ public class ResourcesAdapterController {
 
 		return response;
 
-	}
+	}*/
 
-	/*@RequestMapping(value = "/types", method = RequestMethod.GET)
+	@RequestMapping(value = "/types", method = RequestMethod.GET)
 	@ResponseBody
 	public ResponseEntity getAllTypes() throws RuntimeException {
 		String uri = props.getFormServiceApiUrl() + FormBuilderConstants.FORMSERVICE_BASE_URL
@@ -146,10 +165,10 @@ public class ResourcesAdapterController {
 
 		return response;
 
-	}*/
+	}
 	
 	//temporary fix for Bug CADSRFBTR-248. revert to previous method after updating search UI to React.
-	@RequestMapping(value = "/types", method = RequestMethod.GET)
+	/*@RequestMapping(value = "/types", method = RequestMethod.GET)
 	@ResponseBody
 	public ResponseEntity getAllTypes() throws RuntimeException {
 
@@ -159,9 +178,9 @@ public class ResourcesAdapterController {
 
 		return response;
 
-	}
+	}*/
 
-	/*@RequestMapping(value = "/workflows", method = RequestMethod.GET)
+	@RequestMapping(value = "/workflows", method = RequestMethod.GET)
 	@ResponseBody
 	public ResponseEntity getAllWorkflow() throws RuntimeException {
 		String uri = props.getFormServiceApiUrl() + FormBuilderConstants.FORMSERVICE_BASE_URL
@@ -171,10 +190,10 @@ public class ResourcesAdapterController {
 		ResponseEntity<String> response = restTemplate.getForEntity(uri, String.class);
 
 		return response;
-	}*/
+	}
 	
 	//temporary fix for Bug CADSRFBTR-248. revert to previous method after updating search UI to React.
-	@RequestMapping(value = "/workflows", method = RequestMethod.GET)
+	/*@RequestMapping(value = "/workflows", method = RequestMethod.GET)
 	@ResponseBody
 	public ResponseEntity getAllWorkflow() throws RuntimeException {
 
@@ -183,7 +202,7 @@ public class ResourcesAdapterController {
 		ResponseEntity<String> response = new ResponseEntity(workflows, HttpStatus.OK);
 
 		return response;
-	}
+	}*/
 	
 	@RequestMapping(value = "/protocols/{keyword}", method = RequestMethod.GET)
 	@ResponseBody

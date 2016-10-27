@@ -10,7 +10,7 @@ export const GetFormMetadataCriteriaInputOptions = function({userName}){
 		ENDPOINT_URLS.TYPES,
 		ENDPOINT_URLS.WORKFLOWS];
 
-	let promises = urls.map(url => fetch(url).then(response => response.json()));
+	let promises = urls.map(url => fetch(url, {credentials:'same-origin'}).then(response => response.json()));
 	Promise.all(promises).then(results => {
 		const formMetaDataDropdownOptions = {
 			contexts: results[0],

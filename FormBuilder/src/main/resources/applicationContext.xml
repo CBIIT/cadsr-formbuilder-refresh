@@ -11,13 +11,14 @@
       				 	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
       				 	">
 
-	<context:property-placeholder location="classpath:default.properties"/>
+	<context:property-placeholder location="classpath:default.properties" />
 
 	<!-- Use for application-level properties. Defaults in default.properties. -->
 	<bean id="propertyConfigurer"
 		class="org.springframework.beans.factory.config.PropertiesFactoryBean">
 		<property name="properties">
 			<util:properties local-override="false">
+				<prop key="formbuilder.api.url">${formbuilder.api.url}</prop>
 				<prop key="formservice.api.url">${formservice.api.url}</prop>
 				<prop key="formbuilder.local.mode">${formbuilder.local.mode}</prop>
 				<prop key="object.cart.url">${object.cart.url}</prop>
@@ -30,11 +31,14 @@
 
 	<bean id="formBuilderProperties" class="gov.nih.nci.cadsr.FormBuilderProperties"
 		scope="singleton" />
-		
+
 	<bean id="authUtils" class="gov.nih.nci.cadsr.authentication.AuthUtils"
-		scope="singleton" />	
-		
-			<!-- <bean id="Test" class="gov.nih.nci.cadsr.Test" /> -->
+		scope="singleton" />
+
+	<bean id="formLock" class="gov.nih.nci.cadsr.FormLock"
+		scope="singleton" />
+
+	<!-- <bean id="Test" class="gov.nih.nci.cadsr.Test" /> -->
 
 	<bean id="EditInterceptor" class="gov.nih.nci.cadsr.EditInterceptor" />
 

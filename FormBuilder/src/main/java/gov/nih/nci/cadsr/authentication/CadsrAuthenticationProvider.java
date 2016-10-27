@@ -50,13 +50,13 @@ public class CadsrAuthenticationProvider implements AuthenticationProvider{
 			CartAdapterController cartCont = new CartAdapterController();
 			try{
 				
-				String cdecart_uri = "http://localhost:8080/FormBuilder/api/v1/carts/cdecart?username=" + username + "&cache=false";
+				String cdecart_uri = props.getFormBuilderApiUrl() + "FormBuilder/api/v1/carts/cdecart?username=" + username + "&cache=false";
 				
 				ParameterizedTypeReference<List<FEQuestion>> cderesponseType = new ParameterizedTypeReference<List<FEQuestion>>() {};
 				ResponseEntity<List<FEQuestion>> cderesp = restTemplate.exchange(cdecart_uri, HttpMethod.GET, null, cderesponseType);
 				List<FEQuestion> cdelist = cderesp.getBody();
 				
-				String formcart_uri = "http://localhost:8080/FormBuilder/api/v1/carts/formcart?username=" + username + "&cache=false";
+				String formcart_uri = props.getFormBuilderApiUrl() + "FormBuilder/api/v1/carts/formcart?username=" + username + "&cache=false";
 				
 				ParameterizedTypeReference<List<FEFormMetaData>> formresponseType = new ParameterizedTypeReference<List<FEFormMetaData>>() {};
 				ResponseEntity<List<FEFormMetaData>> formresp = restTemplate.exchange(cdecart_uri, HttpMethod.GET, null, formresponseType);
@@ -77,6 +77,7 @@ public class CadsrAuthenticationProvider implements AuthenticationProvider{
 		List<GrantedAuthority> grantedAuths = new ArrayList();
         
 		if(userDetails.getUser() != null){
+			grantedAuths.add(new SimpleGrantedAuthority("ROLE_USER"));
 	        for(FEContext context : userDetails.getUser().getContexts()){
 	        	grantedAuths.add(new SimpleGrantedAuthority(context.getName()));
 	        }

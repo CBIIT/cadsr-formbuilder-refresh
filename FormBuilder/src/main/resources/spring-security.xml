@@ -8,7 +8,10 @@
 
 	<!--Web Services with the pattern “/api/v1/secure/” will be secured -->
 	<http auto-config="true">
-		<!-- <intercept-url pattern="/**" access="ROLE_USER" /> -->
+		<intercept-url pattern="/carts/*" access="ROLE_USER" />
+		<intercept-url pattern="/form/create" access="ROLE_USER" />
+		<!-- <intercept-url pattern="/api/**" access="ROLE_USER" /> -->
+		<intercept-url pattern="/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
 		<session-management>
 			<concurrency-control max-sessions="1" />
 		</session-management>
