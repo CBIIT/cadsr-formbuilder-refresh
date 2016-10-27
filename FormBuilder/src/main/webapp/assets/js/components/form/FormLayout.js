@@ -4,6 +4,8 @@ import FormLayoutMain from './FormLayoutMain';
 import backboneReact from 'backbone-react-component';
 import TreeView from './TreeView';
 import SidePanel from './SidePanel';
+import EVENTS from '../../constants/EVENTS';
+import {appChannel} from '../../channels/radioChannels';
 import formActions from '../../constants/formActions';
 import {getCdeCartCollectionPojo, getModuleCartCollectionPojo} from '../../helpers/CartDataHelpers';
 import backboneModelHelpers from "../../helpers/backboneModelHelpers";
@@ -19,8 +21,12 @@ export default class FormLayout extends Component {
 		this.getModuleCart = this.getModuleCart.bind(this);
 		this.showTreeNav = this.showTreeNav.bind(this);
 		this.showCartsPanel = this.showCartsPanel.bind(this);
-	}
 
+		this.state = {
+			cdeCartCollection: [],
+			moduleCartCollection: []
+		};
+	}
 	componentWillMount(){
 		/* backboneReact will pass these models/collections through setState, creating this.state.*
 		 It listens to specific events on them and reflects the change in this.state (and therefore a re-render)  */
@@ -34,6 +40,21 @@ export default class FormLayout extends Component {
 		});
 		this.getFormModules();
 
+
+	}
+	componentDidMount() {
+		if(Application.cartsService.cdeCartCollection){
+			this.setState({cdeCartCollection: getCdeCartCollectionPojo(Application.cartsService.cdeCartCollection)});
+		}
+		appChannel.on(EVENTS.CARTS.CDE_CART_UPDATED, () => {
+			this.setState({cdeCartCollection: getCdeCartCollectionPojo(Application.cartsService.cdeCartCollection)});
+		});
+		if(Application.cartsService.moduleCartCollection){
+			this.setState({moduleCartCollection: getModuleCartCollectionPojo(Application.cartsService.moduleCartCollection)});
+		}
+		appChannel.on(EVENTS.CARTS.MODULE_CART_UPDATED, () => {
+			this.setState({moduleCartCollection: getModuleCartCollectionPojo(Application.cartsService.moduleCartCollection)});
+		});
 	}
 	componentWillUnmount(){
 		backboneReact.off(this);
@@ -70,15 +91,11 @@ export default class FormLayout extends Component {
 	}
 
 	getCDECart(){
-		if(Application.cartsService.cdeCartCollection){
-			return getCdeCartCollectionPojo(Application.cartsService.cdeCartCollection);
-		}
+		return this.state.cdeCartCollection;
 	}
 
 	getModuleCart(){
-		if(Application.cartsService.moduleCartCollection){
-			return getModuleCartCollectionPojo(Application.cartsService.moduleCartCollection);
-		}
+		return this.state.moduleCartCollection;
 	}
 
 	getFormModules(){

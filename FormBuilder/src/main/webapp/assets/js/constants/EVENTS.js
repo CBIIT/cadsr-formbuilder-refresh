@@ -5,7 +5,7 @@
 const EVENTS = {
 	APP:    {
 		SET_MAIN_CONTENT_LAYOUT: 'set:mainContentLayout',
-		ADD_MODULE_FROM_FORM_TO_CART:        "add:moduleFromModuleCart"
+		ADD_MODULE_FROM_FORM_TO_CART:        "add:moduleFromModuleCart",
 	},
 	FORM:   {
 		CANCEL_EDIT_FORM:               'cancelEditForm',
@@ -47,6 +47,8 @@ const EVENTS = {
 		SET_LAYOUT: 'set:layout',
 		GET_DOWNLOAD_XLS: 'get:downloadXLS',
 		GET_DOWNLOAD_XML: 'get:downloadXML',
+		MODULE_CART_UPDATED: 'moduleCart:updated',
+		CDE_CART_UPDATED: 'cdeCart:updated',
 		REMOVE_CART_ITEM: 'remove:cartItem',
 		SET_LAST_CART_SORTED_BY: 'set:LastCartSortedBy'
 	}

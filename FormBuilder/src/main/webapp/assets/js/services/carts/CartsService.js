@@ -59,17 +59,17 @@ const CartsService = Marionette.Object.extend({
 		switch(action){
 			case cartActions.VIEW_CDE_CART_PAGE:
 				this.cartPageStateModel.set({actionMode: action});
-				this.fetchCarts({name: "cdeCart"});
+				this.fetchCarts({collection: this.cdeCartCollection});
 				this.constructLayout('CDE');
 				break;
 			case cartActions.VIEW_FORM_CART_PAGE:
 				this.cartPageStateModel.set({actionMode: action});
-				this.fetchCarts({name: "formCart"});
+				this.fetchCarts({collection: this.formCartCollection});
 				this.constructLayout('Form');
 				break;
 			case cartActions.VIEW_MODULE_CART_PAGE:
 				this.cartPageStateModel.set({actionMode: action});
-				this.fetchCarts({name: "moduleCart"});
+				this.fetchCarts({collection: this.moduleCartCollection});
 				this.constructLayout('Module');
 				break;
 			default:
@@ -78,38 +78,27 @@ const CartsService = Marionette.Object.extend({
 	},
 	/**
 	 *
+	 * @param collection
+	 * @param collectionName
+	 * @param getCached
 	 * @returns {Promise.<TResult>}
 	 */
-	fetchCarts({name, getCached = false}) {
+	fetchCarts({collection, collectionName, getCached = false}) {
 		const userName = appChannel.request(EVENTS.USER.GET_USERNAME);
-		let dataCollection,
-			urlQueryParams;
+		const urlQueryParams = {
+			cached:   getCached,
+			username: userName
+		};
 
-		if(name === 'cdeCart'){
-			dataCollection = this.cdeCartCollection;
-			urlQueryParams = {
-				cached:   getCached,
-				username: userName
-			};
-		}
-		else if(name === 'moduleCart'){
-			dataCollection = this.moduleCartCollection;
-		}
-		else{
-			dataCollection = this.formCartCollection;
-			urlQueryParams = {
-				cached:   getCached,
-				username: userName
-			};
-		}
-
+		/*FormSerivce passes in a name prop that's a string. might want to have it pass the actual collection instead */
+		collection = collection || this[collectionName];
 		/* TODO refactor to handle array of carts */
 		const p = new Promise(
 			(resolve, reject) =>{
-				dataCollection.fetch({
-					url: urlHelpers.buildUrl(dataCollection.baseUrl || dataCollection.url, urlQueryParams)
+				collection.fetch({
+					url: urlHelpers.buildUrl(collection.urlForFetch, urlQueryParams)
 				}).then((model, results) =>{
-					resolve(dataCollection);
+					resolve(collection);
 				}).catch((error) =>{
 					console.log(error);
 				});
@@ -226,6 +215,14 @@ const CartsService = Marionette.Object.extend({
 			collection.get(item).destroy();
 		});
 	},
+	listenToCartCollections() {
+		this.listenTo(this.cdeCartCollection, "update", () =>{
+			appChannel.trigger(EVENTS.CARTS.CDE_CART_UPDATED);
+		});
+		this.listenTo(this.moduleCartCollection, "update", (event) =>{
+			appChannel.trigger(EVENTS.CARTS.MODULE_CART_UPDATED);
+		});
+	},
 	/*TODO to be removed once sure we're not saving entire cart arrays */
 	/*saveCart({cart, successMessage} = {}) {
 	 const userName = appChannel.request(EVENTS.USER.GET_USERNAME);
@@ -262,12 +259,15 @@ const CartsService = Marionette.Object.extend({
 	 },*/
 	setupModels() {
 		this.cdeCartCollection = new CDECollection({
-			baseUrl: `${ENDPOINT_URLS.CDE_CART}`
+			urlForFetch: `${ENDPOINT_URLS.CDE_CART_FETCH}`
 		});
 		this.formCartCollection = new FormCollection({
-			baseUrl: `${ENDPOINT_URLS.FORM_CART}`
+			urlForFetch: `${ENDPOINT_URLS.FORM_CART_FETCH}`
 		});
-		this.moduleCartCollection = new ModuleCollection();
+		this.moduleCartCollection = new ModuleCollection({
+			urlForFetch: `${ENDPOINT_URLS.MODULE_CART_FETCH}`
+		});
+		this.listenToCartCollections();
 	}
 });
 

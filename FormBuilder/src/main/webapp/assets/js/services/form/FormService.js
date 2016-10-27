@@ -4,7 +4,7 @@ import EVENTS from '../../constants/EVENTS';
 import cartsService from  "../carts/CartsService";
 import {browserHistory} from 'react-router';
 import formActions from '../../constants/formActions';
-import {formChannel, appChannel} from '../../channels/radioChannels';
+import {appChannel} from '../../channels/radioChannels';
 import FormModel from '../../models/forms/FormModel';
 import backboneModelHelpers from '../../helpers/backboneModelHelpers';
 import QuestionsModel from '../../models/forms/QuestionsModel';
@@ -72,8 +72,8 @@ const FormService = Marionette.Object.extend({
 					this.formUIStateModel.set({isEditing: false});
 					//this.fetchForm({formIdseq: formIdseq});
 				}
-				this.getCartData({name: "cdeCart"});
-				this.getCartData({name: "moduleCart"});
+				this.getCartData({collectionName: "cdeCartCollection"});
+				this.getCartData({collectionName: "moduleCartCollection"});
 				break;
 			default:
 				console.error("no valid action provided");
