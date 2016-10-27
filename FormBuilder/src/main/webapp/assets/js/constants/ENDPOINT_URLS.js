@@ -1,25 +1,24 @@
 /* serverProps is a global var declared in index.jsp */
 const formBuilderHost = serverProps.formBuilderHost;
-
+const formBuilderApiEndpointBaseUrl = `${formBuilderHost}/FormBuilder/api/v1`;
 const ENDPOINT_URLS = {
-	CATEGORIES:         `${formBuilderHost}/FormBuilder/api/v1/categories`,
-	CONTEXTS:           `${formBuilderHost}/FormBuilder/api/v1/contexts`,
-	FORMS_DB:           `${formBuilderHost}/FormBuilder/api/v1/forms`,
-	FORMS_WORKING_COPY: `${formBuilderHost}/FormBuilder/api/v1/forms/workingCopy`,
-	TYPES:              `${formBuilderHost}/FormBuilder/api/v1/types`,
-	WORKFLOWS:          `${formBuilderHost}/FormBuilder/api/v1/workflows`,
-	CDE_CART:           `${formBuilderHost}/FormBuilder/api/v1/carts/cdecart`,
+	CATEGORIES:          `${formBuilderApiEndpointBaseUrl}/categories`,
+	CONTEXTS:            `${formBuilderApiEndpointBaseUrl}/contexts`,
+	FORMS_DB:            `${formBuilderApiEndpointBaseUrl}/forms`,
+	FORMS_WORKING_COPY:  `${formBuilderApiEndpointBaseUrl}/forms/workingCopy`,
+	TYPES:               `${formBuilderApiEndpointBaseUrl}/types`,
+	WORKFLOWS:           `${formBuilderApiEndpointBaseUrl}/workflows`,
+	CDE_CART:            `${formBuilderApiEndpointBaseUrl}/carts/cdecart`,
 	/*For POST/PUT*/
-	MODULE_CART_PERSIST:        `${formBuilderHost}/FormBuilder/api/v1/carts/modules`,
-	/*FOR GET: TODO Update property name to be more intuitive */
-	MODULE_CART:        `${formBuilderHost}/FormBuilder/api/v1/carts/modulecart`,
-	FORM_CART:        `${formBuilderHost}/FormBuilder/api/v1/carts/formcart`,
-	FORM_DOWNLOAD_XML: `${formBuilderHost}/FormBuilder/api/v1/forms/xml`,
-	FORM_DOWNLOAD_XLS: `${formBuilderHost}/FormBuilder/api/v1/forms/xls`,
-	CDE_DOWNLOAD_XML: `${formBuilderHost}/FormBuilder/api/v1/cde/xml`,
-	CDE_DOWNLOAD_XLS: `${formBuilderHost}/FormBuilder/api/v1/cde/xls`,
-	PROTOCOLS:			`${formBuilderHost}/FormBuilder/api/v1/protocols`,
-	CLASSIFICATIONS:	`${formBuilderHost}/FormBuilder/api/v1/classifications`,
+	MODULE_CART_PERSIST: `${formBuilderApiEndpointBaseUrl}/carts/modules`,
+	GET_MODULE_CART:         `${formBuilderApiEndpointBaseUrl}/carts/modulecart`,
+	FORM_CART:           `${formBuilderApiEndpointBaseUrl}/carts/formcart`,
+	FORM_DOWNLOAD_XML:   `${formBuilderApiEndpointBaseUrl}/forms/xml`,
+	FORM_DOWNLOAD_XLS:   `${formBuilderApiEndpointBaseUrl}/forms/xls`,
+	CDE_DOWNLOAD_XML:    `${formBuilderApiEndpointBaseUrl}/cde/xml`,
+	CDE_DOWNLOAD_XLS:    `${formBuilderApiEndpointBaseUrl}/cde/xls`,
+	PROTOCOLS:           `${formBuilderApiEndpointBaseUrl}/protocols`,
+	CLASSIFICATIONS:     `${formBuilderApiEndpointBaseUrl}/classifications`,
 };
 
 /*Make immutable */
