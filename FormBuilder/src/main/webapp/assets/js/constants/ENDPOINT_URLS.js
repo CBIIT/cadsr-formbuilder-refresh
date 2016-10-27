@@ -1,4 +1,4 @@
-/* serverProps is a global var declared in index.jsp */
+/* serverProps is a global const declared in index.jsp */
 const formBuilderHost = serverProps.formBuilderHost;
 const formBuilderApiEndpointBaseUrl = `${formBuilderHost}/FormBuilder/api/v1`;
 const ENDPOINT_URLS = {
