@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.xml.bind.JAXBContext;
@@ -82,10 +83,10 @@ public class CartAdapterController {
 	@ResponseBody
 	public ResponseEntity getCart(@PathVariable String type, @RequestParam(value = "cache", required = false) boolean cache, @RequestParam(value = "username", required = false) String username) {
 		
-		if(!authUtil.getLoggedIn()){
-			return new ResponseEntity("No authenticated user could be found. Unable to return module cart.",HttpStatus.UNAUTHORIZED);
-		}
-		else{
+//		if(!authUtil.getLoggedIn()){
+//			return new ResponseEntity("No authenticated user could be found. Unable to return module cart.",HttpStatus.UNAUTHORIZED);
+//		}
+//		else{
 			
 			if(username == null){
 				username = this.getUserName();
@@ -93,6 +94,10 @@ public class CartAdapterController {
 			
 			if(type.equals("cde")){
 				if(cache){
+					if(!authUtil.getLoggedIn()){
+						return new ResponseEntity(new ArrayList<FEQuestion>(), HttpStatus.OK);
+					}
+					
 					return new ResponseEntity(this.getUserDetails().getCdeCart(), HttpStatus.OK);
 				}
 				else{
@@ -116,6 +121,10 @@ public class CartAdapterController {
 			}
 			else if(type.equals("form")){
 				if(cache){
+					if(!authUtil.getLoggedIn()){
+						return new ResponseEntity(new ArrayList<FEFormMetaData>(), HttpStatus.OK);
+					}
+					
 					return new ResponseEntity(this.getUserDetails().getFormCart(), HttpStatus.OK);
 				}
 				else{
@@ -129,7 +138,7 @@ public class CartAdapterController {
 					}
 				}
 			}
-		}
+//		}
 		
 		return new ResponseEntity(HttpStatus.BAD_REQUEST);
 		
@@ -281,6 +290,7 @@ public class CartAdapterController {
 			question.setUnitOfMeasure(item.getValueDomain().getUnitOfMeasure());
 			question.setDisplayFormat(item.getValueDomain().getDisplayFormat());
 			question.setDataElement(element);
+			question.setPersisted(true);
 			
 			if(item.getValueDomain() != null){
 				for(JaxbValidValue jaxbvv : item.getValueDomain().getValidValues()){
@@ -447,40 +457,81 @@ public class CartAdapterController {
 
 	}
 	
-	
 
-	@RequestMapping(value = "/modules", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/modules/{moduleIdseq}", method = RequestMethod.DELETE)
 	@ResponseBody
-	public ResponseEntity removeFromModuleCart(@RequestBody FEModule module) {
+	public ResponseEntity removeFromModuleCart(@PathVariable String moduleIdseq) {
+		
+		List<String> ids = Arrays.asList(moduleIdseq.split(","));
 
-		this.getUserDetails().getModuleCart().remove(module);
+		FEModule deleteModule = new FEModule();
+		
+		for(FEModule mod : this.getUserDetails().getModuleCart()){
+			if(mod.getModuleIdseq().equals(moduleIdseq)){
+			if(ids.contains(mod.getModuleIdseq()))
+				deleteModule = mod;
+			}
+		}
+		
+		this.getUserDetails().getModuleCart().remove(deleteModule);
 
-		return null;
+		return new ResponseEntity(HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/deleteFormv2/{username}/{formIdSeq}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/forms/{formIdSeq}", method = RequestMethod.DELETE)
 	@ResponseBody
-	public ResponseEntity DeletFormFromOC(@PathVariable String username, @PathVariable String formIdSeq) {
+	public ResponseEntity DeletFormFromOC(@PathVariable String formIdSeq) {
+		
+		List<String> ids = Arrays.asList(formIdSeq.split(","));
 
-		String base_uri = props.getFormServiceApiUrl() + FormBuilderConstants.FORMSERVICE_BASE_URL
-				+ FormBuilderConstants.FORMSERVICE_FORMS + FormBuilderConstants.DELETE_FORMV2_FROMOC + "/" + username
-				+ "/" + formIdSeq;
-		RestTemplate restTemplate = new RestTemplate();
-		restTemplate.delete(base_uri);
+		FEFormMetaData deleteForm = new FEFormMetaData();
+		
+		for(FEFormMetaData form : this.getUserDetails().getFormCart()){
+			if(form.getFormIdseq().equals(formIdSeq)){
+			if(ids.contains(form.getFormIdseq()))
+				deleteForm = form;
+			}
+		}
+		
+		this.getUserDetails().getFormCart().remove(deleteForm);
+		
+		
+		if(deleteForm.getIsPersisted()){
+			String base_uri = props.getFormServiceApiUrl() + FormBuilderConstants.FORMSERVICE_BASE_URL
+					+ FormBuilderConstants.FORMSERVICE_FORMS + FormBuilderConstants.DELETE_FORMV2_FROMOC + "/" + this.getUserName()
+					+ "/" + formIdSeq;
+			RestTemplate restTemplate = new RestTemplate();
+			restTemplate.delete(base_uri);
+		}
 
 		return new ResponseEntity(formIdSeq, HttpStatus.OK);
 
 	}
 
-	@RequestMapping(value = "/deleteCde/{username}/{cdeId}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/cdes/{cdeId}", method = RequestMethod.DELETE)
 	@ResponseBody
-	public ResponseEntity DeletCdeFromOC(@PathVariable String username, @PathVariable String cdeId) {
+	public ResponseEntity DeletCdeFromOC(@PathVariable String cdeId) {
+		
+		List<String> ids = Arrays.asList(cdeId.split(","));
 
-		String base_uri = props.getFormServiceApiUrl() + FormBuilderConstants.FORMSERVICE_BASE_URL
-				+ FormBuilderConstants.FORMSERVICE_FORMS + FormBuilderConstants.DELETE_CDE_FROMOC + "/" + username + "/"
-				+ cdeId;
-		RestTemplate restTemplate = new RestTemplate();
-		restTemplate.delete(base_uri);
+		FEQuestion deleteQuestion = new FEQuestion();
+		
+		for(FEQuestion question : this.getUserDetails().getCdeCart()){
+			if(question.getQuesIdseq().equals(cdeId)){
+			if(ids.contains(question.getQuesIdseq()))
+				deleteQuestion = question;
+			}
+		}
+		
+		this.getUserDetails().getCdeCart().remove(deleteQuestion);
+
+		if(deleteQuestion.getIsPersisted()){
+			String base_uri = props.getFormServiceApiUrl() + FormBuilderConstants.FORMSERVICE_BASE_URL
+					+ FormBuilderConstants.FORMSERVICE_FORMS + FormBuilderConstants.DELETE_CDE_FROMOC + "/" + this.getUserName() + "/"
+					+ cdeId;
+			RestTemplate restTemplate = new RestTemplate();
+			restTemplate.delete(base_uri);
+		}
 
 		return new ResponseEntity(cdeId, HttpStatus.OK);
 
