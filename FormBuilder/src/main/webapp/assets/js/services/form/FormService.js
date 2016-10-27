@@ -143,7 +143,7 @@ const FormService = Marionette.Object.extend({
 		 * http://stackoverflow.com/questions/15163952/how-to-clone-models-from-backbone-collection-to-another#answer-15165027 */
 		const newModulePojo = backboneModelHelpers.getDeepModelPojo(_.omit(questionModelFromCDECart, "form"), false);
 		/*TODO is this still needed? */
-		if(newModulePojo.moduleIdseq){
+		if(newModulePojo.moduleIdseq !== undefined){
 			delete newModulePojo.moduleIdseq;
 		}
 
