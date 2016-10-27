@@ -22,7 +22,7 @@ public class LockingController {
 	@Autowired private FormLock lock;
 	@Autowired private AuthUtils authUtil;
 	
-	@RequestMapping(value = "/check/{formIdseq}", method = RequestMethod.GET)
+	@RequestMapping(value = "/{formIdseq}", method = RequestMethod.GET)
 	@ResponseBody
 	public boolean checkLock(@PathVariable String formIdseq) {
 		
