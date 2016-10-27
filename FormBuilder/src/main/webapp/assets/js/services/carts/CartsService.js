@@ -35,9 +35,10 @@ const CartsService = Marionette.Object.extend({
 		appChannel.reply(EVENTS.CARTS.GET_MODULE_MODEL, (options) => this.getQuestionModuleFromModuleCartById(options));
 		appChannel.reply(EVENTS.APP.ADD_MODULE_FROM_FORM_TO_CART, (options) => this.handleAddModuleToModuleCart(options));
 	},
-	constructLayout(cart){
-		/*Entry point for React. Backbone Views Keep Out
-		 * Once React is the top level view currently handled by Marionette (i.e.  AppLayoutView,js), we can render CartLayout from there instead  */
+	/*TODO Do we still need what this is returning? */
+/*	constructLayout(cart){
+		/!*Entry point for React. Backbone Views Keep Out
+		 * Once React is the top level view currently handled by Marionette (i.e.  AppLayoutView,js), we can render CartLayout from there instead  *!/
 		let data = '';
 		if(cart === 'Module'){
 			data = this.moduleCartCollection;
@@ -54,23 +55,29 @@ const CartsService = Marionette.Object.extend({
 			cart:               cart
 		}
 
-	},
+	},*/
 	dispatchLayout({action}) {
 		switch(action){
 			case cartActions.VIEW_CDE_CART_PAGE:
 				this.cartPageStateModel.set({actionMode: action});
 				this.fetchCarts({collection: this.cdeCartCollection});
+/*
 				this.constructLayout('CDE');
+*/
 				break;
 			case cartActions.VIEW_FORM_CART_PAGE:
 				this.cartPageStateModel.set({actionMode: action});
 				this.fetchCarts({collection: this.formCartCollection});
+/*
 				this.constructLayout('Form');
+*/
 				break;
 			case cartActions.VIEW_MODULE_CART_PAGE:
 				this.cartPageStateModel.set({actionMode: action});
 				this.fetchCarts({collection: this.moduleCartCollection});
+/*
 				this.constructLayout('Module');
+*/
 				break;
 			default:
 				console.error("no valid action provided");
