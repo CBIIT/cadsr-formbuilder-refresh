@@ -39,7 +39,7 @@ public class LockingController {
 		}
 	}
 	
-	@RequestMapping(value = "/set/{formIdseq}", method = RequestMethod.GET)
+	@RequestMapping(value = "/{formIdseq}", method = RequestMethod.POST)
 	@ResponseBody
 	public boolean setLock(@PathVariable String formIdseq) {
 		
@@ -54,7 +54,7 @@ public class LockingController {
 		}
 	}
 	
-	@RequestMapping(value = "/release/{formIdseq}", method = RequestMethod.GET)
+	@RequestMapping(value = "/{formIdseq}", method = RequestMethod.DELETE)
 	@ResponseBody
 	public boolean releaseLock(@PathVariable String formIdseq) {
 		
