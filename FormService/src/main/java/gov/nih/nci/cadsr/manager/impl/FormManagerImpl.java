@@ -5,16 +5,16 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import gov.nih.nci.cadsr.manager.FormManager;
+import gov.nih.nci.cadsr.model.frontend.FEClassification;
 import gov.nih.nci.cadsr.model.frontend.FEContext;
 import gov.nih.nci.cadsr.model.frontend.FEForm;
 import gov.nih.nci.cadsr.model.frontend.FEFormMetaData;
@@ -22,6 +22,7 @@ import gov.nih.nci.cadsr.model.frontend.FEModule;
 import gov.nih.nci.cadsr.model.frontend.FEProtocol;
 import gov.nih.nci.cadsr.model.frontend.FEQuestion;
 import gov.nih.nci.cadsr.model.frontend.FEValidValue;
+import gov.nih.nci.ncicb.cadsr.common.dto.CSITransferObject;
 import gov.nih.nci.ncicb.cadsr.common.dto.ContextTransferObject;
 import gov.nih.nci.ncicb.cadsr.common.dto.DataElementTransferObject;
 import gov.nih.nci.ncicb.cadsr.common.dto.FormInstructionChangesTransferObject;
@@ -47,10 +48,13 @@ import gov.nih.nci.ncicb.cadsr.common.persistence.dao.FormDAO;
 import gov.nih.nci.ncicb.cadsr.common.persistence.dao.FormInstructionDAO;
 import gov.nih.nci.ncicb.cadsr.common.persistence.dao.FormValidValueInstructionDAO;
 import gov.nih.nci.ncicb.cadsr.common.persistence.dao.ModuleInstructionDAO;
+import gov.nih.nci.ncicb.cadsr.common.persistence.dao.ProtocolDAO;
 import gov.nih.nci.ncicb.cadsr.common.persistence.dao.QuestionInstructionDAO;
 import gov.nih.nci.ncicb.cadsr.common.persistence.dao.jdbc.JDBCFormDAOFB;
 import gov.nih.nci.ncicb.cadsr.common.resource.Form;
+import gov.nih.nci.ncicb.cadsr.common.resource.FormInstructionChanges;
 import gov.nih.nci.ncicb.cadsr.common.resource.FormV2;
+import gov.nih.nci.ncicb.cadsr.common.resource.Instruction;
 import gov.nih.nci.ncicb.cadsr.common.resource.NCIUser;
 import gov.nih.nci.ncicb.cadsr.formbuilder.ejb.impl.FormBuilderServiceImpl;
 
@@ -223,6 +227,7 @@ public class FormManagerImpl implements FormManager {
 		String username = "";
 		String formIdSeq = form.getFormMetadata().getFormIdseq();
 
+		
 		try {
 
 			adaptModels(form, formHeader, addedMods, updatedMods, deletedMods, addedProts, deletedProts, protTrigs,
@@ -251,13 +256,14 @@ public class FormManagerImpl implements FormManager {
 			throws IllegalAccessException, InvocationTargetException {
 		FormDAO fdao = daoFactory.getFormDAO();
 		ModuleInstructionDAO moduleInstrDao = daoFactory.getModuleInstructionDAO();
+		ProtocolDAO protocolDao = daoFactory.getProtocolDAO();
 
 		formIdSeq = form.getFormMetadata().getFormIdseq();
 		username = form.getFormMetadata().getCreatedBy();
 
 		// List oldModules = (List)fdao.getModulesInAForm(formIdSeq); //TODO:
 		// Need to confirm this is correct
-		BeanUtils.copyProperties(form.getFormMetadata(), formHeader, "context", "protocols");
+		BeanUtils.copyProperties(form.getFormMetadata(), formHeader, "context", "protocols", "classifications");
 		ContextTransferObject formContext = new ContextTransferObject();
 		formContext.setConteIdseq(form.getFormMetadata().getContext().getConteIdseq());
 		formHeader.setContext(formContext);
@@ -355,10 +361,40 @@ public class FormManagerImpl implements FormManager {
 				deletedMods.add(m.getModuleIdseq());
 			}*/
 		}
+		
+		FormInstructionDAO formInstrDao = daoFactory.getFormInstructionDAO();
+		
+		List headers = formInstrDao.getInstructions(formIdSeq);
+		List footers = formInstrDao.getFooterInstructions(formIdSeq);
+		
+		Instruction header = new InstructionTransferObject();
+		Instruction footer = new InstructionTransferObject();
+		
+		if(headers.size() > 0){
+			header = (InstructionTransferObject)headers.get(0);
+		}
+		if(footers.size() > 0){
+			footer = (InstructionTransferObject)footers.get(0);
+		}
+		
+		header.setPreferredDefinition(form.getFormMetadata().getHeaderInstructions());
+		footer.setPreferredDefinition(form.getFormMetadata().getFooterInstructions());
+		
+		String headerInsterStr = "";
+	    FormInstructionChanges instrChanges = new FormInstructionChangesTransferObject();
+	    Map headerInstrChanges  = getInstructionChanges(instrChanges.getFormHeaderInstructionChanges()
+	                              , headerInsterStr , header, formHeader, form.getFormMetadata().getLongName());
+	    instrChanges.setFormHeaderInstructionChanges(headerInstrChanges);  
+	    
+	    String footerInsterStr = "";
+	    Map footerInstrChanges  = getInstructionChanges(instrChanges.getFormFooterInstructionChanges()
+	                              , footerInsterStr , footer,formHeader, form.getFormMetadata().getLongName());
+	    instrChanges.setFormFooterInstructionChanges(footerInstrChanges);
 
-		instChanges.setFormHeaderInstructionChanges(new HashMap());
-		instChanges.setFormFooterInstructionChanges(new HashMap());
-
+		instChanges.setFormHeaderInstructionChanges(headerInstrChanges);
+		instChanges.setFormFooterInstructionChanges(footerInstrChanges);
+		
+		
 	}
 	
 	private void updateModules(Collection mods){
@@ -533,7 +569,7 @@ public class FormManagerImpl implements FormManager {
 		long startTime = System.currentTimeMillis();
 
 		BeanUtils.copyProperties(fullform, bbform);
-		BeanUtils.copyProperties(fullform, bbmeta, "context", "protocols");
+		BeanUtils.copyProperties(fullform, bbmeta, "context", "protocols", "classifications");
 		
 		FEContext bbcontext = new FEContext();
 		bbcontext.setConteIdseq(fullform.getConteIdseq());
@@ -551,8 +587,22 @@ public class FormManagerImpl implements FormManager {
 			bbprotocols.add(bbprotocol);
 			
 		}
-		
 		bbmeta.setProtocols(bbprotocols);
+		
+		List<FEClassification> classifications = new ArrayList<FEClassification>();
+		if(fullform.getClassifications() != null){
+			for(Object obj : fullform.getClassifications()){
+				CSITransferObject cto = (CSITransferObject)obj;
+				
+				FEClassification classification = new FEClassification();
+				BeanUtils.copyProperties(cto, classification);
+				
+				classifications.add(classification);
+			}
+			
+			bbmeta.setClassifications(classifications);
+		}
+		
 		bbmeta.setWorkflow(fullform.getAslName());
 		bbmeta.setContext(bbcontext);
 		
@@ -720,5 +770,72 @@ public class FormManagerImpl implements FormManager {
 
 		return sb.toString();
 	}
+	
+	private Map getInstructionChanges(Map mainMap, String currInstrStr , Instruction orgInstr, Form parent, String currNameStr)
+	  {
+	    if(mainMap==null)
+	           mainMap = new HashMap(); 
+	       if(currInstrStr==null&&orgInstr!=null)
+	       {
+	         List toDelete = (List)mainMap.get(FormInstructionChanges.DELETED_INSTRUCTIONS);
+	         if(toDelete==null)
+	         {
+	            toDelete = new ArrayList();       
+	         }
+	         toDelete.add(orgInstr);
+	         mainMap.put(FormInstructionChanges.DELETED_INSTRUCTIONS,toDelete);
+	         return mainMap;
+	       }
+	       if(currInstrStr!=null&&orgInstr==null)
+	       {
+	         if (!currInstrStr.trim().equals(""))
+	         {
+	            Instruction instr = new InstructionTransferObject();
+	            instr.setLongName(currNameStr);
+	            instr.setDisplayOrder(0);
+	            instr.setVersion(new Float(1));
+	            instr.setAslName("DRAFT NEW");
+	            instr.setContext(parent.getContext());        
+	            instr.setPreferredDefinition(currInstrStr);
+	    
+	           Map newInstrs = (Map)mainMap.get(FormInstructionChanges.NEW_INSTRUCTION_MAP);
+	           if(newInstrs==null)
+	           {
+	              newInstrs = new HashMap();       
+	           }
+	           newInstrs.put(parent.getFormIdseq(),instr);
+	           mainMap.put(FormInstructionChanges.NEW_INSTRUCTION_MAP,newInstrs);
+	           return mainMap;     
+	         }
+	       }
+	       if(currInstrStr!=null&&orgInstr!=null)
+	       {
+	         if(!currInstrStr.equals(orgInstr.getPreferredDefinition())&&!currInstrStr.trim().equals(""))
+	           {
+	             List updatedInstrs = (List)mainMap.get(FormInstructionChanges.UPDATED_INSTRUCTIONS);
+	             if(updatedInstrs==null)
+	             {
+	                updatedInstrs = new ArrayList();       
+	             }
+	             orgInstr.setLongName(currNameStr);
+	             orgInstr.setPreferredDefinition(currInstrStr);
+	             updatedInstrs.add(orgInstr);
+	             mainMap.put(FormInstructionChanges.UPDATED_INSTRUCTIONS,updatedInstrs);
+	             return mainMap;     
+	           }
+	           else if(!currInstrStr.equals(orgInstr.getPreferredDefinition())&&currInstrStr.trim().equals(""))
+	           {
+	             List toDelete = (List)mainMap.get(FormInstructionChanges.DELETED_INSTRUCTIONS);
+	             if(toDelete==null)
+	             {
+	                toDelete = new ArrayList();       
+	             }
+	             toDelete.add(orgInstr);
+	             mainMap.put(FormInstructionChanges.DELETED_INSTRUCTIONS,toDelete);
+	             return mainMap;       
+	           }
+	       }   
+	       return mainMap;
+	      }
 
 }
