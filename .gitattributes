@@ -24,6 +24,7 @@ FormBuilder/src/main/java/gov/nih/nci/cadsr/model/XMLConverter.java -text
 FormBuilder/src/main/java/gov/nih/nci/cadsr/model/XmlFormat.java -text
 FormBuilder/src/main/java/gov/nih/nci/cadsr/model/frontend/FEBaseObject.java -text
 FormBuilder/src/main/java/gov/nih/nci/cadsr/model/frontend/FECartItem.java -text
+FormBuilder/src/main/java/gov/nih/nci/cadsr/model/frontend/FEClassification.java -text
 FormBuilder/src/main/java/gov/nih/nci/cadsr/model/frontend/FEContext.java -text
 FormBuilder/src/main/java/gov/nih/nci/cadsr/model/frontend/FEDataElement.java -text
 FormBuilder/src/main/java/gov/nih/nci/cadsr/model/frontend/FEForm.java -text
