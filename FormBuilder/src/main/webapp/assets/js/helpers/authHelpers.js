@@ -8,7 +8,7 @@ import {fetchSecure} from './ajaXHelpers';
  * @param callback
  * @returns {*|Promise.<TResult>}
  */
-export const isLoggedIn = (nextState, replace, callback) => {
+export const RedirectToLoginIfNotLoggedIn = (nextState, replace, callback) => {
 	return fetchSecure({url:ENDPOINT_URLS.USER.IS_LOGGED_IN}).then((data) => {
 		if (data === true) {
 			callback();
