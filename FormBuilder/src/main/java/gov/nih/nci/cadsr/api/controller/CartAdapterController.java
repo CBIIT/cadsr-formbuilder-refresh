@@ -336,6 +336,12 @@ public class CartAdapterController {
 				feForm.setPersisted(true);
 				feForms.add(feForm);
 			}
+			
+			for(FEFormMetaData cartForm : this.getUserDetails().getFormCart()){
+				if(cartForm.getIsPersisted() == false){
+					feForms.add(cartForm);
+				}
+			}
 
 		}
 		
