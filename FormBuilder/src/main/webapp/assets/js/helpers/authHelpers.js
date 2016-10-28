@@ -15,7 +15,7 @@ export const isLoggedIn = (nextState, replace, callback) => {
 		}
 		else {
 			/*Refreshing the page instead of telling react router to redirect to this, because the login page isn't in the SPA */
-			window.location.href = "FormBuilder/spring_security_login";
+			window.location.href = "/FormBuilder/spring_security_login";
 		}
 	});
 };
