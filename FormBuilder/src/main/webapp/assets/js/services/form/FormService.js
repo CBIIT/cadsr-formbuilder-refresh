@@ -123,7 +123,7 @@ const FormService = Marionette.Object.extend({
 		return moduleModel.get("questions").get(questionId);
 	},
 	fetchFormMetaDataCriteria() {
-		GetFormMetadataCriteriaInputOptions({userName: appChannel.request(EVENTS.USER.GET_USERNAME)});
+		GetFormMetadataCriteriaInputOptions();
 	},
 	handleAddModule(data) {
 		const newModuleModel = this.formModel.get('formModules').add(new FormModuleModel(data));

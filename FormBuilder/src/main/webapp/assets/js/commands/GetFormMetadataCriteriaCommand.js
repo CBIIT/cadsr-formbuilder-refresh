@@ -2,9 +2,15 @@ import ENDPOINT_URLS from '../constants/ENDPOINT_URLS';
 import {formChannel} from '../channels/radioChannels';
 import EVENTS from '../constants/EVENTS';
 
-export const GetFormMetadataCriteriaInputOptions = function({userName}){
+/**
+ * fetch data that populates dropdown options
+ * @param userName
+ * @constructor
+ */
+export const GetFormMetadataCriteriaInputOptions = function({userName = "user"} = {}){
 
 	const urls = [
+		/* Supplying any string to /contexts/{anystring} will get the current user's context list, so the specific username isn't needed */
 		`${ENDPOINT_URLS.CONTEXTS}/${userName}`,
 		ENDPOINT_URLS.CATEGORIES,
 		ENDPOINT_URLS.TYPES,
