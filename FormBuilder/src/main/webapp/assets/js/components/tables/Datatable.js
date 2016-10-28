@@ -1,4 +1,5 @@
 import React, {PropTypes} from 'react';
+import {Link} from 'react-router';
 import EVENTS from '../../constants/EVENTS';
 import {cartChannel} from '../../channels/radioChannels';
 import {Table as Reactable, Thead, Th, Tr, Td} from 'reactable';
@@ -158,12 +159,12 @@ export default class Datatable extends React.Component{
 		dataCollection.map( (dataItem, index) =>{
 			let newItem = {};
 			for(let i=0; i < columnCollection.length; i++){
-				
+
 				newItem[columnCollection[i].key] = dataItem[columnCollection[i].key];
-				
+
 				//Hacky solution to retrieve formidseq for search result links.
 				newItem[columnCollection[i].uri] = dataItem[columnCollection[i].uri];
-				
+
 			}
 			newItem.selected = false; //set this to false so all of them are unselected at the start.
 			newItem.id = dataItem.id;
@@ -414,7 +415,7 @@ export default class Datatable extends React.Component{
 
 	render(){
 		const displayedData = this.state.displayedData;
-		
+
 		return(
 			<section>
 				{
@@ -462,11 +463,11 @@ export default class Datatable extends React.Component{
 										}
 										{
 											this.props.columnTitles.map( (title, index) => {
-												
+
 												if(title.link == 'true'){
 													return(
 														<Td key={title+index} column={title.name}>
-															<a href={`/${title.hrefPrefix}${item[title.uri]}`} >{item[title.key]}</a>
+															<Link to={{ pathname: `/forms/${item[title.uri]}` }}>{item[title.key]}</Link>
 														</Td>
 													);
 												}
