@@ -2,9 +2,12 @@
 const formBuilderHost = serverProps.formBuilderHost;
 const formBuilderApiEndpointBaseUrl = `${formBuilderHost}/FormBuilder/api/v1`;
 const ENDPOINT_URLS = {
-	CATEGORIES:          `${formBuilderApiEndpointBaseUrl}/categories`,
-	CONTEXTS:            `${formBuilderApiEndpointBaseUrl}/contexts`,
-	FORMS_DB:            `${formBuilderApiEndpointBaseUrl}/forms`,
+	USER:                         {
+		IS_LOGGED_IN: `${formBuilderApiEndpointBaseUrl}/users/loggedIn`
+	},
+	CATEGORIES:                   `${formBuilderApiEndpointBaseUrl}/categories`,
+	CONTEXTS:                     `${formBuilderApiEndpointBaseUrl}/contexts`,
+	FORMS_DB:                     `${formBuilderApiEndpointBaseUrl}/forms`,
 	FORMS_WORKING_COPY:           `${formBuilderApiEndpointBaseUrl}/forms/workingCopy`,
 	TYPES:                        `${formBuilderApiEndpointBaseUrl}/types`,
 	WORKFLOWS:                    `${formBuilderApiEndpointBaseUrl}/workflows`,

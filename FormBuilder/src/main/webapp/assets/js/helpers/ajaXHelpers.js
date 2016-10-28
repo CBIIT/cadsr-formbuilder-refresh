@@ -9,7 +9,7 @@ export const ajaxDownloadFile = (url, fileExtension) =>{
 	req.open("GET", url, true);
 	req.responseType = "blob";
 
-	req.onload = function (event) {
+	req.onload = function(event){
 		const blob = req.response;
 		createDownloadLink(blob, fileExtension);
 	};
@@ -21,23 +21,56 @@ export const ajaxDownloadFile = (url, fileExtension) =>{
  * @param data
  * @param fileExtension
  */
-export const createDownloadLink =(data, fileExtension) =>{
+export const createDownloadLink = (data, fileExtension) =>{
 	const blob = new Blob([data], {type: 'text/csv'});
-	if (typeof window.navigator.msSaveBlob !== 'undefined') {
+	if(typeof window.navigator.msSaveBlob !== 'undefined'){
 		// IE workaround for "HTML7007: One or more blob URLs were
 		// revoked by closing the blob for which they were created.
 		// These URLs will no longer resolve as the data backing
 		// the URL has been freed."
 		window.navigator.msSaveBlob(blob, `file.${fileExtension}`);
 	}
-	else {
+	else{
 		const url = window.URL.createObjectURL(blob);
 		const tempLink = document.createElement('a');
 		tempLink.href = url;
-		tempLink.setAttribute('download',`file.${fileExtension}`);
+		tempLink.setAttribute('download', `file.${fileExtension}`);
 		tempLink.setAttribute('target', '_blank');
 		document.body.appendChild(tempLink);
 		tempLink.click();
 		document.body.removeChild(tempLink);
 	}
+};
+
+/**
+ * Fetch and return resource using the Fetch API with {credentials: 'same-origin'} header.
+ * See https://developers.google.com/web/updates/2015/03/introduction-to-fetch
+ * @param url
+ * @returns {Promise}
+ */
+export const fetchSecure = ({url}) =>{
+	function getResponseStatus(response){
+		if(response.status >= 200 && response.status < 300){
+			return Promise.resolve(response);
+		} else{
+			return Promise.reject(new Error(response.statusText));
+		}
+	}
+
+	function getResponseAsJSON(response){
+		return response.json();
+	}
+
+	return new Promise(
+		(resolve) =>{
+			fetch(url, {credentials: 'same-origin'})
+				.then(getResponseStatus)
+				.then(getResponseAsJSON)
+				.then(function(data){
+					resolve(data);
+				}).catch(function(error){
+				console.log('Request failed', error);
+			});
+		}
+	);
 };
