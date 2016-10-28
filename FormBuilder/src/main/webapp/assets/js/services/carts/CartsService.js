@@ -19,7 +19,6 @@ import ModuleCollection from '../../models/carts/ModuleCollection';
 /*TODO move common methods out into a mixin/HOF or baseController/baseService */
 const CartsService = Marionette.Object.extend({
 	initialize() {
-		const cartsRouter = cartsRouter;
 		this.cartPageStateModel = CartPageStateModel;
 		this.addInitialListeners();
 		this.setupModels();
@@ -133,7 +132,6 @@ const CartsService = Marionette.Object.extend({
 			delete modulePojo.moduleIdseq;
 		}
 		const newModuleModel = this.moduleCartCollection.add(new ModuleModel(modulePojo));
-		newModuleModel.url = ENDPOINT_URLS.MODULE_CART_PERSIST;
 		newModuleModel.save();
 	},
 	/*TODO Incomplete */
@@ -203,11 +201,9 @@ const CartsService = Marionette.Object.extend({
 		const action = this.cartPageStateModel.get("actionMode");
 		switch(action){
 			case cartActions.VIEW_CDE_CART_PAGE:
-				this.cdeCartCollection.url = this.cdeCartCollection.baseUrl;
 				this.destroyCartItems({collection: this.cdeCartCollection, itemsToRemove: itemsToRemove});
 				break;
 			case cartActions.VIEW_FORM_CART_PAGE:
-				this.cdeCartCollection.url = this.formCartCollection.baseUrl;
 				this.destroyCartItems({collection: this.formCartCollection, itemsToRemove: itemsToRemove});
 				break;
 			case cartActions.VIEW_MODULE_CART_PAGE:
@@ -268,12 +264,21 @@ const CartsService = Marionette.Object.extend({
 		this.cdeCartCollection = new CDECollection({
 			urlForFetch: `${ENDPOINT_URLS.CDE_CART_FETCH}`
 		});
+		/*Setting on init didn't seem to work */
+		this.cdeCartCollection.url = ENDPOINT_URLS.CDE_CART_PERSIST;
+
 		this.formCartCollection = new FormCollection({
 			urlForFetch: `${ENDPOINT_URLS.FORM_CART_FETCH}`
 		});
+		/*Setting on init didn't seem to work */
+		this.formCartCollection.url = ENDPOINT_URLS.FORM_CART_PERSIST;
+
 		this.moduleCartCollection = new ModuleCollection({
 			urlForFetch: `${ENDPOINT_URLS.MODULE_CART_FETCH}`
 		});
+		/*Setting on init didn't seem to work */
+		this.moduleCartCollection.url = ENDPOINT_URLS.MODULE_CART_PERSIST;
+
 		this.listenToCartCollections();
 	}
 });
