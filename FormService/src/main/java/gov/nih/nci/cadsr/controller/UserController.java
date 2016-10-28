@@ -58,19 +58,19 @@ public class UserController {
         
         //TODO: add TEST and Training contexts manually
         ContextTransferObject testContext = (ContextTransferObject)contextDao.getContextByName("TEST");
-        ContextTransferObject trainingContext = (ContextTransferObject)contextDao.getContextByName("Training");
+//        ContextTransferObject trainingContext = (ContextTransferObject)contextDao.getContextByName("Training");
         
         FEContext fetestContext = new FEContext();
-        FEContext fetrainingContext = new FEContext();
+//        FEContext fetrainingContext = new FEContext();
         
         fetestContext.setName(testContext.getName());
         fetestContext.setConteIdseq(testContext.getConteIdseq());
         
-        fetrainingContext.setName(trainingContext.getName());
-        fetrainingContext.setConteIdseq(trainingContext.getConteIdseq());
+//        fetrainingContext.setName(trainingContext.getName());
+//        fetrainingContext.setConteIdseq(trainingContext.getConteIdseq());
         
         contexts.add(fetestContext);
-        contexts.add(fetrainingContext);
+//        contexts.add(fetrainingContext);
         
         if(contextAdminContexts != null){
 	        for(Object adminContext : contextAdminContexts){
