@@ -26,6 +26,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import gov.nih.nci.cadsr.FormBuilderConstants;
 import gov.nih.nci.cadsr.FormBuilderProperties;
+import gov.nih.nci.cadsr.authentication.AuthUtils;
 import gov.nih.nci.cadsr.model.frontend.FEForm;
 import gov.nih.nci.cadsr.model.session.SessionObject;
 
@@ -43,6 +44,9 @@ public class FormAdapterController {
 	
 	@Autowired
 	private FormBuilderProperties props;
+	
+	@Autowired 
+	private AuthUtils authUtil;
 	
 	@Autowired
 	private SessionObject sessionObject;
@@ -128,9 +132,25 @@ public class FormAdapterController {
 				+ FormBuilderConstants.FORMSERVICE_FORMS + "/" + formIdSeq;
 
 		RestTemplate restTemplate = new RestTemplate();
-		ResponseEntity<String> response = restTemplate.getForEntity(base_uri, String.class);
+		FEForm form = restTemplate.getForObject(base_uri, FEForm.class);
+//		ResponseEntity<String> response = restTemplate.getForEntity(base_uri, String.class);
+		
+		if(authUtil.getLoggedIn()){
+			String lock_uri = props.getFormBuilderApiUrl() + FormBuilderConstants.FORMBUILDER_BASE_URL + 
+					"lock/" + form.getFormMetadata().getFormIdseq();
+			boolean locked = restTemplate.getForObject(lock_uri, boolean.class);
+			
+			form.getFormMetadata().setLocked(locked);
+			
+			if(authUtil.getloggedinuser().getContexts().contains(form.getFormMetadata().getContext())){
+				form.getFormMetadata().setCuratorialPermission(true);
+			}
+		}
+		
+		//TODO: set isLocked and curatorialPermissions on form here
 
-		return response;
+		return new ResponseEntity(form, HttpStatus.OK);
+//		return response;
 	}
 
 	@RequestMapping(method = RequestMethod.POST, consumes = "application/json")

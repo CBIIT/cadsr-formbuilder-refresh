@@ -37,4 +37,21 @@ public class FEContext implements FEBaseObject{
 		this.description = description;
 	}
 
+	@Override
+	public boolean equals(Object obj){
+		if (obj == null){
+			return false;
+		}
+		if(!FEContext.class.isAssignableFrom(obj.getClass())){
+			return false;
+		}
+		final FEContext other = (FEContext) obj;
+		
+		if(this.getConteIdseq().equals(other.getConteIdseq())){
+			return true;
+		}
+		
+		return false;
+	}
+	
 }
