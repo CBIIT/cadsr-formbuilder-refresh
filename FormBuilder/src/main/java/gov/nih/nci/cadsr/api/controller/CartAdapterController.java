@@ -454,24 +454,22 @@ public class CartAdapterController {
 
 	}
 
-	@RequestMapping(value = "/cdes/{quesIdseq}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/cdes/{deIdSeq}", method = RequestMethod.DELETE)
 	@ResponseBody
-	public ResponseEntity DeletCdeFromOC(@PathVariable String quesIdseq) {
+	public ResponseEntity DeletCdeFromOC(@PathVariable String deIdSeq) {
 		
 		if(!authUtil.getLoggedIn()){
 			return new ResponseEntity("User must be logged in to perform this action.", HttpStatus.UNAUTHORIZED);
 		}
 		
-		List<String> ids = Arrays.asList(quesIdseq.split(","));
+		List<String> ids = Arrays.asList(deIdSeq.split(","));
 
 		FEQuestion deleteQuestion = new FEQuestion();
-		String deleteCDE = "";
 		
 		for(FEQuestion question : this.getUserDetails().getCdeCart()){
-			if(question.getQuesIdseq().equals(quesIdseq)){
+			if(question.getDeIdseq().equals(deIdSeq)){
 			if(ids.contains(question.getQuesIdseq()))
 				deleteQuestion = question;
-				deleteCDE = question.getDeIdseq();
 			}
 		}
 		
@@ -480,12 +478,12 @@ public class CartAdapterController {
 		if(deleteQuestion.getIsPersisted()){
 			String base_uri = props.getFormServiceApiUrl() + FormBuilderConstants.FORMSERVICE_BASE_URL
 					+ FormBuilderConstants.FORMSERVICE_FORMS + FormBuilderConstants.DELETE_CDE_FROMOC + "/" + this.getUserName() + "/"
-					+ deleteCDE;
+					+ deIdSeq;
 			RestTemplate restTemplate = new RestTemplate();
 			restTemplate.delete(base_uri);
 		}
 
-		return new ResponseEntity(deleteCDE, HttpStatus.OK);
+		return new ResponseEntity(deIdSeq, HttpStatus.OK);
 
 	}
 
