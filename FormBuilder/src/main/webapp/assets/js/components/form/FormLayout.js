@@ -56,14 +56,17 @@ export default class FormLayout extends Component {
 			this.setState({moduleCartCollection: getModuleCartCollectionPojo(Application.cartsService.moduleCartCollection)});
 		});
 	}
-	componentWillUnmount(){
-		backboneReact.off(this);
-	}
-
+	
 	componentWillUpdate(nextProps, nextState){
 		this.getFormModules();
 		console.log("FormLayout componentWillUpdate");
 	}
+	
+	componentWillUnmount(){
+		backboneReact.off(this);
+	}
+
+	
 	/**
 	 *
 	 * @returns {boolean}
@@ -131,14 +134,31 @@ export default class FormLayout extends Component {
 	}
 
 	render(){
-		let columnConfig = [];
+		let columnConfig = {
+			left: {
+				colWidth: 3
+			},
+			center: {
+				colWidth: 6
+			},
+			right: {
+				colWidth: 3
+			}
+		};
+		const actionMode = this.getActionMode();
+		if (actionMode === formActions.CREATE_FORM) {
+			columnConfig.left.colWidth = 2;
+			columnConfig.center.colWidth = 8;
+			columnConfig.right.colWidth = 2;
+		}
+		
 		return (
 			<div>
-				<Row className="eq-height-wrapper"> <Col lg={3} className="eq-height-item">
+				<Row className="eq-height-wrapper"> <Col lg={columnConfig.left.colWidth} className="eq-height-item">
 				{this.showTreeNav()}
-				</Col> <Col lg={6} className="eq-height-item panel-lg">
+				</Col> <Col lg={columnConfig.center.colWidth} className="eq-height-item panel-lg">
 					<FormLayoutMain shouldShowFormEditControls={this.shouldShowFormEditControls()} actionMode={this.getActionMode()} formMetadata={this.getFormMetaData()} editItems={this.getEditItems()} formModules={this.formModules}/>
-				</Col> <Col lg={3} className="eq-height-item">
+				</Col> <Col lg={columnConfig.right.colWidth} className="eq-height-item">
 					{this.showCartsPanel()}
 
 				</Col> </Row>

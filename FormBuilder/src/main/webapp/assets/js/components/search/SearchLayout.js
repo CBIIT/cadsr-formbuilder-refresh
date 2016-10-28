@@ -72,7 +72,7 @@ export default class SearchLayout extends Component {
 
 	}
 	componentWillReceiveProps(nextProps){
-		console.log('WillReceiveProps');
+		//console.log('WillReceiveProps');
 	}
 	componentWillUpdate(nextProps, nextState) {
 
@@ -185,7 +185,7 @@ export default class SearchLayout extends Component {
 		<Form id="searchForm" ref="form" onSubmit={this.dispatchFormData} validatePristine={this.state.validatePristine} className="search-form">
 			<div className="formItem">
 				<Input name="formLongName" id="longName"
-					label="FORM LONG NAME" type="text"
+					label="FORM LONG NAME" type="text" value=""
 				/>
 			</div>
 			<div className="clearfix formColumns">
@@ -208,6 +208,7 @@ export default class SearchLayout extends Component {
 							readOnly="readOnly"
 						/>
 						<FilterPill text={this.state.selectedClassification.csName} closeButtonCallback={this.removeClassificationPill} />
+						<div className="clearfix" />
 						<button type="button" onClick={() =>{this.openClassificationModal();}} className="btn btn-link align-left">SEARCH FOR CLASSIFICATION</button>
 					</div>
 					<div className="formItem">
@@ -233,13 +234,12 @@ export default class SearchLayout extends Component {
 							label="PROTOCOL" 
 							type="text"
 							onClick={this.openProtocolsModal} 
-
-
 							value={this.state.selectedProtocol.protoIdseq}
 							className="hidden"
 							readOnly="readOnly"
 						/>
 						<FilterPill text={this.state.selectedProtocol.longName} closeButtonCallback={this.removeProtocolPill} />
+						<div className="clearfix" />
 						<button type="button" onClick={() =>{this.openProtocolsModal();}} className="btn btn-link align-left">SEARCH FOR PROTOCOL</button>
 					</div>
 					<div className="formItem">
@@ -331,16 +331,19 @@ export default class SearchLayout extends Component {
 	}
 	renderMiddle(){
 		return(
-			<div id="search-form-wrapper" className="search-middle">
-
-				<h3 className="search-subtitle">FORM SEARCH</h3>
-				<p className="search-desc">
-					Form Search to find and view forms. The Wildcard character is " * ".
-				</p>
-				{
-					this.renderFormItems()
-				}
-
+			<div>
+				<div id="search-form-wrapper" className="search-middle">
+	
+					<h3 className="search-subtitle">FORM SEARCH</h3>
+					<p className="search-desc">
+						Form Search to find and view forms. The Wildcard character is " * ".
+					</p>
+					{
+						this.renderFormItems()
+					}
+	
+				</div>
+				<div className="clearfix" />
 			</div>
 		);
 	}

@@ -4,6 +4,15 @@ import {Glyphicon} from 'react-bootstrap';
 export default class FilterPill extends Component {
 	constructor(props) {
 		super(props);
+		this.closeCallback = this.closeCallback.bind(this);
+	}
+	
+	closeCallback() {
+		let callbackData = this.props.text;
+		if (this.props.item) {
+			callbackData = this.props.item;
+		}
+		this.props.closeButtonCallback(callbackData);
 	}
 	
 	renderText() {
@@ -30,7 +39,7 @@ export default class FilterPill extends Component {
 					{
 						this.renderText()
 					}
-					<button type="button" onClick={this.props.closeButtonCallback} className="btn btn-link btn-remove">
+					<button type="button" onClick={this.closeCallback} className="btn btn-link btn-remove">
 						<Glyphicon glyph="remove"/>
 					</button>
 					<div className="clearfix" />
@@ -47,6 +56,7 @@ export default class FilterPill extends Component {
 
 FilterPill.propTypes = {
 	text:					PropTypes.string,
+	item:					PropTypes.object,
 	clickCallback: 			PropTypes.func,
 	closeButtonCallback:	PropTypes.func
 };

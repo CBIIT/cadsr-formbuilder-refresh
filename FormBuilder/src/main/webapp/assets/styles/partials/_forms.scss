@@ -556,7 +556,14 @@ label span.example {
   }
 }
 
+.hideFormGroup .form-group {
+	display: none;
+}
+.hideFormGroup label, .hideFormGroup button {
+	display: block;
+}
 
-
-
+.required-symbol {
+	color: $dfRed;
+}
 

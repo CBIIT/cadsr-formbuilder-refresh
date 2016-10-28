@@ -276,10 +276,11 @@ button.btn {
 }
 .filterPill {
 	background-color: $color-highlight;
+	float: left;
 }
 .filterPill .btn-remove {
 	color: $dfRed !important; 
-	float: right;
+	float: left;
 }
 .filterPill .filterPillText {
 	float: left;
