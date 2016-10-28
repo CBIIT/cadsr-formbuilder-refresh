@@ -19,6 +19,9 @@ public class FEFormMetaData extends FECartItem implements FEBaseObject{
 	private String footerInstructions;
 	private int publicId;
 	
+	private boolean isLocked = false;
+	private boolean curatorialPermission = false;
+	
 	
 	public String getFormIdseq() {
 		return formIdseq;
@@ -103,6 +106,18 @@ public class FEFormMetaData extends FECartItem implements FEBaseObject{
 	}
 	public void setPublicId(int publicId) {
 		this.publicId = publicId;
+	}
+	public boolean isLocked() {
+		return isLocked;
+	}
+	public void setLocked(boolean isLocked) {
+		this.isLocked = isLocked;
+	}
+	public boolean isCuratorialPermission() {
+		return curatorialPermission;
+	}
+	public void setCuratorialPermission(boolean curatorialPermission) {
+		this.curatorialPermission = curatorialPermission;
 	}
 
 }
