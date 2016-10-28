@@ -29,8 +29,8 @@ export default class ModuleMetadataEditable extends Component {
 	render(){
 		return (
 			<Form  onChange={this.handleValueChanged}  onSubmit={this.dispatchData} validatePristine={this.state.validatePristine} ref="formModuleForm">
-				<Input name="longName" id="longName" value={this.props.longName} label="Module Name" type="text" help="This is a required text input." required/>
-				<Textarea rows={3} cols={40} name="instructions" label="Instructions" value={this.props.instructions}/>
+				<Input name="longName" id="longName" value={this.props.longName} label="MODULE NAME" type="text" help="This is a required text input." required/>
+				<Textarea rows={3} cols={40} name="instructions" label="INSTRUCTIONS" value={this.props.instructions}/>
 				{this.props.children}
 			</Form>
 		);

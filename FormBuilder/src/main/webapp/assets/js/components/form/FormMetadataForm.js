@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import {Col, Row, FormGroup, ControlLabel, FormControl} from 'react-bootstrap';
+import {Grid, Col, Row, FormGroup, ControlLabel, FormControl} from 'react-bootstrap';
 import {Input, Textarea, Select, RadioGroup} from 'formsy-react-components';
 import EVENTS from '../../constants/EVENTS';
 import formActions from '../../constants/formActions';
@@ -40,13 +40,13 @@ export default class FormMetadataForm extends Component {
 	}
 	
 	componentWillMount() {
-		if (this.props.formMetadata.protocols.length > 0) {
+		if (this.props.formMetadata.protocols != null && this.props.formMetadata.protocols.length > 0) {
 			let loadProtocols = this.props.formMetadata.protocols;
 			this.setState({
 				selectedProtocol: loadProtocols
 			});
 		}
-		if (this.props.formMetadata.classifications.length > 0) {
+		if (this.props.formMetadata.classifications != null && this.props.formMetadata.classifications.length > 0) {
 			let loadClassifications = this.props.formMetadata.classifications;
 			this.setState({
 				selectedClassification: loadClassifications
@@ -63,6 +63,7 @@ export default class FormMetadataForm extends Component {
 			});
 		});
 	}
+	
 	dispatchData(data){
 		data.protocols = this.state.selectedProtocol;
 		formChannel.request(EVENTS.FORM.SET_CORE_FORM_DETAILS, data);
@@ -244,95 +245,96 @@ export default class FormMetadataForm extends Component {
 	render(){
 		if(this.state.contexts.length) {
 			return (
-				<Row>
-					<Form onSubmit={this.dispatchData} id="editForm" validatePristine={this.state.validatePristine} disabled={this.props.disabled} ref="formMetata" layout="vertical">
-						<fieldset name={this.props.mainHeadingTitle}>
-							<legend>{this.props.mainHeadingTitle}</legend>
-							<Row> 
-								<Col sm={10}>
-									<Input value={this.props.formMetadata.longName} name="longName" id="longName" label="LONG NAME" type="text" placeholder="This field is required." required/>
-								</Col>
-								<Col sm={2}>
-									<FormGroup>
-										<ControlLabel>VERSION</ControlLabel>
-										<FormControl.Static>{this.props.formMetadata.version}</FormControl.Static> 
-									</FormGroup>
-								</Col>
-							</Row>
-							<Row>
-								<Col sm={12} className="hideFormGroup">
-									<ControlLabel>PROTOCOL</ControlLabel>
-									<Input name="protocolIdSeq" 
-										id="protocolLongName"
-										type="hidden"
-										onClick={this.openProtocolsModal} 
-										value=""
-										className="hidden"
-										readOnly="readOnly"
-									/>
-									<div className="pillContainer">
-										{this.renderProtocolPills()}
-									</div>
-									<div className="clearfix" />
-									<button type="button" onClick={() =>{this.openProtocolsModal();}} className="btn-link align-left">SEARCH FOR PROTOCOL</button>
-								</Col>
-							</Row>
-							
-							{this.renderClassifications()}
-							
-							<Row>
-								<Col sm={12}>
-									<Textarea value={this.props.formMetadata.preferredDefinition} rows={3} cols={40} name="preferredDefinition" label="DEFINITION"  placeholder="This field is required." required/>
-								</Col>
-							</Row>
-							<Row>
-								<Col sm={6}>
-									<Select 
-										name="conteIdseq" 
-										label="CONTEXT" 
-										options={this.getOptions(this.state.contexts, 'key')} 
-										value={this.props.formMetadata.context.conteIdseq} required/>
-								</Col>
-								<Col sm={6}>
-									<Select 
-										name="formCategory" 
-										label="CATEGORY" 
-										options={this.getOptions(this.state.categories)} 
-										value={this.props.formMetadata.formCategory}/>
-								</Col>
-							</Row>
-							<Row>
-								<Col sm={6}>
-									{this.getWorFlowField()}
-								</Col>
-								<Col sm={6}>
-									<RadioGroup 
-										name="formType" 
-										label="TYPE" 
-										options={this.getOptions(this.state.types, undefined, false)} 
-										value={this.props.formMetadata.formType} 
-										type="inline"
-										required />
-								</Col>
-							</Row>
-							<Row>
-								<Col sm={12}>
-									<Textarea value={this.props.formMetadata.headerInstructions} rows={3} cols={40} name="headerInstructions" label="HEADER INSTRUCTION"/>
-								</Col>
-							</Row>
-							<Row>
-								<Col sm={12}>
-									<Textarea value={this.props.formMetadata.footerInstructions} rows={3} cols={40} name="footerInstructions" label="FOOTER INSTRUCTION"/> 
-								</Col>
-							</Row>
-
-						</fieldset>
-						{this.props.children}
-					</Form> 
-					<ProtocolSelectModal isOpen={this.state.protocolModalOpen} closeButtonClicked={this.closeProtocolsModal} data={[]} selectionCallback={this.selectProtocolCallback} />
-					<ClassificationSelectModal isOpen={this.state.classificationModalOpen} closeButtonClicked={this.closeClassificationModal} data={[]} selectionCallback={this.selectClassificationCallback} />
-				</Row>
-				
+				<Grid fluid={true}>
+					<Row>
+						<Form onSubmit={this.dispatchData} id="editForm" validatePristine={this.state.validatePristine} disabled={this.props.disabled} ref="formMetata" layout="vertical">
+							<fieldset name={this.props.mainHeadingTitle}>
+								<legend>{this.props.mainHeadingTitle}</legend>
+								<Row> 
+									<Col sm={10}>
+										<Input value={this.props.formMetadata.longName} name="longName" id="longName" label="LONG NAME" type="text" placeholder="This field is required." required/>
+									</Col>
+									<Col sm={2}>
+										<FormGroup>
+											<ControlLabel>VERSION</ControlLabel>
+											<FormControl.Static>{this.props.formMetadata.version}</FormControl.Static> 
+										</FormGroup>
+									</Col>
+								</Row>
+								<Row>
+									<Col sm={12} className="hideFormGroup">
+										<ControlLabel>PROTOCOL</ControlLabel>
+										<Input name="protocolIdSeq" 
+											id="protocolLongName"
+											type="hidden"
+											onClick={this.openProtocolsModal} 
+											value=""
+											className="hidden"
+											readOnly="readOnly"
+										/>
+										<div className="pillContainer">
+											{this.renderProtocolPills()}
+										</div>
+										<div className="clearfix" />
+										<button type="button" onClick={() =>{this.openProtocolsModal();}} className="btn-link align-left">SEARCH FOR PROTOCOL</button>
+									</Col>
+								</Row>
+								
+								{this.renderClassifications()}
+								
+								<Row>
+									<Col sm={12}>
+										<Textarea value={this.props.formMetadata.preferredDefinition} rows={3} cols={40} name="preferredDefinition" label="DEFINITION"  placeholder="This field is required." required/>
+									</Col>
+								</Row>
+								<Row>
+									<Col sm={6}>
+										<Select 
+											name="conteIdseq" 
+											label="CONTEXT" 
+											options={this.getOptions(this.state.contexts, 'key')} 
+											value={this.props.formMetadata.context.conteIdseq} required/>
+									</Col>
+									<Col sm={6}>
+										<Select 
+											name="formCategory" 
+											label="CATEGORY" 
+											options={this.getOptions(this.state.categories)} 
+											value={this.props.formMetadata.formCategory}/>
+									</Col>
+								</Row>
+								<Row>
+									<Col sm={6}>
+										{this.getWorFlowField()}
+									</Col>
+									<Col sm={6}>
+										<RadioGroup 
+											name="formType" 
+											label="TYPE" 
+											options={this.getOptions(this.state.types, undefined, false)} 
+											value={this.props.formMetadata.formType} 
+											type="inline"
+											required />
+									</Col>
+								</Row>
+								<Row>
+									<Col sm={12}>
+										<Textarea value={this.props.formMetadata.headerInstructions} rows={3} cols={40} name="headerInstructions" label="HEADER INSTRUCTION"/>
+									</Col>
+								</Row>
+								<Row>
+									<Col sm={12}>
+										<Textarea value={this.props.formMetadata.footerInstructions} rows={3} cols={40} name="footerInstructions" label="FOOTER INSTRUCTION"/> 
+									</Col>
+								</Row>
+	
+							</fieldset>
+							{this.props.children}
+						</Form> 
+						<ProtocolSelectModal isOpen={this.state.protocolModalOpen} closeButtonClicked={this.closeProtocolsModal} data={[]} selectionCallback={this.selectProtocolCallback} />
+						<ClassificationSelectModal isOpen={this.state.classificationModalOpen} closeButtonClicked={this.closeClassificationModal} data={[]} selectionCallback={this.selectClassificationCallback} />
+					</Row>
+				</Grid>
 			);
 		}
 		else return(

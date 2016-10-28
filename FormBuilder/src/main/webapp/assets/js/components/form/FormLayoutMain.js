@@ -17,10 +17,15 @@ export default class FormLayoutMain extends Component {
 		this.getMainPanelComponents = this.getMainPanelComponents.bind(this);
 		this.dispatchSaveFormClicked = this.dispatchSaveFormClicked.bind(this);
 		this.showGlobalToolbar = this.showGlobalToolbar.bind(this);
+		this.cancelCreation = this.cancelCreation.bind(this);
 	}
 
 	dispatchSaveFormClicked(){
 		formChannel.request(EVENTS.FORM.SAVE_FORM, {persistToDB: true});
+	}
+	
+	cancelCreation() {
+		window.location = window.history.back();
 	}
 
 	getMainPanelComponents(){
@@ -43,14 +48,19 @@ export default class FormLayoutMain extends Component {
 				submitButtonText = (actionMode === formActions.CREATE_FORM) ? 'Create Form' : 'Save';
 			const buttons = [
 				{
-					name: submitButtonText,
+					name: "CANCEL",
+					type: "button",
+					onClick: "cancelCreation"
+				},
+				{
+					name: "SAVE",
 					type: "submit"
 				}
 			];
 			return (
 				<div>
 					<FormMetadataForm actionMode={actionMode} formMetadata={this.props.formMetadata} mainHeadingTitle={metaDataFormHeadingTitle}>
-						<ButtonsGroup buttons={buttons}/> </FormMetadataForm>
+						<ButtonsGroup buttons={buttons} cancelCreation={this.cancelCreation} /> </FormMetadataForm>
 				</div>
 			);
 		}

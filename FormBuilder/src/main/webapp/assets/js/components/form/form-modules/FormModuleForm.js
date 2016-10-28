@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import {Col, Row, PanelGroup, Panel} from 'react-bootstrap';
+import {Grid, Col, Row, PanelGroup, Panel} from 'react-bootstrap';
 import EVENTS from '../../../constants/EVENTS';
 import formActions from '../../../constants/formActions';
 import {formChannel} from '../../../channels/radioChannels';
@@ -53,14 +53,16 @@ export default class FormModuleForm extends Component {
 	}
 	render(){
 		return (
-			<Row>
-				<Col sm={12}>
-					<ModuleMetadataEditable actionMode={this.props.actionMode} dispatchModuleMetadata={this.dispatchModuleMetadata} longName={this.props.longName} instructions={this.props.instructions}>{this.props.children}</ModuleMetadataEditable>
-					<div>
-						{this.getQuestions(this.props.questions)}
-					</div>
-				</Col>
-			</Row>
+			<Grid fluid={true}>
+				<Row>
+					<Col sm={12}>
+						<ModuleMetadataEditable actionMode={this.props.actionMode} dispatchModuleMetadata={this.dispatchModuleMetadata} longName={this.props.longName} instructions={this.props.instructions}>{this.props.children}</ModuleMetadataEditable>
+						<div>
+							{this.getQuestions(this.props.questions)}
+						</div>
+					</Col>
+				</Row>
+			</Grid>
 		);
 	}
 }
