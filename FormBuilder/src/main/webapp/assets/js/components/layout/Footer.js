@@ -29,43 +29,43 @@ export default class Footer extends Component {
                   </div>
                   <div className="_footer_menubar">
                     <div className="_footer_menu_item">
-                      Admin Tool
+                      <a href="https://cadsradmintool-stage.nci.nih.gov">Admin Tool</a>
                     </div>
                     <div className="_footer_menu_item">
-                      Curation Tool
+                      <a href="https://cdecurate-stage.nci.nih.gov/cdecurate/">Curation Tool</a>
                     </div>
                     <div className="_footer_menu_item">
-                      Sentinel Tool
-                    </div>
-                  </div>
-                  <div className="_footer_menubar">
-                    <div className="_footer_menu_item">
-                      NCI Metathesaurus
-                    </div>
-                    <div className="_footer_menu_item">
-                      NCI Terminology <br /> Server
-                    </div>
-                    <div className="_footer_menu_item">
-                      CDE Browser
+                      <a href="https://cadsrsentinel-stage.nci.nih.gov/cadsrsentinel/">Sentinel Tool</a>
                     </div>
                   </div>
                   <div className="_footer_menubar">
                     <div className="_footer_menu_item">
-                      Help
+                      <a href="https://ncim.nci.nih.gov/ncimbrowser/">NCI Metathesaurus</a>
                     </div>
                     <div className="_footer_menu_item">
-                      Feedback
+                      <a href="https://ncit.nci.nih.gov/ncitbrowser/pages/multiple_search.jsf;jsessionid=8FF581BFE2062B8D2F01C46783615729?nav_type=terminologies">NCI Terminology <br /> Server</a>
                     </div>
                     <div className="_footer_menu_item">
-                      Contact Us
+                      <a href="https://cdebrowser-stage.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search">CDE Browser</a>
                     </div>
                   </div>
                   <div className="_footer_menubar">
                     <div className="_footer_menu_item">
-                      About
+                      <a href="https://wiki.nci.nih.gov/display/caDSR/Form+Builder+User+Guide;WIKISESSIONID=8A5414E4B37FA20BFCED9448A038C30E">Help</a>
                     </div>
                     <div className="_footer_menu_item">
-                      Privacy Policy
+                      <a href="mailto:ncicbiit@mail.nih.gov">Feedback</a>
+                    </div>
+                    <div className="_footer_menu_item">
+                      <a href="ncicbiit@mail.nih.gov">Contact Us</a>
+                    </div>
+                  </div>
+                  <div className="_footer_menubar">
+                    <div className="_footer_menu_item">
+                      <a href="https://wiki.nci.nih.gov/display/caDSR/caDSR+Form+Builder">About</a>
+                    </div>
+                    <div className="_footer_menu_item">
+                      <a href="https://wiki.nci.nih.gov/display/caDSR/caDSR+Privacy+Policy+Statement">Privacy Policy</a>
                     </div>
                     <div className="_footer_menu_item">
                       Versions 5.0.0
