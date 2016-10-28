@@ -32,7 +32,7 @@ export default (
 		<Route path={ROUTES.FORM.VIEW_FORM} onEnter={formHelpers.fetchForm} getComponent={(location, cb) => {
 			cb(null, FormLayout);
 		}} />
-		<Route path={ROUTES.FORM.CREATE_FORM} getComponent={(location, cb) => {
+		<Route path={ROUTES.FORM.CREATE_FORM} onEnter={isLoggedIn} getComponent={(location, cb) => {
 			formChannel.request(EVENTS.FORM.SET_FORM_LAYOUT, {action: formActions.CREATE_FORM});
 			cb(null, FormLayout);
 		}} />
