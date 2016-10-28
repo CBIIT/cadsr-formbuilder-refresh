@@ -93,11 +93,10 @@ public class CartAdapterController {
 			}
 			
 			if(type.equals("cde")){
+				if(!authUtil.getLoggedIn()){
+					return new ResponseEntity(new ArrayList<FEQuestion>(), HttpStatus.OK);
+				}
 				if(cache){
-					if(!authUtil.getLoggedIn()){
-						return new ResponseEntity(new ArrayList<FEQuestion>(), HttpStatus.OK);
-					}
-					
 					return new ResponseEntity(this.getUserDetails().getCdeCart(), HttpStatus.OK);
 				}
 				else{
@@ -120,11 +119,10 @@ public class CartAdapterController {
 				return new ResponseEntity(this.getUserDetails().getModuleCart(), HttpStatus.OK);
 			}
 			else if(type.equals("form")){
+				if(!authUtil.getLoggedIn()){
+					return new ResponseEntity(new ArrayList<FEFormMetaData>(), HttpStatus.OK);
+				}
 				if(cache){
-					if(!authUtil.getLoggedIn()){
-						return new ResponseEntity(new ArrayList<FEFormMetaData>(), HttpStatus.OK);
-					}
-					
 					return new ResponseEntity(this.getUserDetails().getFormCart(), HttpStatus.OK);
 				}
 				else{
@@ -144,66 +142,6 @@ public class CartAdapterController {
 		
 	}
 
-	/*@RequestMapping(value = "/modulecart", method = RequestMethod.GET)
-	@ResponseBody
-	public ResponseEntity getModuleCart() {
-		
-		if(authUtil.getLoggedIn()){
-			return new ResponseEntity(this.getUserDetails().getModuleCart(), HttpStatus.OK);
-		}
-		
-		else{
-			return new ResponseEntity("No authenticated user could be found. Unable to return module cart.",HttpStatus.UNAUTHORIZED);
-		}
-		
-	}
-
-	@RequestMapping(value = "/cdecart", method = RequestMethod.GET)
-	@ResponseBody
-	public ResponseEntity getCDECart(@RequestParam(value = "username", required = false) String username, @RequestParam(value = "cache", required = false) boolean cache) throws XmlMappingException, IOException, SAXException, ParserConfigurationException, JAXBException, XMLStreamException {
-
-		if(username == null){
-			username = this.getUserName();
-		}
-		
-		if(cache){
-			
-			if(authUtil.getLoggedIn()){
-				return new ResponseEntity(this.getUserDetails().getCdeCart(), HttpStatus.OK);
-			}
-			else{
-				return new ResponseEntity("No authenticated user could be found. Unable to return module cart.",HttpStatus.UNAUTHORIZED);
-			}
-		}
-		else{
-			return this.loadCDECart(username);
-		}
-		
-	}
-
-	@RequestMapping(value = "/formcart", method = RequestMethod.GET)
-	@ResponseBody
-	public ResponseEntity getFormCart(@RequestParam(value = "username", required = false) String username, @RequestParam(value = "cache", required = false) boolean cache) throws XmlMappingException, IOException, SAXException, ParserConfigurationException, JAXBException, XMLStreamException {
-
-		if(username == null){
-			username = this.getUserName();
-		}
-		
-		if(cache){
-			
-			if(authUtil.getLoggedIn()){
-				return new ResponseEntity(this.getUserDetails().getFormCart(), HttpStatus.OK);
-			}
-			else{
-				return new ResponseEntity("No authenticated user could be found. Unable to return module cart.",HttpStatus.UNAUTHORIZED);
-			}
-			
-		}
-		else{
-			return this.loadFormV2Cart(username);
-		}
-
-	}*/
 
 	private ResponseEntity loadCDECart(String username) throws XmlMappingException, IOException,
 			SAXException, ParserConfigurationException, JAXBException, XMLStreamException {
@@ -443,6 +381,10 @@ public class CartAdapterController {
 	@RequestMapping(value = "/forms/{formIdseq}", method = RequestMethod.GET)
 	@ResponseBody
 	public ResponseEntity saveFormToOC(@PathVariable String formIdseq) {
+		
+		if(!authUtil.getLoggedIn()){
+			return new ResponseEntity("User must be logged in to perform this action.", HttpStatus.UNAUTHORIZED);
+		}
 
 		String uri = props.getFormServiceApiUrl() + FormBuilderConstants.FORMSERVICE_BASE_URL
 				+ FormBuilderConstants.FORMSERVICE_FORMS + "/objcart" + "/" + this.getUserName() + "/" + formIdseq;
@@ -482,6 +424,10 @@ public class CartAdapterController {
 	@ResponseBody
 	public ResponseEntity DeletFormFromOC(@PathVariable String formIdSeq) {
 		
+		if(!authUtil.getLoggedIn()){
+			return new ResponseEntity("User must be logged in to perform this action.", HttpStatus.UNAUTHORIZED);
+		}
+		
 		List<String> ids = Arrays.asList(formIdSeq.split(","));
 
 		FEFormMetaData deleteForm = new FEFormMetaData();
@@ -508,18 +454,24 @@ public class CartAdapterController {
 
 	}
 
-	@RequestMapping(value = "/cdes/{cdeId}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/cdes/{quesIdseq}", method = RequestMethod.DELETE)
 	@ResponseBody
-	public ResponseEntity DeletCdeFromOC(@PathVariable String cdeId) {
+	public ResponseEntity DeletCdeFromOC(@PathVariable String quesIdseq) {
 		
-		List<String> ids = Arrays.asList(cdeId.split(","));
+		if(!authUtil.getLoggedIn()){
+			return new ResponseEntity("User must be logged in to perform this action.", HttpStatus.UNAUTHORIZED);
+		}
+		
+		List<String> ids = Arrays.asList(quesIdseq.split(","));
 
 		FEQuestion deleteQuestion = new FEQuestion();
+		String deleteCDE = "";
 		
 		for(FEQuestion question : this.getUserDetails().getCdeCart()){
-			if(question.getQuesIdseq().equals(cdeId)){
+			if(question.getQuesIdseq().equals(quesIdseq)){
 			if(ids.contains(question.getQuesIdseq()))
 				deleteQuestion = question;
+				deleteCDE = question.getDeIdseq();
 			}
 		}
 		
@@ -528,12 +480,12 @@ public class CartAdapterController {
 		if(deleteQuestion.getIsPersisted()){
 			String base_uri = props.getFormServiceApiUrl() + FormBuilderConstants.FORMSERVICE_BASE_URL
 					+ FormBuilderConstants.FORMSERVICE_FORMS + FormBuilderConstants.DELETE_CDE_FROMOC + "/" + this.getUserName() + "/"
-					+ cdeId;
+					+ deleteCDE;
 			RestTemplate restTemplate = new RestTemplate();
 			restTemplate.delete(base_uri);
 		}
 
-		return new ResponseEntity(cdeId, HttpStatus.OK);
+		return new ResponseEntity(deleteCDE, HttpStatus.OK);
 
 	}
 
