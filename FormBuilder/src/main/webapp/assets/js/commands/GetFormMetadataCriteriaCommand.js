@@ -15,7 +15,7 @@ export const GetFormMetadataCriteriaInputOptions = function({userName = "user"} 
 
 	return new Promise(
 		(resolve) =>{
-			let promises = urls.map(url => fetch(url, {credentials: 'same-origin'}).then(response => response.json()));
+			let promises = urls.map(url => fetch(url, {credentials: 'include'}).then(response => response.json()));
 			Promise.all(promises).then(results =>{
 				resolve({
 					contexts:   results[0],

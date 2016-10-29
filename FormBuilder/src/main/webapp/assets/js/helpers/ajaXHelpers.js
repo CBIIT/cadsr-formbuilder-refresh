@@ -63,7 +63,7 @@ export const fetchSecure = ({url}) =>{
 
 	return new Promise(
 		(resolve) =>{
-			fetch(url, {credentials: 'same-origin'})
+			fetch(url, {credentials: 'include'})
 				.then(getResponseStatus)
 				.then(getResponseAsJSON)
 				.then(function(data){
