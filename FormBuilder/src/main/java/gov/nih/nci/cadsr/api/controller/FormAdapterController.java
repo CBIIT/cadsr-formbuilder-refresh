@@ -29,6 +29,7 @@ import gov.nih.nci.cadsr.FormBuilderProperties;
 import gov.nih.nci.cadsr.authentication.AuthUtils;
 import gov.nih.nci.cadsr.model.frontend.FEForm;
 import gov.nih.nci.cadsr.model.session.SessionObject;
+import gov.nih.nci.ncicb.cadsr.common.dto.FormTransferObject;
 
 /**
  * 
@@ -151,6 +152,23 @@ public class FormAdapterController {
 
 		return new ResponseEntity(form, HttpStatus.OK);
 //		return response;
+	}
+	
+	@RequestMapping(value = "/copy/{formIdSeq}", method = RequestMethod.POST, consumes = "application/json")
+	@ResponseBody
+	public ResponseEntity<String> copyForm(@PathVariable String formIdSeq) {
+		String uri = props.getFormServiceApiUrl() + FormBuilderConstants.FORMSERVICE_BASE_URL
+				+ FormBuilderConstants.FORMSERVICE_FORMS + "/copy/" + formIdSeq;
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+
+		HttpEntity<String> entity = new HttpEntity<String>(formIdSeq, headers);
+
+		RestTemplate restTemplate = new RestTemplate();
+		ResponseEntity<String> response = restTemplate.postForEntity(uri, entity, String.class);
+
+		return response;
 	}
 
 	@RequestMapping(method = RequestMethod.POST, consumes = "application/json")
