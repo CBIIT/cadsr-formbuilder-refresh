@@ -1,4 +1,6 @@
 import FormModel from '../models/forms/FormModel';
+import {fetchSecure} from './ajaXHelpers';
+import ENDPOINT_URLS from '../constants/ENDPOINT_URLS';
 import formService from  "../services/form/FormService";
 import formActions from '../constants/formActions';
 import {cartChannel, formChannel} from '../channels/radioChannels';
@@ -15,6 +17,9 @@ const formHelpers = {
 			// do some error handling here
 			callback(error);
 		});
+	},
+	getFormLockStatus() {
+		fetchSecure({url:ENDPOINT_URLS.FORMS.FORMS}).then((data) => data);
 	}
 };
 
