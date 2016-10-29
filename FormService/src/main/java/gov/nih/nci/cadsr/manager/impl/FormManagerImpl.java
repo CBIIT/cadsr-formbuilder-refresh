@@ -838,4 +838,14 @@ public class FormManagerImpl implements FormManager {
 	       return mainMap;
 	      }
 
+	
+	 public String copyForm(String sourceFormPK, Form newForm)
+	    {
+	        Form resultForm = null;
+	        FormDAO myDAO = daoFactory.getFormDAO();
+			String resultFormPK = myDAO.copyForm(sourceFormPK, newForm);
+		//resultForm = this.getFormDetails(resultFormPK);
+	        return resultFormPK;
+	    }
+
 }
