@@ -10,7 +10,6 @@ import backboneModelHelpers from '../../helpers/backboneModelHelpers';
 import QuestionsModel from '../../models/forms/QuestionsModel';
 import FormModuleModel from '../../models/forms/FormModuleModel';
 import formUIStateModel from '../../models/forms/FormUIStateModel';
-import {GetFormMetadataCriteriaInputOptions} from '../../commands/GetFormMetadataCriteriaCommand';
 /**
  * This is a service that maintains the state of a form, modules, and questions. We may want to break out module-specific and question-specific functionality into their own modules
  */
@@ -50,7 +49,6 @@ const FormService = Marionette.Object.extend({
 					delete this.formModel;
 					this.formModel = new FormModel();
 				}
-				this.fetchFormMetaDataCriteria();
 				break;
 			case formActions.CREATE_MODULE:
 				this.formUIStateModel.set({actionMode: action});
@@ -63,7 +61,6 @@ const FormService = Marionette.Object.extend({
 				break;
 			case formActions.VIEW_FORM_METADATA:
 				this.formUIStateModel.set({actionMode: action});
-				this.fetchFormMetaDataCriteria();
 				break;
 			case formActions.VIEW_FULL_FORM:
 				this.formUIStateModel.set({actionMode: action});
@@ -121,9 +118,6 @@ const FormService = Marionette.Object.extend({
 	getModuleQuestionModel({moduleId, questionId}) {
 		const moduleModel = this.getModuleModel(moduleId);
 		return moduleModel.get("questions").get(questionId);
-	},
-	fetchFormMetaDataCriteria() {
-		GetFormMetadataCriteriaInputOptions();
 	},
 	handleAddModule(data) {
 		const newModuleModel = this.formModel.get('formModules').add(new FormModuleModel(data));

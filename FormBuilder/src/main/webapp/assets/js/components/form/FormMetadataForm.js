@@ -5,6 +5,7 @@ import EVENTS from '../../constants/EVENTS';
 import formActions from '../../constants/formActions';
 import {formChannel} from '../../channels/radioChannels';
 import Form from '../common/Form';
+import {GetFormMetadataCriteriaInputOptions} from '../../commands/GetFormMetadataCriteriaCommand';
 import ProtocolSelectModal from '../modals/ProtocolSelectModal';
 import ClassificationSelectModal from '../modals/ClassificationSelectModal';
 import FilterPill from '../common/FilterPill.js';
@@ -53,9 +54,9 @@ export default class FormMetadataForm extends Component {
 			});
 		}
 	}
-	
+
 	componentDidMount(){
-		formChannel.on(EVENTS.FORM.GET_FORM_CORE_DETAILS_CRITERIA, (formMetaDataDropdownOptions) =>{
+		GetFormMetadataCriteriaInputOptions().then((formMetaDataDropdownOptions)  =>{
 			this.setState({contexts: formMetaDataDropdownOptions.contexts,
 				categories:formMetaDataDropdownOptions.categories,
 				types: formMetaDataDropdownOptions.types,
@@ -63,7 +64,7 @@ export default class FormMetadataForm extends Component {
 			});
 		});
 	}
-	
+
 	dispatchData(data){
 		data.protocols = this.state.selectedProtocol;
 		formChannel.request(EVENTS.FORM.SET_CORE_FORM_DETAILS, data);
