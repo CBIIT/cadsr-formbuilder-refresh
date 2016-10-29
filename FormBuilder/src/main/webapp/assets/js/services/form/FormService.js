@@ -36,8 +36,6 @@ const FormService = Marionette.Object.extend({
 		[EVENTS.FORM.SET_VALID_VALUE]: 'handleSetModuleQuestionValidValue'
 
 	},
-	/* Stores cart data retrieved from carService */
-	carts:         null,
 	initialize() {
 		this.setupModels();
 	},
@@ -67,7 +65,6 @@ const FormService = Marionette.Object.extend({
 				if(formIdseq !== this.formModel.get('formIdseq')){
 					/* IF going to view a different form, make sure edit controls are turned off */
 					this.formUIStateModel.set({isEditing: false});
-					//this.fetchForm({formIdseq: formIdseq});
 				}
 				this.getCartData({collectionName: "cdeCartCollection"});
 				this.getCartData({collectionName: "moduleCartCollection"});
@@ -84,7 +81,7 @@ const FormService = Marionette.Object.extend({
 				this.formModel.set({
 					formIdseq: formIdseq
 				});
-				browserHistory.push(`/FormBuilder/forms/${formIdseq}`);
+				browserHistory.push(`/FormBuilder/`);
 				this.formUIStateModel.set({isEditing: true});
 				this.dispatchLayout({action: formActions.VIEW_FULL_FORM});
 				//				alert("Form created. formIdseq is: " + formIdseq);
@@ -93,14 +90,6 @@ const FormService = Marionette.Object.extend({
 				/*TODO: of course this is too basic. Improve error handling */
 				alert("error");
 			}
-		});
-	},
-	fetchForm({formIdseq, params}) {
-		formIdseq = formIdseq || params.formIdseq;
-		this.formModel.set("formIdseq", formIdseq);
-		this.formModel.fetch().then(() =>{
-		}).catch((error) =>{
-			console.log(error);
 		});
 	},
 	getCartData({collectionName}) {
