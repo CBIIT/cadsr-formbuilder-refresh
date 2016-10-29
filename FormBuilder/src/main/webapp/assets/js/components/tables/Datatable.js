@@ -345,7 +345,7 @@ export default class Datatable extends React.Component{
 		if (this.props.pageName === 'Form') {
 			return (
 				<li>
-					<DropdownButton className="controlPanel-btn" title="DOWNLOAD">
+					<DropdownButton id="download-dropdown" className="controlPanel-btn" title="DOWNLOAD">
 						<MenuItem onClick={this.dispatchDownloadXLS} eventKey="1"><i className="controlPanel-icon fa fa-file-excel-o"></i> DOWNLOAD EXCEL</MenuItem>
 						<MenuItem onClick={this.dispatchDownloadXML} eventKey="2"><i className="controlPanel-icon fa fa-file-code-o"></i> DOWNLOAD XML</MenuItem>
 					</DropdownButton>
@@ -355,7 +355,7 @@ export default class Datatable extends React.Component{
 		else if (this.props.pageName === 'CDE') {
 				return (
 					<li>
-						<DropdownButton className="controlPanel-btn" title="DOWNLOAD">
+						<DropdownButton id="download-dropdown" className="controlPanel-btn" title="DOWNLOAD">
 							<MenuItem onClick={this.dispatchDownloadXLS} eventKey="1"><i className="controlPanel-icon fa fa-file-excel-o"></i> DOWNLOAD EXCEL</MenuItem>
 						</DropdownButton>
 					</li>
