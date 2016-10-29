@@ -1,14 +1,15 @@
 import Marionette from "backbone.marionette";
-import {Model, Collection} from "backbone";
-import {userChannel, appChannel} from '../../channels/radioChannels';
+import ENDPOINT_URLS from '../../constants/ENDPOINT_URLS';
+import {appChannel} from '../../channels/radioChannels';
 import EVENTS from '../../constants/EVENTS';
+import {fetchSecure} from '../../helpers/ajaXHelpers';
 
 /**
  * This is service that maintains the state of user details and auth
  */
 /*TODO move common methods out into a mixin/HOF or baseController/baseService */
 const UserService = Marionette.Object.extend({
-	channelName: 'user',
+	channelName:   'user',
 	radioRequests: {
 		'isLoggedIn': 'isUserLoggedIn'
 	},
@@ -17,7 +18,6 @@ const UserService = Marionette.Object.extend({
 		appChannel.trigger(EVENTS.USER.LOGIN_SUCCESS, () =>{
 			console.log("login success");
 		});
-
 		appChannel.reply(EVENTS.USER.GET_USERNAME, this.getUserName);
 	},
 	getUserName () {
@@ -25,8 +25,12 @@ const UserService = Marionette.Object.extend({
 		return 'guest';
 	},
 	isUserLoggedIn(){
-		/* just a placeholder */
-		return true;
+		return new Promise(
+			(resolve) =>{
+				fetchSecure({url: ENDPOINT_URLS.USERS.IS_USER_LOGGED_IN}).then((data) =>{
+					resolve(data);
+				});
+			});
 	}
 });
 

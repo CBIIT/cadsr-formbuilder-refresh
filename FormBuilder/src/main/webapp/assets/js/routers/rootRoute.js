@@ -1,5 +1,5 @@
 import React from 'react';
-import App from '../components/layout/AppLayout';
+import AppLayout from '../components/layout/AppLayout';
 import SearchLayout from '../components/search/SearchLayout';
 import CartLayout from '../components/carts/CartLayout';
 import FormLayout from '../components/form/FormLayout';
@@ -14,7 +14,7 @@ import EVENTS from '../constants/EVENTS';
 import ROUTES from '../constants/ROUTES';
 
 export default (
-	<Route path="/" component={App}>
+	<Route path="/" component={AppLayout}>
 		<IndexRoute component={SearchLayout} />
 		<Route path={ROUTES.SEARCH.SEARCH_FORMS} component={SearchLayout} />
 		<Route cart="CDE" onEnter={RedirectToLoginIfNotLoggedIn} cartPageStateModel={cartsService.cartPageStateModel} cartData="cdeCartCollection" path={ROUTES.CART.VIEW_CDE_CART_PAGE} getComponent={(location, cb) => {
