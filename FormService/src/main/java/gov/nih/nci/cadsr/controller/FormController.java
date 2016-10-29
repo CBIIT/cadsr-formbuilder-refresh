@@ -107,7 +107,6 @@ public class FormController {
 
 		logger.info("----------EJB query took " + (endTimer - startTimer) + " ms.");
 		logger.info("----------# of Form Results: " + FormList.size());
-		
 
 		return response;
 
@@ -130,7 +129,7 @@ public class FormController {
 		try {
 
 			String response = formManager.updateForm(form);
-			
+
 			return new ResponseEntity<String>(response, HttpStatus.OK);
 
 		} catch (Exception e) {
@@ -165,63 +164,67 @@ public class FormController {
 
 		return response;
 	}
-	
-	
-	
 
-@RequestMapping(value = { "/forms/{formIdSeq}" }, method = RequestMethod.GET)
-@Cacheable(value="products", key="#formIdSeq")
-	public FEForm testTranslateDBFormToBBForm(@PathVariable String formIdSeq) throws JsonGenerationException, JsonMappingException, IOException {
-	
-	
-	ObjectMapper mapper = new ObjectMapper();
-	FEForm obj = new FEForm();
+	@RequestMapping(value = { "/forms/{formIdSeq}" }, method = RequestMethod.GET)
+	@Cacheable(value = "products", key = "#formIdSeq")
+	public FEForm testTranslateDBFormToBBForm(@PathVariable String formIdSeq) {
 
-	//Object to JSON in file
-	mapper.writeValue(new File("c:\\file.json"), obj);
+		ObjectMapper mapper = new ObjectMapper();
+		FEForm obj = new FEForm();
+		try {
+			// Object to JSON in file
+			mapper.writeValue(new File("c:\\file.json"), obj);
 
-	//Object to JSON in String
-	String jsonInString = mapper.writeValueAsString(obj);
+			// Object to JSON in String
+			String jsonInString = mapper.writeValueAsString(obj);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
-		FormTransferObject fullForm = formManager.getFullForm(formIdSeq);
+		FormTransferObject fullForm = formManager.getFullFormV2(formIdSeq);
 
 		return formManager.testTranslateDBFormToBBForm(fullForm);
 	}
-	
+
 	@RequestMapping(value = { "/forms/db/{formIdSeq}/{modInd}/{quesInd}" }, method = RequestMethod.GET)
-	public QuestionTransferObject getDBForm(@PathVariable String formIdSeq, @PathVariable String modInd, @PathVariable String quesInd) {
-		
+	public QuestionTransferObject getDBForm(@PathVariable String formIdSeq, @PathVariable String modInd,
+			@PathVariable String quesInd) {
+
 		List<ReferenceDocumentTransferObject> refdocs = new ArrayList<ReferenceDocumentTransferObject>();
 
 		FormTransferObject fullForm = formManager.getFullForm(formIdSeq);
-		
-//		QuestionTransferObject qto = new QuestionTransferObject();
-//		qto = ((QuestionTransferObject)((ModuleTransferObject)fullForm.getModules().get(0)).getQuestions().get(0));
-		
-//		ReferenceDocumentTransferObject rdto = new ReferenceDocumentTransferObject();
-//		rdto = ((ReferenceDocumentTransferObject)qto.getRefereceDocs().get(0));
-		
-//		List<ModuleTransferObject> modlist = (List<ModuleTransferObject>)fullForm.getModules();
-		
-		return ((QuestionTransferObject)((ModuleTransferObject)fullForm.getModules().get(Integer.valueOf(modInd))).getQuestions().get(Integer.valueOf(quesInd)));
-		
-		
-		
-//		for(QuestionTransferObject qto : queslist){
-////			qto.setReferenceDocs((List<ReferenceDocumentTransferObject>)qto.getRefereceDocs());
-//			if(qto.getRefereceDocs() != null){
-//				refdocs.addAll((List<ReferenceDocumentTransferObject>)qto.getRefereceDocs());
-//			}
-//		}
-		
-//		for(ModuleTransferObject mod : modlist){
-//			mod.setQuestions(queslist);
-//		}
-		
-//		fullForm.setModules(modlist);
-//		List<ReferenceDocumentTransferObject> reflist = (List<ReferenceDocumentTransferObject>)qto.getRefereceDocs();
-		
-//		return queslist;
+
+		// QuestionTransferObject qto = new QuestionTransferObject();
+		// qto =
+		// ((QuestionTransferObject)((ModuleTransferObject)fullForm.getModules().get(0)).getQuestions().get(0));
+
+		// ReferenceDocumentTransferObject rdto = new
+		// ReferenceDocumentTransferObject();
+		// rdto =
+		// ((ReferenceDocumentTransferObject)qto.getRefereceDocs().get(0));
+
+		// List<ModuleTransferObject> modlist =
+		// (List<ModuleTransferObject>)fullForm.getModules();
+
+		return ((QuestionTransferObject) ((ModuleTransferObject) fullForm.getModules().get(Integer.valueOf(modInd)))
+				.getQuestions().get(Integer.valueOf(quesInd)));
+
+		// for(QuestionTransferObject qto : queslist){
+		//// qto.setReferenceDocs((List<ReferenceDocumentTransferObject>)qto.getRefereceDocs());
+		// if(qto.getRefereceDocs() != null){
+		// refdocs.addAll((List<ReferenceDocumentTransferObject>)qto.getRefereceDocs());
+		// }
+		// }
+
+		// for(ModuleTransferObject mod : modlist){
+		// mod.setQuestions(queslist);
+		// }
+
+		// fullForm.setModules(modlist);
+		// List<ReferenceDocumentTransferObject> reflist =
+		// (List<ReferenceDocumentTransferObject>)qto.getRefereceDocs();
+
+		// return queslist;
 
 	}
 
@@ -235,46 +238,45 @@ public class FormController {
 	 * Performance Test Methods
 	 * 
 	 */
-	
-	/*@RequestMapping(value = "/forms/performancetest", method = RequestMethod.GET)
-	@ResponseBody
-	public ResponseEntity<String> getFormsTest() {
-		
-		Collection FormList;
-		List<String> formids = new ArrayList<String>();
-		StringBuilder sb = new StringBuilder();
 
-		FormList = formManager.getAllForms("*", null, null, null, null, null,
-				null, null, null, null, null, null, null);
-		for(Object form : FormList){
-			FormTransferObject fto = (FormTransferObject)form;
-			formids.add(fto.getFormIdseq());
-		}
-		
-		for(String id : formids){
-			sb.append(formManager.getFormPerformanceTest(id));
-		}
-
-		return new ResponseEntity(sb.toString(), HttpStatus.OK);
-	}*/
+	/*
+	 * @RequestMapping(value = "/forms/performancetest", method =
+	 * RequestMethod.GET)
+	 * 
+	 * @ResponseBody public ResponseEntity<String> getFormsTest() {
+	 * 
+	 * Collection FormList; List<String> formids = new ArrayList<String>();
+	 * StringBuilder sb = new StringBuilder();
+	 * 
+	 * FormList = formManager.getAllForms("*", null, null, null, null, null,
+	 * null, null, null, null, null, null, null); for(Object form : FormList){
+	 * FormTransferObject fto = (FormTransferObject)form;
+	 * formids.add(fto.getFormIdseq()); }
+	 * 
+	 * for(String id : formids){
+	 * sb.append(formManager.getFormPerformanceTest(id)); }
+	 * 
+	 * return new ResponseEntity(sb.toString(), HttpStatus.OK); }
+	 */
 
 	@RequestMapping(value = "/forms/performancetest/{formIdSeq}", method = RequestMethod.GET)
 	@ResponseBody
 
 	public ResponseEntity<String> getFormTest(@PathVariable String formIdSeq) {
-//		long startTimer = System.currentTimeMillis();
-		
+		// long startTimer = System.currentTimeMillis();
+
 		String testResult = formManager.getFormPerformanceTest(formIdSeq);
-		
-//		long endTimer = System.currentTimeMillis();
-//		String transportTime = "" + (endTimer - startTimer);
-//		
-//		StringBuilder sb = new StringBuilder(testResult);
-//		
-//		sb.append("Time(ms) for full transport to front-end: " + transportTime);
-//		sb.append("-----------------------------END-------------------------------\n\n");
-//
-//		logger.info(sb.toString());
+
+		// long endTimer = System.currentTimeMillis();
+		// String transportTime = "" + (endTimer - startTimer);
+		//
+		// StringBuilder sb = new StringBuilder(testResult);
+		//
+		// sb.append("Time(ms) for full transport to front-end: " +
+		// transportTime);
+		// sb.append("-----------------------------END-------------------------------\n\n");
+		//
+		// logger.info(sb.toString());
 		return new ResponseEntity(testResult, HttpStatus.OK);
 	}
 
@@ -288,32 +290,33 @@ public class FormController {
 	@ResponseBody
 	public ResponseEntity<Cart> saveFormToOC(@PathVariable String username, @PathVariable String formIdSeq)
 			throws ObjectCartException {
-		
+
 		ObjectCartClient cartClient = new ObjectCartClient();
-		
+
 		String str = formIdSeq;
 		String[] id = str.split(",");
-		
+
 		Cart cart = cartClient.createCart(username, "formCart");
-		
+
 		// TODO:Get the FormV2 version of a Form and translate it to a
 		// CartObject that can be saved.
 		CartObject cObject = new CartObject();
 		for (String i : id) {
 			FormV2 formV2 = formManager.getFullFormV2(i);
 			try {
-				
+
 				cObject = translateCartObject(formV2);
 				cartClient.storeObject(cart, cObject);
-				
+
 			} catch (Exception e1) {
 				return new ResponseEntity(e1.getMessage(), HttpStatus.BAD_REQUEST);
 			}
 		}
-		
+
 		ResponseEntity<Cart> response = new ResponseEntity(cart, HttpStatus.OK);
 		return response;
 	}
+
 	@RequestMapping(value = "/forms/deleteFormv2/{username}/{formIdSeq}", method = RequestMethod.DELETE)
 	@ResponseBody
 	public ResponseEntity<Cart> DeletFormFromOC(@PathVariable String username, @PathVariable String formIdSeq)
@@ -334,18 +337,16 @@ public class FormController {
 				return new ResponseEntity(e1.getMessage(), HttpStatus.BAD_REQUEST);
 			}
 		}
-		ResponseEntity<Cart> response = new ResponseEntity(cart,HttpStatus.OK);
+		ResponseEntity<Cart> response = new ResponseEntity(cart, HttpStatus.OK);
 		return response;
 
 	}
-	
 
 	@RequestMapping(value = "/forms/deleteCde/{username}/{formIdSeq}", method = RequestMethod.DELETE)
 	@ResponseBody
 	public ResponseEntity<Cart> DeletCdeFromOC(@PathVariable String username, @PathVariable String cdeId)
 			throws ObjectCartException {
-		
-	
+
 		ObjectCartClient cartClient = new ObjectCartClient();
 		String str = cdeId;
 		String[] id = str.split(",");
@@ -361,90 +362,90 @@ public class FormController {
 				return new ResponseEntity(e1.getMessage(), HttpStatus.BAD_REQUEST);
 			}
 		}
-		ResponseEntity<Cart> response = new ResponseEntity(cart,HttpStatus.OK);
+		ResponseEntity<Cart> response = new ResponseEntity(cart, HttpStatus.OK);
 		return response;
 
 	}
-	
-	
-	
+
 	@RequestMapping(value = "/objcart/cdecart/{username}", method = RequestMethod.GET)
 	@ResponseBody
 	public ResponseEntity loadCDECart(@PathVariable String username) throws ObjectCartException {
-		
+
 		List<DataElementTransferObject> elements = new ArrayList<DataElementTransferObject>();
-		
+
 		ObjectCartClient cartClient = new ObjectCartClient();
 		Cart cart = cartClient.retrieveCart(username, "cdeCart");
 
 		Collection coll = cartClient.getPOJOCollection(DataElementTransferObject.class, cart.getCartObjectCollection());
-		
-		for(Object obj : coll){
-			DataElementTransferObject element = (DataElementTransferObject)obj;
-			
+
+		for (Object obj : coll) {
+			DataElementTransferObject element = (DataElementTransferObject) obj;
+
 			elements.add(element);
-			
-//			element.getCDEId();
-//			element.getVersion();
-//			element.getPreferredName();
-//			element.getLongName();
-//			element.getValueDomain().getDatatype();
-//			element.getValueDomain().getUnitOfMeasure();
-//			element.getValueDomain().getDisplayFormat();
-//			element.getDataElementConcept()
-			
+
+			// element.getCDEId();
+			// element.getVersion();
+			// element.getPreferredName();
+			// element.getLongName();
+			// element.getValueDomain().getDatatype();
+			// element.getValueDomain().getUnitOfMeasure();
+			// element.getValueDomain().getDisplayFormat();
+			// element.getDataElementConcept()
+
 		}
-		
+
 		return new ResponseEntity(elements, HttpStatus.OK);
 	}
-	
+
 	@RequestMapping(value = "/objcart/formcart/{username}", method = RequestMethod.GET)
 	@ResponseBody
 	public ResponseEntity loadFormCart(@PathVariable String username) throws ObjectCartException {
-		
+
 		List<FormV2TransferObject> forms = new ArrayList<FormV2TransferObject>();
-		
+
 		ObjectCartClient cartClient = new ObjectCartClient();
 		Cart cart = cartClient.retrieveCart(username, "formCartV2");
 
 		Collection coll = cartClient.getPOJOCollection(FormV2TransferObject.class, cart.getCartObjectCollection());
-		
-		for(Object obj : coll){
-			FormV2TransferObject form = (FormV2TransferObject)obj;
-			
+
+		for (Object obj : coll) {
+			FormV2TransferObject form = (FormV2TransferObject) obj;
+
 			forms.add(form);
 		}
-		
+
 		return new ResponseEntity(forms, HttpStatus.OK);
 	}
 
 	public ResponseEntity<String> getFormTest1(@PathVariable String formIdSeq) {
-//		long startTimer = System.currentTimeMillis();
-		
+		// long startTimer = System.currentTimeMillis();
+
 		String testResult = formManager.getFormPerformanceTest(formIdSeq);
-		
-//		long endTimer = System.currentTimeMillis();
-//		String transportTime = "" + (endTimer - startTimer);
-//		
-//		StringBuilder sb = new StringBuilder(testResult);
-//		
-//		sb.append("Time(ms) for full transport to front-end: " + transportTime);
-//		sb.append("-----------------------------END-------------------------------\n\n");
-//
-//		logger.info(sb.toString());
+
+		// long endTimer = System.currentTimeMillis();
+		// String transportTime = "" + (endTimer - startTimer);
+		//
+		// StringBuilder sb = new StringBuilder(testResult);
+		//
+		// sb.append("Time(ms) for full transport to front-end: " +
+		// transportTime);
+		// sb.append("-----------------------------END-------------------------------\n\n");
+		//
+		// logger.info(sb.toString());
 		return new ResponseEntity(testResult, HttpStatus.OK);
 
 	}
-		  private CartObject translateCartObject(FormV2 crf) throws Exception {
-				CartObject ob = new CartObject();
-				ob.setType(FormConverterUtil.instance().getCartObjectType());
-				ob.setDisplayText(Integer.toString(crf.getPublicId()) + "v" + Float.toString(crf.getVersion()));
-				ob.setNativeId(crf.getFormIdseq());
-				
-				String convertedForm = FormConverterUtil.instance().convertFormToV2(crf);		
-				ob.setData(convertedForm);
-				return ob;	  
-		  }
+
+	private CartObject translateCartObject(FormV2 crf) throws Exception {
+		CartObject ob = new CartObject();
+		ob.setType(FormConverterUtil.instance().getCartObjectType());
+		ob.setDisplayText(Integer.toString(crf.getPublicId()) + "v" + Float.toString(crf.getVersion()));
+		ob.setNativeId(crf.getFormIdseq());
+
+		String convertedForm = FormConverterUtil.instance().convertFormToV2(crf);
+		ob.setData(convertedForm);
+		return ob;
+	}
 
 	/*
 	 * private ResponseEntity<FormWrapper> createSuccessFormResponse(final
@@ -452,6 +453,5 @@ public class FormController {
 	 * 
 	 * return new ResponseEntity<FormWrapper>(formList, HttpStatus.OK); }
 	 */
-
 
 }
