@@ -2,8 +2,13 @@
 const formBuilderHost = serverProps.formBuilderHost;
 const formBuilderApiEndpointBaseUrl = `${formBuilderHost}/FormBuilder/api/v1`;
 const ENDPOINT_URLS = {
-	USER:                         {
-		IS_LOGGED_IN: `${formBuilderApiEndpointBaseUrl}/users/loggedIn`
+	CARTS: {
+
+	},
+	FORMS: {
+		/*pass /{formIdseq} */
+		LOCK:                   `${formBuilderApiEndpointBaseUrl}/lock`,
+		SHOW_LOCK:  `${formBuilderApiEndpointBaseUrl}/lock/showlock`
 	},
 	CATEGORIES:                   `${formBuilderApiEndpointBaseUrl}/categories`,
 	CONTEXTS:                     `${formBuilderApiEndpointBaseUrl}/contexts`,
@@ -29,6 +34,10 @@ const ENDPOINT_URLS = {
 	CDE_DOWNLOAD_XLS:             `${formBuilderApiEndpointBaseUrl}/cde/xls`,
 	PROTOCOLS:                    `${formBuilderApiEndpointBaseUrl}/protocols`,
 	CLASSIFICATIONS:              `${formBuilderApiEndpointBaseUrl}/classifications`,
+	USERS:                         {
+		IS_USER_LOGGED_IN: `${formBuilderApiEndpointBaseUrl}/users/loggedIn`,
+		USER: `${formBuilderApiEndpointBaseUrl}/users/user`
+	}
 };
 
 /*Make immutable */
