@@ -2,8 +2,8 @@ package gov.nih.nci.cadsr;
 
 public class FormBuilderConstants {
 	
-	public static final String FORMSERVICE_BASE_URL = "FormService/api/v1/";
-	public static final String FORMBUILDER_BASE_URL = "FormBuilder/api/v1/";
+	public static final String FORMSERVICE_BASE_URL = "/FormService/api/v1/";
+	public static final String FORMBUILDER_BASE_URL = "/FormBuilder/api/v1/";
 	public static final String FORMSERVICE_FORMS = "forms";
 	public static final String FORMSERVICE_CONTEXTS = "contexts";
 	public static final String FORMSERVICE_CATEGORIES = "categories";
