@@ -3,6 +3,7 @@ import QuestionsCollection from '../forms/QuestionsCollection';
 
 /*TODO see if we can just reuse FormModuleModel.js for this */
 const FormModuleModel = Model.extend({
+	idAttribute: "moduleIdseq",
 	constructor(attributes, options) {
 		/* Pass any questions into new QuestionsCollection so each nested object becomes a QuestionsModel */
 		if(attributes.questions) {
