@@ -351,12 +351,13 @@ export default class SearchLayout extends Component {
 		
 		let pageName = "Search Results";
 		let columnConfig = TABLECONFIG.SEARCH_FORM;
+		let resultsText = "TOTAL RESULTS: ";
 		
 		if(this.state.tableData.length) {
 			return (
 				<div>
 					<h1 className="text--bold">{pageName}</h1>
-					<Datatable pagination={true} perPage={100} pageName={pageName} columnTitles={columnConfig} data={this.state.tableData}></Datatable>
+					<Datatable pagination={true} perPage={100} pageName={pageName} resultsText={resultsText} displayControls={false} showCheckboxes={false} columnTitles={columnConfig} data={this.state.tableData}></Datatable>
 				</div>
 			);
 		}

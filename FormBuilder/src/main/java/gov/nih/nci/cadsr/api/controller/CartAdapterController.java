@@ -55,8 +55,6 @@ import gov.nih.nci.cadsr.model.jaxb.JaxbValidValue;
 
 //import gov.nih.nci.cadsr.model.XMLConverter;
 
-import gov.nih.nci.ncicb.cadsr.common.dto.FormTransferObject;
-import gov.nih.nci.objectCart.client.ObjectCartException;
 //import gov.nih.nci.ncicb.cadsr.formbuilder.ejb.impl.ReferenceDocument;
 //import gov.nih.nci.ncicb.cadsr.formbuilder.ejb.impl.ReferenceDocumentDAO;
 import gov.nih.nci.objectCart.domain.Cart;
@@ -369,6 +367,16 @@ public class CartAdapterController {
 	@RequestMapping(value = "/modules", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseEntity saveToModuleCart(@RequestBody FEModule module) {
+		
+		if(module.getModuleIdseq() == null || module.getModuleIdseq().isEmpty()){
+			String base_uri = props.getFormServiceApiUrl() + FormBuilderConstants.FORMSERVICE_BASE_URL
+					+ "modules/generateid";
+			
+			RestTemplate restTemplate = new RestTemplate();
+			String newModId = restTemplate.getForObject(base_uri, String.class);
+			
+			module.setModuleIdseq(newModId);
+		}
 
 		this.getUserDetails().getModuleCart().add(module);
 
