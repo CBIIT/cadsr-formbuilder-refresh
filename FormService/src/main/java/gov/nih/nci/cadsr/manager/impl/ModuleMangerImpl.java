@@ -11,6 +11,8 @@ import gov.nih.nci.ncicb.cadsr.common.dto.ModuleTransferObject;
 import gov.nih.nci.ncicb.cadsr.common.persistence.dao.AbstractDAOFactoryFB;
 import gov.nih.nci.ncicb.cadsr.common.persistence.dao.FormDAO;
 import gov.nih.nci.ncicb.cadsr.common.persistence.dao.ModuleDAO;
+import gov.nih.nci.ncicb.cadsr.common.persistence.dao.ModuleV2DAO;
+import gov.nih.nci.ncicb.cadsr.common.persistence.dao.jdbc.JDBCFormDAOFB;
 import gov.nih.nci.ncicb.cadsr.common.resource.Module;
 
 @Service
@@ -18,6 +20,9 @@ public class ModuleMangerImpl implements ModuleManger {
 	@Autowired
 
 	AbstractDAOFactoryFB daoFactory;
+	
+	@Autowired
+	private JDBCFormDAOFB jd;
 
 
 	public void createModuleComponent(ModuleWrapper module) {
@@ -47,6 +52,10 @@ public class ModuleMangerImpl implements ModuleManger {
 	
 		
 		
+	}
+	
+	public String generateModuleIdseq(){
+		return jd.generateGUID();
 	}
 
 

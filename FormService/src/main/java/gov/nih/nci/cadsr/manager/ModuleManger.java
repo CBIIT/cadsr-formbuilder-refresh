@@ -10,5 +10,7 @@ public interface ModuleManger {
 	public void createModuleComponent(ModuleWrapper module);
 
 	public Collection getModulesInAForm(String formId);
+	
+	public String generateModuleIdseq();
 
 }

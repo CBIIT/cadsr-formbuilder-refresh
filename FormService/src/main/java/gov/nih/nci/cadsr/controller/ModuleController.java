@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import gov.nih.nci.cadsr.manager.ModuleManger;
 import gov.nih.nci.cadsr.model.ModuleWrapper;
 import gov.nih.nci.ncicb.cadsr.common.dto.ModuleTransferObject;
+import gov.nih.nci.ncicb.cadsr.common.persistence.dao.jdbc.JDBCFormDAOFB;
 
 @RestController
 public class ModuleController {
@@ -41,6 +42,14 @@ public class ModuleController {
 
 		response = createSuccessResponse(moduleList);
 		return response;
+	}
+	
+	@RequestMapping(value = "/modules/generateid", method = RequestMethod.GET)
+	@ResponseBody
+	public ResponseEntity<String> generateModuleIdseq(){
+		String idSeq = moduleManger.generateModuleIdseq();
+		
+		return new ResponseEntity<String>(idSeq, HttpStatus.OK);
 	}
 	
 	
