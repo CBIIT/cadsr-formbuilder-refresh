@@ -1,7 +1,13 @@
 package gov.nih.nci.cadsr.model.frontend;
 
-public class FEProtocol implements FEBaseObject{
+import java.io.Serializable;
+
+public class FEProtocol implements FEBaseObject,Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 123456789L;
 	private String protoIdseq;
 	private String longName;
 	

@@ -1,5 +1,6 @@
 package gov.nih.nci.cadsr.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
 import java.net.URL;
@@ -17,8 +18,12 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
 import org.apache.log4j.Logger;
+import org.apache.struts.action.DynaActionForm;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.oxm.XmlMappingException;
@@ -30,6 +35,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.xml.sax.SAXException;
+
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import gov.nih.nci.cadsr.FormServiceProperties;
 import gov.nih.nci.cadsr.manager.FormManager;
@@ -68,6 +77,7 @@ public class FormController {
 
 	@RequestMapping(value = "/forms", method = RequestMethod.GET)
 	@ResponseBody
+
 	public ResponseEntity searchForm(@RequestParam(value = "formLongName", required = false) String formLongName,
 			@RequestParam(value = "protocolIdSeq", required = false) String protocolIdSeq,
 			@RequestParam(value = "contextIdSeq", required = false) String contextIdSeq,
@@ -97,12 +107,24 @@ public class FormController {
 
 		logger.info("----------EJB query took " + (endTimer - startTimer) + " ms.");
 		logger.info("----------# of Form Results: " + FormList.size());
+		
 
 		return response;
 
 	}
 
+	@RequestMapping(value = "/forms/copy/{formIdSeq}", method = RequestMethod.POST, consumes = "application/json")
+	@ResponseBody
+	public ResponseEntity<String> copyForm(@PathVariable String formIdSeq) {
+
+		FormTransferObject fullForm = formManager.getFullForm(formIdSeq);
+		String id = formManager.copyForm(formIdSeq, fullForm);
+
+		return new ResponseEntity(id, HttpStatus.OK);
+	}
+
 	@RequestMapping(value = { "/forms/{formIdSeq}" }, method = RequestMethod.PUT, consumes = "application/json")
+	@CacheEvict(value = "products", key = "#form.formMetadata.formIdseq")
 	public ResponseEntity<String> updateForm(@RequestBody FEForm form) {
 
 		try {
@@ -143,9 +165,23 @@ public class FormController {
 
 		return response;
 	}
+	
+	
+	
 
-	@RequestMapping(value = { "/forms/{formIdSeq}" }, method = RequestMethod.GET)
-	public FEForm testTranslateDBFormToBBForm(@PathVariable String formIdSeq) {
+@RequestMapping(value = { "/forms/{formIdSeq}" }, method = RequestMethod.GET)
+@Cacheable(value="products", key="#formIdSeq")
+	public FEForm testTranslateDBFormToBBForm(@PathVariable String formIdSeq) throws JsonGenerationException, JsonMappingException, IOException {
+	
+	
+	ObjectMapper mapper = new ObjectMapper();
+	FEForm obj = new FEForm();
+
+	//Object to JSON in file
+	mapper.writeValue(new File("c:\\file.json"), obj);
+
+	//Object to JSON in String
+	String jsonInString = mapper.writeValueAsString(obj);
 
 		FormTransferObject fullForm = formManager.getFullForm(formIdSeq);
 

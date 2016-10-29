@@ -1,10 +1,15 @@
 package gov.nih.nci.cadsr.model.frontend;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FEQuestion extends FECartItem implements FEBaseObject{
+public class FEQuestion extends FECartItem implements FEBaseObject,Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 134567L;
 	private String quesIdseq;
 	private List<FEValidValue> validValues = new ArrayList<FEValidValue>();
 	private int displayOrder;

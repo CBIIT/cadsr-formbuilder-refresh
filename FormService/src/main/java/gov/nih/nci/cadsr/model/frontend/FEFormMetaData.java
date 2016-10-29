@@ -1,9 +1,14 @@
 package gov.nih.nci.cadsr.model.frontend;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class FEFormMetaData extends FECartItem implements FEBaseObject{
+public class FEFormMetaData extends FECartItem implements FEBaseObject,Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1234567L;
 	private String formIdseq;
 	private String createdBy;
 	private String longName;
