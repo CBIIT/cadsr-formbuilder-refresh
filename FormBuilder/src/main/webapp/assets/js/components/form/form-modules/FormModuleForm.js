@@ -11,6 +11,7 @@ export default class FormModuleForm extends Component {
 	constructor(props){
 		super(props);
 		this.dispatchModuleMetadata = this.dispatchModuleMetadata.bind(this);
+		this.dispatchRemoveModule = this.dispatchRemoveModule.bind(this);
 		this.getQuestions = this.getQuestions.bind(this);
 		this.handleSelectQuestionAccordion = this.handleSelectQuestionAccordion.bind(this);
 		this.state = {
@@ -33,6 +34,9 @@ export default class FormModuleForm extends Component {
 		else if(actionMode === formActions.CREATE_MODULE){
 			formChannel.request(EVENTS.FORM.SET_NEW_MODULE, data);
 		}
+	}
+	dispatchRemoveModule(){
+		formChannel.request(EVENTS.FORM.REMOVE_MODULE, {id: this.props.moduleId});
 	}
 	handleSelectQuestionAccordion(activeKey) {
 		this.setState({ activeQuestionAccordion: activeKey });
@@ -57,7 +61,7 @@ export default class FormModuleForm extends Component {
 			<Grid fluid={true}>
 				<Row>
 					<Col sm={12}>
-						<FormItemToolbar itemType="Module" dispatchRemoveItem={this.dispatchRemoveModule}  shouldDisplayRemoveItem={true} />
+						<FormItemToolbar itemType="Module" dispatchRemoveItem={this.dispatchRemoveModule}  shouldDisplayRemoveItem={this.props.actionMode !== formActions.CREATE_MODULE} />
 						<ModuleMetadataEditable actionMode={this.props.actionMode} dispatchModuleMetadata={this.dispatchModuleMetadata} longName={this.props.longName} instructions={this.props.instructions}>{this.props.children}</ModuleMetadataEditable>
 						<div>
 							{this.getQuestions(this.props.questions)}

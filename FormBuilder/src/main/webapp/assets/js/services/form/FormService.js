@@ -26,6 +26,7 @@ const FormService = Marionette.Object.extend({
 		[EVENTS.FORM.CREATE_MODULE]:            'dispatchLayout',
 		[EVENTS.FORM.CREATE_QUESTION_FROM_CDE]: 'handleCreateQuestionFromCde',
 		[EVENTS.FORM.SET_CORE_FORM_DETAILS]:    'handleFormMetadataSubmitData',
+		[EVENTS.FORM.REMOVE_MODULE]:            'handleRemoveModule',
 		[EVENTS.FORM.SET_NEW_MODULE]:           'handleAddModule',
 		[EVENTS.FORM.SET_MODULE]:               'handleSetModule',
 		[EVENTS.FORM.SAVE_FORM]:                'handleSaveForm',
@@ -163,6 +164,12 @@ const FormService = Marionette.Object.extend({
 		/* set displayOrder as 0 in case it's something else */
 		newQuestionPojo.displayOrder = 0;
 		moduleModel.get("questions").add(new QuestionsModel(newQuestionPojo));
+	},
+	handleRemoveModule({id}) {
+		this.formModel.get("formModules").remove(id);
+		if(this.formUIStateModel.attributes.actionMode === formActions.VIEW_MODULE) {
+			this.formUIStateModel.set({actionMode: formActions.VIEW_FULL_FORM});
+		}
 	},
 	handleSaveForm() {
 		this.saveForm({successMessage: "Entire form saved to DB. This is what \"Global Save\" will do."});
