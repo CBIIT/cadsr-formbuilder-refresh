@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from 'react';
-import {Col, Row, PanelGroup, Panel} from 'react-bootstrap';
+import {Input, Select, Checkbox} from 'formsy-react-components';
+import {Col, Row, PanelGroup, Panel, ControlLabel} from 'react-bootstrap';
 import ValidValueStatic from './ValidValueStatic';
 
 export default class QuestionStatic extends Component {
@@ -25,40 +26,88 @@ export default class QuestionStatic extends Component {
 				{/*<Col md={1}>
 				 <div className="module-side">
 				 </div>
-				 </Col>\*/} <Col md={12}>
-				<h5>{this.props.question.preferredQuestionText}</h5>
-				<ul className="list-unstyled">
-					<li>
-						Answer is Mandatory: {this.props.question.mandatory ? "Yes" : "No"}
-					</li>
-					<li>
-						Answer is Editable: {this.props.question.editable ? "Yes" : "No"}
-					</li>
-					<li>
-						<p className="bold short-top-spacing">Value Domain Details</p>
-						<ul className="list-unstyled">
-							<li>
-								Long Name: {this.props.question.valueDomainLongName}
-							</li>
-							<li>
-								Data Type: {this.props.question.dataType}
-							</li>
-							<li>
-								Unit of Measure: {this.props.question.unitOfMeasure}
-							</li>
-							<li>
-								Display Format: {this.props.question.displayFormat}
-							</li>
-							<li>
-								Concepts: {this.props.question.concepts}
-							</li>
-						</ul>
-					</li>
-				</ul>
-				<div>
-					{QuestionStatic.getValidValues(this.props.question.validValues)}
-				</div>
-			</Col> </Row>
+				 </Col>\*/} 
+				<Col md={1} />
+				<Col md={12}>
+					<Row>
+						<Col md={12}>
+							<h5>{this.props.question.preferredQuestionText}</h5>
+						</Col>
+					</Row>
+					<Row>
+						<Col md={6}>
+							<Checkbox
+								name="mandatory"
+								value={this.props.question.mandatory}
+								label="Answer is Mandatory"
+								disabled={true}
+							/>
+						</Col>
+						<Col md={6}>
+							<Checkbox
+								name="editable"
+								value={this.props.question.editable}
+								label="Answer is Editable"
+								disabled={true}
+							/>
+						</Col>
+					</Row>
+					<Row>
+						<Col md={12}>
+							<p className="bold short-top-spacing">VALUE DOMAIN DETAILS</p>
+						</Col>
+					</Row>
+					<Row>
+						<Col md={6}>
+							<ControlLabel>LONG NAME</ControlLabel>
+						</Col>
+						<Col md={6}>
+							<ControlLabel>DATA TYPE</ControlLabel>
+						</Col>
+					</Row>
+					<Row>
+						<Col md={6}>
+							{this.props.question.valueDomainLongName}
+						</Col>
+						<Col md={6}>
+							{this.props.question.dataType}
+						</Col>
+					</Row>
+					
+					<Row>
+						<Col md={6}>
+							<ControlLabel>UNIT OF MEASURE</ControlLabel>
+						</Col>
+						<Col md={6}>
+							<ControlLabel>DISPLAY FORMAT</ControlLabel>
+						</Col>
+					</Row>
+					<Row>
+						<Col md={6}>
+							{this.props.question.unitOfMeasure}
+						</Col>
+						<Col md={6}>
+							{this.props.question.displayFormat}
+						</Col>
+					</Row>
+					
+					<Row>
+						<Col md={12}>
+							<ControlLabel>CONCEPTS</ControlLabel>
+						</Col>
+					</Row>
+					<Row>
+						<Col md={6}>
+						{this.props.question.concepts}
+						</Col>
+					</Row>
+					
+					<div>
+						{QuestionStatic.getValidValues(this.props.question.validValues)}
+					</div>
+				</Col> 
+				<Col md={1} />
+			</Row>
 		);
 	}
 }

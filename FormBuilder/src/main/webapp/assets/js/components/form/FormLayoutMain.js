@@ -9,7 +9,7 @@ import FormGlobalToolbar from './FormGlobalToolbar';
 import EVENTS from '../../constants/EVENTS';
 import {formChannel} from '../../channels/radioChannels';
 import formActions from '../../constants/formActions';
-
+import {Link} from 'react-router';
 
 export default class FormLayoutMain extends Component {
 	constructor(props){
@@ -35,23 +35,31 @@ export default class FormLayoutMain extends Component {
 				<div>
 					<FormMetadataStatic formMetadata={this.props.formMetadata}/>
 					<hr className="panel-divider"/>
-					<p className="panel-subtitle">Modules</p>
+					<p className="panel-subtitle" />
+					<h3>MODULES</h3>
 					<div className="module-wrap">
 						{this.props.formModules.map((moduleModel, index) =>(
-							<FormModuleStatic moduleId={moduleModel.cid} questions={moduleModel.questions} key={index} longName={moduleModel.longName} instructions={moduleModel.instructions}/>))}
+							<FormModuleStatic moduleId={moduleModel.cid} questions={moduleModel.questions} key={index} instructions={moduleModel.instructions} formMetadata={this.props.formMetadata}/>))}
 					</div>
 				</div>
 			);
 		}
-		else if(actionMode === formActions.CREATE_FORM || (actionMode === formActions.VIEW_FORM_METADATA && this.props.shouldShowFormEditControls)){
-			const metaDataFormHeadingTitle = actionMode === formActions.CREATE_FORM ? 'Create New Form' : 'Edit Form',
-				submitButtonText = (actionMode === formActions.CREATE_FORM) ? 'Create Form' : 'Save';
+		else if(actionMode === formActions.CREATE_FORM){
+			const metaDataFormHeadingTitle = actionMode === formActions.CREATE_FORM ? 'Create New Form' : 'Edit Form';
+			return (
+				<div>
+					<FormMetadataForm actionMode={actionMode} formMetadata={this.props.formMetadata} mainHeadingTitle={metaDataFormHeadingTitle}>
+						<div className="pull-right">
+							<Link to="/" className="btn btn-default">CANCEL</Link>
+							<button type="submit" className="btn btn-primary">SAVE</button>
+						</div>
+					</FormMetadataForm>
+				</div>
+			);
+		}
+		else if (actionMode === formActions.VIEW_FORM_METADATA && this.props.shouldShowFormEditControls) {
+			const metaDataFormHeadingTitle = 'Edit Form';
 			const buttons = [
-				{
-					name: "CANCEL",
-					type: "button",
-					onClick: "cancelCreation"
-				},
 				{
 					name: "SAVE",
 					type: "submit"
@@ -60,7 +68,7 @@ export default class FormLayoutMain extends Component {
 			return (
 				<div>
 					<FormMetadataForm actionMode={actionMode} formMetadata={this.props.formMetadata} mainHeadingTitle={metaDataFormHeadingTitle}>
-						<ButtonsGroup buttons={buttons} cancelCreation={this.cancelCreation} /> </FormMetadataForm>
+						<ButtonsGroup buttons={buttons} /> </FormMetadataForm>
 				</div>
 			);
 		}
@@ -107,7 +115,7 @@ export default class FormLayoutMain extends Component {
 		const displayFullFormViewButton = this.props.actionMode !== formActions.VIEW_FULL_FORM;
 		if(this.props.actionMode !== formActions.CREATE_FORM){
 			return (
-				<FormGlobalToolbar formLongName={this.props.formMetadata.longName} actionMode={this.props.actionMode} displayFullFormViewButton={displayFullFormViewButton} shouldShowFormEditControls={this.props.shouldShowFormEditControls}/>
+				<FormGlobalToolbar formMetadata={this.props.formMetadata} actionMode={this.props.actionMode} displayFullFormViewButton={displayFullFormViewButton} shouldShowFormEditControls={this.props.shouldShowFormEditControls}/>
 			);
 		}
 	}

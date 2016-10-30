@@ -83,6 +83,7 @@
   color: $color-accent-success;
   padding-left: 9px;
   padding-bottom: 0px;
+  padding-top: 0px;
   font-weight: bold;
   text-transform: uppercase;
   &:hover{
@@ -122,6 +123,7 @@
         &:after {
           text-decoration: none;
           content: "Add";
+          /*text-align: right;*/
           text-transform: uppercase;
         }
       }

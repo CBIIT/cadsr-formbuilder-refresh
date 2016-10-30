@@ -45,7 +45,7 @@ export default class FormModuleStatic extends Component {
 	}
 	render (){
 		return (
-			<div className="top-margin bottom-margin module">
+			<div className="top-margin bottom-margin module container-fluid">
 				<Row>
 					{/*<Col md={1}>
 					 <div className="module-side">
@@ -56,6 +56,7 @@ export default class FormModuleStatic extends Component {
 							<h4>{this.props.longName}</h4>
 							{this.getToolbarItems()}
 						</div>
+						<hr className="panel-divider"/>
 					</Col>
 				</Row>
 				<Row>
@@ -70,7 +71,7 @@ export default class FormModuleStatic extends Component {
 			</div>
 		);
 	}
-};
+}
 
 FormModuleStatic.PropTypes = {
 	moduleId: PropTypes.string.isRequired

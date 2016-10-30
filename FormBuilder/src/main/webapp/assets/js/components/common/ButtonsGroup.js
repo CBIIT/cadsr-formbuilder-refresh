@@ -1,4 +1,4 @@
-import React, {Component, PropTypes} from 'react';
+import React, {PropTypes} from 'react';
 import {Button} from 'react-bootstrap';
 
 const ButtonsGroup = (props) =>{
@@ -12,7 +12,7 @@ const ButtonsGroup = (props) =>{
 	};
 
 	return (
-		<div>{props.buttons.map(createButton)}</div>
+		<div className={props.containerClassName}>{props.buttons.map(createButton)}</div>
 	);
 
 };
@@ -21,6 +21,10 @@ export default ButtonsGroup;
 
 Button.propTypes = {
 	onClick: PropTypes.string
+};
+
+ButtonsGroup.defaultProps = {
+	containerClassName : "buttonsGroup"
 };
 
 ButtonsGroup.propTypes = {

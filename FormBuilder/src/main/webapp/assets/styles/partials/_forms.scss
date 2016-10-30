@@ -566,4 +566,16 @@ label span.example {
 .required-symbol {
 	color: $dfRed;
 }
-
+.editingIndicator {
+	background-color: $dfRed;
+	padding-left: 10px;
+	padding-right: 10px;
+	color: $color-highlight;
+	position: absolute;
+	display: inline-block;
+	top: -21px;
+	left: 5px;
+}
+.editingIndicatorText {
+	padding-left: 10px;
+}

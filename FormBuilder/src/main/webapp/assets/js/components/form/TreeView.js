@@ -31,22 +31,19 @@ export default class TreeView extends Component {
 		return (
 			<div className="bordered-container tall-min-height panel">
 				<ul className="list-unstyled">
-					<li className="panel-header">
-						<span className="panel-header-heading">Form Map</span>
+					<li className="panel-header center-v-spread-h">
+						<span className="panel-header-heading">ALL MODULES</span>
+						<button disabled={!this.props.canCreateModule} onClick={this.dispatchCreateModule} className="btn btn-link panel-link--success">Create New Module</button>
 					</li>
 					<li>
 
 						<button onClick={this.dispatchNavigateFormMetadata} className={"panel-link panel-item btn btn-link " + (this.props.formMetadataLinkIsActive ? "panel-link--accent" : "")}>Form Details</button>
 						<hr className="panel-divider"/>
-						<p className="panel-subtitle">Modules</p>
+						<p className="panel-subtitle" />
 					</li>
 					<li>
 						<ButtonList activeItem={this.props.activeModuleId} buttonItemClassName={"panel-link panel-item btn btn-link no-margin"} activeButtonClass={" panel-link panel-item btn btn-link no-margin panel-link--accent"} onClickCallback={this.dispatchNavigateToModule} itemKey={"cid"} className="panel-item panel-list" itemTextKey={"longName"} data={this.props.list}/>
 					</li>
-					<li className="short-bottom-spacing">
-						<button disabled={!this.props.canCreateModule} onClick={this.dispatchCreateModule} className="btn btn-link panel-link--success">Create New Module</button>
-					</li>
-
 				</ul>
 
 			</div>

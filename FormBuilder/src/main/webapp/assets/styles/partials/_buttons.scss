@@ -271,8 +271,9 @@ button.btn {
     margin: 0;
     padding: 0;
     position: absolute;
-    right: -27px;
-    top: -30px;
+    right: 0px;
+    top: 0px;
+    background-color: $dfBlue;
 }
 .filterPill {
 	background-color: $color-highlight;
@@ -290,4 +291,7 @@ button.btn {
 .align-left {
 	padding-left: 0px;
 	margin-left: 0px;
+}
+.buttonsGroup {
+	display: inline-block;
 }
