@@ -67,7 +67,7 @@ public class FormAdapterController {
 			@RequestParam(value = "moduleLongName", required = false) String moduleLongName,
 			@RequestParam(value = "cdePublicId", required = false) String cdePublicId,
 			@RequestParam(value = "contextRestriction", required = false) String contextRestriction)
-			throws RuntimeException {
+			{
 
 		String base_uri = props.getFormServiceApiUrl() + FormBuilderConstants.FORMSERVICE_BASE_URL
 				+ FormBuilderConstants.FORMSERVICE_FORMS;
@@ -139,6 +139,7 @@ public class FormAdapterController {
 		if(authUtil.getLoggedIn()){
 			String lock_uri = props.getFormBuilderApiUrl() + FormBuilderConstants.FORMBUILDER_BASE_URL + 
 					"lock/" + form.getFormMetadata().getFormIdseq();
+			System.out.println("Call to url: " + lock_uri);
 			boolean locked = restTemplate.getForObject(lock_uri, boolean.class);
 			
 			form.getFormMetadata().setLocked(locked);
