@@ -3,6 +3,7 @@ import {Col, Row, PanelGroup, Panel, ControlLabel, FormGroup, FormControl, Butto
 import EVENTS from '../../../constants/EVENTS';
 import {formChannel} from '../../../channels/radioChannels';
 import Form from '../../common/Form';
+import FormItemToolbar from './FormItemToolbar';
 import {Input, Textarea, RadioGroup, Checkbox, Select} from 'formsy-react-components';
 import ValidValueEditable from './ValidValueEditable';
 import {getOptions} from '../../../helpers/uiInputHelpers';
@@ -10,6 +11,7 @@ import {getOptions} from '../../../helpers/uiInputHelpers';
 export default class QuestionEditable extends Component {
 	constructor(props){
 		super(props);
+		this.dispatchRemoveQuestion = this.dispatchRemoveQuestion.bind(this);
 		this.dispatchQuestionData = this.dispatchQuestionData.bind(this);
 		this.handleQuestionChanged = this.handleQuestionChanged.bind(this);
 		this.getAlternativeQuestionText = this.getAlternativeQuestionText.bind(this);
@@ -57,6 +59,12 @@ export default class QuestionEditable extends Component {
 			);
 		}
 	}
+	dispatchRemoveQuestion() {
+		formChannel.request(EVENTS.FORM.REMOVE_QUESTION, {
+			moduleId: this.props.moduleId,
+			questionId:  this.props.question.cid
+		});
+	}
 	getAlternativeQuestionText () {
 		if(this.props.question.alternativeQuestionText.length){
 			const alternativeQuestionTextItems = this.props.question.alternativeQuestionText.map(((item)=> {
@@ -101,6 +109,9 @@ export default class QuestionEditable extends Component {
 			return (
 				<Row>
 					<Col sm={12}>
+						<div className="center-v-spread-h">
+							<FormItemToolbar itemType="Question" dispatchRemoveItem={this.dispatchRemoveQuestion} shouldDisplayRemoveItem={this.props.shouldDisplayRemoveItem} />
+						</div>
 						<Form onChange={this.handleQuestionChanged} validatePristine={this.state.validatePristine}>
 							<Textarea rows={3} cols={40} name="instructions" label="Instructions" value={this.props.question.instructions !== null ? this.props.question.instructions : ""}/>
 

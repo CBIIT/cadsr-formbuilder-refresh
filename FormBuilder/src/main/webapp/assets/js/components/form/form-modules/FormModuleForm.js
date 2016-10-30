@@ -47,7 +47,7 @@ export default class FormModuleForm extends Component {
 			const mapQuestions = (item, index) =>{
 				return (
 					<Panel header={item.longName} key={index} eventKey={index}>
-						<QuestionEditable moduleId={this.props.moduleId} panelIsExpanded={activeQuestionAccordion=== index}  question={item}/>
+						<QuestionEditable shouldDisplayRemoveItem={this.props.actionMode !== formActions.CREATE_MODULE} moduleId={this.props.moduleId} panelIsExpanded={activeQuestionAccordion=== index}  question={item}/>
 					</Panel>
 				);
 			};
