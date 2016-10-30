@@ -3,6 +3,7 @@ import EVENTS from '../../constants/EVENTS';
 import {formChannel} from '../../channels/radioChannels';
 import formActions from '../../constants/formActions';
 import ButtonList from '../common/ButtonList';
+import {Link} from 'react-router';
 
 export default class SidePanel extends Component {
 	constructor(props){
@@ -33,11 +34,12 @@ export default class SidePanel extends Component {
 		}
 		return (
 			<div className="bordered-container panel panel-half">
-				<p className="panel-header">
+				<p className="panel-header center-v-spread-h">
 					<span className="panel-header-heading">CDE Cart</span>
+					<Link to="/">GET MORE</Link>
 				</p>
 				<div className="panel-content">
-					<ButtonList  {...extraButtonListProps} itemKey={"parentQuestionModelId"} className={"panel-list-cart panel-item"} buttonItemClassName={"button-link button-link-default " + (this.props.permitAddQuestionFromCde ? "add-text center-v-spread-h" : "")} itemTextKey={"longcdename"} data={this.props.cdeCartList}/>
+					<ButtonList  {...extraButtonListProps} itemKey={"parentQuestionModelId"} className={"panel-list-cart panel-item"} buttonItemClassName={"button-link button-link-default " + (this.props.permitAddQuestionFromCde ? "add-text" : "")} itemTextKey={"longcdename"} data={this.props.cdeCartList}/>
 				</div>
 			</div>
 		);
@@ -49,8 +51,9 @@ export default class SidePanel extends Component {
 		}
 		return (
 			<div className="bordered-container panel panel-half">
-				<p className="panel-header">
+				<p className="panel-header center-v-spread-h">
 					<span className="panel-header-heading">Module Cart</span>
+					<a href="https://cdebrowser-stage.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search">GET MORE</a>
 				</p>
 				<div className="panel-content">
 					<ButtonList  {...extraButtonListProps} itemKey={"id"} className={"panel-list-cart panel-item"} buttonItemClassName={"button-link button-link-default " + (this.props.canAddModuleFromCart ? "add-text center-v-spread-h" : "")} itemTextKey={"longName"} data={this.props.moduleCartList}/>

@@ -120,10 +120,11 @@
     text-decoration: none;
     &.add-text {
       &:hover, &:active, &:focus {
+        background-color: $color-base;
         &:after {
           text-decoration: none;
           content: "Add";
-          /*text-align: right;*/
+          float: right;
           text-transform: uppercase;
         }
       }

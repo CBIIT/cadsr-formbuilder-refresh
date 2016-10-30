@@ -31,7 +31,7 @@ export default class AppLayout extends Component {
 				<Header />
 
 				<main id="main" className="container-fluid">
-					{/* components from matched route are inserted here, pass in extra props to them */} {this.props.children && cloneElement(this.props.children, {userIsLoggedIn: this.state.userIsLoggedIn})};
+					{/* components from matched route are inserted here, pass in extra props to them */} {this.props.children && cloneElement(this.props.children, {userIsLoggedIn: this.state.userIsLoggedIn})}
 				</main>
 
 				<Footer />
