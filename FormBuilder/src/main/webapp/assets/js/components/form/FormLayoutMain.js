@@ -39,7 +39,7 @@ export default class FormLayoutMain extends Component {
 					<h3>MODULES</h3>
 					<div className="module-wrap">
 						{this.props.formModules.map((moduleModel, index) =>(
-							<FormModuleStatic longName={moduleModel.longName}  moduleId={moduleModel.cid} questions={moduleModel.questions} key={index} instructions={moduleModel.instructions} />))}
+							<FormModuleStatic shouldDisplayCopyItem={!this.props.shouldShowFormEditControls} shouldShowRemoveModuleBtn={this.props.shouldShowFormEditControls} longName={moduleModel.longName}  moduleId={moduleModel.cid} questions={moduleModel.questions} key={index} instructions={moduleModel.instructions} />))}
 					</div>
 				</div>
 			);

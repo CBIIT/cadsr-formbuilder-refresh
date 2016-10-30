@@ -12,6 +12,7 @@ export default class FormModuleStatic extends Component {
 		super(props);
 		this.dispatchCopyModuleToCart = this.dispatchCopyModuleToCart.bind(this);
 		this.getToolbarItems = this.getToolbarItems.bind(this);
+		this.dispatchRemoveModule = this.dispatchRemoveModule.bind(this);
 
 	}
 
@@ -20,7 +21,9 @@ export default class FormModuleStatic extends Component {
 			id: this.props.moduleId
 		});
 	}
-
+	dispatchRemoveModule(){
+		formChannel.request(EVENTS.FORM.REMOVE_MODULE, {id: this.props.moduleId});
+	}
 	/* TODO move dupliated methods in FormModuleForm into reusable component */
 	static getQuestions(items){
 		if(items && items.length){
@@ -39,9 +42,9 @@ export default class FormModuleStatic extends Component {
 
 	getToolbarItems(){
 		const actionMode = formChannel.request(EVENTS.FORM.GET_FORM_ACTION_MODE);
-		const formIsInEditMode = this.props.shouldShowRemoveModuleBtn;
+
 		return (
-			<FormItemToolbar itemType="Module" dispatchRemoveItem={this.dispatchRemoveModule} dispatchCopyItem={this.dispatchCopyModuleToCart} shouldDisplayRemoveItem={formIsInEditMode} shouldDisplayCopyItem={true}/> );
+			<FormItemToolbar itemType="Module" dispatchRemoveItem={this.dispatchRemoveModule} dispatchCopyItem={this.dispatchCopyModuleToCart} shouldDisplayRemoveItem={this.props.shouldShowRemoveModuleBtn} shouldDisplayCopyItem={this.props.shouldDisplayCopyItem}/> );
 
 	}
 
@@ -55,8 +58,8 @@ export default class FormModuleStatic extends Component {
 					 </Col>\*/}
 					<Col md={12}>
 						<div className="center-v-spread-h">
-							{this.getToolbarItems()}
 							<h4>{this.props.longName}</h4>
+							{this.getToolbarItems()}
 						</div>
 						<hr className="panel-divider"/>
 					</Col>
