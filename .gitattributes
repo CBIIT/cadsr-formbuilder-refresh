@@ -88,6 +88,7 @@ FormBuilder/src/main/webapp/assets/js/components/form/FormMetadataForm.js -text
 FormBuilder/src/main/webapp/assets/js/components/form/FormMetadataStatic.js -text
 FormBuilder/src/main/webapp/assets/js/components/form/SidePanel.js -text
 FormBuilder/src/main/webapp/assets/js/components/form/TreeView.js -text
+FormBuilder/src/main/webapp/assets/js/components/form/form-modules/FormItemToolbar.js -text
 FormBuilder/src/main/webapp/assets/js/components/form/form-modules/FormModule.js -text
 FormBuilder/src/main/webapp/assets/js/components/form/form-modules/FormModuleForm.js -text
 FormBuilder/src/main/webapp/assets/js/components/form/form-modules/FormModuleStatic.js -text
