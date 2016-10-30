@@ -2,6 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import {Input, Select, Checkbox} from 'formsy-react-components';
 import {Col, Row, PanelGroup, Panel, ControlLabel} from 'react-bootstrap';
 import ValidValueStatic from './ValidValueStatic';
+import Form from '../../common/Form';
 
 export default class QuestionStatic extends Component {
 	static getValidValues(items){
@@ -34,6 +35,7 @@ export default class QuestionStatic extends Component {
 							<h5>{this.props.question.preferredQuestionText}</h5>
 						</Col>
 					</Row>
+				<Form>
 					<Row>
 						<Col md={6}>
 							<Checkbox
@@ -42,6 +44,7 @@ export default class QuestionStatic extends Component {
 								label="Answer is Mandatory"
 								disabled={true}
 							/>
+
 						</Col>
 						<Col md={6}>
 							<Checkbox
@@ -52,6 +55,7 @@ export default class QuestionStatic extends Component {
 							/>
 						</Col>
 					</Row>
+				</Form>
 					<Row>
 						<Col md={12}>
 							<p className="bold short-top-spacing">VALUE DOMAIN DETAILS</p>
