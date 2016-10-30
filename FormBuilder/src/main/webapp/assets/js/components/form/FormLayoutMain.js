@@ -39,7 +39,7 @@ export default class FormLayoutMain extends Component {
 					<h3>MODULES</h3>
 					<div className="module-wrap">
 						{this.props.formModules.map((moduleModel, index) =>(
-							<FormModuleStatic moduleId={moduleModel.cid} questions={moduleModel.questions} key={index} instructions={moduleModel.instructions} formMetadata={this.props.formMetadata}/>))}
+							<FormModuleStatic longName={moduleModel.longName}  moduleId={moduleModel.cid} questions={moduleModel.questions} key={index} instructions={moduleModel.instructions} />))}
 					</div>
 				</div>
 			);
