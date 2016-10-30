@@ -17,6 +17,18 @@ public class LoggerIntercepter extends HandlerInterceptorAdapter {
 	public boolean preHandle(HttpServletRequest request,
 
 			HttpServletResponse response, Object handler) throws Exception {
+
+		long startTime = System.currentTimeMillis();
+
+		request.setAttribute("startTime", startTime);
+		// if returned false, we need to make sure 'response' is sent
+		return true;
+
+	}
+
+	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
+			ModelAndView modelAndView) {
+		
 		String userName;
 		if (authUtils.getLoggedIn()) {
 
@@ -25,24 +37,12 @@ public class LoggerIntercepter extends HandlerInterceptorAdapter {
 		} else {
 			userName = " Anonymous User";
 		}
+		
+		long startTime = Long.valueOf(request.getAttribute("startTime").toString());
 
-		long startTime = System.currentTimeMillis();
-		System.out.println(
-				("Request URL::" + request.getRequestURL().toString() + ":: Start Time=" + System.currentTimeMillis())
-						+ "ms " + "User Name: " + userName);
-
-		request.setAttribute("startTime", startTime + " ms");
-		// if returned false, we need to make sure 'response' is sent
-		return true;
-
-	}
-
-	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
-			ModelAndView modelAndView) {
-		long startTime = System.currentTimeMillis();
-
-		System.out.println(("Request URL::" + request.getRequestURL().toString() + ":: Time Taken="
-				+ (System.currentTimeMillis() - startTime)) + " ms");
+		System.out.println(("Request URL::" + request.getRequestURL().toString() + " | Time Taken::"
+				+ (System.currentTimeMillis() - startTime)) + " ms | User Name:: " + userName);
+		
 
 	}
 	/*
