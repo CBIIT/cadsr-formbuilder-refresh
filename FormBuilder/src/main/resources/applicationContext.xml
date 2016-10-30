@@ -35,20 +35,19 @@
 	<bean id="authUtils" class="gov.nih.nci.cadsr.authentication.AuthUtils"
 		scope="singleton" />
 
-	<bean id="formLock" class="gov.nih.nci.cadsr.FormLock"
-		scope="singleton" />
+	<bean id="formLock" class="gov.nih.nci.cadsr.FormLock" scope="singleton" />
 
-	<!-- <bean id="Test" class="gov.nih.nci.cadsr.Test" /> -->
+<!-- logger  -->
 
-	<bean id="EditInterceptor" class="gov.nih.nci.cadsr.EditInterceptor" />
+	<bean id="LoggerIntercepter" class="gov.nih.nci.cadsr.LoggerIntercepter" />
 
 	<mvc:interceptors>
 
 		<mvc:interceptor>
 
-			<mvc:mapping path="/test" />
+			<mvc:mapping path="/*" />
 
-			<bean class="gov.nih.nci.cadsr.EditInterceptor">
+			<bean class="gov.nih.nci.cadsr.LoggerIntercepter">
 
 			</bean>
 
