@@ -12,6 +12,7 @@ export default class FormModuleStatic extends Component {
 		super(props);
 		this.dispatchCopyModuleToCart = this.dispatchCopyModuleToCart.bind(this);
 		this.getToolbarItems = this.getToolbarItems.bind(this);
+		this.getQuestions = this.getQuestions.bind(this);
 		this.dispatchRemoveModule = this.dispatchRemoveModule.bind(this);
 
 	}
@@ -25,16 +26,17 @@ export default class FormModuleStatic extends Component {
 		formChannel.request(EVENTS.FORM.REMOVE_MODULE, {id: this.props.moduleId});
 	}
 	/* TODO move dupliated methods in FormModuleForm into reusable component */
-	static getQuestions(items){
-		if(items && items.length){
+	getQuestions(){
+		if(this.props.questions && this.props.questions.length){
 			const mapQuestions = (item, index) =>{
 				return (
-					<Panel header={item.longName} key={index} eventKey={index}> <QuestionStatic question={item}/>
+					<Panel header={item.longName} key={index} eventKey={index}>
+						<QuestionStatic shouldDisplayRemoveItem={this.props.shouldShowRemoveModuleBtn} dispatchRemoveQuestion={this.dispatchRemoveQuestion}  moduleId={this.props.moduleId} question={item}/>
 					</Panel>
 				);
 			};
 			return (
-				<PanelGroup accordion onSelect={this.handleSelectQuestionAccordion}>{items.map(mapQuestions)}</PanelGroup>
+				<PanelGroup accordion onSelect={this.handleSelectQuestionAccordion}>{this.props.questions.map(mapQuestions)}</PanelGroup>
 			);
 		}
 
@@ -69,7 +71,7 @@ export default class FormModuleStatic extends Component {
 						<p className="h5">Instructions:</p>
 						{this.props.instructions}
 						<div>
-							{FormModuleStatic.getQuestions(this.props.questions)}
+							{this.getQuestions()}
 						</div>
 					</Col>
 				</Row>

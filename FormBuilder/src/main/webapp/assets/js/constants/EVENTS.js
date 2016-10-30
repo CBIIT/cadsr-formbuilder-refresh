@@ -16,6 +16,8 @@ const EVENTS = {
 		ADD_MODULE_FROM_CART:        "add:moduleFromModuleCart",
 		GET_MODULE: "get:module",
 		REMOVE_MODULE: "remove:module",
+		REMOVE_QUESTION: "remove:question",
+		REMOVE_VALID_VALUE: "remove:validValue",
 		GET_FORM_ACTION_MODE: "get:formActionMode",
 		SET_NEW_MODULE:                 "set:newModule",
 		SAVE_FORM:                      'saveForm',

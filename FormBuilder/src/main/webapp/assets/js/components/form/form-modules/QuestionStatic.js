@@ -2,9 +2,22 @@ import React, {Component, PropTypes} from 'react';
 import {Input, Select, Checkbox} from 'formsy-react-components';
 import {Col, Row, PanelGroup, Panel, ControlLabel} from 'react-bootstrap';
 import ValidValueStatic from './ValidValueStatic';
+import FormItemToolbar from './FormItemToolbar';
+import EVENTS from '../../../constants/EVENTS';
+import {formChannel} from '../../../channels/radioChannels';
 import Form from '../../common/Form';
 
 export default class QuestionStatic extends Component {
+	constructor(props){
+		super(props);
+		this.dispatchRemoveQuestion = this.dispatchRemoveQuestion.bind(this);
+	}
+	dispatchRemoveQuestion() {
+		formChannel.request(EVENTS.FORM.REMOVE_QUESTION, {
+			moduleId: this.props.moduleId,
+			questionId:  this.props.question.cid
+		});
+	}
 	static getValidValues(items){
 		if(items && items.length){
 			const mapValidValues = (item, index) =>{
@@ -27,12 +40,15 @@ export default class QuestionStatic extends Component {
 				{/*<Col md={1}>
 				 <div className="module-side">
 				 </div>
-				 </Col>\*/} 
+				 </Col>\*/}
 				<Col md={1} />
 				<Col md={12}>
 					<Row>
 						<Col md={12}>
-							<h5>{this.props.question.preferredQuestionText}</h5>
+							<div className="center-v-spread-h">
+								<h5>{this.props.question.preferredQuestionText}</h5>
+								<FormItemToolbar itemType="Question" dispatchRemoveItem={this.dispatchRemoveQuestion} shouldDisplayRemoveItem={this.props.shouldDisplayRemoveItem} />
+							</div>
 						</Col>
 					</Row>
 				<Form>
@@ -77,7 +93,7 @@ export default class QuestionStatic extends Component {
 							{this.props.question.dataType}
 						</Col>
 					</Row>
-					
+
 					<Row>
 						<Col md={6}>
 							<ControlLabel>UNIT OF MEASURE</ControlLabel>
@@ -94,7 +110,7 @@ export default class QuestionStatic extends Component {
 							{this.props.question.displayFormat}
 						</Col>
 					</Row>
-					
+
 					<Row>
 						<Col md={12}>
 							<ControlLabel>CONCEPTS</ControlLabel>
@@ -105,13 +121,18 @@ export default class QuestionStatic extends Component {
 						{this.props.question.concepts}
 						</Col>
 					</Row>
-					
+
 					<div>
 						{QuestionStatic.getValidValues(this.props.question.validValues)}
 					</div>
-				</Col> 
+				</Col>
 				<Col md={1} />
 			</Row>
 		);
 	}
 }
+
+QuestionStatic.protypes = {
+	moduleId: PropTypes.string,
+	shouldDisplayRemoveItem: PropTypes.bool
+};
