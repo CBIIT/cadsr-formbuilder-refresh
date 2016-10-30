@@ -19,7 +19,6 @@
 		<property name="properties">
 			<util:properties local-override="false">
 				<prop key="formservice.api.url">${formservice.api.url}</prop>
-				<prop key="formbuilder.api.url">${formbuilder.api.url}</prop>
 				<prop key="formbuilder.local.mode">${formbuilder.local.mode}</prop>
 				<prop key="object.cart.url">${object.cart.url}</prop>
 			</util:properties>
