@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-import {Input, Select, Checkbox} from 'formsy-react-components';
+import {Checkbox} from 'formsy-react-components';
 import {Col, Row, PanelGroup, Panel, ControlLabel} from 'react-bootstrap';
 import ValidValueStatic from './ValidValueStatic';
 import FormItemToolbar from './FormItemToolbar';
@@ -11,6 +11,7 @@ export default class QuestionStatic extends Component {
 	constructor(props){
 		super(props);
 		this.dispatchRemoveQuestion = this.dispatchRemoveQuestion.bind(this);
+		this.getValidValues = this.getValidValues.bind(this);
 	}
 	dispatchRemoveQuestion() {
 		formChannel.request(EVENTS.FORM.REMOVE_QUESTION, {
@@ -18,17 +19,17 @@ export default class QuestionStatic extends Component {
 			questionId:  this.props.question.cid
 		});
 	}
-	static getValidValues(items){
-		if(items && items.length){
+	getValidValues(){
+		if(this.props.question.validValues && this.props.question.validValues.length){
 			const mapValidValues = (item, index) =>{
 				return (
-					<ValidValueStatic key={index} validValue={item}/>
+					<ValidValueStatic shouldDisplayRemoveItem={this.props.shouldDisplayRemoveItem} key={index} validValue={item}/>
 				);
 			};
 			return (
 				<PanelGroup defaultActiveKey="1" accordion> <Panel header="Valid Values" eventKey="1">
 					<ul className={"list-unstyled"}>
-						{items.map(mapValidValues)}
+						{this.props.question.validValues.map(mapValidValues)}
 					</ul>
 				</Panel> </PanelGroup>
 			);
@@ -123,7 +124,7 @@ export default class QuestionStatic extends Component {
 					</Row>
 
 					<div>
-						{QuestionStatic.getValidValues(this.props.question.validValues)}
+						{this.getValidValues()}
 					</div>
 				</Col>
 				<Col md={1} />

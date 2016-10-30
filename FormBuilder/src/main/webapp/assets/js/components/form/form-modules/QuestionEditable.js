@@ -26,7 +26,7 @@ export default class QuestionEditable extends Component {
 		if(items && items.length){
 			const mapValidValues = (item, index) =>{
 				return (
-					<ValidValueEditable moduleId={this.props.moduleId} questionId={this.props.question.cid} key={index} validValue={item}/>
+					<ValidValueEditable shouldDisplayRemoveItem={this.props.shouldDisplayRemoveItem} moduleId={this.props.moduleId} questionId={this.props.question.cid} key={index} validValue={item}/>
 				);
 			};
 			return (

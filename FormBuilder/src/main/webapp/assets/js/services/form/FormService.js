@@ -176,9 +176,11 @@ const FormService = Marionette.Object.extend({
 	handleRemoveQuestion({moduleId, questionId}) {
 		this.getModuleModel(moduleId).get("questions").remove(questionId);
 	},
-	handleRemoveValidValue({moduleId, questionId}) {
-		this.formModel.get("formModules").remove(id);
-
+	handleRemoveValidValue({moduleId,questionId,validValueId}) {
+		this.getModuleQuestionModel({
+			moduleId:   moduleId,
+			questionId:questionId
+		}).get("validValues").remove(validValueId);
 	},
 	handleSaveForm() {
 		this.saveForm({successMessage: "Entire form saved to DB. This is what \"Global Save\" will do."});
