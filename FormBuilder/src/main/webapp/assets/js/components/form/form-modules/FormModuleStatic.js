@@ -1,29 +1,32 @@
 import React, {Component, PropTypes} from 'react';
 import {Col, Row, PanelGroup, Panel, Button} from 'react-bootstrap';
 import QuestionStatic from './QuestionStatic';
+import FormItemToolbar from './FormItemToolbar';
 import EVENTS from '../../../constants/EVENTS';
 import formActions from '../../../constants/formActions';
+
 import {formChannel, appChannel} from '../../../channels/radioChannels';
 
 export default class FormModuleStatic extends Component {
-	constructor(props) {
+	constructor(props){
 		super(props);
 		this.dispatchCopyModuleToCart = this.dispatchCopyModuleToCart.bind(this);
 		this.getToolbarItems = this.getToolbarItems.bind(this);
 
 	}
-	dispatchCopyModuleToCart() {
+
+	dispatchCopyModuleToCart(){
 		appChannel.request(EVENTS.APP.ADD_MODULE_FROM_FORM_TO_CART, {
 			id: this.props.moduleId
 		});
 	}
+
 	/* TODO move dupliated methods in FormModuleForm into reusable component */
-	static getQuestions (items) {
+	static getQuestions(items){
 		if(items && items.length){
 			const mapQuestions = (item, index) =>{
 				return (
-					<Panel header={item.longName} key={index} eventKey={index}>
-						<QuestionStatic question={item}/>
+					<Panel header={item.longName} key={index} eventKey={index}> <QuestionStatic question={item}/>
 					</Panel>
 				);
 			};
@@ -33,17 +36,16 @@ export default class FormModuleStatic extends Component {
 		}
 
 	}
-	getToolbarItems() {
-		const actionMode = 	formChannel.request(EVENTS.FORM.GET_FORM_ACTION_MODE);
-		if(actionMode === formActions.VIEW_FULL_FORM) {
-			return (
-				<div>
-					<Button className="button-link" onClick={this.dispatchCopyModuleToCart}>Copy Module to Cart</Button>
-				</div>
-			);
-		}
+
+	getToolbarItems(){
+		const actionMode = formChannel.request(EVENTS.FORM.GET_FORM_ACTION_MODE);
+		const formIsInEditMode = this.props.shouldShowRemoveModuleBtn;
+		return (
+			<FormItemToolbar itemType="Module" dispatchRemoveItem={this.dispatchRemoveModule} dispatchCopyItem={this.dispatchCopyModuleToCart} shouldDisplayRemoveItem={formIsInEditMode} shouldDisplayCopyItem={true}/> );
+
 	}
-	render (){
+
+	render(){
 		return (
 			<div className="top-margin bottom-margin module container-fluid">
 				<Row>
@@ -53,8 +55,8 @@ export default class FormModuleStatic extends Component {
 					 </Col>\*/}
 					<Col md={12}>
 						<div className="center-v-spread-h">
-							<h4>{this.props.longName}</h4>
 							{this.getToolbarItems()}
+							<h4>{this.props.longName}</h4>
 						</div>
 						<hr className="panel-divider"/>
 					</Col>
@@ -74,5 +76,6 @@ export default class FormModuleStatic extends Component {
 }
 
 FormModuleStatic.PropTypes = {
+	shouldShowRemoveModuleBtn: PropTypes.bool,
 	moduleId: PropTypes.string.isRequired
 };

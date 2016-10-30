@@ -3,6 +3,7 @@ import {Grid, Col, Row, PanelGroup, Panel} from 'react-bootstrap';
 import EVENTS from '../../../constants/EVENTS';
 import formActions from '../../../constants/formActions';
 import {formChannel} from '../../../channels/radioChannels';
+import FormItemToolbar from './FormItemToolbar';
 import ModuleMetadataEditable from './ModuleMetadataEditable';
 import QuestionEditable from './QuestionEditable';
 
@@ -56,6 +57,7 @@ export default class FormModuleForm extends Component {
 			<Grid fluid={true}>
 				<Row>
 					<Col sm={12}>
+						<FormItemToolbar itemType="Module" dispatchRemoveItem={this.dispatchRemoveModule}  shouldDisplayRemoveItem={true} />
 						<ModuleMetadataEditable actionMode={this.props.actionMode} dispatchModuleMetadata={this.dispatchModuleMetadata} longName={this.props.longName} instructions={this.props.instructions}>{this.props.children}</ModuleMetadataEditable>
 						<div>
 							{this.getQuestions(this.props.questions)}
