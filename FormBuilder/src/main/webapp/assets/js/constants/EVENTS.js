@@ -28,6 +28,10 @@ const EVENTS = {
 		GET_FORM_CORE_DETAILS_CRITERIA: 'get:getDropDownOptionsSuccess',
 		SET_CORE_FORM_DETAILS:          "set:formMetadata",
 		VIEW_MODULE:                    "view:module",
+		GET_DOWNLOAD_XLS:				"get:downloadXls",
+		GET_DOWNLOAD_XML:				"get:downloadXml",
+		CREATE_COPY:					"create:copy",
+		DELETE:							"delete"
 	},
 	SEARCH: {
 		SEND_SEARCH_LAYOUT:       			'set:searchLayout',
@@ -53,7 +57,8 @@ const EVENTS = {
 		MODULE_CART_UPDATED: 'moduleCart:updated',
 		CDE_CART_UPDATED: 'cdeCart:updated',
 		REMOVE_CART_ITEM: 'remove:cartItem',
-		SET_LAST_CART_SORTED_BY: 'set:LastCartSortedBy'
+		SET_LAST_CART_SORTED_BY: 'set:LastCartSortedBy',
+		ADD_FORM: 'add:form'
 	}
 };
 
