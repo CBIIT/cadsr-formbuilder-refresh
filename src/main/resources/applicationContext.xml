@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns="http://www.springframework.org/schema/beans"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:cache="http://www.springframework.org/schema/cache"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd
+                    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd     
+                    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+                    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
+                     http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd
+                    http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.1.xsd
+                    ">
+                    
+             
+                    
+                    
+
+	<context:property-placeholder location="classpath:default.properties" />
+
+	<!-- Use for application-level properties. Defaults in default.properties. -->
+	<bean id="appProperties"
+		class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+		<property name="ignoreResourceNotFound" value="true" />
+		<property name="properties">
+			<util:properties local-override="false">
+				<!-- <prop key="testEnv">${testEnv}</prop> -->
+			</util:properties>
+		</property>
+	</bean>
+
+	<bean id="props" class="gov.nih.nci.cadsr.FormServiceProperties"
+		scope="singleton" />
+
+	<bean id="formBuilderService"
+		class="gov.nih.nci.ncicb.cadsr.formbuilder.ejb.impl.FormBuilderServiceImpl"
+		scope="singleton" />
+
+	<bean id="treeCache" class="gov.nih.nci.ncicb.cadsr.contexttree.CDEBrowserTreeCache">
+		<property name="appServiceLocator" ref="appServiceLocator" />
+	</bean>
+
+	<bean id="formOwnerMap" class="java.util.HashMap">
+	</bean>
+
+	<bean id="lockingService"
+		class="gov.nih.nci.ncicb.cadsr.formbuilder.service.impl.LockingServiceImpl">
+		<property name="lockerMap" ref="formOwnerMap" />
+	</bean>
+
+	<bean id="treeNode" class="gov.nih.nci.ncicb.webtree.LazyActionTreeNode">
+		<property name="appServiceLocator" ref="appServiceLocator" />
+	</bean>
+
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
+		<property name="url" value="${oracle.url}" />
+		<property name="username" value="${oracle.username}" />
+		<property name="password" value="${oracle.password}" />
+	</bean>
+
+	<bean id="txManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	<!-- <bean id="EditInterceptor" class="gov.nih.nci.cadsr.EditInterceptor" />
+	
+	
+
+	 <mvc:interceptors>
+
+		<mvc:interceptor>
+
+			<mvc:mapping path="/api/v1/*" />
+
+			<bean class="gov.nih.nci.cadsr.EditInterceptor">
+
+			</bean>
+
+		</mvc:interceptor>
+
+	</mvc:interceptors>  -->
+
+	<!-- CACHING CONFIGURATION -->
+	<cache:annotation-driven cache-manager="cacheManager"/>
+	<bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
+		<property name="cacheManager">
+			<ref local="ehcache" />
+		</property>
+	</bean>
+	<bean id="ehcache"
+		class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+		<property name="configLocation" value="classpath:ehcache.xml" />
+		<property name="shared" value="true" />
+	</bean>
+	
+
+	<context:component-scan base-package="gov.nih.nci.cadsr" />
+	<context:component-scan base-package="gov.nih.nci.ncicb.cadsr" />
+	<mvc:annotation-driven />
+
+</beans>
