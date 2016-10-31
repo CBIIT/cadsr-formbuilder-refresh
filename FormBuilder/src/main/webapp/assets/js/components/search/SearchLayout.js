@@ -56,7 +56,7 @@ export default class SearchLayout extends Component {
 
 	componentDidMount(){
 		const urls = [ENDPOINT_URLS.CATEGORIES, ENDPOINT_URLS.CONTEXTS, ENDPOINT_URLS.TYPES, ENDPOINT_URLS.WORKFLOWS];
-		let promises = urls.map(url => fetch(url, {credentials: 'include'}).then(response => response.json()));
+		let promises = urls.map(url => fetch(url, {credentials: 'include', headers: {'Accept': 'application/json', 'Content-Type': 'text/plain'}}).then(response => response.json()));
 		Promise.all(promises).then(results => {
 			this.setState({
 				contexts: results[1],
