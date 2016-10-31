@@ -23,8 +23,8 @@ export default class FormLayoutMain extends Component {
 	dispatchSaveFormClicked(){
 		formChannel.request(EVENTS.FORM.SAVE_FORM, {persistToDB: true});
 	}
-	
-	cancelCreation() {
+
+	cancelCreation(){
 		window.location = window.history.back();
 	}
 
@@ -35,11 +35,11 @@ export default class FormLayoutMain extends Component {
 				<div>
 					<FormMetadataStatic formMetadata={this.props.formMetadata}/>
 					<hr className="panel-divider"/>
-					<p className="panel-subtitle" />
+					<p className="panel-subtitle"/>
 					<h3>MODULES</h3>
 					<div className="module-wrap">
 						{this.props.formModules.map((moduleModel, index) =>(
-							<FormModuleStatic shouldDisplayCopyItem={!this.props.shouldShowFormEditControls} shouldShowRemoveModuleBtn={this.props.shouldShowFormEditControls} longName={moduleModel.longName}  moduleId={moduleModel.cid} questions={moduleModel.questions} key={index} instructions={moduleModel.instructions} />))}
+							<FormModuleStatic shouldDisplayCopyItem={this.props.userIsLoggedIn} shouldShowRemoveModuleBtn={this.props.shouldShowFormEditControls} longName={moduleModel.longName} moduleId={moduleModel.cid} questions={moduleModel.questions} key={index} instructions={moduleModel.instructions}/>))}
 					</div>
 				</div>
 			);
@@ -57,7 +57,7 @@ export default class FormLayoutMain extends Component {
 				</div>
 			);
 		}
-		else if (actionMode === formActions.VIEW_FORM_METADATA && this.props.shouldShowFormEditControls) {
+		else if(actionMode === formActions.VIEW_FORM_METADATA && this.props.shouldShowFormEditControls){
 			const metaDataFormHeadingTitle = 'Edit Form';
 			const buttons = [
 				{
@@ -68,7 +68,7 @@ export default class FormLayoutMain extends Component {
 			return (
 				<div>
 					<FormMetadataForm actionMode={actionMode} formMetadata={this.props.formMetadata} mainHeadingTitle={metaDataFormHeadingTitle}>
-						<ButtonsGroup buttons={buttons} /> </FormMetadataForm>
+						<ButtonsGroup buttons={buttons}/> </FormMetadataForm>
 				</div>
 			);
 		}
@@ -93,7 +93,7 @@ export default class FormLayoutMain extends Component {
 			const moduleEditing = this.props.editItems;
 			/*Passing in moduleId here might not be necessary but currently the most straightforward way I can think of when there will be an array of modules (parent module, repetition) to edit and gather each one's id from the form when saving */
 			return (
-				<FormModuleForm disabled={!this.props.shouldShowFormEditControls} moduleId={moduleEditing.cid} longName={moduleEditing.longName} instructions={moduleEditing.instructions} questions={moduleEditing.questions} actionMode={actionMode} mainHeadingTitle="Module" />
+				<FormModuleForm disabled={!this.props.shouldShowFormEditControls} moduleId={moduleEditing.cid} longName={moduleEditing.longName} instructions={moduleEditing.instructions} questions={moduleEditing.questions} actionMode={actionMode} mainHeadingTitle="Module"/>
 			);
 		}
 		else if(actionMode === formActions.VIEW_MODULE && !this.props.shouldShowFormEditControls){
@@ -126,5 +126,6 @@ export default class FormLayoutMain extends Component {
 }
 
 FormLayoutMain.propTypes = {
-	children: PropTypes.node
+	userIsLoggedIn: PropTypes.bool.isRequired,
+	children:       PropTypes.node
 };
