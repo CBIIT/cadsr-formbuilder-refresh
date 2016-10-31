@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import {Col, Row} from 'react-bootstrap';
 import ExitFormModal from '../modals/ExitFormModal';
+import ButtonsGroup from '../common/ButtonsGroup';
 import formActions from '../../constants/formActions';
 import EVENTS from '../../constants/EVENTS';
 import {formChannel} from '../../channels/radioChannels';
@@ -29,43 +30,62 @@ export default class FormGlobalToolbar extends Component {
 	}
 
 	getToolbarItems(){
-		let viewFullFormClass = (this.props.actionMode === formActions.VIEW_FULL_FORM) ? 'hidden btn-link pull-right' : "btn-link pull-right";
-		if(this.props.shouldShowFormEditControls){
-			return (
-				<Col md={8} className="formCenterV">
-					<div>
-						<button onClick={this.dispatchNavigateFullFormView} type="button" className={viewFullFormClass}>VIEW FULL FORM</button>
-						<button onClick={this.handleCancelButtonClicked} type="button" className="btn-link pull-right">CANCEL</button>
-					</div>
-				</Col>
-			); 
+		const buttons = [];
+		const shouldShowFullFormViewButton = this.props.actionMode !== formActions.VIEW_FULL_FORM;
+
+		/*They have permission and the form isn't already in edit mode */
+		const shouldShowEditFormButton = this.props.formMetadata.curatorialPermission && !this.props.shouldShowFormEditControls;
+		const userIsEditingForm = this.props.shouldShowFormEditControls;
+
+		if(shouldShowEditFormButton){
+			buttons.push({
+				name:      "EDIT FORM",
+				onClick:   "dispatchEditFormClicked",
+				className: "btn-link pull-right"
+			});
 		}
-		else {
-			return (
-				<Col md={4} className="formCenterV">
-					<div>
-						<button onClick={this.dispatchNavigateFullFormView} type="button" className={viewFullFormClass}>VIEW FULL FORM</button>
-						<button onClick={this.dispatchEditFormClicked} type="button" className="btn-link pull-right">EDIT FORM</button>
-					</div>
-				</Col>
-			);
+		else if(userIsEditingForm){
+			buttons.push({
+				name:      "Cancel",
+				onClick:   "handleCancelButtonClicked",
+				className: "btn-link pull-right"
+			});
+			buttons.push({
+				name:      "Save",
+				className: "btn-link pull-right"
+			});
 		}
+		if(shouldShowFullFormViewButton) {
+			buttons.push({
+				name:      "View Full Form",
+				className: "btn-link pull-right"
+			});
+		}
+
+		return (
+			<Col md={4} className="formCenterV">
+				<div>
+					<ButtonsGroup containerClassName="buttonsGroup pull-right" handleCancelButtonClicked={this.handleCancelButtonClicked} dispatchEditFormClicked={this.dispatchEditFormClicked} dispatchNavigateFullFormView={this.dispatchNavigateFullFormView} buttons={buttons}/>
+
+				</div>
+			</Col>
+		);
 	}
-	
-	renderEditingIndicator() {
+
+	renderEditingIndicator(){
 		if(this.props.shouldShowFormEditControls){
 			return (
 				<div className="editingIndicator">
-					<span className="glyphicon glyphicon-edit" />
+					<span className="glyphicon glyphicon-edit"/>
 					<span className="editingIndicatorText">YOU ARE EDITING THIS FORM</span>
 				</div>
 			);
 		}
-		else {
+		else{
 			return (<div />);
 		}
 	}
-	
+
 	renderMoreFormActions() {
 		if(!this.props.shouldShowFormEditControls){
 			return (
@@ -112,9 +132,9 @@ export default class FormGlobalToolbar extends Component {
 		this.closeExitFormModal();
 		this.dispatchCancelEditForm();
 	}
-	
+
 	moreActionsGo() {
-		
+
 	}
 
 	render(){
@@ -136,3 +156,8 @@ export default class FormGlobalToolbar extends Component {
 		);
 	}
 }
+FormGlobalToolbar.PropTypes = {
+	formMetadata:   PropTypes.object.required,
+	userIsLoggedIn: PropTypes.bool.required
+};
+

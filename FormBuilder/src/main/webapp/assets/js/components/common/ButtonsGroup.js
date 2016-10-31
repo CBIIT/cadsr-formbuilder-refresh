@@ -7,7 +7,7 @@ const ButtonsGroup = (props) =>{
 	 * */
 	const createButton = ({type = "button", className = "btn btn-primary", name, onClick = "", disabled = false}, index) =>{
 		return (
-			<Button disabled={disabled} onClick={onClick ? props[onClick] : ''} type={type} className={className} key={index}>{name}</Button>
+			<Button disabled={disabled} onClick={onClick ? props[onClick] : ''} type={type} bsClass={className} key={index}>{name}</Button>
 		);
 	};
 
