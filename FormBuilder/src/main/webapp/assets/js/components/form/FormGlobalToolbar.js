@@ -14,6 +14,7 @@ export default class FormGlobalToolbar extends Component {
 		this.dispatchCancelEditForm = this.dispatchCancelEditForm.bind(this);
 		this.dispatchEditFormClicked = this.dispatchEditFormClicked.bind(this);
 		this.handleCancelButtonClicked = this.handleCancelButtonClicked.bind(this);
+		this.handleSaveButtonClicked = this.handleSaveButtonClicked.bind(this);
 		this.handleLeaveForm = this.handleLeaveForm.bind(this);
 		this.moreActionsGo = this.moreActionsGo.bind(this);
 		this.renderEditingIndicator = this.renderEditingIndicator.bind(this);
@@ -50,6 +51,7 @@ export default class FormGlobalToolbar extends Component {
 			});
 			buttons.push({
 				name:      "Save",
+				onClick:   "handleSaveButtonClicked",
 				className: "btn-link pull-right"
 			});
 		}
@@ -57,7 +59,7 @@ export default class FormGlobalToolbar extends Component {
 		return (
 			<Col md={4} className="formCenterV">
 				<div>
-					<ButtonsGroup containerClassName="buttonsGroup pull-right" handleCancelButtonClicked={this.handleCancelButtonClicked} dispatchEditFormClicked={this.dispatchEditFormClicked}  buttons={buttons}/>
+					<ButtonsGroup containerClassName="buttonsGroup pull-right" handleCancelButtonClicked={this.handleCancelButtonClicked} handleSaveButtonClicked={this.handleSaveButtonClicked} dispatchEditFormClicked={this.dispatchEditFormClicked}  buttons={buttons}/>
 
 				</div>
 			</Col>
@@ -120,7 +122,9 @@ export default class FormGlobalToolbar extends Component {
 		this.closeExitFormModal();
 		this.dispatchCancelEditForm();
 	}
-
+	handleSaveButtonClicked() {
+		formChannel.request(EVENTS.FORM.SAVE_FORM);
+	}
 	moreActionsGo() {
 
 	}
