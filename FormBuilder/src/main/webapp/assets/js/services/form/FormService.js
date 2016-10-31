@@ -201,9 +201,7 @@ const FormService = Marionette.Object.extend({
 	},
 	handleSetFormEditable() {
 		formHelpers.setFormLocked({formIdseq: this.formModel.get('formIdseq')}).then((data) =>{
-			if (data === true) {
 				this.formUIStateModel.set({isEditing: true});
-			}
 		});
 	},
 	handleSetModule(data) {
