@@ -4,7 +4,7 @@ import ExitFormModal from '../modals/ExitFormModal';
 import ButtonsGroup from '../common/ButtonsGroup';
 import formActions from '../../constants/formActions';
 import EVENTS from '../../constants/EVENTS';
-import {formChannel} from '../../channels/radioChannels';
+import {formChannel, cartChannel} from '../../channels/radioChannels';
 
 export default class FormGlobalToolbar extends Component {
 	constructor(props){
@@ -14,14 +14,28 @@ export default class FormGlobalToolbar extends Component {
 		this.dispatchCancelEditForm = this.dispatchCancelEditForm.bind(this);
 		this.dispatchEditFormClicked = this.dispatchEditFormClicked.bind(this);
 		this.handleCancelButtonClicked = this.handleCancelButtonClicked.bind(this);
-		this.handleSaveButtonClicked = this.handleSaveButtonClicked.bind(this);
 		this.handleLeaveForm = this.handleLeaveForm.bind(this);
 		this.moreActionsGo = this.moreActionsGo.bind(this);
 		this.renderEditingIndicator = this.renderEditingIndicator.bind(this);
 		this.renderMoreFormActions = this.renderMoreFormActions.bind(this);
+		this.moreActionsGo = this.moreActionsGo.bind(this);
+		this.handleMoreActionsChanged = this.handleMoreActionsChanged.bind(this);
 		this.state = {
-			exitFormModalOpen: false
+			exitFormModalOpen: false,
+			moreActionsSelected: ""
 		};
+	}
+	
+	componentDidMount() {
+		cartChannel.reply(EVENTS.CARTS.COMPLETE_ADD_FORM, function(success) {
+			if (success) {
+				alert("Form successfully added to Form Cart");
+			}
+			else {
+				alert("Unable to add Form to Form Cart");
+			}
+		}, this);
+		
 	}
 
 	closeExitFormModal(){
@@ -65,38 +79,45 @@ export default class FormGlobalToolbar extends Component {
 			</Col>
 		);
 	}
-
-	renderEditingIndicator(){
+	
+	handleMoreActionsChanged(event) {
+		let temp = event.target.value;
+		this.setState({
+			moreActionsSelected: temp
+		});
+	}
+	
+	renderEditingIndicator() {
 		if(this.props.shouldShowFormEditControls){
 			return (
 				<div className="editingIndicator">
-					<span className="glyphicon glyphicon-edit"/>
+					<span className="glyphicon glyphicon-edit" />
 					<span className="editingIndicatorText">YOU ARE EDITING THIS FORM</span>
 				</div>
 			);
 		}
-		else{
+		else {
 			return (<div />);
 		}
 	}
-
+	
 	renderMoreFormActions() {
 		if(!this.props.shouldShowFormEditControls){
 			return (
 				<Col md={4}>
 					<Row>
 						<Col md={9}>
-							<select id="moreActions" name="moreActions" className="form-control">
+							<select id="moreActions" name="moreActions" className="form-control"  value={this.state.moreActionsSelected} onChange={this.handleMoreActionsChanged}>
 								<option value="">MORE FORM ACTIONS</option>
-								<option value="carts/forms">  ADD FORM TO CART</option>
-								<option value="forms/xls">  DOWNLOAD XLS</option>
-								<option value="forms/xml">  DOWNLOAD XML</option>
-								<option value="forms/copy">  COPY FORM</option>
-								<option value="carts/forms">  DELETE FORM</option>
+								<option value="addFormToCart">  ADD FORM TO CART</option>
+								<option value="downloadXls">  DOWNLOAD XLS</option>
+								<option value="downloadXml">  DOWNLOAD XML</option>
+								<option value="copyForm">  COPY FORM</option>
+								<option value="deleteForm">  DELETE FORM</option>
 							</select>
 						</Col>
 						<Col md={3} className="formCenterV">
-							<button type="button" className="btn-link">GO</button>
+							<button type="button" className="btn-link" onClick={this.moreActionsGo}>GO</button>
 						</Col>
 					</Row>
 				</Col>
@@ -125,8 +146,26 @@ export default class FormGlobalToolbar extends Component {
 	handleSaveButtonClicked() {
 		formChannel.request(EVENTS.FORM.SAVE_FORM);
 	}
-	moreActionsGo() {
 
+	moreActionsGo() {
+		let value = this.state.moreActionsSelected;
+		let formIdseq = Application.formService.formModel.get("formIdseq");
+		if (value === "addFormToCart") {
+			cartChannel.request(EVENTS.CARTS.ADD_FORM, this.props.formMetadata);
+		}
+		else if (value === "downloadXls") {
+			formChannel.request(EVENTS.FORM.GET_DOWNLOAD_XLS, formIdseq);
+		}
+		else if (value === "downloadXml") {
+			formChannel.request(EVENTS.FORM.GET_DOWNLOAD_XML, formIdseq);
+		}
+		else if (value === "copyForm") {
+			formChannel.request(EVENTS.FORM.CREATE_COPY, formIdseq);
+		}
+		else if (value === "deleteForm") {
+			formChannel.request(EVENTS.FORM.DELETE, formIdseq);
+		}
+		// else do nothing
 	}
 
 	render(){

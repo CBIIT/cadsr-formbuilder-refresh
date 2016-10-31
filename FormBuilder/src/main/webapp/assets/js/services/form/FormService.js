@@ -5,12 +5,14 @@ import cartsService from  "../carts/CartsService";
 import {browserHistory} from 'react-router';
 import formActions from '../../constants/formActions';
 import formHelpers from '../../helpers/formHelpers';
-import {appChannel} from '../../channels/radioChannels';
+import {appChannel, formChannel} from '../../channels/radioChannels';
 import FormModel from '../../models/forms/FormModel';
 import backboneModelHelpers from '../../helpers/backboneModelHelpers';
 import QuestionsModel from '../../models/forms/QuestionsModel';
 import FormModuleModel from '../../models/forms/FormModuleModel';
 import formUIStateModel from '../../models/forms/FormUIStateModel';
+import ENDPOINT_URLS from '../../constants/ENDPOINT_URLS';
+import {ajaxDownloadFile} from '../../helpers/ajaXHelpers';
 /**
  * This is a service that maintains the state of a form, modules, and questions. We may want to break out module-specific and question-specific functionality into their own modules
  */
@@ -34,6 +36,10 @@ const FormService = Marionette.Object.extend({
 		[EVENTS.FORM.SET_MODULE]:               'handleSetModule',
 		[EVENTS.FORM.SAVE_FORM]:                'handleSaveForm',
 		[EVENTS.FORM.VIEW_MODULE]:              'setModuleView',
+		[EVENTS.FORM.CREATE_COPY]:              'handleCreateCopy',
+		[EVENTS.FORM.DELETE]:                   'handleDelete',
+		[EVENTS.FORM.GET_DOWNLOAD_XLS]:         'handleDownloadXLS',
+		[EVENTS.FORM.GET_DOWNLOAD_XML]:         'handleDownloadXML',
 	},
 	radioEvents:   {
 		[EVENTS.FORM.SET_QUESTION]:    'handleSetModuleQuestion',
@@ -278,6 +284,37 @@ const FormService = Marionette.Object.extend({
 	setupModels() {
 		this.formModel = new FormModel();
 		this.formUIStateModel = formUIStateModel;
+	},
+	handleCreateCopy({formIdseq}) {
+		$.ajax({
+			url: `${ENDPOINT_URLS.FORMS.CREATE_COPY}/${formIdseq}`,
+			method: "GET"
+		})
+		.done(function(data) {
+			alert("Form Successfully Copied\nYou will now be redirected to the copied version of the form.  A new public ID has been assigned.");
+			this.dispatchLayout({action: formActions.VIEW_FULL_FORM, formIdseq: data});
+		})
+		.fail(function() {
+			alert("The Form was not successfully copied");
+		});
+	},
+	handleDelete({formIdseq}) {
+		$.ajax({
+			url: `${ENDPOINT_URLS.FORMS.DELETE}/${formIdseq}`,
+			method: "DELETE"
+		})
+		.done(function(data) {
+			browserHistory.push(`/FormBuilder/`);
+		})
+		.fail(function() {
+			alert("The Form failed to delete properly");
+		});
+	},
+	handleDownloadXML({formIdseq}) {
+		ajaxDownloadFile(`${ENDPOINT_URLS.FORMS.GET_DOWNLOAD_XML}/${formIdseq}`, 'xml');
+	},
+	handleDownloadXLS({formIdseq}) {
+		ajaxDownloadFile(`${ENDPOINT_URLS.FORMS.GET_DOWNLOAD_XLS}/${formIdseq}`, 'xls');
 	}
 });
 const formService = new FormService();

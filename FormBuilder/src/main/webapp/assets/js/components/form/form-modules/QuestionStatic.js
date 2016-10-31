@@ -88,13 +88,13 @@ export default class QuestionStatic extends Component {
 					</Row>
 					<Row>
 						<Col md={6}>
-							{this.props.question.valueDomainLongName}
+							{this.props.question.longName}
 						</Col>
 						<Col md={6}>
 							{this.props.question.dataType}
 						</Col>
 					</Row>
-
+					
 					<Row>
 						<Col md={6}>
 							<ControlLabel>UNIT OF MEASURE</ControlLabel>
@@ -122,7 +122,7 @@ export default class QuestionStatic extends Component {
 						{this.props.question.concepts}
 						</Col>
 					</Row>
-
+					
 					<div>
 						{this.getValidValues()}
 					</div>

@@ -12,18 +12,18 @@ const EVENTS = {
 		CREATE_FORM:                    'createForm',
 		EDIT_FORM:                      'editForm',
 		CREATE_MODULE:                  "create:module",
-		CREATE_QUESTION_FROM_CDE:        "create:questionFromCde",
-		ADD_MODULE_FROM_CART:        "add:moduleFromModuleCart",
-		GET_MODULE: "get:module",
-		REMOVE_MODULE: "remove:module",
-		REMOVE_QUESTION: "remove:question",
-		REMOVE_VALID_VALUE: "remove:validValue",
-		GET_FORM_ACTION_MODE: "get:formActionMode",
+		CREATE_QUESTION_FROM_CDE:       "create:questionFromCde",
+		ADD_MODULE_FROM_CART:           "add:moduleFromModuleCart",
+		GET_MODULE:                     "get:module",
+		REMOVE_MODULE:                  "remove:module",
+		REMOVE_QUESTION:                "remove:question",
+		REMOVE_VALID_VALUE:             "remove:validValue",
+		GET_FORM_ACTION_MODE:           "get:formActionMode",
 		SET_NEW_MODULE:                 "set:newModule",
 		SAVE_FORM:                      'saveForm',
 		SET_MODULE:                     "set:module",
-		SET_QUESTION:                     "set:question",
-		SET_VALID_VALUE:                     "set:validValue",
+		SET_QUESTION:                   "set:question",
+		SET_VALID_VALUE:                "set:validValue",
 		SET_FORM_LAYOUT:                'set:formLayout',
 		GET_FORM_CORE_DETAILS_CRITERIA: 'get:getDropDownOptionsSuccess',
 		SET_CORE_FORM_DETAILS:          "set:formMetadata",
@@ -31,7 +31,8 @@ const EVENTS = {
 		GET_DOWNLOAD_XLS:				"get:downloadXls",
 		GET_DOWNLOAD_XML:				"get:downloadXml",
 		CREATE_COPY:					"create:copy",
-		DELETE:							"delete"
+		DELETE:                         "delete",
+		DELETE_COMPLETE:                "complete:delete"
 	},
 	SEARCH: {
 		SEND_SEARCH_LAYOUT:       			'set:searchLayout',
@@ -58,7 +59,8 @@ const EVENTS = {
 		CDE_CART_UPDATED: 'cdeCart:updated',
 		REMOVE_CART_ITEM: 'remove:cartItem',
 		SET_LAST_CART_SORTED_BY: 'set:LastCartSortedBy',
-		ADD_FORM: 'add:form'
+		ADD_FORM: 'add:form',
+		COMPLETE_ADD_FORM: 'complete:addForm'
 	}
 };
 

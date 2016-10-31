@@ -3,12 +3,16 @@ const formBuilderHost = serverProps.formBuilderHost;
 const formBuilderApiEndpointBaseUrl = `${formBuilderHost}/FormBuilder/api/v1`;
 const ENDPOINT_URLS = {
 	CARTS: {
-
+		ADD_FORM:                 `${formBuilderApiEndpointBaseUrl}/carts/forms`,
 	},
 	FORMS: {
 		/*pass /{formIdseq} */
 		LOCK:                   `${formBuilderApiEndpointBaseUrl}/lock`,
-		SHOW_LOCK:  `${formBuilderApiEndpointBaseUrl}/lock/showlock`
+		SHOW_LOCK:  `${formBuilderApiEndpointBaseUrl}/lock/showlock`,
+		GET_DOWNLOAD_XLS:				`${formBuilderApiEndpointBaseUrl}/forms/xls`,
+		GET_DOWNLOAD_XML:				`${formBuilderApiEndpointBaseUrl}/forms/xml`,
+		CREATE_COPY:					`${formBuilderApiEndpointBaseUrl}/forms/copy`,
+		DELETE:							`${formBuilderApiEndpointBaseUrl}/carts/forms`           
 	},
 	CATEGORIES:                   `${formBuilderApiEndpointBaseUrl}/categories`,
 	CONTEXTS:                     `${formBuilderApiEndpointBaseUrl}/contexts`,

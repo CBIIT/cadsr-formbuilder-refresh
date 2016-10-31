@@ -33,6 +33,8 @@ const CartsService = Marionette.Object.extend({
 		appChannel.reply(EVENTS.CARTS.GET_QUESTION_MODEL, (options) => this.getQuestionModelFromCDECartById(options));
 		appChannel.reply(EVENTS.CARTS.GET_MODULE_MODEL, (options) => this.getQuestionModuleFromModuleCartById(options));
 		appChannel.reply(EVENTS.APP.ADD_MODULE_FROM_FORM_TO_CART, (options) => this.handleAddModuleToModuleCart(options));
+		
+		cartChannel.reply(EVENTS.CARTS.ADD_FORM, (options) => this.handleAddFormToCart(options));
 	},
 	/*TODO Do we still need what this is returning? */
 /*	constructLayout(cart){
@@ -280,6 +282,20 @@ const CartsService = Marionette.Object.extend({
 		this.moduleCartCollection.url = ENDPOINT_URLS.MODULE_CART_PERSIST;
 
 		this.listenToCartCollections();
+	},
+	
+	handleAddFormToCart(formMetadata, callback) {
+		$.ajax({
+			url: `${ENDPOINT_URLS.CARTS.ADD_FORM}`,
+			method: "POST",
+			data: formMetadata.toJSON()
+		})
+		.done(function(data) {
+			cartChannel.trigger(EVENTS.CARTS.COMPLETE_ADD_FORM, true);
+		})
+		.fail(function() {
+			cartChannel.trigger(EVENTS.CARTS.COMPLETE_ADD_FORM, false);
+		});
 	}
 });
 

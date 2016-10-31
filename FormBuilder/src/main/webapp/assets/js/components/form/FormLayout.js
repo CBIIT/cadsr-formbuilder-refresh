@@ -56,17 +56,17 @@ export default class FormLayout extends Component {
 			this.setState({moduleCartCollection: getModuleCartCollectionPojo(Application.cartsService.moduleCartCollection)});
 		});
 	}
-
+	
 	componentWillUpdate(nextProps, nextState){
 		this.getFormModules();
 		console.log("FormLayout componentWillUpdate");
 	}
-
+	
 	componentWillUnmount(){
 		backboneReact.off(this);
 	}
 
-
+	
 	/**
 	 *
 	 * @returns {boolean}
@@ -152,7 +152,7 @@ export default class FormLayout extends Component {
 			columnConfig.center.colWidth = 8;
 			columnConfig.right.colWidth = 2;
 		}
-
+		
 		return (
 			<div>
 				<Row className="eq-height-wrapper"> <Col lg={columnConfig.left.colWidth} className="eq-height-item">
