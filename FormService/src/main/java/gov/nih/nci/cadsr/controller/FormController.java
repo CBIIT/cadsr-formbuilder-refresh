@@ -169,18 +169,6 @@ public class FormController {
 	@Cacheable(value = "products", key = "#formIdSeq")
 	public FEForm testTranslateDBFormToBBForm(@PathVariable String formIdSeq) {
 
-		ObjectMapper mapper = new ObjectMapper();
-		FEForm obj = new FEForm();
-		try {
-			// Object to JSON in file
-			mapper.writeValue(new File("c:\\file.json"), obj);
-
-			// Object to JSON in String
-			String jsonInString = mapper.writeValueAsString(obj);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
 		FormTransferObject fullForm = formManager.getFullFormV2(formIdSeq);
 
 		return formManager.testTranslateDBFormToBBForm(fullForm);
@@ -296,7 +284,7 @@ public class FormController {
 		String str = formIdSeq;
 		String[] id = str.split(",");
 
-		Cart cart = cartClient.createCart(username, "formCart");
+		Cart cart = cartClient.createCart(username, "formCartV2");
 
 		// TODO:Get the FormV2 version of a Form and translate it to a
 		// CartObject that can be saved.
@@ -325,7 +313,7 @@ public class FormController {
 		ObjectCartClient cartClient = new ObjectCartClient();
 		String str = formIdSeq;
 		String[] id = str.split(",");
-		Cart cart = cartClient.retrieveCart(username, "formCart");
+		Cart cart = cartClient.retrieveCart(username, "formCartV2");
 		Collection<CartObject> cObject = cart.getCartObjectCollection();
 		for (String i : id) {
 			try {
