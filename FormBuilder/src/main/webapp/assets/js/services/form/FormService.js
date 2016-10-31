@@ -1,6 +1,7 @@
 import Marionette from "backbone.marionette";
 import {Model, Collection} from "backbone";
 import EVENTS from '../../constants/EVENTS';
+import userService from  "../user/UserService";
 import cartsService from  "../carts/CartsService";
 import {browserHistory} from 'react-router';
 import formActions from '../../constants/formActions';
@@ -104,7 +105,7 @@ const FormService = Marionette.Object.extend({
 	},
 	getCartData({collectionName}) {
 		/*Only retrieve carts if user actually exists */
-		if(appChannel.request(EVENTS.USER.GET_USERNAME)){
+		if(userService.getUserName()){
 			return cartsService.fetchCarts({collectionName, getCached: true}).then((cart)=>{
 				this.formUIStateModel.set({cdeCartPopulated: true});
 			});
@@ -271,7 +272,7 @@ const FormService = Marionette.Object.extend({
 		});
 		if(this.formModel.isNew()){
 			this.formModel.get('formMetadata').set({
-				createdBy: appChannel.request(EVENTS.USER.GET_USERNAME)
+				createdBy: userService.getUserName()
 			});
 			this.createForm();
 		}

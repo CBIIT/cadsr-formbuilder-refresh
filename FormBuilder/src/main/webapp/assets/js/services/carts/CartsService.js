@@ -92,10 +92,8 @@ const CartsService = Marionette.Object.extend({
 	 * @returns {Promise.<TResult>}
 	 */
 	fetchCarts({collection, collectionName, getCached = false}) {
-		const userName = appChannel.request(EVENTS.USER.GET_USERNAME);
 		const urlQueryParams = {
-			cached:   getCached,
-			username: userName
+			cached:   getCached
 		};
 
 		/*FormSerivce passes in a name prop that's a string. might want to have it pass the actual collection instead */

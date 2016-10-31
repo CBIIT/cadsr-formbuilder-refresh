@@ -11,25 +11,38 @@ import {fetchSecure} from '../../helpers/ajaXHelpers';
 /*TODO move common methods out into a mixin/HOF or baseController/baseService */
 const UserService = Marionette.Object.extend({
 	channelName:   'user',
-	radioRequests: {
-		'isLoggedIn': 'isUserLoggedIn'
-	},
 	initialize() {
 		const UserModel = Model.extend({});
 		this.userModel = new UserModel();
-		appChannel.reply(EVENTS.USER.GET_USERNAME, this.getUserName);
 	},
 	getUserName () {
-		/* just a placeholer. will get from a model */
-		return 'guest';
-	},
-	isUserLoggedIn(){
+		const userModel = this.userModel;
 		return new Promise(
 			(resolve) =>{
-				fetchSecure({url: ENDPOINT_URLS.USERS.IS_USER_LOGGED_IN}).then((data) =>{
-					resolve(data);
+				if(userModel.attributes.username){
+					resolve(userModel.attributes.username);
+				}
+				else{
+					fetchSecure({url: ENDPOINT_URLS.USERS.USER}).then((data) =>{
+						userModel.set(data);
+						resolve(data.username);
+					});
+				}
+			}
+		);
+	},
+	isUserLoggedIn(){
+		const that = this;
+		return new Promise(
+			(resolve) =>{
+				that.getUserName().then((data) =>{
+					const IsLoggedIn = Boolean(data);
+					resolve(IsLoggedIn);
 				});
-			});
+				/*fetchSecure({url: ENDPOINT_URLS.USERS.IS_USER_LOGGED_IN}).then((data) =>{
+				 resolve(data);
+				 });*/
+		});
 	}
 });
 
