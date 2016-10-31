@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Value;
 
 public class FormBuilderProperties {
 	
-	private static final String DEFAULT_REMOTE_SERVICE_HOST = "http://cadsr-local:8080/";
+	private static final String DEFAULT_REMOTE_SERVICE_HOST = "http://locahost:8080/";
 	private static final String DEFAULT_SALT = "12345678abcdefgh";
 	private static final String DEFAULT_OBJECT_CART_URL = "http://objcart2-dev.nci.nih.gov/objcart10";
 	
