@@ -9,7 +9,10 @@ const formHelpers = {
 	fetchForm(nextState, replace, callback) {
 		let formModel = new FormModel();
 		formModel.set("formIdseq", nextState.params.formIdseq);
-		formChannel.request(EVENTS.FORM.SET_FORM_LAYOUT, {action: formActions.VIEW_FULL_FORM, formIdseq: nextState.params.formIdseq});
+		formChannel.request(EVENTS.FORM.SET_FORM_LAYOUT, {
+			action: formActions.VIEW_FULL_FORM,
+			formIdseq: nextState.params.formIdseq
+		});
 		formModel.fetch().then(() =>{
 			formService.setForm(formModel);
 			callback();
@@ -19,7 +22,25 @@ const formHelpers = {
 		});
 	},
 	getFormLockStatus() {
-		fetchSecure({url:ENDPOINT_URLS.FORMS.FORMS}).then((data) => data);
+		fetchSecure({url: ENDPOINT_URLS.FORMS.FORMS}).then((data) => data);
+	},
+	setFormLocked({formIdseq}) {
+		return new Promise(
+			(resolve) =>{
+				fetchSecure({
+					url:    `${ENDPOINT_URLS.FORMS.LOCK}/${formIdseq}`,
+					method: 'post'
+				}).then((data) => (resolve(data)));
+			});
+	},
+	unlockForm({formIdseq}) {
+		return new Promise(
+			(resolve) =>{
+				fetchSecure({
+					url:    `${ENDPOINT_URLS.FORMS.LOCK}/${formIdseq}`,
+					method: 'delete'
+				}).then((data) => (resolve(data)));
+			});
 	}
 };
 

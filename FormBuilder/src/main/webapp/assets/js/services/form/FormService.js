@@ -4,6 +4,7 @@ import EVENTS from '../../constants/EVENTS';
 import cartsService from  "../carts/CartsService";
 import {browserHistory} from 'react-router';
 import formActions from '../../constants/formActions';
+import formHelpers from '../../helpers/formHelpers';
 import {appChannel} from '../../channels/radioChannels';
 import FormModel from '../../models/forms/FormModel';
 import backboneModelHelpers from '../../helpers/backboneModelHelpers';
@@ -145,10 +146,15 @@ const FormService = Marionette.Object.extend({
 		this.formModel.get('formModules').add(new FormModuleModel(newModulePojo));
 	},
 	handleCancelEditForm({action = this.formUIStateModel.attributes.actionMode}) {
-		this.formUIStateModel.set({
-			actionMode: action,
-			isEditing:  false
+		formHelpers.unlockForm({formIdseq: this.formModel.get('formIdseq')}).then((data) =>{
+			if (data === true) {
+				this.formUIStateModel.set({
+					actionMode: action,
+					isEditing:  false
+				});
+			}
 		});
+
 	},
 	handleCreateQuestionFromCde({questionCid, activeModuleId} = {}) {
 		this.formUIStateModel.set({isEditing: true});
@@ -186,8 +192,11 @@ const FormService = Marionette.Object.extend({
 		this.saveForm({successMessage: "Entire form saved to DB. This is what \"Global Save\" will do."});
 	},
 	handleSetFormEditable() {
-		/*Auth and permssions checks for for editing a form can go here*/
-		this.formUIStateModel.set({isEditing: true});
+		formHelpers.setFormLocked({formIdseq: this.formModel.get('formIdseq')}).then((data) =>{
+			if (data === true) {
+				this.formUIStateModel.set({isEditing: true});
+			}
+		});
 	},
 	handleSetModule(data) {
 		const module = this.getModuleModel(data.id);

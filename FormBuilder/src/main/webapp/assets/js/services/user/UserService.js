@@ -1,4 +1,5 @@
 import Marionette from "backbone.marionette";
+import {Model} from "backbone";
 import ENDPOINT_URLS from '../../constants/ENDPOINT_URLS';
 import {appChannel} from '../../channels/radioChannels';
 import EVENTS from '../../constants/EVENTS';
@@ -14,10 +15,8 @@ const UserService = Marionette.Object.extend({
 		'isLoggedIn': 'isUserLoggedIn'
 	},
 	initialize() {
-		/* Auth isn't ready yet.  this trigger will be moved out of init once auth is setup on the FE */
-		appChannel.trigger(EVENTS.USER.LOGIN_SUCCESS, () =>{
-			console.log("login success");
-		});
+		const UserModel = Model.extend({});
+		this.userModel = new UserModel();
 		appChannel.reply(EVENTS.USER.GET_USERNAME, this.getUserName);
 	},
 	getUserName () {

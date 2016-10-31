@@ -48,7 +48,7 @@ export const createDownloadLink = (data, fileExtension) =>{
  * @param url
  * @returns {Promise}
  */
-export const fetchSecure = ({url}) =>{
+export const fetchSecure = ({url, method = 'get'}, payload) =>{
 	function getResponseStatus(response){
 		if(response.status >= 200 && response.status < 300){
 			return Promise.resolve(response);
@@ -63,7 +63,14 @@ export const fetchSecure = ({url}) =>{
 
 	return new Promise(
 		(resolve) =>{
-			fetch(url, {credentials: 'include'})
+			fetch(url, {
+				method:      method,
+				credentials: 'include',
+				headers:     {
+					"Content-type": "application/json"
+				},
+				body:        payload
+			})
 				.then(getResponseStatus)
 				.then(getResponseAsJSON)
 				.then(function(data){
