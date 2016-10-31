@@ -13,7 +13,7 @@ import QuestionsModel from '../../models/forms/QuestionsModel';
 import FormModuleModel from '../../models/forms/FormModuleModel';
 import formUIStateModel from '../../models/forms/FormUIStateModel';
 import ENDPOINT_URLS from '../../constants/ENDPOINT_URLS';
-import {ajaxDownloadFile} from '../../helpers/ajaXHelpers';
+import {ajaxDownloadFile, fetchSecure} from '../../helpers/ajaXHelpers';
 /**
  * This is a service that maintains the state of a form, modules, and questions. We may want to break out module-specific and question-specific functionality into their own modules
  */
@@ -285,35 +285,31 @@ const FormService = Marionette.Object.extend({
 		this.formModel = new FormModel();
 		this.formUIStateModel = formUIStateModel;
 	},
-	handleCreateCopy({formIdseq}) {
-		$.ajax({
+	handleCreateCopy(formIdseq) {
+		fetchSecure({
 			url: `${ENDPOINT_URLS.FORMS.CREATE_COPY}/${formIdseq}`,
-			method: "GET"
-		})
-		.done(function(data) {
+			method: "POST"
+		}).then((data) => {
 			alert("Form Successfully Copied\nYou will now be redirected to the copied version of the form.  A new public ID has been assigned.");
 			this.dispatchLayout({action: formActions.VIEW_FULL_FORM, formIdseq: data});
-		})
-		.fail(function() {
-			alert("The Form was not successfully copied");
+		}).catch(() => {
+			alert("Form failed to copy")
 		});
 	},
-	handleDelete({formIdseq}) {
-		$.ajax({
+	handleDelete(formIdseq) {
+		fetchSecure({
 			url: `${ENDPOINT_URLS.FORMS.DELETE}/${formIdseq}`,
 			method: "DELETE"
-		})
-		.done(function(data) {
+		}).then((data) => {
 			browserHistory.push(`/FormBuilder/`);
-		})
-		.fail(function() {
+		}).catch(() => {
 			alert("The Form failed to delete properly");
 		});
 	},
-	handleDownloadXML({formIdseq}) {
+	handleDownloadXML(formIdseq) {
 		ajaxDownloadFile(`${ENDPOINT_URLS.FORMS.GET_DOWNLOAD_XML}/${formIdseq}`, 'xml');
 	},
-	handleDownloadXLS({formIdseq}) {
+	handleDownloadXLS(formIdseq) {
 		ajaxDownloadFile(`${ENDPOINT_URLS.FORMS.GET_DOWNLOAD_XLS}/${formIdseq}`, 'xls');
 	}
 });
