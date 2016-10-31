@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpEntity;
@@ -119,7 +121,7 @@ public class FormAdapterController {
 
 	@RequestMapping(value = "/{formIdSeq}", method = RequestMethod.GET)
 	@ResponseBody
-	public ResponseEntity getFullForm(@PathVariable String formIdSeq) {
+	public ResponseEntity getFullForm(@PathVariable String formIdSeq, HttpServletRequest request) {
 		
 		if(props.getFormBuilderLocalMode()){
 			
@@ -139,8 +141,19 @@ public class FormAdapterController {
 		if(authUtil.getLoggedIn()){
 			String lock_uri = props.getFormBuilderApiUrl() + FormBuilderConstants.FORMBUILDER_BASE_URL + 
 					"lock/" + form.getFormMetadata().getFormIdseq();
-			System.out.println("Call to url: " + lock_uri);
-			boolean locked = restTemplate.getForObject(lock_uri, boolean.class);
+			
+			HttpHeaders requestHeaders = new HttpHeaders();
+			requestHeaders.add("Cookie", "JSESSIONID=" + request.getSession().getId());
+			HttpEntity requestEntity = new HttpEntity(null, requestHeaders);
+			ResponseEntity<Boolean> response = restTemplate.exchange(
+					lock_uri,
+			    HttpMethod.GET,
+			    requestEntity,
+			    boolean.class);
+			
+			boolean locked = response.getBody();
+			
+//			boolean locked = restTemplate.getForObject(lock_uri, boolean.class);
 			
 			form.getFormMetadata().setLocked(locked);
 			
