@@ -18,6 +18,7 @@ export default class FormGlobalToolbar extends Component {
 		this.handleLeaveForm = this.handleLeaveForm.bind(this);
 		this.moreActionsGo = this.moreActionsGo.bind(this);
 		this.renderEditingIndicator = this.renderEditingIndicator.bind(this);
+		this.renderFormLockedIndicator = this.renderFormLockedIndicator.bind(this);
 		this.renderMoreFormActions = this.renderMoreFormActions.bind(this);
 		this.moreActionsGo = this.moreActionsGo.bind(this);
 		this.handleMoreActionsChanged = this.handleMoreActionsChanged.bind(this);
@@ -101,9 +102,21 @@ export default class FormGlobalToolbar extends Component {
 			return (<div />);
 		}
 	}
-
+	renderFormLockedIndicator(){
+		if(this.props.formMetadata.locked === true){
+			return (
+				<div className="editingIndicator">
+					<span className="glyphicon glyphicon-lock"/>
+					<span className="editingIndicatorText">Another user is editing this form. Please contact the editor or try again later.</span>
+				</div>
+			);
+		}
+		else{
+			return (<div />);
+		}
+	}
 	renderMoreFormActions() {
-		if(!this.props.shouldShowFormEditControls){
+		if(!this.props.formMetadata.locked === true){
 			return (
 				<Col md={4}>
 					<Row>
