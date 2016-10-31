@@ -31,8 +31,6 @@ export default class FormGlobalToolbar extends Component {
 
 	getToolbarItems(){
 		const buttons = [];
-		const shouldShowFullFormViewButton = this.props.actionMode !== formActions.VIEW_FULL_FORM;
-
 		/*They have permission and the form isn't already in edit mode */
 		const shouldShowEditFormButton = this.props.formMetadata.curatorialPermission && !this.props.shouldShowFormEditControls;
 		const userIsEditingForm = this.props.shouldShowFormEditControls;
@@ -55,17 +53,11 @@ export default class FormGlobalToolbar extends Component {
 				className: "btn-link pull-right"
 			});
 		}
-		if(shouldShowFullFormViewButton) {
-			buttons.push({
-				name:      "View Full Form",
-				className: "btn-link pull-right"
-			});
-		}
 
 		return (
 			<Col md={4} className="formCenterV">
 				<div>
-					<ButtonsGroup containerClassName="buttonsGroup pull-right" handleCancelButtonClicked={this.handleCancelButtonClicked} dispatchEditFormClicked={this.dispatchEditFormClicked} dispatchNavigateFullFormView={this.dispatchNavigateFullFormView} buttons={buttons}/>
+					<ButtonsGroup containerClassName="buttonsGroup pull-right" handleCancelButtonClicked={this.handleCancelButtonClicked} dispatchEditFormClicked={this.dispatchEditFormClicked}  buttons={buttons}/>
 
 				</div>
 			</Col>
@@ -116,10 +108,6 @@ export default class FormGlobalToolbar extends Component {
 
 	dispatchEditFormClicked(){
 		formChannel.request(EVENTS.FORM.EDIT_FORM);
-	}
-
-	dispatchNavigateFullFormView(){
-		formChannel.request(EVENTS.FORM.SET_FORM_LAYOUT, {action: formActions.VIEW_FULL_FORM});
 	}
 
 	handleCancelButtonClicked(){

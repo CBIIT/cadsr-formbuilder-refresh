@@ -56,17 +56,17 @@ export default class FormLayout extends Component {
 			this.setState({moduleCartCollection: getModuleCartCollectionPojo(Application.cartsService.moduleCartCollection)});
 		});
 	}
-	
+
 	componentWillUpdate(nextProps, nextState){
 		this.getFormModules();
 		console.log("FormLayout componentWillUpdate");
 	}
-	
+
 	componentWillUnmount(){
 		backboneReact.off(this);
 	}
 
-	
+
 	/**
 	 *
 	 * @returns {boolean}
@@ -127,8 +127,9 @@ export default class FormLayout extends Component {
 		if(actionMode !== formActions.CREATE_FORM){
 			const activeModuleId = actionMode == formActions.VIEW_MODULE && this.getEditItems() ? this.getEditItems().cid : null;
 			const formMetadataLinkIsActive = actionMode === formActions.VIEW_FORM_METADATA;
+			const viewFullFormLinkIsActive = actionMode === formActions.VIEW_FULL_FORM;
 			return (
-				<TreeView formMetadataLinkIsActive={formMetadataLinkIsActive} activeModuleId={activeModuleId} list={this.formModules} formIdSeq={this.props.formIdseq} formName={this.getFormMetaData().longName} canCreateModule={this.canCreateModule()}/>
+				<TreeView viewFullFormLinkIsActive={viewFullFormLinkIsActive} formMetadataLinkIsActive={formMetadataLinkIsActive} activeModuleId={activeModuleId} list={this.formModules} formIdSeq={this.props.formIdseq} formName={this.getFormMetaData().longName} canCreateModule={this.canCreateModule()}/>
 			);
 		}
 	}
@@ -151,7 +152,7 @@ export default class FormLayout extends Component {
 			columnConfig.center.colWidth = 8;
 			columnConfig.right.colWidth = 2;
 		}
-		
+
 		return (
 			<div>
 				<Row className="eq-height-wrapper"> <Col lg={columnConfig.left.colWidth} className="eq-height-item">

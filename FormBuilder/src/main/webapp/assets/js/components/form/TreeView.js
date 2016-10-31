@@ -11,6 +11,7 @@ export default class TreeView extends Component {
 		/* Consider moving dispatching/Backbone radio functionality to FormLayout and notifying FormLayout via callbacks passed through props */
 		this.dispatchCreateModule = this.dispatchCreateModule.bind(this);
 		this.dispatchNavigateFormMetadata = this.dispatchNavigateFormMetadata.bind(this);
+		this.dispatchNavigateFullFormView = this.dispatchNavigateFullFormView.bind(this);
 		this.dispatchNavigateToModule = this.dispatchNavigateToModule.bind(this);
 	}
 
@@ -25,6 +26,9 @@ export default class TreeView extends Component {
 	dispatchNavigateFormMetadata(){
 		formChannel.request(EVENTS.FORM.SET_FORM_LAYOUT, {action: formActions.VIEW_FORM_METADATA});
 	}
+	dispatchNavigateFullFormView(){
+		formChannel.request(EVENTS.FORM.SET_FORM_LAYOUT, {action: 'viewFormFullView'});
+	}
 	render(){
 
 
@@ -36,7 +40,10 @@ export default class TreeView extends Component {
 						<button disabled={!this.props.canCreateModule} onClick={this.dispatchCreateModule} className="btn btn-link panel-link--success">Create New Module</button>
 					</li>
 					<li>
-
+						<button onClick={this.dispatchNavigateFullFormView} className={"panel-link panel-item btn btn-link " + (this.props.viewFullFormLinkIsActive ? "panel-link--accent" : "")}>
+							VIEW FULL FORM</button>
+					</li>
+					<li>
 						<button onClick={this.dispatchNavigateFormMetadata} className={"panel-link panel-item btn btn-link " + (this.props.formMetadataLinkIsActive ? "panel-link--accent" : "")}>Form Details</button>
 						<hr className="panel-divider"/>
 						<p className="panel-subtitle" />
@@ -52,6 +59,7 @@ export default class TreeView extends Component {
 }
 
 TreeView.propTypes = {
+	viewFullFormLinkIsActive: PropTypes.bool,
 	formMetadataLinkIsActive:    PropTypes.bool,
 	activeModuleId:              PropTypes.string,
 	shouldShowFormMeatadataLink: PropTypes.bool,
