@@ -5,24 +5,21 @@ import Footer from './Footer';
 export default class AppLayout extends Component {
 	constructor(props){
 		super(props);
-		this.checkUserIsLoggedIn = this.checkUserIsLoggedIn.bind(this);
 		this.state = {
 			userIsLoggedIn: false
 		};
 	}
+
 	componentDidMount(){
-		this.checkUserIsLoggedIn();
+		userService.isUserLoggedIn();
 	}
+
 	/* Most likely cause is that a new route was entered */
-	componentWillReceiveProps(){
-		this.checkUserIsLoggedIn();
-	}
-	checkUserIsLoggedIn(){
-		userService.isUserLoggedIn().then(data =>{
-			this.setState({
-				userIsLoggedIn: data
-			});
-		});
+	componentWillReceiveProps(nextProps){
+		/* check if user is logged in if the page/route changed (via react router) */
+		if(nextProps.location.pathname !== this.props.location.pathname){
+			userService.isUserLoggedIn();
+		}
 	}
 
 	render(){
@@ -31,7 +28,7 @@ export default class AppLayout extends Component {
 				<Header />
 
 				<main id="main" className="container-fluid">
-					{/* components from matched route are inserted here, pass in extra props to them */} {this.props.children && cloneElement(this.props.children, {userIsLoggedIn: this.state.userIsLoggedIn})}
+					{/* components from matched route are inserted here, pass in extra props to them */} {this.props.children}
 				</main>
 
 				<Footer />
