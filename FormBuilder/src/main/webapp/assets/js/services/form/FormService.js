@@ -152,7 +152,7 @@ const FormService = Marionette.Object.extend({
 		this.formModel.get('formModules').add(new FormModuleModel(newModulePojo));
 	},
 	handleCancelEditForm({action = this.formUIStateModel.attributes.actionMode}) {
-		formHelpers.unlockForm({formIdseq: this.formModel.get('formIdseq')}).then((data) =>{
+		formHelpers.releaseForm({formIdseq: this.formModel.get('formIdseq')}).then((data) =>{
 			if (data === true) {
 				this.formUIStateModel.set({
 					actionMode: action,
@@ -196,6 +196,7 @@ const FormService = Marionette.Object.extend({
 	},
 	handleSaveForm() {
 		this.saveForm({successMessage: "Entire form saved to DB. This is what \"Global Save\" will do."});
+		formHelpers.releaseForm({formIdseq: this.formModel.get('formIdseq')});
 	},
 	handleSetFormEditable() {
 		formHelpers.setFormLocked({formIdseq: this.formModel.get('formIdseq')}).then((data) =>{

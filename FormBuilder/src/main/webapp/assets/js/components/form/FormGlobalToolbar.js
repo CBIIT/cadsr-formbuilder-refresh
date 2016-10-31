@@ -14,6 +14,7 @@ export default class FormGlobalToolbar extends Component {
 		this.dispatchCancelEditForm = this.dispatchCancelEditForm.bind(this);
 		this.dispatchEditFormClicked = this.dispatchEditFormClicked.bind(this);
 		this.handleCancelButtonClicked = this.handleCancelButtonClicked.bind(this);
+		this.handleSaveButtonClicked = this.handleSaveButtonClicked.bind(this);
 		this.handleLeaveForm = this.handleLeaveForm.bind(this);
 		this.moreActionsGo = this.moreActionsGo.bind(this);
 		this.renderEditingIndicator = this.renderEditingIndicator.bind(this);
@@ -25,7 +26,7 @@ export default class FormGlobalToolbar extends Component {
 			moreActionsSelected: ""
 		};
 	}
-	
+
 	componentDidMount() {
 		cartChannel.reply(EVENTS.CARTS.COMPLETE_ADD_FORM, function(success) {
 			if (success) {
@@ -35,7 +36,7 @@ export default class FormGlobalToolbar extends Component {
 				alert("Unable to add Form to Form Cart");
 			}
 		}, this);
-		
+
 	}
 
 	closeExitFormModal(){
@@ -79,14 +80,14 @@ export default class FormGlobalToolbar extends Component {
 			</Col>
 		);
 	}
-	
+
 	handleMoreActionsChanged(event) {
 		let temp = event.target.value;
 		this.setState({
 			moreActionsSelected: temp
 		});
 	}
-	
+
 	renderEditingIndicator() {
 		if(this.props.shouldShowFormEditControls){
 			return (
@@ -100,7 +101,7 @@ export default class FormGlobalToolbar extends Component {
 			return (<div />);
 		}
 	}
-	
+
 	renderMoreFormActions() {
 		if(!this.props.shouldShowFormEditControls){
 			return (

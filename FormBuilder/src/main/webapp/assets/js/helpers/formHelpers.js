@@ -33,7 +33,7 @@ const formHelpers = {
 				}).then((data) => (resolve(data)));
 			});
 	},
-	unlockForm({formIdseq}) {
+	releaseForm({formIdseq}) {
 		return new Promise(
 			(resolve) =>{
 				fetchSecure({
