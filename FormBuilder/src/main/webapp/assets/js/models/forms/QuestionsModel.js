@@ -17,7 +17,7 @@ const QuestionsModel = Model.extend({
 		concepts: "",
 		/* used for editing */
 		defaultValue: "",
-		instruction: "",
+		instructions: "",
 		cdeWorkflow: "",
 		alternateQuestionText: "",
 		validValues: new ValidValuesCollection(),
