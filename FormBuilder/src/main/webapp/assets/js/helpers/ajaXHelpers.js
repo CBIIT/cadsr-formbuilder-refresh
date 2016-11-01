@@ -81,3 +81,59 @@ export const fetchSecure = ({url, method = 'get'}, payload) =>{
 		}
 	);
 };
+
+export const getResponseAsJSON = (response) => {
+	console.log("translate response to JSON");
+	return new Promise((resolve, reject) => {
+		return resolve(response.json());
+	});
+};
+
+export const getResponseStatus = (response) => {
+	console.log("process json response");
+	return new Promise((resolve, reject) => {
+		if(response.status >= 200 && response.status < 300){
+			console.log("resolving json response");
+			return Promise.resolve(response);
+		} else{
+			return Promise.reject(new Error(response.statusText));
+		}
+	});
+};
+
+export const fetchRequestData = (url, method, contentType, data) => {
+	console.log("fetching from " + url);
+	return fetch(url, {
+		method:      method,
+		credentials: 'include',
+		headers:     {
+			"Content-type": contentType
+		},
+		body:        data
+	});
+};
+
+export const fetchSecure3 = ({url, method = 'get', data = null, contentType = 'application/json', swallowErrors = true, dataType = 'json'}) =>{
+	function nullFilter(response) {
+		console.log("null filter");
+		return Promise.resolve(response);
+	}
+	
+	// set up the chain!
+	let responseFilter = nullFilter;
+	if (swallowErrors) {
+		responseFilter = getResponseStatus;
+	}
+	
+	let dataTypeFilter = nullFilter;
+	if (dataType == 'json') {
+		dataTypeFilter = getResponseAsJSON;
+	}
+
+	return new Promise((resolve, reject) =>{
+			resolve(fetchRequestData(url, method, contentType, data)
+			.then(responseFilter)
+			.then(dataTypeFilter));
+		}
+	);
+};
