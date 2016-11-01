@@ -190,10 +190,13 @@ const FormService = Marionette.Object.extend({
 		this.getModuleModel(moduleId).get("questions").remove(questionId);
 	},
 	handleRemoveValidValue({moduleId,questionId,validValueId}) {
-		this.getModuleQuestionModel({
+		const questionModel = this.getModuleQuestionModel({
 			moduleId:   moduleId,
 			questionId:questionId
-		}).get("validValues").remove(validValueId);
+		});
+		questionModel.get("validValues").remove(validValueId);
+		/* Make FormLayout re-render because it's listening for update on this collection */
+		questionModel.trigger("change");
 	},
 	handleSaveForm() {
 		this.saveForm({successMessage: "Entire form saved to DB. This is what \"Global Save\" will do."});
@@ -224,16 +227,16 @@ const FormService = Marionette.Object.extend({
 		 */
 	},
 	handleSetModuleQuestionValidValue(data) {
-		const validValueModel = this.getModuleQuestionModel({
+		const questionModel = this.getModuleQuestionModel({
 			moduleId:   data.moduleId,
 			questionId: data.questionId
-		}).get("validValues").get(data.validValueId);
+		});
+		const validValueModel = questionModel.get("validValues").get(data.validValueId);
 		/* Adding isEdited: true so BE knows valid value has chagned */
 		const validValueAttributes = (validValueModel.isNew() ? data.validValueData : Object.assign({}, data.validValueData, {isEdited: true}));
 		validValueModel.set(validValueAttributes);
-		/*
-		 console.log("valid value updated");
-		 */
+		/* Make FormLayout re-render because it's listening for update on this collection */
+		questionModel.trigger("change");
 	},
 	saveForm({persistToDB = false, successMessage} = {}) {
 		const p = new Promise(

@@ -23,15 +23,17 @@ export default class QuestionStatic extends Component {
 		if(this.props.question.validValues && this.props.question.validValues.length){
 			const mapValidValues = (item, index) =>{
 				return (
-					<ValidValueStatic shouldDisplayRemoveItem={this.props.shouldDisplayRemoveItem} key={index} validValue={item}/>
+					<ValidValueStatic  shouldDisplayRemoveItem={this.props.shouldDisplayRemoveItem} moduleId={this.props.moduleId} questionId={this.props.question.cid} key={index} validValue={item}/>
 				);
 			};
 			return (
-				<PanelGroup defaultActiveKey="1" accordion> <Panel header="Valid Values" eventKey="1">
-					<ul className={"list-unstyled"}>
-						{this.props.question.validValues.map(mapValidValues)}
-					</ul>
-				</Panel> </PanelGroup>
+				<PanelGroup defaultActiveKey="1" accordion>
+					<Panel header="Valid Values" eventKey="1">
+						<ul className={"list-unstyled"}>
+							{this.props.question.validValues.map(mapValidValues)}
+						</ul>
+					</Panel>
+				</PanelGroup>
 			);
 		}
 	}

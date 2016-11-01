@@ -11,12 +11,9 @@ const FormModuleModel = Model.extend({
 		isEdited:     false
 	},
 	initialize() {
-		const questionsCollection = this.get("questions");
-		/*Bubble up changes to questions and validValues collection here, so BackboneReact in FormLayout triggers a state change (and a re-render) when these events to the modules collection fre
+		/*Bubble up changes to questions collection here, so BackboneReact in FormLayout triggers a state change (and a re-render) when these events to the modules collection fre
 		 * See http://backbonejs.org/#Events-catalog */
-		this.listenTo(questionsCollection, 'change add remove', this.triggerThisUpdate);
-		this.listenTo(questionsCollection.get("validValues"), 'change add remove', this.triggerThisUpdate);
-
+		this.listenTo(this.get("questions"), 'change add remove', this.triggerThisUpdate);
 	},
 	triggerThisUpdate (model, options) {
 		/*If a question or valid value has been edited, the module containing it should also be marked as isEdited for the BE */
