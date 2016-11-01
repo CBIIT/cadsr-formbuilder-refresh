@@ -1,6 +1,9 @@
 package gov.nih.nci.cadsr.api.controller;
 
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -59,7 +62,6 @@ public class LockingController {
 	public boolean releaseLock(@PathVariable String formIdseq) {
 		
 		String username = authUtil.getloggedinuser().getUsername();
-		
 		if(lock.getLockedForms().containsKey(formIdseq)){
 			if(lock.getLockedForms().get(formIdseq).equals(username)){
 				lock.getLockedForms().remove(formIdseq, username);
@@ -73,6 +75,23 @@ public class LockingController {
 			return false;
 		}
 		
+	}
+	
+	@RequestMapping(value = "/all/{username}", method = RequestMethod.DELETE)
+	@ResponseBody
+	public boolean releaseAllLocks(@PathVariable String username) {
+		List<String> deleteKeys = new ArrayList<String>();
+		for(Entry<String, String> entry : lock.getLockedForms().entrySet()){
+			if(entry.getValue().equals(username)){
+				deleteKeys.add(entry.getKey());
+			}
+		}
+		
+		for(String key : deleteKeys){
+			lock.getLockedForms().remove(key);
+		}
+		
+		return true;
 	}
 	
 	@RequestMapping(value = "/showlock", method = RequestMethod.GET)

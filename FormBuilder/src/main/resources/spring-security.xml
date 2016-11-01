@@ -11,31 +11,33 @@
 		<intercept-url pattern="/carts/*" access="ROLE_USER" />
 		<intercept-url pattern="/form/create" access="ROLE_USER" />
 		<!-- <intercept-url pattern="/api/**" access="ROLE_USER" /> -->
-		<intercept-url pattern="/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+		<intercept-url pattern="/**" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+		<!-- <form-login login-page="/login" default-target-url="/welcome" authentication-failure-url="/login?error" 
+			username-parameter="username" password-parameter="password" /> <logout logout-success-url="/login?logout" 
+			/> -->
 		<session-management>
 			<concurrency-control max-sessions="1" />
 		</session-management>
+
+		<logout logout-success-url="/" logout-url="/perform_logout"
+			delete-cookies="JSESSIONID" />
 	</http>
 
-	<!-- <authentication-manager>
-		<authentication-provider>
-			<user-service>
-				<user name="guest" password="Nci_gue5t" authorities="ROLE_USER" />
-				<user name="user1" password="user1" authorities="ROLE_USER" />
-				<user name="user2" password="user2" authorities="ROLE_USER" />
-			</user-service>
-		</authentication-provider>
-	</authentication-manager> -->
+	<!-- <authentication-manager> <authentication-provider> <user-service> <user 
+		name="guest" password="Nci_gue5t" authorities="ROLE_USER" /> <user name="user1" 
+		password="user1" authorities="ROLE_USER" /> <user name="user2" password="user2" 
+		authorities="ROLE_USER" /> </user-service> </authentication-provider> </authentication-manager> -->
 
 	<authentication-manager>
 		<authentication-provider ref="cadsrAuthenticationProvider" />
 	</authentication-manager>
-	
+
 	<beans:bean id="userDetailsService"
 		class="gov.nih.nci.cadsr.authentication.CadsrUserDetailsService" />
 
 	<!-- Bean implementing AuthenticationProvider of Spring Security -->
-	<beans:bean id="cadsrAuthenticationProvider" class="gov.nih.nci.cadsr.authentication.CadsrAuthenticationProvider">
+	<beans:bean id="cadsrAuthenticationProvider"
+		class="gov.nih.nci.cadsr.authentication.CadsrAuthenticationProvider">
 	</beans:bean>
-	
+
 </beans:beans>
