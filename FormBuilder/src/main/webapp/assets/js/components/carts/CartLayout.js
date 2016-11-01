@@ -1,11 +1,12 @@
 import React, {Component, PropTypes} from 'react';
+import {withRouter} from 'react-router';
 import backboneReact from 'backbone-react-component';
 import cartActions from '../../constants/cartActions';
 import Datatable from '../tables/Datatable';
 import {getCdeCartCollectionPojo, getModuleCartCollectionPojo, getFormCartCollectionPojo} from '../../helpers/CartDataHelpers';
 import TABLECONFIG from '../../constants/TABLE_CONFIGS';
 
-export default class CartLayout extends Component {
+class CartLayout extends Component {
 	constructor(props){
 		super(props);
 		this.massageCartData = this.massageCartData.bind(this);
@@ -25,7 +26,13 @@ export default class CartLayout extends Component {
 			this.data = getModuleCartCollectionPojo(cartData);
 		}
 	}
+	componentDidMount() {
+		this.props.router.setRouteLeaveHook(this.props.route, this.routerWillLeave);
+	}
 
+	routerWillLeave(nextLocation) {
+		console.log("user left cart page");
+	}
 	componentWillMount(){
 		this.cartPageFetchedData = Application.cartsService[this.props.route.cartData];
 		const cartPageStateModel = Application.cartsService.cartPageStateModel;
@@ -97,3 +104,6 @@ CartLayout.defaultProps = {
 CartLayout.propTypes = {
 	cartLastSortedState: PropTypes.object
 };
+
+export default withRouter(CartLayout);
+
