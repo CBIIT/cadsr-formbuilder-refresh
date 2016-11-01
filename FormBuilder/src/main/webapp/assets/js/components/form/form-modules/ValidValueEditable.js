@@ -56,7 +56,7 @@ export class ValidValueEditable extends Component{
 										Form Value Meaning Desc: {this.props.validValue.formValueMeaningDesc}
 									</li>
 									<li>
-										<Textarea rows={1} name="instruction" label="Instructions" value={(this.props.validValue.instructions !== null ? this.props.validValue.instructions : "")}/>
+										<Textarea rows={1} name="instructions" label="Instructions" value={(this.props.validValue.instructions !== null ? this.props.validValue.instructions : "")}/>
 									</li>
 								</ul>
 							</fieldset>
