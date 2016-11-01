@@ -68,7 +68,10 @@ export default class FormLayout extends Component {
 	}
 	
 	componentWillUnmount(){
+		/*Destroy listeners for BB events/radio so  setState() doesnt't get called on this component (per browser console errors) */
 		backboneReact.off(this);
+		appChannel.off(EVENTS.CARTS.CDE_CART_UPDATED);
+		appChannel.off(EVENTS.CARTS.MODULE_CART_UPDATED);
 	}
 
 	
