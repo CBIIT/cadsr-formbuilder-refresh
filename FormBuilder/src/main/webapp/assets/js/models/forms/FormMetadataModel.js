@@ -5,14 +5,8 @@ const FormMetadataModel = Model.extend({
 	defaults: {
 		createdBy:           '',
 		longName:            '',
-		protocols:           [{
-			protoIdseq: "",
-			longName: ""
-		}],
-		classifications:	 [{
-			csCsiIdseq: "",
-			classSchemaLongName: ""
-		}],
+		protocols:           [],
+		classifications:	 [],
 		context:             {
 			/* Note: Intentional misspelling. equates to contextIdseq */
 			conteIdseq: null
