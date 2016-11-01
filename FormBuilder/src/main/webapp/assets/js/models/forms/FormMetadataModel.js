@@ -6,7 +6,7 @@ const FormMetadataModel = Model.extend({
 		createdBy:           '',
 		longName:            '',
 		protocols:           [{
-			protoIdseq: "1B80E8BB-7546-7F0B-E050-BB89AD437420",
+			protoIdseq: "",
 			longName: ""
 		}],
 		classifications:	 [{
