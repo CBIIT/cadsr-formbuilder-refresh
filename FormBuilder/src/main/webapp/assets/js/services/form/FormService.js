@@ -49,6 +49,9 @@ const FormService = Marionette.Object.extend({
 	},
 	initialize() {
 		this.setupModels();
+		userService.getUserName().then((username) =>{
+			this.currentUserName = (username) ? username : null;
+		});
 	},
 	dispatchLayout({action, formIdseq = this.formModel.get('formIdseq')}) {
 		switch(action){
@@ -105,11 +108,13 @@ const FormService = Marionette.Object.extend({
 	},
 	getCartData({collectionName}) {
 		/*Only retrieve carts if user actually exists */
-		if(userService.getUserName()){
-			return cartsService.fetchCarts({collectionName, getCached: true}).then((cart)=>{
-				this.formUIStateModel.set({cdeCartPopulated: true});
-			});
-		}
+		userService.getUserName().then((username) =>{
+			if(username){
+				return cartsService.fetchCarts({collectionName, getCached: true}).then((cart)=>{
+					this.formUIStateModel.set({cdeCartPopulated: true});
+				});
+			}
+		});
 	},
 	/* TODO have other methods here use this method */
 	getModuleModel(id) {
@@ -192,7 +197,7 @@ const FormService = Marionette.Object.extend({
 	handleRemoveValidValue({moduleId,questionId,validValueId}) {
 		const questionModel = this.getModuleQuestionModel({
 			moduleId:   moduleId,
-			questionId:questionId
+			questionId: questionId
 		});
 		questionModel.get("validValues").remove(validValueId);
 		/* Make FormLayout re-render because it's listening for update on this collection */
@@ -273,7 +278,7 @@ const FormService = Marionette.Object.extend({
 		});
 		if(this.formModel.isNew()){
 			this.formModel.get('formMetadata').set({
-				createdBy: userService.getUserName()
+				createdBy: this.currentUserName
 			});
 			this.createForm();
 		}
@@ -290,22 +295,22 @@ const FormService = Marionette.Object.extend({
 	},
 	handleCreateCopy(formIdseq) {
 		fetchSecure({
-			url: `${ENDPOINT_URLS.FORMS.CREATE_COPY}/${formIdseq}`,
+			url:    `${ENDPOINT_URLS.FORMS.CREATE_COPY}/${formIdseq}`,
 			method: "POST"
-		}).then((data) => {
+		}).then((data) =>{
 			alert("Form Successfully Copied\nYou will now be redirected to the copied version of the form.  A new public ID has been assigned.");
 			this.dispatchLayout({action: formActions.VIEW_FULL_FORM, formIdseq: data});
-		}).catch(() => {
+		}).catch(() =>{
 			alert("Form failed to copy")
 		});
 	},
 	handleDelete(formIdseq) {
 		fetchSecure({
-			url: `${ENDPOINT_URLS.FORMS.DELETE}/${formIdseq}`,
+			url:    `${ENDPOINT_URLS.FORMS.DELETE}/${formIdseq}`,
 			method: "DELETE"
-		}).then((data) => {
+		}).then((data) =>{
 			browserHistory.push(`/FormBuilder/`);
-		}).catch(() => {
+		}).catch(() =>{
 			alert("The Form failed to delete properly");
 		});
 	},
