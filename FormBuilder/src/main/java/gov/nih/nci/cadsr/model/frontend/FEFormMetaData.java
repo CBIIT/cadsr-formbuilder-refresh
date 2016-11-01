@@ -1,5 +1,6 @@
 package gov.nih.nci.cadsr.model.frontend;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class FEFormMetaData extends FECartItem implements FEBaseObject{
@@ -9,8 +10,8 @@ public class FEFormMetaData extends FECartItem implements FEBaseObject{
 	private String longName;
 	private String preferredDefinition;
 	private FEContext context;
-	private List<FEProtocol> protocols;
-	private List<FEClassification> classifications;
+	private List<FEProtocol> protocols = new ArrayList<FEProtocol>();
+	private List<FEClassification> classifications = new ArrayList<FEClassification>();
 	private String workflow;
 	private String formCategory;
 	private String formType;
