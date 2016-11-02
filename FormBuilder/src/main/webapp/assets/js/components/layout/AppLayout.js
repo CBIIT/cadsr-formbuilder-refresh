@@ -1,8 +1,10 @@
 import React, {Component, PropTypes, cloneElement} from 'react';
+import {withRouter} from 'react-router';
 import userService from '../../services/user/UserService';
 import Header from './Header';
 import Footer from './Footer';
-export default class AppLayout extends Component {
+
+class AppLayout extends Component {
 	constructor(props){
 		super(props);
 		this.state = {
@@ -28,7 +30,7 @@ export default class AppLayout extends Component {
 				<Header />
 
 				<main id="main" className="container-fluid">
-					{/* components from matched route are inserted here, pass in extra props to them */} {this.props.children}
+					{/* components from matched route are inserted here, pass in extra props to them */} {this.props.children && cloneElement(this.props.children, {userIsLoggedIn: this.state.userIsLoggedIn})}
 				</main>
 
 				<Footer />
@@ -37,6 +39,9 @@ export default class AppLayout extends Component {
 		);
 	}
 }
+
+
+export default withRouter(AppLayout);
 
 AppLayout.propTypes = {
 	children: PropTypes.element

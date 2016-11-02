@@ -3,6 +3,7 @@ import {Col, Row} from 'react-bootstrap';
 import FormLayoutMain from './FormLayoutMain';
 import userService from  "../../services/user/UserService";
 import backboneReact from 'backbone-react-component';
+import {withRouter} from 'react-router';
 import TreeView from './TreeView';
 import SidePanel from './SidePanel';
 import EVENTS from '../../constants/EVENTS';
@@ -11,7 +12,7 @@ import formActions from '../../constants/formActions';
 import {getCdeCartCollectionPojo, getModuleCartCollectionPojo} from '../../helpers/CartDataHelpers';
 import backboneModelHelpers from "../../helpers/backboneModelHelpers";
 
-export default class FormLayout extends Component {
+class FormLayout extends Component {
 	constructor(props){
 		super(props);
 		this.canCreateModule = this.canCreateModule.bind(this);
@@ -24,7 +25,6 @@ export default class FormLayout extends Component {
 		this.showCartsPanel = this.showCartsPanel.bind(this);
 
 		this.state = {
-			userIsLoggedIn: false,
 			cdeCartCollection: [],
 			moduleCartCollection: []
 		};
@@ -45,9 +45,6 @@ export default class FormLayout extends Component {
 
 	}
 	componentDidMount() {
-		userService.isUserLoggedIn().then((data) => {
-			this.setState({userIsLoggedIn: data});
-		});
 		if(Application.cartsService.cdeCartCollection){
 			this.setState({cdeCartCollection: getCdeCartCollectionPojo(Application.cartsService.cdeCartCollection)});
 		}
@@ -166,7 +163,7 @@ export default class FormLayout extends Component {
 				<Row className="eq-height-wrapper"> <Col lg={columnConfig.left.colWidth} className="eq-height-item">
 				{this.showTreeNav()}
 				</Col> <Col lg={columnConfig.center.colWidth} className="eq-height-item panel-lg">
-					<FormLayoutMain userIsLoggedIn={this.state.userIsLoggedIn} shouldShowFormEditControls={this.shouldShowFormEditControls()} actionMode={this.getActionMode()} formMetadata={this.getFormMetaData()} editItems={this.getEditItems()} formModules={this.formModules}/>
+					<FormLayoutMain userIsLoggedIn={this.props.userIsLoggedIn} shouldShowFormEditControls={this.shouldShowFormEditControls()} actionMode={this.getActionMode()} formMetadata={this.getFormMetaData()} editItems={this.getEditItems()} formModules={this.formModules}/>
 				</Col> <Col lg={columnConfig.right.colWidth} className="eq-height-item">
 					{this.showCartsPanel()}
 
@@ -176,7 +173,10 @@ export default class FormLayout extends Component {
 	}
 }
 
+export default withRouter(FormLayout);
+
 FormLayout.propTypes = {
+	userIsLoggedIn: PropTypes.bool,
 	/*formUIState:            PropTypes.shape({
 	 TODO: needs to be formUIState.attributes.actionMode
 	 actionMode: PropTypes.string.isRequired
