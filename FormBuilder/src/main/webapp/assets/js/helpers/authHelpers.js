@@ -1,5 +1,5 @@
-import ENDPOINT_URLS from '../constants/ENDPOINT_URLS';
-import {fetchSecure} from './ajaXHelpers';
+import userService from  "../services/user/UserService";
+
 
 /**
  * Calls endpoint to check whether a user is logged in or not. If so executes callback passed in by React Router. If not, navigates the user to the login page.
@@ -9,7 +9,7 @@ import {fetchSecure} from './ajaXHelpers';
  * @returns {*|Promise.<TResult>}
  */
 export const RedirectToLoginIfNotLoggedIn = (nextState, replace, callback) => {
-	return fetchSecure({url:ENDPOINT_URLS.USERS.IS_USER_LOGGED_IN}).then((data) => {
+	userService.isUserLoggedIn().then(data =>{
 		if (data === true) {
 			callback();
 		}
