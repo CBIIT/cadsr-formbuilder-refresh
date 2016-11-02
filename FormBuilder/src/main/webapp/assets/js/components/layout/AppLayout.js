@@ -28,7 +28,7 @@ class AppLayout extends Component {
 	componentWillReceiveProps(nextProps){
 		/* check if user is logged in if the page/route changed (via react router) */
 		if(nextProps.location.pathname !== this.props.location.pathname){
-			userService.isUserLoggedIn();
+			this.checkUserIsLoggedIn();
 		}
 	}
 
