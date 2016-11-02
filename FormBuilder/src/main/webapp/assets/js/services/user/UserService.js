@@ -15,21 +15,25 @@ const UserService = Marionette.Object.extend({
 		const UserModel = Model.extend({});
 		this.userModel = new UserModel();
 	},
-	getUserName () {
+	getUserName() {
 		const userModel = this.userModel;
 		return new Promise(
-			(resolve) =>{
-				if(userModel.attributes.username){
-					resolve(userModel.attributes.username);
+				(resolve) =>{
+					if(userModel.attributes.username){
+						resolve(userModel.attributes.username);
+					}
+					else{
+						fetchSecure({url: ENDPOINT_URLS.USERS.USER, swallowErrors:false, dataType:"text"}).then((data) =>{
+							let username = "";
+							if (data.status != 401) {
+								username = data.text;
+								userModel.set(username);
+							}
+							resolve(username);
+						});
+					}
 				}
-				else{
-					fetchSecure({url: ENDPOINT_URLS.USERS.USER}).then((data) =>{
-						userModel.set(data);
-						resolve(data.username);
-					});
-				}
-			}
-		);
+			);
 	},
 	isUserLoggedIn(){
 		const that = this;

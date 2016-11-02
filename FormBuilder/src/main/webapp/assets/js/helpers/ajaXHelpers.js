@@ -48,50 +48,63 @@ export const createDownloadLink = (data, fileExtension) =>{
  * @param url
  * @returns {Promise}
  */
-export const fetchSecure = ({url, method = 'get'}, payload) =>{
-	function getResponseStatus(response){
-		if(response.status >= 200 && response.status < 300){
-			return Promise.resolve(response);
-		} else{
-			return Promise.reject(new Error(response.statusText));
-		}
-	}
+//export const fetchSecure = ({url, method = 'get'}, payload) =>{
+//	function getResponseStatus(response){
+//		if(response.status >= 200 && response.status < 300){
+//			return Promise.resolve(response);
+//		} else{
+//			return Promise.reject(new Error(response.statusText));
+//		}
+//	}
+//
+//	function getResponseAsJSON(response){
+//		return response.json();
+//	}
+//
+//	return new Promise(
+//		(resolve) =>{
+//			fetch(url, {
+//				method:      method,
+//				credentials: 'include',
+//				headers:     {
+//					"Content-type": "application/json"
+//				},
+//				body:        payload
+//			})
+//				.then(getResponseStatus)
+//				.then(getResponseAsJSON)
+//				.then(function(data){
+//					resolve(data);
+//				}).catch(function(error){
+//				console.log('Request failed', error);
+//			});
+//		}
+//	);
+//};
 
-	function getResponseAsJSON(response){
-		return response.json();
-	}
-
-	return new Promise(
-		(resolve) =>{
-			fetch(url, {
-				method:      method,
-				credentials: 'include',
-				headers:     {
-					"Content-type": "application/json"
-				},
-				body:        payload
-			})
-				.then(getResponseStatus)
-				.then(getResponseAsJSON)
-				.then(function(data){
-					resolve(data);
-				}).catch(function(error){
-				console.log('Request failed', error);
-			});
-		}
-	);
-};
-
+/**
+ * Translates the body of the response into JSON.  Performs no error checking on the
+ * translation process so, if the response MAY not contain json, the developer is
+ * encouraged to perform this step within his/her own handler.
+ * 
+ * @returns {Promise} with the json data in the body
+ */
 export const getResponseAsJSON = (response) => {
 	return new Promise((resolve, reject) => {
 		return resolve(response.json());
 	});
 };
 
-export const getResponseStatus = (response) => {
+/**
+ * Checks the response for an error code.  If the code is in the 200s, resolves
+ * the promise back to the stack.  If not, rejects the promise with an Error of the
+ * status.
+ * 
+ * @returns {Promise} with the Reponse in the body or Error upon rejection
+ */
+export const rejectErrors = (response) => {
 	return new Promise((resolve, reject) => {
 		if(response.status >= 200 && response.status < 300){
-			console.log("resolving json response");
 			return Promise.resolve(response);
 		} else{
 			return Promise.reject(new Error(response.statusText));
@@ -99,6 +112,12 @@ export const getResponseStatus = (response) => {
 	});
 };
 
+/**
+ * Fetch and return resource using the Fetch API with {credentials: 'same-origin'} header.
+ * See https://developers.google.com/web/updates/2015/03/introduction-to-fetch
+ * @param url
+ * @returns {Promise} Response from the fetch
+ */
 export const fetchRequestData = (url, method, contentType, data) => {
 	return fetch(url, {
 		method:      method,
@@ -110,10 +129,30 @@ export const fetchRequestData = (url, method, contentType, data) => {
 	});
 };
 
-export const fetchSecure3 = ({url, method = 'get', data = null, contentType = 'application/json', swallowErrors = true, dataType = 'json'}) =>{
-	var promiz = fetchRequestData(url, method, contentType, data);
+/**
+ * Generalizing method for performing an ajax request and processing the results.
+ * Optionally runs the Response from a fetch through the rejectErrors and
+ * getResponseAsJSON methods to transform the Promise as needed.
+ * 
+ * @param url - URL to send the request to
+ * @param method - request method name.  default: GET
+ * @param data - POST data to send to the server.  default: null
+ * @param contentType - content type of the request to the server.  default: application/json
+ * @param swallowErrors - whether to run the Response through rejectErrors() or not.  Default true
+ * @param dataType - type of the response from the server.  Default: "json".  If "json", runs the Response through getResponseAsJSON()
+ * @returns {Promise}
+ * 
+ * @Note The support functions rejectErrors and getResponseAsJSON can be used
+ * by the developer independently of this method.  This is especially useful if
+ * non-standard conditions exist where the user needs to perform some step BEFORE
+ * these run.
+ * The syntax would be something like: 
+ * fetchSecure(...).then((response) =>{ your code here}).then(getResponseAsJSON)
+ */
+export const fetchSecure = ({url, method = 'get', data = null, contentType = 'application/json', swallowErrors = true, dataType = 'json'}) =>{
+	let promiz = fetchRequestData(url, method, contentType, data);
 	if (swallowErrors) {
-		promiz = promiz.then(getResponseStatus);
+		promiz = promiz.then(rejectErrors);
 	}
 	if (dataType == 'json') {
 		promiz = promiz.then(getResponseAsJSON);

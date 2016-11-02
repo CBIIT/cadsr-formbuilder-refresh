@@ -116,7 +116,7 @@ export default class FormGlobalToolbar extends Component {
 		}
 	}
 	renderMoreFormActions() {
-		if(!this.props.formMetadata.locked === true){
+		if(!this.props.formMetadata.locked === true && !this.props.shouldShowFormEditControls){
 			return (
 				<Col md={4}>
 					<Row>
