@@ -12,8 +12,16 @@ class AppLayout extends Component {
 		};
 	}
 
+	checkUserIsLoggedIn(){
+		userService.isUserLoggedIn().then(data =>{
+			this.setState({
+				userIsLoggedIn: data
+			});
+		});
+	}
+
 	componentDidMount(){
-		userService.isUserLoggedIn();
+		this.checkUserIsLoggedIn();
 	}
 
 	/* Most likely cause is that a new route was entered */
@@ -39,7 +47,6 @@ class AppLayout extends Component {
 		);
 	}
 }
-
 
 export default withRouter(AppLayout);
 
