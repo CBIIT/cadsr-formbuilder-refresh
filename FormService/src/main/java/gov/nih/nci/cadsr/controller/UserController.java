@@ -50,38 +50,17 @@ public class UserController {
 		ContextDAO contextDao = daoFactory.getContextDAO();
 		
         NCIUserTransferObject userTO = (NCIUserTransferObject)userManagerDAO.getNCIUser(username);
-        Collection contextAdminContexts;
-        contextAdminContexts = userTO.getContextsByRoleAccess("CONTEXT_ADMIN");
         
         FEUser bbuser = new FEUser();
         List<FEContext> contexts = new ArrayList<FEContext>();
         
-        //TODO: add TEST and Training contexts manually
-        ContextTransferObject testContext = (ContextTransferObject)contextDao.getContextByName("TEST");
-//        ContextTransferObject trainingContext = (ContextTransferObject)contextDao.getContextByName("Training");
-        
-        FEContext fetestContext = new FEContext();
-//        FEContext fetrainingContext = new FEContext();
-        
-        fetestContext.setName(testContext.getName());
-        fetestContext.setConteIdseq(testContext.getConteIdseq());
-        
-//        fetrainingContext.setName(trainingContext.getName());
-//        fetrainingContext.setConteIdseq(trainingContext.getConteIdseq());
-        
-        contexts.add(fetestContext);
-//        contexts.add(fetrainingContext);
-        
-        if(contextAdminContexts != null){
-	        for(Object adminContext : contextAdminContexts){
-//        	for(Object adminContext : userTO.getContextsByRole().values()){
-	        	ContextTransferObject cto = (ContextTransferObject)adminContext;
-	        	FEContext context = new FEContext();
-	        	context.setConteIdseq(cto.getConteIdseq());
-	        	context.setName(cto.getName());
-	        	
-	        	contexts.add(context);
-	        }
+        for(Object adminContext : userTO.getContextsByRoleAccess("CDE MANAGER")){
+        	ContextTransferObject cto = (ContextTransferObject)adminContext;
+        	FEContext context = new FEContext();
+        	context.setConteIdseq(cto.getConteIdseq());
+        	context.setName(cto.getName());
+        	
+        	contexts.add(context);
         }
         
         bbuser.setUsername(username);
