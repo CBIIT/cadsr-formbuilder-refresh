@@ -15,26 +15,24 @@ const UserService = Marionette.Object.extend({
 		const UserModel = Model.extend({});
 		this.userModel = new UserModel();
 	},
+	
 	getUserName() {
 		const userModel = this.userModel;
-		return new Promise(
-				(resolve) =>{
-					if(userModel.attributes.username){
-						resolve(userModel.attributes.username);
-					}
-					else{
-						fetchSecure({url: ENDPOINT_URLS.USERS.USER, swallowErrors:false, dataType:"text"}).then((data) =>{
-							let username = "";
-							if (data.status != 401) {
-								username = data.text;
-								userModel.set(username);
-							}
-							resolve(username);
-						});
-					}
+		if(userModel.attributes.username){
+			return Promise.resolve(userModel.attributes.username);
+		}
+		else{
+			return fetchSecure({url: ENDPOINT_URLS.USERS.USER, swallowErrors:false, dataType:"json"}).then((data) =>{
+				let username = "";
+				if (data.status != 401) {
+					userModel.set(data);
+					username = data.username;
 				}
-			);
+				return Promise.resolve(username);
+			});
+		}
 	},
+	
 	isUserLoggedIn(){
 		const that = this;
 		return new Promise(
@@ -43,9 +41,6 @@ const UserService = Marionette.Object.extend({
 					const IsLoggedIn = Boolean(data);
 					resolve(IsLoggedIn);
 				});
-				/*fetchSecure({url: ENDPOINT_URLS.USERS.IS_USER_LOGGED_IN}).then((data) =>{
-				 resolve(data);
-				 });*/
 		});
 	}
 });

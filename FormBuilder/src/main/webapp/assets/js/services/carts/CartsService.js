@@ -2,7 +2,7 @@ import Marionette from "backbone.marionette";
 import ENDPOINT_URLS from '../../constants/ENDPOINT_URLS';
 import EVENTS from '../../constants/EVENTS';
 import urlHelpers from '../../helpers/urlHelpers';
-import {ajaxDownloadFile} from '../../helpers/ajaXHelpers';
+import {ajaxDownloadFile, fetchSecure} from '../../helpers/ajaXHelpers';
 import cartActions from '../../constants/cartActions';
 import ModuleModel from '../../models/carts/ModuleModel';
 import backboneModelHelpers from '../../helpers/backboneModelHelpers';
@@ -11,6 +11,7 @@ import {appChannel, cartChannel, formChannel} from '../../channels/radioChannels
 import CDECollection from '../../models/carts/CDECollection';
 import FormCollection from '../../models/carts/FormCollection';
 import ModuleCollection from '../../models/carts/ModuleCollection';
+import {browserHistory} from 'react-router';
 
 /**
  * This is a service object that maintains the state of the CDE Cart, Module Cart, and Form Cart.
@@ -293,6 +294,18 @@ const CartsService = Marionette.Object.extend({
 		})
 		.fail(function() {
 			cartChannel.trigger(EVENTS.CARTS.COMPLETE_ADD_FORM, false);
+		});
+		
+		fetchSecure({
+				url: `${ENDPOINT_URLS.CARTS.ADD_FORM}`,
+				method: "POST",
+				data: formMetadata.toJSON(),
+				dataType: 'none'
+			}
+		).then((data) => {
+			browserHistory.push(`/FormBuilder/`);
+		}).catch(() => {
+			alert("The Form failed to delete properly");
 		});
 	}
 });
