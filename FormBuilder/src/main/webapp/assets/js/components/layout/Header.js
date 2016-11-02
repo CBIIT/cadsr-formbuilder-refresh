@@ -5,6 +5,7 @@ import userService from  "../../services/user/UserService";
 class Header extends Component {
   constructor(props) {
     super(props);
+    this.renderUser = this.renderUser.bind(this);
     this.state = {
 		userName: ""
 	};
@@ -15,7 +16,7 @@ class Header extends Component {
 			if (username == "") {
 				console.log("user is not logged in");
 				this.setState({
-					userName: "Guest"
+					userName: ""
 				});
 			}
 			else {
@@ -24,6 +25,23 @@ class Header extends Component {
 				});
 			}
 		});
+	}
+	
+	renderUser() {
+		if (this.state.userName == "") {
+			return (
+				<li id="nav-signIn">
+					<Link to="/spring_security_login" className="footer_link">Sign In</Link>
+				</li>
+			);
+		}
+		else {
+			return (
+				<li id="nav-signIn">
+					Welcome, {this.state.userName}
+				</li>
+			);
+		}
 	}
   
   render(){
@@ -38,7 +56,7 @@ class Header extends Component {
               <div className="navbar-subheader">
                 <ul>
                   <li id="nav-access" />
-                  <li id="nav-signIn">Welcome, {this.state.userName}</li>
+                  {this.renderUser()}
                 </ul>
               </div>
             </nav>
