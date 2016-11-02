@@ -15,6 +15,7 @@ FormBuilder/src/main/webapp/frontend-tools/node
 FormBuilder/src/main/webapp/frontend-tools/node_modules
 FormBuilder/src/main/webapp/node
 FormBuilder/src/main/webapp/node_modules
+FormBuilder/src/main/webapp/node_modules_old
 FormBuilder/src/main/webapp/npm-debug.log
 FormService/.tern-project
 FormService/target

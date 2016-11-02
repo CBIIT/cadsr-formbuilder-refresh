@@ -43,46 +43,6 @@ export const createDownloadLink = (data, fileExtension) =>{
 };
 
 /**
- * Fetch and return resource using the Fetch API with {credentials: 'same-origin'} header.
- * See https://developers.google.com/web/updates/2015/03/introduction-to-fetch
- * @param url
- * @returns {Promise}
- */
-//export const fetchSecure = ({url, method = 'get'}, payload) =>{
-//	function getResponseStatus(response){
-//		if(response.status >= 200 && response.status < 300){
-//			return Promise.resolve(response);
-//		} else{
-//			return Promise.reject(new Error(response.statusText));
-//		}
-//	}
-//
-//	function getResponseAsJSON(response){
-//		return response.json();
-//	}
-//
-//	return new Promise(
-//		(resolve) =>{
-//			fetch(url, {
-//				method:      method,
-//				credentials: 'include',
-//				headers:     {
-//					"Content-type": "application/json"
-//				},
-//				body:        payload
-//			})
-//				.then(getResponseStatus)
-//				.then(getResponseAsJSON)
-//				.then(function(data){
-//					resolve(data);
-//				}).catch(function(error){
-//				console.log('Request failed', error);
-//			});
-//		}
-//	);
-//};
-
-/**
  * Translates the body of the response into JSON.  Performs no error checking on the
  * translation process so, if the response MAY not contain json, the developer is
  * encouraged to perform this step within his/her own handler.
@@ -90,8 +50,12 @@ export const createDownloadLink = (data, fileExtension) =>{
  * @returns {Promise} with the json data in the body
  */
 export const getResponseAsJSON = (response) => {
-	return new Promise((resolve, reject) => {
-		return resolve(response.json());
+	return response.text().then((text) => {
+		let body = null;
+		if (text.length > 0) {
+			body = JSON.parse(text);
+		}
+		return Promise.resolve(body);
 	});
 };
 

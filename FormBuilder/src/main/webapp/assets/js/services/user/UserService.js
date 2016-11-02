@@ -22,10 +22,9 @@ const UserService = Marionette.Object.extend({
 			return Promise.resolve(userModel.attributes.username);
 		}
 		else{
-			return fetchSecure({url: ENDPOINT_URLS.USERS.USER, swallowErrors:false, dataType:"all"}).then((data) =>{
+			return fetchSecure({url: ENDPOINT_URLS.USERS.USER, swallowErrors:false, dataType:"json"}).then((data) =>{
 				let username = "";
-				if (data.status != 401) {
-					data = data.json();
+				if (data != null) {
 					userModel.set(data);
 					username = data.username;
 				}
