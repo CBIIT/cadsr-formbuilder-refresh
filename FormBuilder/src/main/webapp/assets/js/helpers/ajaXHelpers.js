@@ -67,13 +67,11 @@ export const getResponseAsJSON = (response) => {
  * @returns {Promise} with the Reponse in the body or Error upon rejection
  */
 export const rejectErrors = (response) => {
-	return new Promise((resolve, reject) => {
-		if(response.status >= 200 && response.status < 300){
-			return Promise.resolve(response);
-		} else{
-			return Promise.reject(new Error(response.statusText));
-		}
-	});
+	if(response.status >= 200 && response.status < 300){
+		return Promise.resolve(response);
+	} else{
+		return Promise.reject(new Error(response.statusText));
+	}
 };
 
 /**
