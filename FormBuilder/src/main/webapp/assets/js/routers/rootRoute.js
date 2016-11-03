@@ -17,15 +17,15 @@ export default (
 	<Route path="/" component={AppLayout}>
 		<IndexRoute component={SearchLayout} />
 		<Route path={ROUTES.SEARCH.SEARCH_FORMS} component={SearchLayout} />
-		<Route cart="CDE" onEnter={RedirectToLoginIfNotLoggedIn} cartPageStateModel={cartsService.cartPageStateModel} cartData="cdeCartCollection" path={ROUTES.CART.VIEW_CDE_CART_PAGE} getComponent={(location, cb) => {
+		<Route pageName="CDE" onEnter={RedirectToLoginIfNotLoggedIn} cartData="cdeCartCollection" path={ROUTES.CART.VIEW_CDE_CART_PAGE} getComponent={(location, cb) => {
 			cartChannel.request(EVENTS.CARTS.SET_LAYOUT, {action: cartActions.VIEW_CDE_CART_PAGE});
 			cb(null, CartLayout);
 		}} />
-		<Route cart="Form" onEnter={RedirectToLoginIfNotLoggedIn} cartData="formCartCollection" cartPageStateModel={cartsService.cartPageStateModel} path={ROUTES.CART.VIEW_FORM_CART_PAGE} getComponent={(location, cb) => {
+		<Route pageName="Form" onEnter={RedirectToLoginIfNotLoggedIn} cartData="formCartCollection" path={ROUTES.CART.VIEW_FORM_CART_PAGE} getComponent={(location, cb) => {
 			cartChannel.request(EVENTS.CARTS.SET_LAYOUT, {action: cartActions.VIEW_FORM_CART_PAGE});
 			cb(null, CartLayout);
 		}} />
-		<Route cart="Module" onEnter={RedirectToLoginIfNotLoggedIn} cartPageStateModel={cartsService.cartPageStateModel} cartData="moduleCartCollection" path={ROUTES.CART.VIEW_MODULE_CART_PAGE} getComponent={(location, cb) => {
+		<Route pageName="Module" onEnter={RedirectToLoginIfNotLoggedIn}  cartData="moduleCartCollection" path={ROUTES.CART.VIEW_MODULE_CART_PAGE} getComponent={(location, cb) => {
 			cartChannel.request(EVENTS.CARTS.SET_LAYOUT, {action: cartActions.VIEW_MODULE_CART_PAGE});
 			cb(null, CartLayout);
 		}} />

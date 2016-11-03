@@ -226,6 +226,9 @@ const CartsService = Marionette.Object.extend({
 		this.listenTo(this.moduleCartCollection, "update", () =>{
 			appChannel.trigger(EVENTS.CARTS.MODULE_CART_UPDATED);
 		});
+		this.listenTo(this.formCartCollection, "update", () =>{
+			appChannel.trigger(EVENTS.CARTS.FORM_CART_UPDATED);
+		});
 	},
 	/*TODO to be removed once sure we're not saving entire cart arrays */
 	/*saveCart({cart, successMessage} = {}) {

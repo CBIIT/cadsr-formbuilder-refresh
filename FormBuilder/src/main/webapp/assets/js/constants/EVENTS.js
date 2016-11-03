@@ -56,6 +56,7 @@ const EVENTS = {
 		GET_DOWNLOAD_XLS: 'get:downloadXLS',
 		GET_DOWNLOAD_XML: 'get:downloadXML',
 		MODULE_CART_UPDATED: 'moduleCart:updated',
+		FORM_CART_UPDATED: 'formCart:updated',
 		CDE_CART_UPDATED: 'cdeCart:updated',
 		REMOVE_CART_ITEM: 'remove:cartItem',
 		SET_LAST_CART_SORTED_BY: 'set:LastCartSortedBy',

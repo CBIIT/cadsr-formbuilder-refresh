@@ -85,13 +85,10 @@ export default class Datatable extends React.Component{
 		cartChannel.request(EVENTS.CARTS.GET_DOWNLOAD_XML,
 			{itemsIds: itemsIds});
 	}
-	/**
-	 * Consider this a temporary hack until we can use ComponentWillUnMount or React-Router's NavigateFrom to communicate the last way the collection was sorted before leaving the page. This currently does it every time the user sorts.
-	 */
-	/*dispatchLastSortedByKey({sortKey, sortOrder}) {
+	dispatchLastSortedByKey({sortKey, sortOrder}) {
 		cartChannel.request(EVENTS.CARTS.SET_LAST_CART_SORTED_BY,
 			{sortKey:sortKey, sortOrder:sortOrder});
-	}*/
+	}
 	dispatchRemoveSelectedFromCart() {
 		const itemsToRemove = this.getSelectedItemIds();
 		cartChannel.request(EVENTS.CARTS.REMOVE_CART_ITEM,
@@ -426,7 +423,7 @@ export default class Datatable extends React.Component{
 				}
 				<span className="reactTable-total">{this.props.resultsText} {this.state.data.length}</span>
 				<div className="reactTable-wrap">
-					<Reactable id="table" className="table reactTable">
+					<Reactable id="table" className="table reactTable" noDataText="No Items to List.">
 						<Thead>
 							<Th column="checkbox" className={(this.props.showCheckboxes) ? "" : "hidden"}>
 								<input type="checkbox" onChange={this.selectAllRows}/>
