@@ -434,6 +434,13 @@ public class FormController {
 		ob.setData(convertedForm);
 		return ob;
 	}
+	
+	@RequestMapping(value = { "/forms/{formIdSeq}" }, method = RequestMethod.DELETE)
+	public ResponseEntity deleteForm(@PathVariable String formIdSeq){
+		int response = formManager.deleteForm(formIdSeq);
+		
+		return new ResponseEntity(response, HttpStatus.OK);
+	}
 
 	/*
 	 * private ResponseEntity<FormWrapper> createSuccessFormResponse(final

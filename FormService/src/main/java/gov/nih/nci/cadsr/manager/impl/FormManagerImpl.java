@@ -847,5 +847,12 @@ public class FormManagerImpl implements FormManager {
 		//resultForm = this.getFormDetails(resultFormPK);
 	        return resultFormPK;
 	    }
+	 
+	 public int deleteForm(String formPK)
+	    {
+	        FormDAO fdao = daoFactory.getFormDAO();
+
+	        return fdao.deleteForm(formPK);
+	    }
 
 }

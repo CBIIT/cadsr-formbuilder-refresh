@@ -7,6 +7,7 @@ import gov.nih.nci.cadsr.model.frontend.FEFormMetaData;
 import gov.nih.nci.ncicb.cadsr.common.dto.FormTransferObject;
 import gov.nih.nci.ncicb.cadsr.common.dto.FormV2TransferObject;
 import gov.nih.nci.ncicb.cadsr.common.dto.InstructionTransferObject;
+import gov.nih.nci.ncicb.cadsr.common.persistence.dao.FormDAO;
 import gov.nih.nci.ncicb.cadsr.common.resource.Form;
 import gov.nih.nci.ncicb.cadsr.common.resource.NCIUser;
 
@@ -43,5 +44,8 @@ public interface FormManager {
 	
 	public String getFormPerformanceTest(String formIdSeq);
 	 public String copyForm(String sourceFormPK, Form newForm);
+	 
+	 public int deleteForm(String formPK);
+	    
 	
 }
