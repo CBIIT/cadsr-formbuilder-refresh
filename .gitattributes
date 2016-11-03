@@ -77,7 +77,9 @@ FormBuilder/src/main/webapp/assets/js/App.js -text
 FormBuilder/src/main/webapp/assets/js/channels/radioChannels.js -text
 FormBuilder/src/main/webapp/assets/js/commands/GetFormMetadataCriteriaCommand.js -text
 FormBuilder/src/main/webapp/assets/js/commands/GetSearchFormCriteriaCommand.js -text
-FormBuilder/src/main/webapp/assets/js/components/carts/CartLayout.js -text
+FormBuilder/src/main/webapp/assets/js/components/carts/CDECartPage.js -text
+FormBuilder/src/main/webapp/assets/js/components/carts/FormCartPage.js -text
+FormBuilder/src/main/webapp/assets/js/components/carts/ModuleCartPage.js -text
 FormBuilder/src/main/webapp/assets/js/components/common/ButtonList.js -text
 FormBuilder/src/main/webapp/assets/js/components/common/ButtonsGroup.js -text
 FormBuilder/src/main/webapp/assets/js/components/common/FilterPill.js -text

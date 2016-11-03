@@ -63,8 +63,8 @@ export default class Datatable extends React.Component{
 	componentWillReceiveProps(nextProps){
 		this.updateState(nextProps);
 	}
-	componentWillUpdate(){
-		console.log('will update table');
+	componentWillUnmount(){
+		console.log('will unmount table');
 	}
 	getSelectedItemIds() {
 		let selectedItemIds = [];
