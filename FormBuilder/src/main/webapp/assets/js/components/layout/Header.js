@@ -6,6 +6,8 @@ class Header extends Component {
   constructor(props) {
     super(props);
     this.renderUser = this.renderUser.bind(this);
+    this.returnToSearch = this.returnToSearch.bind(this);
+    this.renderReturnButton = this.renderReturnButton.bind(this);
     this.state = {
 		userName: ""
 	};
@@ -25,6 +27,29 @@ class Header extends Component {
 				});
 			}
 		});
+	}
+	
+	returnToSearch() {
+		
+	}
+	
+	
+	
+	renderReturnButton() {
+		if (this.props.location != "/") {
+			return (
+				<ul>	
+					<li>
+						<Link to="/" className="footer_link">RETURN TO SEARCH</Link>
+					</li>
+				</ul>
+			);
+		}
+		else {
+			return (
+				<ul />
+			);
+		}
 	}
 	
 	renderUser() {
@@ -53,7 +78,8 @@ class Header extends Component {
               <div className="navbar-header">
                 <Link className="application-logo logo-image" aria-hidden="true" to="/">NIH</Link>
               </div>
-              <div className="navbar-subheader">
+              <div className="navbar-subheader center-v-spread-h">
+              	{this.renderReturnButton()}
                 <ul>
                   <li id="nav-access" />
                   {this.renderUser()}
