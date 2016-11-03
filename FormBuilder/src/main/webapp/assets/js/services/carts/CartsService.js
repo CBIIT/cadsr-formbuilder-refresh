@@ -223,7 +223,7 @@ const CartsService = Marionette.Object.extend({
 		this.listenTo(this.cdeCartCollection, "update", () =>{
 			appChannel.trigger(EVENTS.CARTS.CDE_CART_UPDATED);
 		});
-		this.listenTo(this.moduleCartCollection, "update", (event) =>{
+		this.listenTo(this.moduleCartCollection, "update", () =>{
 			appChannel.trigger(EVENTS.CARTS.MODULE_CART_UPDATED);
 		});
 	},
@@ -262,22 +262,19 @@ const CartsService = Marionette.Object.extend({
 	 });
 	 },*/
 	setupModels() {
-		this.cdeCartCollection = new CDECollection({
-			urlForFetch: `${ENDPOINT_URLS.CDE_CART_FETCH}`
-		});
-		/*Setting on init didn't seem to work */
+		this.cdeCartCollection = new CDECollection();
+		/*Setting in init didn't seem to work */
+		this.cdeCartCollection.urlForFetch = ENDPOINT_URLS.CDE_CART_FETCH;
 		this.cdeCartCollection.url = ENDPOINT_URLS.CDE_CART_PERSIST;
 
-		this.formCartCollection = new FormCollection({
-			urlForFetch: `${ENDPOINT_URLS.FORM_CART_FETCH}`
-		});
-		/*Setting on init didn't seem to work */
+		this.formCartCollection = new FormCollection();
+		/*Setting in init didn't seem to work */
+		this.formCartCollection.urlForFetch = ENDPOINT_URLS.FORM_CART_FETCH;
 		this.formCartCollection.url = ENDPOINT_URLS.FORM_CART_PERSIST;
 
-		this.moduleCartCollection = new ModuleCollection({
-			urlForFetch: `${ENDPOINT_URLS.MODULE_CART_FETCH}`
-		});
-		/*Setting on init didn't seem to work */
+		this.moduleCartCollection = new ModuleCollection();
+		/*Setting in init didn't seem to work */
+		this.moduleCartCollection.urlForFetch = ENDPOINT_URLS.MODULE_CART_FETCH;
 		this.moduleCartCollection.url = ENDPOINT_URLS.MODULE_CART_PERSIST;
 
 		this.listenToCartCollections();
