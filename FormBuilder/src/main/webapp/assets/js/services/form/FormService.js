@@ -300,7 +300,7 @@ const FormService = Marionette.Object.extend({
 			alert("Form Successfully Copied\nYou will now be redirected to the copied version of the form.  A new public ID has been assigned.");
 			this.dispatchLayout({action: formActions.VIEW_FULL_FORM, formIdseq: data});
 		}).catch(() =>{
-			alert("Form failed to copy")
+			alert("Form failed to copy");
 		});
 	},
 	handleDelete(formIdseq) {

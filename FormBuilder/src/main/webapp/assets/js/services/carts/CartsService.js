@@ -12,7 +12,7 @@ import CDECollection from '../../models/carts/CDECollection';
 import FormCollection from '../../models/carts/FormCollection';
 import ModuleCollection from '../../models/carts/ModuleCollection';
 import {browserHistory} from 'react-router';
-import $ from 'jquery';
+//import $ from 'jquery';
 
 /**
  * This is a service object that maintains the state of the CDE Cart, Module Cart, and Form Cart.

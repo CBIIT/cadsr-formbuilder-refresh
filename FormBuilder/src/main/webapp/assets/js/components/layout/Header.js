@@ -49,7 +49,7 @@ class Header extends Component {
 		if (this.state.userName == "") {
 			return (
 				<li id="nav-signIn">
-					<Link to="/spring_security_login" className="footer_link">Sign In</Link>
+					<a href="/FormBuilder/spring_security_login" className="footer_link">Sign In</a>
 				</li>
 			);
 		}
