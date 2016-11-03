@@ -258,7 +258,7 @@ public class CartAdapterController {
 
 	private ResponseEntity loadFormV2Cart(String username) throws XmlMappingException, IOException,
 			SAXException, ParserConfigurationException, JAXBException, XMLStreamException {
-
+		
 		if (props.getFormBuilderLocalMode()) {
 			return getDummyCdeCart("guest");
 		}
@@ -284,72 +284,68 @@ public class CartAdapterController {
 		HttpQuery query = (HttpQuery) jaxbUnmarshaller.unmarshal(url);
 
 		List<CartObjectNew> cartContents = new ArrayList<CartObjectNew>();
-
+		
+		List<FormV2NewWrapper> forms = new ArrayList<FormV2NewWrapper>();
+		List<FEFormMetaData> feForms = new ArrayList<FEFormMetaData>();
+		
+		for(FEFormMetaData cartForm : this.getUserDetails().getFormCart()){
+			if(cartForm.getIsPersisted() == false){
+				feForms.add(cartForm);
+			}
+		}
+		
 		try{
 			
 			cartContents = query.getQueryResponse().getCartContents();
 			
+
+			if (!cartContents.isEmpty()) {
+				String date = null;
+				String idseq = null;
+				for (CartObjectNew cartObj : cartContents) {
+					FormV2NewWrapper form = null;
+					for (Field field : cartObj.getFields()) {
+	
+						if (field.getName().equalsIgnoreCase("dateAdded")) {
+							date = field.getValue();
+	
+						}
+						else if (field.getName().equalsIgnoreCase("nativeid")){
+							idseq = field.getValue();
+						}
+	
+						if (field.getName().equalsIgnoreCase("Data")) {
+							XMLInputFactory xif = XMLInputFactory.newInstance();
+							XMLStreamReader xsr = xif.createXMLStreamReader(new StringReader(field.getValue()));
+							JAXBContext jc = JAXBContext.newInstance(FormV2NewWrapper.class);
+							Unmarshaller unmarshaller = jc.createUnmarshaller();
+							JAXBElement<FormV2NewWrapper> je = unmarshaller.unmarshal(xsr, FormV2NewWrapper.class);
+							form = je.getValue();
+	
+						}
+					}
+					form.setDateadded(date);
+					forms.add(form);
+					
+					FEFormMetaData feForm = new FEFormMetaData();
+					BeanUtils.copyProperties(form, feForm);
+					
+					feForm.setFormIdseq(idseq);
+					feForm.setWorkflow(form.getWorkflowStatusName());
+					FEContext context = new FEContext();
+					context.setName(form.getContext());
+					feForm.setContext(context);
+					feForm.setPersisted(true);
+					feForms.add(feForm);
+				}
+				
+			}
 		} catch(NullPointerException npe){
-			return new ResponseEntity(new ArrayList<FEFormMetaData>(),HttpStatus.OK);
 		}
-
-		List<FormV2NewWrapper> forms = new ArrayList<FormV2NewWrapper>();
-		List<FEFormMetaData> feForms = new ArrayList<FEFormMetaData>();
-		if (!cartContents.isEmpty()) {
-			String date = null;
-			String idseq = null;
-			for (CartObjectNew cartObj : cartContents) {
-				FormV2NewWrapper form = null;
-				for (Field field : cartObj.getFields()) {
-
-					if (field.getName().equalsIgnoreCase("dateAdded")) {
-						date = field.getValue();
-
-					}
-					else if (field.getName().equalsIgnoreCase("nativeid")){
-						idseq = field.getValue();
-					}
-
-					if (field.getName().equalsIgnoreCase("Data")) {
-						XMLInputFactory xif = XMLInputFactory.newInstance();
-						XMLStreamReader xsr = xif.createXMLStreamReader(new StringReader(field.getValue()));
-						JAXBContext jc = JAXBContext.newInstance(FormV2NewWrapper.class);
-						Unmarshaller unmarshaller = jc.createUnmarshaller();
-						JAXBElement<FormV2NewWrapper> je = unmarshaller.unmarshal(xsr, FormV2NewWrapper.class);
-						form = je.getValue();
-
-					}
-				}
-				form.setDateadded(date);
-				forms.add(form);
-				
-				FEFormMetaData feForm = new FEFormMetaData();
-				BeanUtils.copyProperties(form, feForm);
-				
-				feForm.setFormIdseq(idseq);
-				feForm.setWorkflow(form.getWorkflowStatusName());
-				FEContext context = new FEContext();
-				context.setName(form.getContext());
-				feForm.setContext(context);
-				feForm.setPersisted(true);
-				feForms.add(feForm);
-			}
-			
-			for(FEFormMetaData cartForm : this.getUserDetails().getFormCart()){
-				if(cartForm.getIsPersisted() == false){
-					feForms.add(cartForm);
-				}
-			}
-
-		}
-		
-		try{
+		finally{
 			this.getUserDetails().setFormCart(feForms);
-		} catch(Exception e){
-			e.printStackTrace();
+			return new ResponseEntity(feForms, HttpStatus.OK);
 		}
-		
-		return new ResponseEntity(feForms, HttpStatus.OK);
 	}
 
 	/*@RequestMapping(value = "/objcart/formcart/{username}", method = RequestMethod.GET)
@@ -388,7 +384,7 @@ public class CartAdapterController {
 	public ResponseEntity saveToFormCart(@RequestBody FEFormMetaData form) {
 
 		this.getUserDetails().getFormCart().add(form);
-
+		
 		return null;
 	}
 
