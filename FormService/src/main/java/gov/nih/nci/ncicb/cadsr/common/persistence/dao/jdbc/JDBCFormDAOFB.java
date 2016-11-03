@@ -962,10 +962,10 @@ public class JDBCFormDAOFB extends JDBCAdminComponentDAOFB implements FormDAO {
 					type, classificationIdseq, contextRestriction, publicId, version, moduleName, cdePublicId,
 					hasWhere);
 			String sql = selectWhat.toString() + " " + fromWhat.toString() + " " + initialWhere.toString()
-					+ whereClause;
+					+ whereClause + "ORDER BY upper(f.LONG_NAME),upper(f.public_id)";
 			super.setSql(sql);
 
-			System.out.println("FRM SEARCH QRY: [" + sql + "]");
+			//System.out.println("FRM SEARCH QRY: [" + sql + "]");
 			/*
 			 * if (StringUtils.doesValueExist(moduleName) ||
 			 * StringUtils.doesValueExist(cdePublicId)){ whereClause =
