@@ -185,14 +185,14 @@ export default class SearchLayout extends Component {
 		<Form id="searchForm" ref="form" onSubmit={this.dispatchFormData} validatePristine={this.state.validatePristine} className="search-form">
 			<div className="formItem">
 				<Input name="formLongName" id="longName"
-					label="FORM LONG NAME" type="text" value=""
+					label="FORM LONG NAME" type="text" value="" placeholder="SEARCH BY LONG NAME"
 				/>
 			</div>
 			<div className="clearfix formColumns">
 				<div className="pull-left formColumn">
 					<div className="formItem">
 						<Input name="publicId" id="publicId"
-							label="PUBLIC ID" type="text"
+							label="PUBLIC ID" type="text" placeholder="SEARCH BY PUBLIC ID"
 						/>
 					</div>
 					<div className="formItem">
@@ -201,8 +201,6 @@ export default class SearchLayout extends Component {
 							label="CS / CSI" 
 							type="text" 
 							onClick={this.openClassificationModal}  
-
-
 							value={this.state.selectedClassification.csCsiIdseq}
 							className="hidden"
 							readOnly="readOnly"
@@ -225,7 +223,8 @@ export default class SearchLayout extends Component {
 				<div className="pull-right formColumn">
 					<div className="formItem">
 						<Input name="cdePublicId" id="cdePublicId"
-							label="CDE Public ID" type="text"
+							label="CDE PUBLIC ID" type="text"
+							placeholder="SEARCH BY CDE PUBLIC ID"
 						/>
 					</div>
 					<div className="formItem">
@@ -256,7 +255,7 @@ export default class SearchLayout extends Component {
 			</div>
 			<div className="formItem">
 				<Input name="moduleLongName" id="moduleLongName"
-					label="MODULE INPUT" type="text"
+					label="MODULE" type="text" placeholder="SEARCH BY MODULE"
 				/>
 			</div>
 			<div className="formItem searchActions">
@@ -360,6 +359,14 @@ export default class SearchLayout extends Component {
 					<Datatable pagination={true} perPage={100} pageName={pageName} resultsText={resultsText} displayControls={false} showCheckboxes={false} columnTitles={columnConfig} data={this.state.tableData}></Datatable>
 				</div>
 			);
+		}
+		else {
+			return (
+				<div>
+					<h1 className="text--bold">{pageName}</h1>
+					<div>No results</div>
+				</div>
+				);
 		}
 	}
 

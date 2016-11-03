@@ -136,7 +136,7 @@ export default class FormMetadataForm extends Component {
 	getWorFlowField(){
 		if(this.props.actionMode === formActions.CREATE_FORM){
 			return (
-				<FormGroup> <ControlLabel>Workflow</ControlLabel>
+				<FormGroup> <ControlLabel>WORKFLOW STATUS</ControlLabel>
 					<FormControl.Static>{this.props.formMetadata.workflow}</FormControl.Static> </FormGroup>
 			);
 		}

@@ -45,7 +45,7 @@ export default class FormLayoutMain extends Component {
 			);
 		}
 		else if(actionMode === formActions.CREATE_FORM){
-			const metaDataFormHeadingTitle = actionMode === formActions.CREATE_FORM ? 'Create New Form' : 'Edit Form';
+			const metaDataFormHeadingTitle = actionMode === formActions.CREATE_FORM ? 'FormBuilder | Create New Form' : 'Edit Form';
 			return (
 				<div>
 					<FormMetadataForm actionMode={actionMode} formMetadata={this.props.formMetadata} mainHeadingTitle={metaDataFormHeadingTitle}>

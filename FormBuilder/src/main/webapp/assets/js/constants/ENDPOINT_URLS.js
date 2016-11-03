@@ -12,7 +12,8 @@ const ENDPOINT_URLS = {
 		GET_DOWNLOAD_XLS:				`${formBuilderApiEndpointBaseUrl}/forms/xls`,
 		GET_DOWNLOAD_XML:				`${formBuilderApiEndpointBaseUrl}/forms/xml`,
 		CREATE_COPY:					`${formBuilderApiEndpointBaseUrl}/forms/copy`,
-		DELETE:							`${formBuilderApiEndpointBaseUrl}/carts/forms`           
+		DELETE_FROM_CART:				`${formBuilderApiEndpointBaseUrl}/carts/forms`,
+		DELETE:                         `${formBuilderApiEndpointBaseUrl}/forms`
 	},
 	CATEGORIES:                   `${formBuilderApiEndpointBaseUrl}/categories`,
 	CONTEXTS:                     `${formBuilderApiEndpointBaseUrl}/contexts`,

@@ -98,6 +98,11 @@ button {
   }
 }
 
+.panel-header .btn-link {
+	margin-left: 0px;
+	margin-right: 0px;
+}
+
 .btn-default, .btn-formNav {
   border-bottom: 1px solid #f3f3f3;
   border-bottom: 1px solid #b2b2b2;
@@ -278,6 +283,7 @@ button.btn {
 .filterPill {
 	background-color: $color-highlight;
 	float: left;
+	border: 1px solid $lightGrey;
 }
 .filterPill .btn-remove {
 	color: $dfRed !important; 
