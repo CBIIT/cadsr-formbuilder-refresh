@@ -18,11 +18,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+
 import org.apache.commons.dbcp.BasicDataSource;
 import org.apache.commons.dbcp.BasicDataSourceFactory;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.jdbc.core.SqlOutParameter;
 import org.springframework.jdbc.core.SqlParameter;
@@ -33,6 +35,10 @@ import org.springframework.stereotype.Component;
 @Component("userManagerDAO")
 public class JDBCUserManagerDAOFB extends JDBCBaseDAOFB implements UserManagerDAO
 {
+	
+	@Autowired
+	@Qualifier("authDataSource")
+	BasicDataSource authDataSource;
 
 	protected Log log =  LogFactory.getLog(JDBCUserManagerDAOFB.class.getName());
 
@@ -74,10 +80,9 @@ public class JDBCUserManagerDAOFB extends JDBCBaseDAOFB implements UserManagerDA
 		boolean validUser = false;
 		Connection conn = null;
 		try {
-			BasicDataSource bds = getDataSource();
-			bds.setUsername(userName);
-			bds.setPassword(password);
-			conn = bds.getConnection();
+			authDataSource.setUsername(userName);
+			authDataSource.setPassword(password);
+			conn = authDataSource.getConnection();
 
 			// The Query below is to make sure connection db is established
 			// In some case it was noticed that just making the connection did
@@ -88,7 +93,8 @@ public class JDBCUserManagerDAOFB extends JDBCBaseDAOFB implements UserManagerDA
 			//Check if the user account is enabled
 			validUser = ((Boolean)enabledQuery.findObject(userName)).booleanValue();
 		}
-		catch (SQLException e) {
+		catch (Exception e) {
+			e.printStackTrace();
 			validUser = false;
 		}
 		finally
@@ -98,7 +104,9 @@ public class JDBCUserManagerDAOFB extends JDBCBaseDAOFB implements UserManagerDA
 					conn.close();
 			}
 			catch(Exception exp)
-			{        
+			{
+				exp.printStackTrace();
+				validUser = false;
 			}
 		}
 		return validUser;

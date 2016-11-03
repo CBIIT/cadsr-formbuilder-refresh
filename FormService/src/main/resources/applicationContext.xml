@@ -59,6 +59,12 @@
 		<property name="username" value="${oracle.username}" />
 		<property name="password" value="${oracle.password}" />
 	</bean>
+	
+	<bean id="authDataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
+		<property name="url" value="${oracle.url}" />
+	</bean>
 
 	<bean id="txManager"
 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
