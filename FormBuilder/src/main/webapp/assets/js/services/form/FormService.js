@@ -306,11 +306,14 @@ const FormService = Marionette.Object.extend({
 	handleDelete(formIdseq) {
 		fetchSecure({
 			url:    `${ENDPOINT_URLS.FORMS.DELETE}/${formIdseq}`,
-			method: "DELETE"
+			method: "DELETE",
+			swallowErrors: false,
+			dataType: "string"
 		}).then((data) =>{
-			browserHistory.push(`/FormBuilder/`);
-		}).catch(() =>{
-			alert("The Form failed to delete properly");
+			alert("success");
+			browserHistory.push(`/`);
+		}).catch((msg) =>{
+			alert("The Form failed to delete properly: " + msg);
 		});
 	},
 	handleDownloadXML(formIdseq) {

@@ -6,7 +6,6 @@ class Header extends Component {
   constructor(props) {
     super(props);
     this.renderUser = this.renderUser.bind(this);
-    this.returnToSearch = this.returnToSearch.bind(this);
     this.renderReturnButton = this.renderReturnButton.bind(this);
     this.state = {
 		userName: ""
@@ -28,13 +27,7 @@ class Header extends Component {
 			}
 		});
 	}
-	
-	returnToSearch() {
-		
-	}
-	
-	
-	
+
 	renderReturnButton() {
 		if (this.props.location != "/") {
 			return (
@@ -95,6 +88,7 @@ class Header extends Component {
 
 
 Header.propTypes = {
+	location: PropTypes.string
 };
 
 export default Header;
