@@ -47,7 +47,6 @@ public class CadsrAuthenticationProvider implements AuthenticationProvider{
 			AuthUtils util = new AuthUtils();
 			userDetails.setToken(util.md5(username + password));
 			
-			CartAdapterController cartCont = new CartAdapterController();
 			try{
 				
 				String cdecart_uri = props.getFormBuilderApiUrl() + "/FormBuilder/api/v1/carts/cdecart?username=" + username + "&cache=false";
@@ -67,6 +66,7 @@ public class CadsrAuthenticationProvider implements AuthenticationProvider{
 				
 			} catch(Exception e){
 				e.printStackTrace();
+				return null;
 			}
 			
 		}
