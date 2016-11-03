@@ -85,7 +85,7 @@ class ModuleCartPage extends Component {
 			return (
 				<div>
 					<h1 className="text--bold">Form Builder | {pageName} Cart</h1>
-					<p>Loading</p>
+					<p>Your cart is empty</p>
 				</div>
 			);
 		}

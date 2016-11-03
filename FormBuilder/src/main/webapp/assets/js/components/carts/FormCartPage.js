@@ -2,11 +2,10 @@ import React, {Component, PropTypes} from 'react';
 import {withRouter} from 'react-router';
 import backboneReact from 'backbone-react-component';
 import cartsService from  "../../services/carts/CartsService";
-import cartActions from '../../constants/cartActions';
 import EVENTS from '../../constants/EVENTS';
 import {appChannel} from '../../channels/radioChannels';
 import Datatable from '../tables/Datatable';
-import {getCdeCartCollectionPojo,getModuleCartCollectionPojo,getFormCartCollectionPojo} from '../../helpers/CartDataHelpers';
+import {getFormCartCollectionPojo} from '../../helpers/CartDataHelpers';
 import TABLECONFIG from '../../constants/TABLE_CONFIGS';
 
 class FormCartPage extends Component {
@@ -19,16 +18,7 @@ class FormCartPage extends Component {
 	}
 
 	massageCartData(cartData){
-		const actionMode = this.state.cartPageStateModel.actionMode;
-		if(actionMode === cartActions.VIEW_CDE_CART_PAGE){
-			return getCdeCartCollectionPojo(cartData);
-		}
-		else if(actionMode === cartActions.VIEW_FORM_CART_PAGE){
-			return getFormCartCollectionPojo(cartData);
-		}
-		else if(actionMode === cartActions.VIEW_MODULE_CART_PAGE){
-			return getModuleCartCollectionPojo(cartData);
-		}
+		return getFormCartCollectionPojo(cartData);
 	}
 
 	componentDidMount(){
@@ -89,7 +79,7 @@ class FormCartPage extends Component {
 			return (
 				<div>
 					<h1 className="text--bold">Form Builder | {pageName} Cart</h1>
-					<p>Loading</p>
+					<p>Your cart is empty</p>
 				</div>
 			);
 		}
