@@ -222,6 +222,18 @@ public class FormAdapterController {
 		return response;
 	}
 	
+	@RequestMapping(value = { "/{formIdSeq}" }, method = RequestMethod.DELETE)
+	public ResponseEntity deleteForm(@PathVariable String formIdSeq){
+		
+		String base_uri = props.getFormServiceApiUrl() + FormBuilderConstants.FORMSERVICE_BASE_URL
+				+ FormBuilderConstants.FORMSERVICE_FORMS + "/" + formIdSeq;
+
+		RestTemplate restTemplate = new RestTemplate();
+		restTemplate.delete(base_uri);
+		
+		return new ResponseEntity(HttpStatus.OK);
+	}
+	
 	@RequestMapping(value = "/xml/{formIdSeq}", method = RequestMethod.GET)
 	@ResponseBody
 	public ResponseEntity downloadFormXml(@PathVariable String formIdSeq) {
@@ -262,6 +274,14 @@ public class FormAdapterController {
 	@ResponseBody
 	public ResponseEntity<FEForm> getWorkingCopy(){
 		return new ResponseEntity(sessionObject.getWorkingCopy(), HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = { "/workingCopy" }, method = RequestMethod.DELETE, consumes = "application/json")
+	@ResponseBody
+	public ResponseEntity<FEForm> clearWorkingCopy(){
+		sessionObject.setWorkingCopy(null);
+		
+		return new ResponseEntity(HttpStatus.OK);
 	}
 
 	/**
