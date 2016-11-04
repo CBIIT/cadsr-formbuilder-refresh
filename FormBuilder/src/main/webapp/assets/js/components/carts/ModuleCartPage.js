@@ -25,10 +25,6 @@ class ModuleCartPage extends Component {
 		/* WHen the route chagnes/user leaves cart page, call routerWillLeave */
 		this.props.router.setRouteLeaveHook(this.props.route, this.routerWillLeave);
 
-		if(cartsService.moduleCartCollection){
-			const tableData = this.massageCartData(cartsService.moduleCartCollection);
-			this.setState({tableData: tableData});
-		}
 		appChannel.on(EVENTS.CARTS.MODULE_CART_UPDATED, () =>{
 			const tableData = this.massageCartData(cartsService.moduleCartCollection);
 			this.setState({tableData: tableData});

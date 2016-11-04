@@ -25,10 +25,6 @@ class CDECartPage extends Component {
 		/* WHen the route chagnes/user leaves cart page, call routerWillLeave */
 		this.props.router.setRouteLeaveHook(this.props.route, this.routerWillLeave);
 
-		if(cartsService.cdeCartCollection){
-			const tableData = this.massageCartData(cartsService.cdeCartCollection);
-			this.setState({tableData: tableData});
-		}
 		appChannel.on(EVENTS.CARTS.CDE_CART_UPDATED, () =>{
 			const tableData = this.massageCartData(cartsService.cdeCartCollection);
 			this.setState({tableData: tableData});
@@ -38,6 +34,7 @@ class CDECartPage extends Component {
 	routerWillLeave(nextLocation){
 		console.log("user left cart page");
 	}
+
 	componentWillMount(){
 		const cartPageStateModel = cartsService.cartPageStateModel;
 		/* watch for changes on these backbone models/collections and re-render */
@@ -56,10 +53,12 @@ class CDECartPage extends Component {
 			 */
 		}
 	}
+
 	componentWillUnmount(){
 		backboneReact.off(this);
 		appChannel.off(EVENTS.CARTS.CDE_CART_UPDATED);
 	}
+
 	render(){
 		let pageName = "CDE"; //page name used to display title and configure which columns to display
 		const columnConfig = TABLECONFIG.CDE //collection of titles and model properties derived from the TABLECONFIG constant
@@ -70,7 +69,7 @@ class CDECartPage extends Component {
 			return (
 				<div>
 					<h1 className="text--bold">Form Builder | {pageName} Cart</h1>
-					<Datatable cartLastSortedState={cartLastSortedState} pagination={true} perPage={100} pageName={pageName} columnTitles={columnConfig} data={this.state.tableData} />
+					<Datatable cartLastSortedState={cartLastSortedState} pagination={true} perPage={100} pageName={pageName} columnTitles={columnConfig} data={this.state.tableData}/>
 				</div>
 			);
 		}
