@@ -15,9 +15,9 @@
 		<!-- <form-login login-page="/login" default-target-url="/welcome" authentication-failure-url="/login?error" 
 			username-parameter="username" password-parameter="password" /> <logout logout-success-url="/login?logout" 
 			/> -->
-		<session-management>
+		<!-- <session-management>
 			<concurrency-control max-sessions="1" />
-		</session-management>
+		</session-management> -->
 
 		<logout logout-success-url="/" logout-url="/perform_logout"
 			delete-cookies="JSESSIONID" />
