@@ -11,7 +11,6 @@ import {appChannel, cartChannel, formChannel} from '../../channels/radioChannels
 import CDECollection from '../../models/carts/CDECollection';
 import FormCollection from '../../models/carts/FormCollection';
 import ModuleCollection from '../../models/carts/ModuleCollection';
-import {browserHistory} from 'react-router';
 //import $ from 'jquery';
 
 /**
@@ -38,49 +37,19 @@ const CartsService = Marionette.Object.extend({
 		
 		cartChannel.reply(EVENTS.CARTS.ADD_FORM, (options) => this.handleAddFormToCart(options));
 	},
-	/*TODO Do we still need what this is returning? */
-/*	constructLayout(cart){
-		/!*Entry point for React. Backbone Views Keep Out
-		 * Once React is the top level view currently handled by Marionette (i.e.  AppLayoutView,js), we can render CartLayout from there instead  *!/
-		let data = '';
-		if(cart === 'Module'){
-			data = this.moduleCartCollection;
-		}
-		else if(cart === 'Form'){
-			data = this.formCartCollection;
-		}
-		else{
-			data = this.cdeCartCollection;
-		}
-		return {
-			cartPageStateModel: this.cartPageStateModel,
-			data:               data,
-			cart:               cart
-		}
-
-	},*/
 	dispatchLayout({action}) {
 		switch(action){
 			case cartActions.VIEW_CDE_CART_PAGE:
 				this.cartPageStateModel.set({actionMode: action});
 				this.fetchCarts({collection: this.cdeCartCollection});
-/*
-				this.constructLayout('CDE');
-*/
 				break;
 			case cartActions.VIEW_FORM_CART_PAGE:
 				this.cartPageStateModel.set({actionMode: action});
 				this.fetchCarts({collection: this.formCartCollection});
-/*
-				this.constructLayout('Form');
-*/
 				break;
 			case cartActions.VIEW_MODULE_CART_PAGE:
 				this.cartPageStateModel.set({actionMode: action});
 				this.fetchCarts({collection: this.moduleCartCollection});
-/*
-				this.constructLayout('Module');
-*/
 				break;
 			default:
 				console.error("no valid action provided");
@@ -231,40 +200,6 @@ const CartsService = Marionette.Object.extend({
 			appChannel.trigger(EVENTS.CARTS.FORM_CART_UPDATED);
 		});
 	},
-	/*TODO to be removed once sure we're not saving entire cart arrays */
-	/*saveCart({cart, successMessage} = {}) {
-	 const userName = appChannel.request(EVENTS.USER.GET_USERNAME);
-	 let urlQueryParams;
-	 switch(cart){
-	 case this.cdeCartCollection:
-	 urlQueryParams = {username: userName};
-	 break;
-	 case this.moduleCartCollection:
-	 break;
-	 case this.formCartCollection:
-	 urlQueryParams = {username: userName};
-	 break;
-	 default:
-	 console.error("no valid action provided");
-	 }
-	 cart.url = urlHelpers.buildUrl(cart.baseUrl, urlQueryParams);
-	 const p = new Promise(
-	 (resolve, reject) =>{
-	 cart.sync({"DELETE"
-	 }).then(() =>{
-	 resolve();
-	 }).catch((error) =>{
-	 reject(error);
-	 });
-	 }
-	 );
-	 return p.then(()=>{
-	 if(successMessage) alert(successMessage);
-	 }).catch((error)=>{
-	 alert("error");
-	 console.log(error);
-	 });
-	 },*/
 	setupModels() {
 		this.cdeCartCollection = new CDECollection();
 		/*Setting in init didn't seem to work */
