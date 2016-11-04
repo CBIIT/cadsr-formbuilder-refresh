@@ -1,0 +1,173 @@
+.reactTable{
+  &.table{
+    margin-bottom: 0px;
+  }
+  .icon{
+    color: $color-highlight;
+    float: right;
+    position: relative;
+    left: -15px;
+    top: 3px;
+  }
+  .reactable-column-header{
+    background-color: $color-accent-dark;
+    color: $color-highlight;
+    text-transform: uppercase;
+    th{
+      padding: 14px 10px;
+      border-bottom-color: $color-accent-dark;
+    }
+    th:last-of-type{
+      border-right: 2px solid $color-accent-dark;
+    }
+  }
+  .reactable-data{
+    td{
+      padding: 20px 10px;
+      border-top-color: $color-contrast;
+      border-left: 1px solid $color-contrast;
+      border-right: 1px solid $color-contrast;
+    }
+    tr:nth-child(odd){
+      background-color: $color-highlight;
+    }
+    tr:nth-child(even){
+      background-color: $color-faint;
+    }
+    tr:last-of-type{
+      td{
+        border-bottom: 1px solid $color-contrast;
+      }
+    }
+    tr:first-of-type{
+      td{
+        border-top: 1px solid $color-contrast;
+      }
+    }
+  }
+}
+.reactTable-pagination{
+  list-style: none;
+  float: right;
+
+}
+.reactTable-pagination--top{
+  position: relative;
+  top: 25px;
+  margin-top: 25px;
+}
+.reactTable-pagination-control{
+  color: $color-accent-dark;
+  cursor: pointer;
+  &:active{
+    color: $color-dark;
+  }
+  &:hover{
+    color: darken($color-accent-dark, 10%);
+  }
+  &.disabled{
+    color: $color-contrast;
+    cursor: not-allowed;
+  }
+}
+.reactTable-pagination-item{
+  display: inline-block;
+  margin: 0px 10px;
+  button{
+    background: transparent;
+    border: transparent;
+    color: $color-accent;
+    padding: 3px 0px 3px 3px;
+    &:not(:first-of-type){
+      margin-left: 4px;
+    }
+    &.active{
+      color: $color-dark;
+    }
+  }
+}
+.reactTable-total{
+  font-size: 14px;
+  position: relative;
+  top: -5px;
+}
+.reactTable-total--bottom{
+  margin-top: -8px;
+  display:block;
+  top: 19px;
+  width: 250px;
+}
+.reactTable-controlPanel{
+  width: 100%;
+  position: relative;
+  .controlPanel-list{
+    list-style: none;
+    position: absolute;
+    right: 0px;
+    padding: 10px;
+    width: 850px;
+    background-color: $color-accent-bright;
+    display: flex;
+    & > li{
+      display: inline-block;
+      color: $color-highlight;
+      padding: 0px 10px;
+      flex-direction: row;
+      width: 32%;
+      &:nth-child(2){
+        text-align: center;
+      }
+      &:nth-child(3){
+        text-align: right;
+      }
+    }
+    .dropdown .btn-default{
+      color: $color-highlight;
+      &:hover, &:active, &:focus{
+        background-color: $color-accent-bright;
+      }
+    }
+    .dropdown .btn:active{
+      box-shadow: none;
+    }
+    .dropdown.open{
+        .dropdown-toggle, .dropdown-toggle:active, .btn:active{
+          box-shadow: none;
+        }
+    }
+  }
+  .dropdown-menu{
+    border-radius: 0px;
+    margin-top: 10px;
+    margin-left: -42px;
+    border-top: 1px solid $color-highlight;
+    background-color: $color-accent-bright;
+    i{
+      font-size: 16px;
+      padding: 0px 8px;
+    }
+    a{
+      color: $color-highlight;
+      &:hover{
+        background-color: darken($color-accent-bright, 5%);
+      }
+    }
+  }
+}
+.controlPanel-btn{
+  background: transparent;
+  border:transparent;
+  padding: 0px;
+  .caret{
+    margin-left: 15px;
+    margin-right: -20px;
+    vertical-align: 2px;
+  }
+}
+.reactTable-control{
+  cursor: pointer;
+}
+.reactTable-wrap{
+  max-height: 450px;
+  overflow-y: scroll;
+}

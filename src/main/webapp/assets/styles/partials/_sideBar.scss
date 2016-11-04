@@ -1,0 +1,183 @@
+
+.navigation-menu-overlay-icons,
+.subnav_mc {
+  .material-icons {
+    font-size: 1.5rem;
+    color: #FFFFFF;
+    width: 28px;
+    height: 24px;
+    position: relative;
+    top: 6px;
+    &:not(.dropdown-arrow) {
+      top: 6px;
+    }
+  }
+  .list-group-item.active,
+  .list-group-item.active:focus,
+  .list-group-item.active:hover {
+    border-color: #25607b !important;
+    outline: none !important;
+  }
+}
+
+.navigation-menu-overlay-icons {
+
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 14px;
+  li {
+    width: 100%;
+    box-sizing: border-box;
+    padding-bottom: 6px;
+    padding-top: 6px;
+    border-bottom: 1px solid #25607b;
+    &:first-child {
+      padding-bottom: 14px;
+    }
+  }
+  .material-icons {
+    padding: 0 13px;
+  }
+}
+
+.side-bar-wrapper {
+  min-width: 50px;
+  background-color: #ccc;
+  position: fixed;
+  z-index: 99;
+  height: 100%;
+}
+
+.bm-menu-wrap {
+  min-width: 30px;
+  background-color: transparent;
+}
+/* Position and sizing of burger button */
+.bm-burger-button {
+  height: 30px !important;
+  color: #FFFFFF;
+  position: relative;
+  z-index: 10 !important;
+  background: transparent;
+  button {
+    height: 336px;
+  }
+}
+
+/* Color/shape of burger icon bars */
+.bm-burger-bars {
+  background: transparent;
+}
+
+/* Position and sizing of clickable cross button */
+.bm-cross-button {
+  display: none;
+}
+
+
+/* General sidebar styles */
+.bm-menu {
+  background: #ccc;
+  padding: 2.5em 0 0 0;
+
+}
+
+
+.bm-item-list {
+  overflow-y: auto;
+}
+.subnav_mc {
+  width: 100%;
+  display: inline-block;
+  vertical-align: top;
+  @media (min-width: 768px) {
+    padding-left: 0;
+  }
+  .form-inline {
+    padding-left: 14px;
+  }
+  input {
+    box-shadow: none;
+    border-radius: 0;
+    border: none;
+    border-bottom: 1px solid #CDCDCD;
+    background-color: transparent !important;
+    color: #FFFFFF !important;
+    margin-bottom: 9px;
+    &::placeholder {
+      color: #FFFFFF !important;
+    }
+  }
+}
+
+/* Optional right rail */
+.subnav_mc.right {
+  float: right;
+}
+
+/* List style reset */
+.subnav_ul {
+  margin: 0;
+  padding: 0;
+}
+
+/* List styling */
+.subnav_li:first-of-type {
+  border-top: 1px solid #25607b;
+}
+
+
+
+.list-group-item {
+  border-top: none;
+  border-bottom: none;
+}
+
+
+
+.subnav_li:hover > a {
+  color: #fff;
+}
+
+/* Child list styling */
+.subnav_child_ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  li li a {
+    padding-left: 61px;
+    background-color: #063f5a !important;
+  }
+  > li > a {
+    padding-left: 18px;
+  }
+}
+
+.subnav_child_li:hover {
+  //background-color: $dfBlue;
+}
+
+.subnav_child_li {
+  > a {
+    box-sizing: border-box;
+    padding: 6px 10px 6px 20px;
+    display: block;
+    color: #FFFFFF !important;
+    text-decoration: none;
+    cursor: pointer;
+    background-color: #ccc !important;
+    border-top: 1px solid #25607b;
+    border-bottom: none;
+  }
+  &:first-child a {
+    border-top-width: 2px;
+  }
+}
+
+.subnav_child_li:hover > a {
+  color: #fff;
+}
+
+
