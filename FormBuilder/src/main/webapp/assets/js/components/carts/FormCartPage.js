@@ -36,11 +36,11 @@ class FormCartPage extends Component {
 	}
 
 	componentWillMount(){
-		const cartPageStateModel = cartsService.cartPageStateModel;
+		const cartsStateModel = cartsService.cartsStateModel;
 		/* watch for changes on these backbone models/collections and re-render */
 		backboneReact.on(this, {
 			models: {
-				cartPageStateModel: cartPageStateModel
+				cartsStateModel: cartsStateModel
 			}
 		});
 	}
@@ -62,7 +62,7 @@ class FormCartPage extends Component {
 		let pageName = "Form"; //page name used to display title and configure which columns to display
 		//collection of titles and model properties derived from the TABLECONFIG constant
 		const	columnConfig = TABLECONFIG.FORM;
-		const	cartLastSortedState = this.state.cartPageStateModel.FormCartUIState;
+		const	cartLastSortedState = this.state.cartsStateModel.FormCartUIState;
 		if(this.state.tableData.length){
 			return (
 				<div>

@@ -3,7 +3,7 @@ import {withRouter} from 'react-router';
 import backboneReact from 'backbone-react-component';
 import cartsService from  "../../services/carts/CartsService";
 import EVENTS from '../../constants/EVENTS';
-import {appChannel} from '../../channels/radioChannels';
+import {appChannel, cartChannel} from '../../channels/radioChannels';
 import Datatable from '../tables/Datatable';
 import {getCdeCartCollectionPojo} from '../../helpers/CartDataHelpers';
 import TABLECONFIG from '../../constants/TABLE_CONFIGS';
@@ -12,13 +12,30 @@ class CDECartPage extends Component {
 	constructor(props){
 		super(props);
 		this.massageCartData = this.massageCartData.bind(this);
+		this.dispatchCartTableSortState = this.dispatchCartTableSortState.bind(this);
 		this.state = {
 			tableData: []
 		};
 	}
 
-	massageCartData(cartData){
-		return getCdeCartCollectionPojo(cartData);
+	dispatchCartTableSortState({sortKey, sortOrder}){
+		cartChannel.request(EVENTS.CARTS.SET_LAST_CART_SORTED_BY,
+			{sortKey: sortKey, sortOrder: sortOrder});
+	}
+
+	massageCartData(cartCollection){
+		const CDECartUIState = cartsService.cartsStateModel.attributes.CDECartUIState;
+		const lastSortedByKey = CDECartUIState.lastSortedByKey;
+		const lastSortOrder = CDECartUIState.lastSortOrder;
+		let cdeCartItems = getCdeCartCollectionPojo(cartCollection);
+		if(lastSortedByKey && lastSortOrder !== 'desc'){
+			cdeCartItems = _.sortBy(cdeCartItems, lastSortedByKey);
+		}
+		else if(lastSortedByKey && lastSortOrder === 'desc'){
+			cdeCartItems = _.sortBy(cdeCartItems, lastSortedByKey).reverse();
+		}
+
+		return cdeCartItems;
 	}
 
 	componentDidMount(){
@@ -36,11 +53,11 @@ class CDECartPage extends Component {
 	}
 
 	componentWillMount(){
-		const cartPageStateModel = cartsService.cartPageStateModel;
+		const cartsStateModel = cartsService.cartsStateModel;
 		/* watch for changes on these backbone models/collections and re-render */
 		backboneReact.on(this, {
 			models: {
-				cartPageStateModel: cartPageStateModel
+				cartsStateModel: cartsStateModel
 			}
 		});
 	}
@@ -61,15 +78,13 @@ class CDECartPage extends Component {
 
 	render(){
 		let pageName = "CDE"; //page name used to display title and configure which columns to display
-		const columnConfig = TABLECONFIG.CDE //collection of titles and model properties derived from the TABLECONFIG constant
-		const cartLastSortedState = this.state.cartPageStateModel.CDECartUIState;
-		//determine which page to use based on cartActions object
+		const columnConfig = TABLECONFIG.CDE; //collection of titles and model properties derived from the TABLECONFIG constant
 
 		if(this.state.tableData.length){
 			return (
 				<div>
 					<h1 className="text--bold">Form Builder | {pageName} Cart</h1>
-					<Datatable cartLastSortedState={cartLastSortedState} pagination={true} perPage={100} pageName={pageName} columnTitles={columnConfig} data={this.state.tableData}/>
+					<Datatable pagination={true} perPage={100} pageName={pageName} columnTitles={columnConfig} data={this.state.tableData} dispatchSortedState={this.dispatchCartTableSortState}/>
 				</div>
 			);
 		}

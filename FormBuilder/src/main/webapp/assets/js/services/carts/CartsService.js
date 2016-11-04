@@ -6,7 +6,7 @@ import {ajaxDownloadFile, fetchSecure} from '../../helpers/ajaXHelpers';
 import cartActions from '../../constants/cartActions';
 import ModuleModel from '../../models/carts/ModuleModel';
 import backboneModelHelpers from '../../helpers/backboneModelHelpers';
-import CartPageStateModel from '../../models/carts/CartPageStateModel';
+import CartsStateModel from '../../models/carts/CartsStateModel';
 import {appChannel, cartChannel, formChannel} from '../../channels/radioChannels';
 import CDECollection from '../../models/carts/CDECollection';
 import FormCollection from '../../models/carts/FormCollection';
@@ -20,7 +20,7 @@ import ModuleCollection from '../../models/carts/ModuleCollection';
 /*TODO move common methods out into a mixin/HOF or baseController/baseService */
 const CartsService = Marionette.Object.extend({
 	initialize() {
-		this.cartPageStateModel = CartPageStateModel;
+		this.cartsStateModel = CartsStateModel;
 		this.addInitialListeners();
 		this.setupModels();
 	},
@@ -40,15 +40,15 @@ const CartsService = Marionette.Object.extend({
 	dispatchLayout({action}) {
 		switch(action){
 			case cartActions.VIEW_CDE_CART_PAGE:
-				this.cartPageStateModel.set({actionMode: action});
+				this.cartsStateModel.set({actionMode: action});
 				this.fetchCarts({collection: this.cdeCartCollection});
 				break;
 			case cartActions.VIEW_FORM_CART_PAGE:
-				this.cartPageStateModel.set({actionMode: action});
+				this.cartsStateModel.set({actionMode: action});
 				this.fetchCarts({collection: this.formCartCollection});
 				break;
 			case cartActions.VIEW_MODULE_CART_PAGE:
-				this.cartPageStateModel.set({actionMode: action});
+				this.cartsStateModel.set({actionMode: action});
 				this.fetchCarts({collection: this.moduleCartCollection});
 				break;
 			default:
@@ -107,10 +107,10 @@ const CartsService = Marionette.Object.extend({
 	},
 	/*TODO Incomplete */
 	handleCartSortedBy ({sortKey, sortOrder}){
-		const action = this.cartPageStateModel.get("actionMode");
+		const action = this.cartsStateModel.get("actionMode");
 		switch(action){
 			case cartActions.VIEW_CDE_CART_PAGE:
-				this.cartPageStateModel.set({
+				this.cartsStateModel.set({
 					CDECartUIState: {
 						lastSortedByKey: sortKey,
 						lastSortOrder:   sortOrder
@@ -118,7 +118,7 @@ const CartsService = Marionette.Object.extend({
 				});
 				break;
 			case cartActions.VIEW_FORM_CART_PAGE:
-				this.cartPageStateModel.set({
+				this.cartsStateModel.set({
 					FormCartUIState: {
 						lastSortedByKey: sortKey,
 						lastSortOrder:   sortOrder
@@ -126,7 +126,7 @@ const CartsService = Marionette.Object.extend({
 				});
 				break;
 			case cartActions.VIEW_MODULE_CART_PAGE:
-				this.cartPageStateModel.set({
+				this.cartsStateModel.set({
 					ModuleCartUIState: {
 						lastSortedByKey: sortKey,
 						lastSortOrder:   sortOrder
@@ -141,7 +141,7 @@ const CartsService = Marionette.Object.extend({
 
 	handleDownloadXML({itemsIds}) {
 		const idsString = itemsIds.join();
-		const action = this.cartPageStateModel.get("actionMode");
+		const action = this.cartsStateModel.get("actionMode");
 		switch(action){
 			case cartActions.VIEW_CDE_CART_PAGE:
 				ajaxDownloadFile(`${ENDPOINT_URLS.CDE_DOWNLOAD_XML}/${idsString}`, 'xml');
@@ -156,7 +156,7 @@ const CartsService = Marionette.Object.extend({
 	},
 	handleDownloadXLS({itemsIds}) {
 		const idsString = itemsIds.join();
-		const action = this.cartPageStateModel.get("actionMode");
+		const action = this.cartsStateModel.get("actionMode");
 		switch(action){
 			case cartActions.VIEW_CDE_CART_PAGE:
 				ajaxDownloadFile(`${ENDPOINT_URLS.CDE_DOWNLOAD_XLS}/${idsString}`, 'xls');
@@ -169,7 +169,7 @@ const CartsService = Marionette.Object.extend({
 		}
 	},
 	handleRemoveCartItem({itemsToRemove}) {
-		const action = this.cartPageStateModel.get("actionMode");
+		const action = this.cartsStateModel.get("actionMode");
 		switch(action){
 			case cartActions.VIEW_CDE_CART_PAGE:
 				this.destroyCartItems({collection: this.cdeCartCollection, itemsToRemove: itemsToRemove});

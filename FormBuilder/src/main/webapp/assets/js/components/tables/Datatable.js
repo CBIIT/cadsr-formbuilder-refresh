@@ -1,4 +1,4 @@
-import React, {PropTypes} from 'react';
+import React, {Component, PropTypes} from 'react';
 import {Link} from 'react-router';
 import EVENTS from '../../constants/EVENTS';
 import {cartChannel} from '../../channels/radioChannels';
@@ -31,7 +31,7 @@ Props:
 	this.totalPages (int): calculation for the amount of pages the table will display
 
  */
-export default class Datatable extends React.Component{
+export default class Datatable extends Component {
 
 	constructor(props){
 		super(props);
@@ -53,9 +53,6 @@ export default class Datatable extends React.Component{
 
 		this.dispatchDownloadXML = this.dispatchDownloadXML.bind(this);
 		this.dispatchDownloadXLS = this.dispatchDownloadXLS.bind(this);
-/*
-		this.dispatchLastSortedByKey = this.dispatchLastSortedByKey.bind(this);
-*/
 		this.dispatchRemoveSelectedFromCart = this.dispatchRemoveSelectedFromCart.bind(this);
 		this.getSelectedItemIds = this.getSelectedItemIds.bind(this);
 	}
@@ -63,43 +60,49 @@ export default class Datatable extends React.Component{
 	componentWillReceiveProps(nextProps){
 		this.updateState(nextProps);
 	}
+
 	componentWillUnmount(){
+		if(this.props.dispatchSortedState){
+			/* Pass the last sorted state before the table unmounts so we can store it in the CartUIStateModel as a config */
+			this.props.dispatchSortedState(this.state.tableSortedBy);
+		}
 		console.log('will unmount table');
 	}
-	getSelectedItemIds() {
+
+	getSelectedItemIds(){
 		let selectedItemIds = [];
-		this.state.displayedData.forEach((item) => {
-			if (item.selected){
+		this.state.displayedData.forEach((item) =>{
+			if(item.selected){
 				selectedItemIds.push(item.id);
 			}
 		});
 		return selectedItemIds;
 	}
-	dispatchDownloadXLS() {
+
+	dispatchDownloadXLS(){
 		const itemsIds = this.getSelectedItemIds();
 		cartChannel.request(EVENTS.CARTS.GET_DOWNLOAD_XLS,
 			{itemsIds: itemsIds});
 	}
-	dispatchDownloadXML() {
+
+	dispatchDownloadXML(){
 		const itemsIds = this.getSelectedItemIds();
 		cartChannel.request(EVENTS.CARTS.GET_DOWNLOAD_XML,
 			{itemsIds: itemsIds});
 	}
-	dispatchLastSortedByKey({sortKey, sortOrder}) {
-		cartChannel.request(EVENTS.CARTS.SET_LAST_CART_SORTED_BY,
-			{sortKey:sortKey, sortOrder:sortOrder});
-	}
-	dispatchRemoveSelectedFromCart() {
+
+	dispatchRemoveSelectedFromCart(){
 		const itemsToRemove = this.getSelectedItemIds();
 		cartChannel.request(EVENTS.CARTS.REMOVE_CART_ITEM,
 			{itemsToRemove: itemsToRemove});
 	}
-	setInitialState() {
+
+	setInitialState(){
 		const shouldHavePagination = this.props.pagination;
 		const initialState = {
-			data: this.formatData(this.props.data, this.props.columnTitles),
+			data:         this.formatData(this.props.data, this.props.columnTitles),
 			selectedRows: [],
-			columnTitles : this.props.columnTitles
+			columnTitles: this.props.columnTitles
 		};
 
 		if(shouldHavePagination){
@@ -110,15 +113,17 @@ export default class Datatable extends React.Component{
 			initialState.displayedData = initialState.data;
 		}
 		this.totalPages = Math.ceil(initialState.data.length / this.props.perPage);
+		initialState.tableSortedBy = {};
 		/*Set initial state at once*/
 		this.state = initialState;
 	}
-	updateState(nextProps) {
+
+	updateState(nextProps){
 		const shouldHavePagination = nextProps.pagination;
 		const newState = {
-			data: this.formatData(nextProps.data, nextProps.columnTitles),
-			selectedRows: [],
-			columnTitles : nextProps.columnTitles,
+			data:          this.formatData(nextProps.data, nextProps.columnTitles),
+			selectedRows:  [],
+			columnTitles:  nextProps.columnTitles,
 			displayedData: (shouldHavePagination) ? nextProps.data.slice(0, nextProps.perPage) : nextProps.data
 		};
 		if(shouldHavePagination){
@@ -127,35 +132,36 @@ export default class Datatable extends React.Component{
 		}
 		this.setState(newState);
 	}
+
 	formatData(dataCollection, columnCollection){
 		/*massages data property to map each item to a key within the column collection
 
-			Example:
+		 Example:
 
-			dataCollection: [ { 'name': 'Bob', 'age': 12, 'color': 'green' }, { 'name': 'Kim', 'age': 16, 'color':
-			 'orange' }];
+		 dataCollection: [ { 'name': 'Bob', 'age': 12, 'color': 'green' }, { 'name': 'Kim', 'age': 16, 'color':
+		 'orange' }];
 
-			columnCollection: [ {'name': 'Name', 'key': 'name'}, {'name': 'Favorite Color', 'key': 'color'}];
+		 columnCollection: [ {'name': 'Name', 'key': 'name'}, {'name': 'Favorite Color', 'key': 'color'}];
 
-			newCollection: [{'name': 'Bob', 'color': 'green'}, {'name': 'Kim', 'color': 'orange'}];
+		 newCollection: [{'name': 'Bob', 'color': 'green'}, {'name': 'Kim', 'color': 'orange'}];
 
-			**returns newCollection**
+		 **returns newCollection**
 
-			In this example, the dataCollection array is mapped against the columnCollection. For each item in the
-			 columnCollection, the respective key is then found within the dataCollection and put into a new array
-			  to be returned. Since there is no 'age' column, that property for each person is ignored. The table
-			   will then render two columns: one that says Name and one that says Favorite Color.
+		 In this example, the dataCollection array is mapped against the columnCollection. For each item in the
+		 columnCollection, the respective key is then found within the dataCollection and put into a new array
+		 to be returned. Since there is no 'age' column, that property for each person is ignored. The table
+		 will then render two columns: one that says Name and one that says Favorite Color.
 
-			It is very important to ensure the key property in the columnCollection matches up to an expected key in
-			 the dataCollection.
+		 It is very important to ensure the key property in the columnCollection matches up to an expected key in
+		 the dataCollection.
 
-			This function also adds a new property called 'selected' to each item. This is used to render the state
-			 of the checkboxes.
-		*/
+		 This function also adds a new property called 'selected' to each item. This is used to render the state
+		 of the checkboxes.
+		 */
 		var newDataCollection = [];
-		dataCollection.map( (dataItem, index) =>{
+		dataCollection.map((dataItem, index) =>{
 			let newItem = {};
-			for(let i=0; i < columnCollection.length; i++){
+			for(let i = 0; i < columnCollection.length; i++){
 
 				newItem[columnCollection[i].key] = dataItem[columnCollection[i].key];
 
@@ -192,7 +198,7 @@ export default class Datatable extends React.Component{
 	selectRow(e){ //ensures a row is selected when a checkbox is clicked
 		let data = this.state.data;
 		let selectedRows = this.state.selectedRows;
-		let index = data.findIndex( (element)=>{
+		let index = data.findIndex((element)=>{
 			return element.id === e;
 		});
 		data[index].selected = !data[index].selected;
@@ -206,12 +212,12 @@ export default class Datatable extends React.Component{
 		}
 		else{
 			//remove the selected row from the collection if it is being deselected
-			selectedRows = selectedRows.filter( (row) => {
+			selectedRows = selectedRows.filter((row) =>{
 				return (row.id != e);
 			});
 		}
 		let displayedData = this.getCurrentDisplayData(data);
-		this.setState({data : data, selectedRows : selectedRows, displayedData: displayedData });
+		this.setState({data: data, selectedRows: selectedRows, displayedData: displayedData});
 
 	}
 
@@ -219,9 +225,9 @@ export default class Datatable extends React.Component{
 		if(this.props.pagination){
 			return (
 				<div className="clearfix">
-					<ul className={(top)?"reactTable-pagination reactTable-pagination--top" : "reactTable-pagination"}>
+					<ul className={(top) ? "reactTable-pagination reactTable-pagination--top" : "reactTable-pagination"}>
 						{
-							this.createPageItem().map( (item) =>{
+							this.createPageItem().map((item) =>{
 								return (item);
 							})
 						}
@@ -231,12 +237,14 @@ export default class Datatable extends React.Component{
 		}
 	}
 
-
 	createPageItem(){ //creates the pagination buttons
 		//pagesArr is an array of JSX <li> elements that represent each page button
 		//By default, a button that says "Previous" should be added to the first spot in the array
 		let pagesArr = [(<li className="reactTable-pagination-item" key={'left'} aria-hidden="true">
-			<button onClick={()=>{this.changePage(this.state.currentPage - 1);}} className={(this.state.currentPage == 1)? " reactTable-pagination-control disabled": "reactTable-pagination-control"}>PREV</button>
+			<button onClick={()=>{
+				this.changePage(this.state.currentPage - 1);
+			}} className={(this.state.currentPage == 1) ? " reactTable-pagination-control disabled" : "reactTable-pagination-control"}>PREV
+			</button>
 		</li>)];
 		if(this.totalPages === 1){
 			//If there is only one page, remove that first button
@@ -248,7 +256,7 @@ export default class Datatable extends React.Component{
 			index = 1;
 		}
 		else{
-			if(this.state.currentPage > this.totalPages-7){
+			if(this.state.currentPage > this.totalPages - 7){
 				index = this.totalPages - 7;
 			}
 			else{
@@ -267,19 +275,25 @@ export default class Datatable extends React.Component{
 
 				}
 				pagesArr.push(<li className="reactTable-pagination-item" key={i}>
-					<button onClick={()=>{this.changePage(i);}} className={(this.state.currentPage == i)? "active" : ""}>{i}</button>
+					<button onClick={()=>{
+						this.changePage(i);
+					}} className={(this.state.currentPage == i) ? "active" : ""}>{i}</button>
 				</li>);
 			}
 			//If you are less than 4 pages from the end or there are less than 10 pages
 			else if(i !== this.totalPages){
 				//if you're not the last page, add a button
 				pagesArr.push(<li className="reactTable-pagination-item" key={i}>
-					<button onClick={()=>{this.changePage(i);}} className={(this.state.currentPage == i)? "active" : ""}>{i}</button>
+					<button onClick={()=>{
+						this.changePage(i);
+					}} className={(this.state.currentPage == i) ? "active" : ""}>{i}</button>
 				</li>);
 			}
 			else{
 				pagesArr.push(<li className="reactTable-pagination-item" key={i}>
-					<button onClick={()=>{this.changePage(i);}} className={(this.state.currentPage == i)? "active" : ""}>{i}</button>
+					<button onClick={()=>{
+						this.changePage(i);
+					}} className={(this.state.currentPage == i) ? "active" : ""}>{i}</button>
 				</li>);
 			}
 		}
@@ -305,8 +319,8 @@ export default class Datatable extends React.Component{
 			return; //can't go past the last page either
 		}
 		let perPage = this.props.perPage,
-			startNum = perPage * (pageNum-1),
-			endNum =  perPage * pageNum,
+			startNum = perPage * (pageNum - 1),
+			endNum = perPage * pageNum,
 			collection = this.state.data,
 			displayedData = collection.slice(startNum, endNum);
 		this.setState({currentPage: pageNum, displayedData: displayedData}); //update state to rerender
@@ -316,20 +330,22 @@ export default class Datatable extends React.Component{
 		//determines which chunk of models should be show in the table based on the current page
 		let perPage = this.props.perPage,
 			page = this.state.currentPage,
-			startNum = perPage * (page-1),
-			endNum =  perPage * page,
+			startNum = perPage * (page - 1),
+			endNum = perPage * page,
 			displayedData = collection.slice(startNum, endNum);
 		return displayedData;
 	}
+
 	addControls(){
 		//adds the blue bar to the top fo the table. This currently doesn't do anything
-		if (this.props.displayControls) {
-			return(
+		if(this.props.displayControls){
+			return (
 				<div className="reactTable-controlPanel">
 					<ul className="controlPanel-list">
 						<li>{this.state.selectedRows.length} {this.props.pageName}(s) Selected</li>
 						<li>
-							<button onClick={this.dispatchRemoveSelectedFromCart} className="controlPanel-btn"> REMOVE FROM CART <Glyphicon glyph="trash"/></button>
+							<button onClick={this.dispatchRemoveSelectedFromCart} className="controlPanel-btn"> REMOVE FROM CART
+								<Glyphicon glyph="trash"/></button>
 						</li>
 						{this.renderToolbarDropdown()}
 					</ul>
@@ -338,8 +354,9 @@ export default class Datatable extends React.Component{
 		}
 	}
 
-	renderToolbarDropdown () {
-		if (this.props.pageName === 'Form') {
+	/* TODO Move what this metod does outof this component and isntead pass it through the component that owns this on render */
+	renderToolbarDropdown(){
+		if(this.props.pageName === 'Form'){
 			return (
 				<li>
 					<DropdownButton id="download-dropdown" className="controlPanel-btn" title="DOWNLOAD">
@@ -349,21 +366,22 @@ export default class Datatable extends React.Component{
 				</li>
 			);
 		}
-		else if (this.props.pageName === 'CDE') {
-				return (
-					<li>
-						<DropdownButton id="download-dropdown" className="controlPanel-btn" title="DOWNLOAD">
-							<MenuItem onClick={this.dispatchDownloadXLS} eventKey="1"><i className="controlPanel-icon fa fa-file-excel-o"></i> DOWNLOAD EXCEL</MenuItem>
-						</DropdownButton>
-					</li>
-				);
-			}
+		else if(this.props.pageName === 'CDE'){
+			return (
+				<li>
+					<DropdownButton id="download-dropdown" className="controlPanel-btn" title="DOWNLOAD">
+						<MenuItem onClick={this.dispatchDownloadXLS} eventKey="1"><i className="controlPanel-icon fa fa-file-excel-o"></i> DOWNLOAD EXCEL</MenuItem>
+					</DropdownButton>
+				</li>
+			);
+		}
 	}
+
 	sortColumn(columnName, elem){
 		//sorts column based on which title was clicked
 		let data = this.state.data;
 		let columnTitles = this.state.columnTitles;
-		let columnSort = this.state.columnTitles.filter( (title)=>{
+		let columnSort = this.state.columnTitles.filter((title)=>{
 			return title.name === columnName;
 		}); //find which column you're sorting by
 		//set arrows to be the right direction
@@ -381,20 +399,19 @@ export default class Datatable extends React.Component{
 			columnSort[0].sort = 'asc'; //flip to ascending
 		}
 
-		data = _.sortBy( data, (item) => { //lodash's sortBy function based on new sort column
+		data = _.sortBy(data, (item) =>{ //lodash's sortBy function based on new sort column
 			return item[columnSort[0].key];
 		});
 		if(columnSort[0].sort === 'desc'){
 			data = data.reverse();
 		}
 
-		let index = this.props.columnTitles.findIndex( (element)=>{
+		let index = this.props.columnTitles.findIndex((element)=>{
 			return element.key === columnSort[0].key;
 		});
 		columnTitles[index] = columnSort[0]; //set the newly changed column object to be at the same index in the state
 		let displayedData = this.getCurrentDisplayData(data); //re-calculate which data to display with new order
-		this.setState({data : data, columnTitles: columnTitles, displayedData: displayedData}); //update state
-		/*this.dispatchLastSortedByKey({sortKey: columnSort[0].key, sortOrder: columnSort[0].sort});*/
+		this.setState({data: data, columnTitles: columnTitles, displayedData: displayedData, tableSortedBy: {sortKey: columnSort[0].key, sortOrder: columnSort[0].sort}}); //update state
 	}
 
 	makeArrows(title){
@@ -500,17 +517,18 @@ export default class Datatable extends React.Component{
 }
 Datatable.defaultProps = {
 	displayControls: true,
-	showCheckboxes: true,
-	resultsText: "TOTAL ITEMS IN CART:"
+	showCheckboxes:  true,
+	resultsText:     "TOTAL ITEMS IN CART:"
 };
 Datatable.propTypes = {
-	data: PropTypes.array,
-	columnTitles: PropTypes.array,
-	pagination: PropTypes.bool,
-	perPage: PropTypes.number,
-	pageName: PropTypes.string,
+	data:            PropTypes.array,
+	columnTitles:    PropTypes.array,
+	pagination:      PropTypes.bool,
+	perPage:         PropTypes.number,
+	pageName:        PropTypes.string,
+	dispatchSortedState: PropTypes.func,
 	displayControls: PropTypes.bool,
-	showCheckboxes: PropTypes.bool,
-	clickCallback: PropTypes.func,
-	resultsText: PropTypes.string
+	showCheckboxes:  PropTypes.bool,
+	clickCallback:   PropTypes.func,
+	resultsText:     PropTypes.string
 };
