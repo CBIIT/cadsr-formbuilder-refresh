@@ -126,7 +126,7 @@ FormBuilder/src/main/webapp/assets/js/main.js -text
 FormBuilder/src/main/webapp/assets/js/models/AppModel.js -text
 FormBuilder/src/main/webapp/assets/js/models/carts/CDECollection.js -text
 FormBuilder/src/main/webapp/assets/js/models/carts/CDEModel.js -text
-FormBuilder/src/main/webapp/assets/js/models/carts/CartPageStateModel.js -text
+FormBuilder/src/main/webapp/assets/js/models/carts/CartsStateModel.js -text
 FormBuilder/src/main/webapp/assets/js/models/carts/FormCollection.js -text
 FormBuilder/src/main/webapp/assets/js/models/carts/FormModel.js -text
 FormBuilder/src/main/webapp/assets/js/models/carts/ModuleCollection.js -text
