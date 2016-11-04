@@ -352,22 +352,22 @@ export default class SearchLayout extends Component {
 		let columnConfig = TABLECONFIG.SEARCH_FORM;
 		let resultsText = "TOTAL RESULTS: ";
 		
-		if(this.state.tableData.length) {
+		//if(this.state.tableData.length) {
 			return (
 				<div>
 					<h1 className="text--bold">{pageName}</h1>
 					<Datatable pagination={true} perPage={100} pageName={pageName} resultsText={resultsText} displayControls={false} showCheckboxes={false} columnTitles={columnConfig} data={this.state.tableData}></Datatable>
 				</div>
 			);
-		}
-		else {
-			return (
-				<div>
-					<h1 className="text--bold">{pageName}</h1>
-					<div>No results</div>
-				</div>
-				);
-		}
+		//}
+		//else {
+		//	return (
+		//		<div>
+		//			<h1 className="text--bold">{pageName}</h1>
+		//			<div>No results</div>
+		//		</div>
+		//		);
+		//}
 	}
 
 	render(){

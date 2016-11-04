@@ -3,6 +3,7 @@ import {withRouter} from 'react-router';
 import NotificationSystem from 'react-notification-system';
 import userService from '../../services/user/UserService';
 import {appChannel} from '../../channels/radioChannels';
+import MessageModal from '../modals/MessageModal';
 import EVENTS from '../../constants/EVENTS';
 import Header from './Header';
 import Footer from './Footer';
@@ -64,6 +65,7 @@ class AppLayout extends Component {
 
 				<Footer />
 				<NotificationSystem ref="notificationSystem" />
+				<MessageModal />
 			</div>
 		);
 	}

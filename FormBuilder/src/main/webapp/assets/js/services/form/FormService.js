@@ -98,11 +98,13 @@ const FormService = Marionette.Object.extend({
 				browserHistory.push(`/FormBuilder/`);
 				this.formUIStateModel.set({isEditing: true});
 				this.dispatchLayout({action: formActions.VIEW_FULL_FORM});
-				//				alert("Form created. formIdseq is: " + formIdseq);
 			},
 			error:   (model, response) =>{
 				/*TODO: of course this is too basic. Improve error handling */
-				alert("error");
+				appChannel.request(EVENTS.APP.SHOW_USER_MESSAGE,{
+					message: "There was a problem creating the Form.  Please try again.",
+					level: "error"
+				});
 			}
 		});
 	},
@@ -127,7 +129,10 @@ const FormService = Marionette.Object.extend({
 	handleAddModule(data) {
 		const newModuleModel = this.formModel.get('formModules').add(new FormModuleModel(data));
 		this.saveForm().then(() =>{
-			alert("Module Added");
+			appChannel.request(EVENTS.APP.SHOW_USER_MESSAGE,{
+				message: "Module Added",
+				level: "success"
+			});
 			/* TODO Hack for CADSRFBTR-282. make sure to remove when redesigning form saving */
 			newModuleModel.set("moduleIdseq", this.formModel.get("tempNewModuleseqId"));
 			this.formModel.unset("tempNewModuleseqId");
@@ -255,9 +260,17 @@ const FormService = Marionette.Object.extend({
 			}
 		);
 		return p.then(()=>{
-			if(successMessage) alert(successMessage);
+			if(successMessage) {
+				appChannel.request(EVENTS.APP.SHOW_USER_MESSAGE,{
+					message: successMessage,
+					level: "success"
+				});
+			}
 		}).catch((error)=>{
-			alert("error");
+			appChannel.request(EVENTS.APP.SHOW_USER_MESSAGE,{
+				message: "There was a problem saving the form.  Please try again",
+				level: "error"
+			});
 			console.log(error);
 		});
 	},
@@ -295,12 +308,28 @@ const FormService = Marionette.Object.extend({
 	handleCreateCopy(formIdseq) {
 		fetchSecure({
 			url:    `${ENDPOINT_URLS.FORMS.CREATE_COPY}/${formIdseq}`,
-			method: "POST"
+			method: "POST",
+			dataType: "text",
+			swallowErrors: false,
 		}).then((data) =>{
-			alert("Form Successfully Copied\nYou will now be redirected to the copied version of the form.  A new public ID has been assigned.");
-			this.dispatchLayout({action: formActions.VIEW_FULL_FORM, formIdseq: data});
+			data.text().then((text) => {
+				appChannel.request(EVENTS.APP.SHOW_USER_MODAL_MESSAGE,{
+					heading: "FORM SUCCESSFULLY COPIED",
+					message: "You will now be redirected to the copied version of the form.  A new public ID has been assigned.",
+					button: {
+						label: "VIEW COPIED FORM",
+						callback: () => {
+							let url = "/FormBuilder/forms/" + text;
+							window.location.href = url;
+						}
+					}
+				});
+			});
 		}).catch(() =>{
-			alert("Form failed to copy");
+			appChannel.request(EVENTS.APP.SHOW_USER_MESSAGE,{
+				message: "Form failed to copy",
+				level: "error"
+			});
 		});
 	},
 	handleDelete(formIdseq) {
@@ -310,10 +339,19 @@ const FormService = Marionette.Object.extend({
 			swallowErrors: false,
 			dataType: "string"
 		}).then((data) =>{
-			alert("success");
-			browserHistory.push(`/`);
+			appChannel.request(EVENTS.APP.SHOW_USER_MESSAGE,{
+				message: "The Form has been deleted successfully",
+				level: "success"
+			});
+			setTimeout(function() {
+				window.location.href = "/FormBuilder/";
+			}, 2000);
 		}).catch((msg) =>{
-			alert("The Form failed to delete properly: " + msg);
+			appChannel.request(EVENTS.APP.SHOW_USER_MESSAGE,{
+				message: "The Form failed to delete properly",
+				level: "error"
+			});
+			console.log(msg);
 		});
 	},
 	handleDownloadXML(formIdseq) {

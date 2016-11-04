@@ -106,6 +106,7 @@ FormBuilder/src/main/webapp/assets/js/components/layout/Footer.js -text
 FormBuilder/src/main/webapp/assets/js/components/layout/Header.js -text
 FormBuilder/src/main/webapp/assets/js/components/modals/ClassificationSelectModal.js -text
 FormBuilder/src/main/webapp/assets/js/components/modals/ExitFormModal.js -text
+FormBuilder/src/main/webapp/assets/js/components/modals/MessageModal.js -text
 FormBuilder/src/main/webapp/assets/js/components/modals/ProtocolSelectModal.js -text
 FormBuilder/src/main/webapp/assets/js/components/search/SearchLayout.js -text
 FormBuilder/src/main/webapp/assets/js/components/tables/Datatable.js -text
