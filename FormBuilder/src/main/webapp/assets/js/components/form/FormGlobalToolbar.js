@@ -155,6 +155,37 @@ export default class FormGlobalToolbar extends Component {
 	}
 	renderMoreFormActions() {
 		if(!this.props.formMetadata.locked === true && !this.props.shouldShowFormEditControls){
+			
+			let options = "";
+			if (this.props.userIsLoggedIn) {
+				return (
+						<div className="formCenterV">
+							<select id="moreActions" name="moreActions" className="form-control"  value={this.state.moreActionsSelected} onChange={this.handleMoreActionsChanged}>
+								<option value="">MORE FORM ACTIONS</option>
+								<option value="addFormToCart">  ADD FORM TO CART</option>
+								<option value="downloadXls">  DOWNLOAD XLS</option>
+								<option value="downloadXml">  DOWNLOAD XML</option>
+								<option value="copyForm">  COPY FORM</option>
+								<option value="deleteForm">  DELETE FORM</option>
+							</select>
+							<button type="button" className="btn-link" onClick={this.moreActionsGo}>GO</button>
+						</div>
+					);
+			}
+			else {
+				return (
+						<div className="formCenterV">
+							<select id="moreActions" name="moreActions" className="form-control"  value={this.state.moreActionsSelected} onChange={this.handleMoreActionsChanged}>
+								<option value="">MORE FORM ACTIONS</option>
+								<option value="downloadXls">  DOWNLOAD XLS</option>
+								<option value="downloadXml">  DOWNLOAD XML</option>
+							</select>
+							<button type="button" className="btn-link" onClick={this.moreActionsGo}>GO</button>
+						</div>
+					);
+			}
+			
+			
 			return (
 				<div className="formCenterV">
 					<select id="moreActions" name="moreActions" className="form-control"  value={this.state.moreActionsSelected} onChange={this.handleMoreActionsChanged}>
