@@ -1,15 +1,21 @@
 import React, {Component, PropTypes, cloneElement} from 'react';
 import {withRouter} from 'react-router';
+import NotificationSystem from 'react-notification-system';
 import userService from '../../services/user/UserService';
+import {appChannel} from '../../channels/radioChannels';
+import EVENTS from '../../constants/EVENTS';
 import Header from './Header';
 import Footer from './Footer';
 
 class AppLayout extends Component {
 	constructor(props){
 		super(props);
+		this.showUserMessage = this.showUserMessage.bind(this);
+		this.hideUserMessage = this.hideUserMessage.bind(this);
 		this.state = {
 			userIsLoggedIn: false
 		};
+		this._notificationSystem = null;
 	}
 
 	checkUserIsLoggedIn(){
@@ -22,6 +28,13 @@ class AppLayout extends Component {
 
 	componentDidMount(){
 		this.checkUserIsLoggedIn();
+		appChannel.reply(EVENTS.APP.SHOW_USER_MESSAGE, function(config) {
+			return this.showUserMessage(config);
+		}, this);
+		appChannel.reply(EVENTS.APP.HIDE_USER_MESSAGE, function(uid) {
+			this.hideUserMessage(uid);
+		}, this);
+		this._notificationSystem = this.refs.notificationSystem;
 	}
 
 	/* Most likely cause is that a new route was entered */
@@ -30,6 +43,14 @@ class AppLayout extends Component {
 		if(nextProps.location.pathname !== this.props.location.pathname){
 			this.checkUserIsLoggedIn();
 		}
+	}
+	
+	showUserMessage(config) {
+		return this._notificationSystem.addNotification(config);
+	}
+	
+	hideUserMessage(uid) {
+		this._notificationSystem.removeNotification(uid);
 	}
 
 	render(){
@@ -42,7 +63,7 @@ class AppLayout extends Component {
 				</main>
 
 				<Footer />
-
+				<NotificationSystem ref="notificationSystem" />
 			</div>
 		);
 	}

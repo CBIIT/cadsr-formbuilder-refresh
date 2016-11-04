@@ -6,6 +6,8 @@ const EVENTS = {
 	APP:    {
 		SET_MAIN_CONTENT_LAYOUT: 'set:mainContentLayout',
 		ADD_MODULE_FROM_FORM_TO_CART:        "add:moduleFromModuleCart",
+		SHOW_USER_MESSAGE:              'show:userMessage',
+		HIDE_USER_MESSAGE:              'hide:userMessage'
 	},
 	FORM:   {
 		CANCEL_EDIT_FORM:               'cancelEditForm',

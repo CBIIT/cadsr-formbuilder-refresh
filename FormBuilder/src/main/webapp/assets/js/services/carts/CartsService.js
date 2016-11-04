@@ -228,9 +228,15 @@ const CartsService = Marionette.Object.extend({
 				swallowErrors: false
 			}
 		).then((data) => {
-			alert("success");
+			appChannel.request(EVENTS.APP.SHOW_USER_MESSAGE,{
+				message: "The Form has been added to the Form Cart successfully",
+				level: "success"
+			});
 		}).catch(() => {
-			alert("The Form failed to delete properly");
+			appChannel.request(EVENTS.APP.SHOW_USER_MESSAGE,{
+				message: "The Form failed adding to the Form Cart",
+				level: "error"
+			});
 		});
 	}
 });
