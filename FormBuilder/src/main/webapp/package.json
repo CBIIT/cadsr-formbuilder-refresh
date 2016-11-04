@@ -25,7 +25,6 @@
     "backgrid": "^0.3.7",
     "backgrid-paginator": "0.3.9",
     "backgrid-select-all": "0.3.5",
-    "bootstrap-sass": "3.3.7",
     "font-awesome": "^4.6.3",
     "form-serialize": "^0.7.1",
     "formsy-react": "^0.18.1",
