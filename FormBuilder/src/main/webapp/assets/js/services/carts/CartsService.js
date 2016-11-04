@@ -34,7 +34,7 @@ const CartsService = Marionette.Object.extend({
 		appChannel.reply(EVENTS.CARTS.GET_QUESTION_MODEL, (options) => this.getQuestionModelFromCDECartById(options));
 		appChannel.reply(EVENTS.CARTS.GET_MODULE_MODEL, (options) => this.getQuestionModuleFromModuleCartById(options));
 		appChannel.reply(EVENTS.APP.ADD_MODULE_FROM_FORM_TO_CART, (options) => this.handleAddModuleToModuleCart(options));
-		
+
 		cartChannel.reply(EVENTS.CARTS.ADD_FORM, (options) => this.handleAddFormToCart(options));
 	},
 	dispatchLayout({action}) {
@@ -106,37 +106,8 @@ const CartsService = Marionette.Object.extend({
 		newModuleModel.save();
 	},
 	/*TODO Incomplete */
-	handleCartSortedBy ({sortKey, sortOrder}){
-		const action = this.cartsStateModel.get("actionMode");
-		switch(action){
-			case cartActions.VIEW_CDE_CART_PAGE:
-				this.cartsStateModel.set({
-					CDECartUIState: {
-						lastSortedByKey: sortKey,
-						lastSortOrder:   sortOrder
-					}
-				});
-				break;
-			case cartActions.VIEW_FORM_CART_PAGE:
-				this.cartsStateModel.set({
-					FormCartUIState: {
-						lastSortedByKey: sortKey,
-						lastSortOrder:   sortOrder
-					}
-				});
-				break;
-			case cartActions.VIEW_MODULE_CART_PAGE:
-				this.cartsStateModel.set({
-					ModuleCartUIState: {
-						lastSortedByKey: sortKey,
-						lastSortOrder:   sortOrder
-					}
-				});
-				break;
-			default:
-				console.error("no valid action provided");
-		}
-
+	handleCartSortedBy (cartUIState){
+		this.cartsStateModel.set(cartUIState);
 	},
 
 	handleDownloadXML({itemsIds}) {
@@ -218,7 +189,7 @@ const CartsService = Marionette.Object.extend({
 
 		this.listenToCartCollections();
 	},
-	
+
 	handleAddFormToCart(formMetadata, callback) {
 		fetchSecure({
 				url: `${ENDPOINT_URLS.CARTS.ADD_FORM}`,

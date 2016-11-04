@@ -46,31 +46,31 @@ class FormLayout extends Component {
 		this.getFormModules();
 
 	}
-
+	/*TODO use shared logic among cart pages and FormLayout, possibly with an HOC */
 	setCdeCartState(){
 		const CDECartUIState = cartsService.cartsStateModel.attributes.CDECartUIState;
-		const lastSortedByKey = CDECartUIState.lastSortedByKey;
-		const lastSortOrder = CDECartUIState.lastSortOrder;
+		const sortKey = CDECartUIState.sortKey;
+		const sortOrder = CDECartUIState.sortOrder;
 		let cdeCartItems = getCdeCartCollectionPojo(cartsService.cdeCartCollection);
-		if(lastSortedByKey && lastSortOrder !== 'desc'){
-			cdeCartItems = _.sortBy(cdeCartItems, lastSortedByKey);
+		if(sortKey && sortOrder !== 'desc'){
+			cdeCartItems = _.sortBy(cdeCartItems, sortKey);
 		}
-		else if(lastSortedByKey && lastSortOrder === 'desc'){
-			cdeCartItems = _.sortBy(cdeCartItems, lastSortedByKey).reverse();
+		else if(sortKey && sortOrder === 'desc'){
+			cdeCartItems = _.sortBy(cdeCartItems, sortKey).reverse();
 		}
 		this.setState({cdeCartCollection: cdeCartItems});
 	}
-
+	/*TODO use shared logic among cart pages and FormLayout, possibly with an HOC */
 	setModuleCartState(){
 		const ModuleCartUIState = cartsService.cartsStateModel.attributes.ModuleCartUIState;
-		const lastSortedByKey = ModuleCartUIState.lastSortedByKey;
-		const lastSortOrder = ModuleCartUIState.lastSortOrder;
+		const sortKey = ModuleCartUIState.sortKey;
+		const sortOrder = ModuleCartUIState.sortOrder;
 		let cartItems = getModuleCartCollectionPojo(cartsService.moduleCartCollection);
-		if(lastSortedByKey && lastSortOrder !== 'desc'){
-			cartItems = _.sortBy(cartItems, lastSortedByKey);
+		if(sortKey && sortOrder !== 'desc'){
+			cartItems = _.sortBy(cartItems, sortKey);
 		}
-		else if(lastSortedByKey && lastSortOrder === 'desc'){
-			cartItems = _.sortBy(cartItems, lastSortedByKey).reverse();
+		else if(sortKey && sortOrder === 'desc'){
+			cartItems = _.sortBy(cartItems, sortKey).reverse();
 		}
 		this.setState({moduleCartCollection: cartItems});
 	}
