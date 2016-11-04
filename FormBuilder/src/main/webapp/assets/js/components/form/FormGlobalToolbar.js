@@ -29,14 +29,6 @@ export default class FormGlobalToolbar extends Component {
 	}
 
 	componentDidMount() {
-		cartChannel.reply(EVENTS.CARTS.COMPLETE_ADD_FORM, function(success) {
-			if (success) {
-				alert("Form successfully added to Form Cart");
-			}
-			else {
-				alert("Unable to add Form to Form Cart");
-			}
-		}, this);
 
 	}
 

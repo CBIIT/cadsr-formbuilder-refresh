@@ -48,16 +48,25 @@ class Header extends Component {
 	renderUser() {
 		if (this.state.userName == "") {
 			return (
-				<li id="nav-signIn">
-					<a href="/FormBuilder/spring_security_login" className="footer_link">Sign In</a>
-				</li>
+				<ul>
+					<li id="nav-access" />
+					<li id="nav-signIn">
+						<a href="/FormBuilder/spring_security_login" className="footer_link">Sign In</a>
+					</li>
+				</ul>
 			);
 		}
 		else {
 			return (
-				<li id="nav-signIn">
-					Welcome, {this.state.userName}
-				</li>
+				<ul>
+					<li id="nav-access" />
+					<li id="nav-signIn">
+						Welcome, {this.state.userName}
+					</li>
+					<li>
+						<a href="/FormBuilder/perform_logout" className="footer_link">Sign Out</a>
+					</li>
+				</ul>
 			);
 		}
 	}
@@ -73,10 +82,7 @@ class Header extends Component {
               </div>
               <div className="navbar-subheader center-v-spread-h">
               	{this.renderReturnButton()}
-                <ul>
-                  <li id="nav-access" />
-                  {this.renderUser()}
-                </ul>
+              	{this.renderUser()}
               </div>
             </nav>
           </div>

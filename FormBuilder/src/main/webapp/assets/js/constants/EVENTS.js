@@ -7,7 +7,9 @@ const EVENTS = {
 		SET_MAIN_CONTENT_LAYOUT: 'set:mainContentLayout',
 		ADD_MODULE_FROM_FORM_TO_CART:        "add:moduleFromModuleCart",
 		SHOW_USER_MESSAGE:              'show:userMessage',
-		HIDE_USER_MESSAGE:              'hide:userMessage'
+		HIDE_USER_MESSAGE:              'hide:userMessage',
+		SHOW_USER_MODAL_MESSAGE:        'show:persistentMessage',
+		HIDE_USER_MODAL_MESSAGE:        'hide:persistentMessage'
 	},
 	FORM:   {
 		CANCEL_EDIT_FORM:               'cancelEditForm',
