@@ -209,7 +209,7 @@ const FormService = Marionette.Object.extend({
 		questionModel.trigger("change");
 	},
 	handleSaveForm() {
-		this.saveForm({successMessage: "Entire form saved to DB. This is what \"Global Save\" will do."});
+		this.saveForm({successMessage: "Form Saved"});
 	},
 	handleSetFormEditable() {
 		formHelpers.setFormLocked({formIdseq: this.formModel.get('formIdseq')}).then((data) =>{
