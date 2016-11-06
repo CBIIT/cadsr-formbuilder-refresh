@@ -1,5 +1,4 @@
 import React, {Component, PropTypes} from 'react';
-import {Col, Row, Button} from 'react-bootstrap';
 import FormModuleForm from './form-modules/FormModuleForm';
 import ButtonsGroup from '../common/ButtonsGroup';
 import FormMetadataForm from './FormMetadataForm';
@@ -58,18 +57,8 @@ export default class FormLayoutMain extends Component {
 			);
 		}
 		else if(actionMode === formActions.VIEW_FORM_METADATA && this.props.shouldShowFormEditControls){
-			const metaDataFormHeadingTitle = 'Edit Form';
-			const buttons = [
-				{
-					name: "SAVE",
-					type: "submit"
-				}
-			];
 			return (
-				<div>
-					<FormMetadataForm actionMode={actionMode} formMetadata={this.props.formMetadata} mainHeadingTitle={metaDataFormHeadingTitle}>
-						<ButtonsGroup buttons={buttons}/> </FormMetadataForm>
-				</div>
+					<FormMetadataForm actionMode={actionMode} formMetadata={this.props.formMetadata} mainHeadingTitle="Edit Form" />
 			);
 		}
 		else if(actionMode === formActions.VIEW_FORM_METADATA && !this.props.shouldShowFormEditControls){

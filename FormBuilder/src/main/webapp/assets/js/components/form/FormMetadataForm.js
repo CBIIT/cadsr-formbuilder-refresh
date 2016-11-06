@@ -8,11 +8,12 @@ import Form from '../common/Form';
 import {GetFormMetadataCriteriaInputOptions} from '../../commands/GetFormMetadataCriteriaCommand';
 import ProtocolSelectModal from '../modals/ProtocolSelectModal';
 import ClassificationSelectModal from '../modals/ClassificationSelectModal';
-import FilterPill from '../common/FilterPill.js';
+import FilterPill from '../common/FilterPill';
 
 export default class FormMetadataForm extends Component {
 	constructor(props){
 		super(props);
+		this.handleValueChanged = this.handleValueChanged.bind(this);
 		this.getOptions = this.getOptions.bind(this);
 		this.dispatchData = this.dispatchData.bind(this);
 		this.closeProtocolsModal = this.closeProtocolsModal.bind(this);
@@ -68,6 +69,12 @@ export default class FormMetadataForm extends Component {
 	dispatchData(data){
 		data.protocols = this.state.selectedProtocol;
 		formChannel.request(EVENTS.FORM.SET_CORE_FORM_DETAILS, data);
+	}
+	handleValueChanged(currentValues, isChanged) {
+		/* We're not saving to model onChange when create a form. That happens only onSubmit */
+		if(this.props.actionMode === formActions.VIEW_FORM_METADATA && isChanged) {
+			this.dispatchData(currentValues);
+		}
 	}
 	/* TODO Move this out to a util */
 	getOptions(options, optionKey, includeSelect){
@@ -248,7 +255,7 @@ export default class FormMetadataForm extends Component {
 			return (
 				<Grid fluid={true}>
 					<Row>
-						<Form onSubmit={this.dispatchData} id="editForm" validatePristine={this.state.validatePristine} disabled={this.props.disabled} ref="formMetata" layout="vertical">
+						<Form onChange={this.handleValueChanged} onSubmit={this.dispatchData} id="editForm" validatePristine={this.state.validatePristine} disabled={this.props.disabled} ref="formMetata" layout="vertical">
 							<fieldset name={this.props.mainHeadingTitle}>
 								<legend>{this.props.mainHeadingTitle}</legend>
 								<Row> 

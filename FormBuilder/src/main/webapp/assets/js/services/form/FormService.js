@@ -288,14 +288,12 @@ const FormService = Marionette.Object.extend({
 		this.formModel.get('formMetadata').set({
 			context: {conteIdseq: context}
 		});
-		if(this.formModel.isNew()){
+		/* POST form if if we're in create form, otherwise we don't need to do anything else*/
+		if(this.formUIStateModel.attributes.actionMode === formActions.CREATE_FORM) {
 			this.formModel.get('formMetadata').set({
 				createdBy: this.currentUserName
 			});
 			this.createForm();
-		}
-		else{
-			this.saveForm({successMessage: "Entire form saved to DB. This is what \"Global Save\" will do."});
 		}
 	},
 	setForm(model) {
