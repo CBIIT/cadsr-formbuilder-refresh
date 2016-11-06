@@ -7,19 +7,28 @@ import {cartChannel, formChannel} from '../channels/radioChannels';
 import EVENTS from '../constants/EVENTS';
 const formHelpers = {
 	fetchForm(nextState, replace, callback) {
-		let formModel = new FormModel();
-		formModel.set("formIdseq", nextState.params.formIdseq);
-		formChannel.request(EVENTS.FORM.SET_FORM_LAYOUT, {
-			action: formActions.VIEW_FULL_FORM,
-			formIdseq: nextState.params.formIdseq
-		});
-		formModel.fetch().then(() =>{
-			formService.setForm(formModel);
+		if(formService.formModel && (formService.formModel.attributes.formIdseq !== nextState.params.formIdseq)) {
+			const formModel = new FormModel();
+			formModel.set("formIdseq", nextState.params.formIdseq);
+			formChannel.request(EVENTS.FORM.SET_FORM_LAYOUT, {
+				action: formActions.VIEW_FULL_FORM,
+				formIdseq: nextState.params.formIdseq
+			});
+			formModel.fetch().then(() =>{
+				formService.setForm(formModel);
+				callback();
+			}).catch(error =>{
+				// do some error handling here
+				callback(error);
+			});
+		}
+		else {
+			formChannel.request(EVENTS.FORM.SET_FORM_LAYOUT, {
+				action: formActions.VIEW_FULL_FORM,
+				formIdseq: nextState.params.formIdseq
+			});
 			callback();
-		}).catch(error =>{
-			// do some error handling here
-			callback(error);
-		});
+		}
 	},
 	getFormLockStatus() {
 		fetchSecure({url: ENDPOINT_URLS.FORMS.FORMS}).then((data) => data);
