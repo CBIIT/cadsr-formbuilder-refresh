@@ -2,6 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import {Col, Row} from 'react-bootstrap';
 import FormLayoutMain from './FormLayoutMain';
 import cartsService from  "../../services/carts/CartsService";
+import formService from  "../../services/form/FormService";
 import backboneReact from 'backbone-react-component';
 import {withRouter} from 'react-router';
 import TreeView from './TreeView';
@@ -37,10 +38,10 @@ class FormLayout extends Component {
 		 It listens to specific events on them and reflects the change in this.state (and therefore a re-render)  */
 		backboneReact.on(this, {
 			models:      {
-				formUIState: Application.formService.formUIStateModel
+				formUIState: formService.formUIStateModel
 			},
 			collections: {
-				formModules: Application.formService.formModel.attributes.formModules
+				formModules: formService.formModel.attributes.formModules
 			}
 		});
 		this.getFormModules();
@@ -120,7 +121,7 @@ class FormLayout extends Component {
 	}
 
 	getFormMetaData(){
-		return Application.formService.formModel.attributes.formMetadata.attributes;
+		return formService.formModel.attributes.formMetadata.attributes;
 	}
 
 	/* TODO maybe get rid of "edit items" because whatever item you're viewing inside FormLayoutMain is editable, if "edit mode" is turned on */
@@ -139,7 +140,7 @@ class FormLayout extends Component {
 	getFormModules(){
 		/* Store a local copy of list of modules as POJOs with its backbone model's cid included
 		 Getting cid vs moduleIdseq because new modules don't have a moduleIdseq */
-		this.formModules = Application.formService.formModel.attributes.formModules.models.map(model =>{
+		this.formModules = formService.formModel.attributes.formModules.models.map(model =>{
 			return Object.assign({}, backboneModelHelpers.getDeepModelPojo(model), {cid: model.cid});
 		});
 	}
