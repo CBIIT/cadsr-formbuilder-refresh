@@ -1,7 +1,13 @@
 package gov.nih.nci.cadsr.model.frontend;
 
-public class FEContext implements FEBaseObject{
+import java.io.Serializable;
+
+public class FEContext implements FEBaseObject,Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1234561L;
 	private String conteIdseq;
 	private String name;
 	private String description;

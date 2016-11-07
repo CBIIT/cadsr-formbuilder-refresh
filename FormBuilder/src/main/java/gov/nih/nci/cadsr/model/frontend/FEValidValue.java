@@ -1,7 +1,13 @@
 package gov.nih.nci.cadsr.model.frontend;
 
-public class FEValidValue implements FEBaseObject{
+import java.io.Serializable;
 
+public class FEValidValue implements FEBaseObject,Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 17886L;
 	// private String vdIdSeq;
 	private String vpIdseq;
 	private String valueIdseq;

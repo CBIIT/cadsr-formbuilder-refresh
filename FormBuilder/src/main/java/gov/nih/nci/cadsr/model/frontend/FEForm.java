@@ -1,9 +1,14 @@
 package gov.nih.nci.cadsr.model.frontend;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class FEForm implements FEBaseObject{
+public class FEForm implements FEBaseObject,Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 12345L;
 	private FEFormMetaData formMetadata;
 	private List<FEModule> formModules;
 	

@@ -1,7 +1,13 @@
 package gov.nih.nci.cadsr.model.frontend;
 
-public class FEClassification implements FEBaseObject{
+import java.io.Serializable;
+
+public class FEClassification implements FEBaseObject,Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 179432L;
 	private String csCsiIdseq;
 	private String classSchemeLongName;
 	private String classSchemePrefName;
