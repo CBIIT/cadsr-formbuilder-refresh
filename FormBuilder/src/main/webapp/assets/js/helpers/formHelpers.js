@@ -30,30 +30,35 @@ const formHelpers = {
 				});
 			};
 			/* Fetch the form the user wants to see and return a promise*/
-			const fetchForm = () =>{
+			const fetchForm = ({errorMessage = "There was a problem trying to get the form you're trying to view."} ={}) =>{
 				return newFormModel.fetch().then(()=>{
 					return Promise.resolve(newFormModel);
 				}).catch(error =>{
 					appChannel.request(EVENTS.APP.SHOW_USER_MESSAGE, {
-						message: "There was a problem trying to get the form you're trying to view.",
+						message: errorMessage,
 						level:   "error"
 					});
 					return Promise.reject(error);
 				});
 			};
-
 			newFormModel.set("formIdseq", nextState.params.formIdseq);
+
+			/*They're going to view a DIFFERENT form then the one they're editing */
 			if((formIdSeqEditingForm !== null && formIdSeqEditingForm !== formIdseqFormToView) && formIdseqCurrentForm){
 				newFormModel.urlRoot = ENDPOINT_URLS.FORMS_DB;
 				networkOperations.push(saveWorkingCopyForm());
+				networkOperations.push(fetchForm());
 			}
+			/*They're going to view the SAME form they were editing */
 			else if(formIdSeqEditingForm === formIdseqFormToView){
 				newFormModel.url = ENDPOINT_URLS.FORMS_WORKING_COPY;
+				networkOperations.push(fetchForm({errorMessage: "There was a problem trying to get the working copy of the form you were last editing."}));
 				setFormEditing = true;
 			}
+			else {
+				networkOperations.push(fetchForm());
 
-			networkOperations.push(fetchForm());
-
+			}
 			/*Wait until all networkOperations promises are complete*/
 			Promise.all(networkOperations).then((results) =>{
 				setFormLayout();
