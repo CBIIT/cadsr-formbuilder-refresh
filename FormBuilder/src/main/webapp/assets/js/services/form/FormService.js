@@ -295,6 +295,10 @@ const FormService = Marionette.Object.extend({
 						resolve();
 					}).catch((error) =>{
 					reject(error);
+					appChannel.request(EVENTS.APP.SHOW_USER_MESSAGE, {
+						message: "The Working copy of the form you were editing could not be saved.",
+						level:   "error"
+					});
 				});
 			}
 		);
