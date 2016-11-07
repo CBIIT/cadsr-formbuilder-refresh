@@ -359,23 +359,29 @@ public class FormManagerImpl implements FormManager {
 		if (headers.size() > 0) {
 			header = (InstructionTransferObject) headers.get(0);
 		}
+		else{
+			header = null;
+		}
 		if (footers.size() > 0) {
 			footer = (InstructionTransferObject) footers.get(0);
 		}
+		else{
+			footer = null;
+		}
 
-		header.setPreferredDefinition(form.getFormMetadata().getHeaderInstructions());
-		footer.setPreferredDefinition(form.getFormMetadata().getFooterInstructions());
+//		header.setPreferredDefinition(form.getFormMetadata().getHeaderInstructions());
+//		footer.setPreferredDefinition(form.getFormMetadata().getFooterInstructions());
 
-		String headerInsterStr = "";
+		String headerInsterStr = form.getFormMetadata().getHeaderInstructions();
 		FormInstructionChanges instrChanges = new FormInstructionChangesTransferObject();
 		Map headerInstrChanges = getInstructionChanges(instrChanges.getFormHeaderInstructionChanges(), headerInsterStr,
 				header, formHeader, form.getFormMetadata().getLongName());
-		instrChanges.setFormHeaderInstructionChanges(headerInstrChanges);
+//		instrChanges.setFormHeaderInstructionChanges(headerInstrChanges);
 
-		String footerInsterStr = "";
+		String footerInsterStr = form.getFormMetadata().getFooterInstructions();
 		Map footerInstrChanges = getInstructionChanges(instrChanges.getFormFooterInstructionChanges(), footerInsterStr,
 				footer, formHeader, form.getFormMetadata().getLongName());
-		instrChanges.setFormFooterInstructionChanges(footerInstrChanges);
+//		instrChanges.setFormFooterInstructionChanges(footerInstrChanges);
 
 		instChanges.setFormHeaderInstructionChanges(headerInstrChanges);
 		instChanges.setFormFooterInstructionChanges(footerInstrChanges);
@@ -506,6 +512,25 @@ public class FormManagerImpl implements FormManager {
 					validValueChange.setDeletedValidValues(new ArrayList());
 					validValueChange.setNewValidValues(new ArrayList());
 					validValueChange.setUpdatedValidValues(new ArrayList());
+					
+					for(FEModule oldMod : oldForm.getFormModules()){
+						if(oldMod.getModuleIdseq().equals(mto.getModuleIdseq())){
+							
+							for(FEQuestion oldQues : oldMod.getQuestions()){
+								if(oldQues.getQuesIdseq().equals(qto.getQuesIdseq())){
+									
+									for(FEValidValue oldValue : oldQues.getValidValues()){
+										if(!qto.getValidValues().contains(oldValue)){
+											ValidValueTransferObject deleteValue = new ValidValueTransferObject();
+											deleteValue.setVdIdseq(oldValue.getValueIdseq());
+											validValueChange.getDeletedValidValues().add(deleteValue);
+										}
+									}
+								}
+							}
+						}
+					}
+					
 
 					for (FEValidValue bbVV : ques.getValidValues()) {
 
