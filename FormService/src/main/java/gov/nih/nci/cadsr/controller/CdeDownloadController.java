@@ -8,6 +8,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.HashSet;
 
+import javax.naming.OperationNotSupportedException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -49,18 +50,18 @@ public class CdeDownloadController {
 	@ResponseBody
 	public ResponseEntity downloadFormXML(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		
-
+		throw new OperationNotSupportedException();
+/*
 			CDECart cart = new CDECartTransferObject();
 
 			String fileName = null;
 			// String type = request.getParameter("type");
 			DBUtil util = new DBUtil();
-			/*
+			
 			 * String jndiName = util.getJNDIProperty(); if (jndiName !=null &&
 			 * !jndiName.equals("")) jndiName = "java:comp/env/jdbc/" +
 			 * jndiName;
-			 */
+			 
 			Collection items = new HashSet();
 			CDECartItem item1 = new CDECartItemTransferObject();
 			item1.setId("99BA9DC8-29C9-4E69-E034-080020C9C0E0");
@@ -92,7 +93,7 @@ public class CdeDownloadController {
 		
 
 		return new ResponseEntity(HttpStatus.OK);
-	
+	*/
 		}
 
 	@RequestMapping(value = "/cdexlsDownload", method = RequestMethod.GET)
