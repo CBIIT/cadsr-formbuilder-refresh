@@ -1,7 +1,13 @@
 package gov.nih.nci.cadsr.model.frontend;
 
-public class FEDataElement implements FEBaseObject{
+import java.io.Serializable;
+
+public class FEDataElement implements FEBaseObject, Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 9020785214113739630L;
 	private String longname;
 	private String longcdename;
 	private String publicid;

@@ -117,4 +117,21 @@ public class FEModule extends FECartItem implements FEBaseObject,Serializable{
 		}
 	}
 	
+	@Override
+	public boolean equals(Object obj){
+		if (obj == null){
+			return false;
+		}
+		if(!FEModule.class.isAssignableFrom(obj.getClass())){
+			return false;
+		}
+		final FEModule other = (FEModule) obj;
+		
+		if(this.getModuleIdseq().equals(other.getModuleIdseq())){
+			return true;
+		}
+		
+		return false;
+	}
+	
 }

@@ -175,5 +175,22 @@ public class FEQuestion extends FECartItem implements FEBaseObject,Serializable{
 	public void setDeleted(boolean isDeleted) {
 		this.isDeleted = isDeleted;
 	}
+	
+	@Override
+	public boolean equals(Object obj){
+		if (obj == null){
+			return false;
+		}
+		if(!FEQuestion.class.isAssignableFrom(obj.getClass())){
+			return false;
+		}
+		final FEQuestion other = (FEQuestion) obj;
+		
+		if(this.getQuesIdseq().equals(other.getQuesIdseq())){
+			return true;
+		}
+		
+		return false;
+	}
 
 }
