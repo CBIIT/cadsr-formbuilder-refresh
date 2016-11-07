@@ -93,7 +93,14 @@ const formHelpers = {
 				fetchSecure({
 					url:    `${ENDPOINT_URLS.FORMS.LOCK}/${formIdseq}`,
 					method: 'post'
-				}).then((data) => (resolve(data)));
+				}).then((data) => (resolve(data))).catch((msg) =>{
+						appChannel.request(EVENTS.APP.SHOW_USER_MESSAGE, {
+							message: userMessagesText.SET_FORM_LOCK_FAIL,
+							level:   "error",
+							autoDismiss: false
+						});
+						console.log(msg);
+					});
 			});
 	},
 	releaseForm({formIdseq}) {
@@ -104,7 +111,14 @@ const formHelpers = {
 				fetchSecure({
 					url:    `${ENDPOINT_URLS.FORMS.LOCK}/${formIdseq}`,
 					method: 'delete'
-				}).then((data) => (resolve(data)));
+				}).then((data) => (resolve(data))).catch((msg) =>{
+					appChannel.request(EVENTS.APP.SHOW_USER_MESSAGE, {
+						message: userMessagesText.RELEASE_FORM_LOCK_FAIL,
+						level:   "error",
+						autoDismiss: false
+					});
+					console.log(msg);
+				});
 			});
 	}
 };
