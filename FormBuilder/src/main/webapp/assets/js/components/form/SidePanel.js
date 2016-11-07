@@ -53,7 +53,7 @@ export default class SidePanel extends Component {
 			<div className="bordered-container panel panel-half">
 				<p className="panel-header center-v-spread-h">
 					<span className="panel-header-heading">Module Cart</span>
-					<a href="https://cdebrowser-stage.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search">GET MORE</a>
+					<a href="https://cdebrowser-stage.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search" target="_blank">GET MORE</a>
 				</p>
 				<div className="panel-content">
 					<ButtonList  {...extraButtonListProps} itemKey={"id"} className={"panel-list-cart panel-item"} buttonItemClassName={"button-link button-link-default " + (this.props.canAddModuleFromCart ? "add-text center-v-spread-h" : "")} itemTextKey={"longName"} data={this.props.moduleCartList}/>

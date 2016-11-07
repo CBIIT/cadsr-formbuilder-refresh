@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react';
 import ButtonsGroup from '../../common/ButtonsGroup';
 
 const FormItemToolbar = (props) =>{
-	const buttonClassName = 'button-link';
+	const buttonClassName = 'button-link toolbar-button';
 	const buttons = [];
 
 	if (props.shouldDisplayCopyItem) {

@@ -33,23 +33,28 @@ export default class TreeView extends Component {
 
 
 		return (
-			<div className="bordered-container tall-min-height panel">
-				<ul className="list-unstyled">
+			<div className="bordered-container tall-min-height panel treeView">
+				<ul className="list-unstyled moduleListHeader">
 					<li className="panel-header center-v-spread-h">
 						<span className="panel-header-heading">ALL MODULES</span>
-						<button disabled={!this.props.canCreateModule} onClick={this.dispatchCreateModule} className="btn btn-link panel-link--success">Create New Module</button>
+						<button disabled={!this.props.canCreateModule} onClick={this.dispatchCreateModule} className="btn-link">Create New Module</button>
+					</li>
+					<li className="center-v-spread-h">
+						<button onClick={this.dispatchNavigateFullFormView} className={"panel-link panel-item btn-link " + (this.props.viewFullFormLinkIsActive ? "panel-link--accent" : "")}>
+							VIEW FULL FORM
+						</button>
+						<button onClick={this.dispatchNavigateFormMetadata} className={"panel-link panel-item btn-link " + (this.props.formMetadataLinkIsActive ? "panel-link--accent" : "")}>
+							Form Details
+						</button>
 					</li>
 					<li>
-						<button onClick={this.dispatchNavigateFullFormView} className={"panel-link panel-item btn btn-link " + (this.props.viewFullFormLinkIsActive ? "panel-link--accent" : "")}>
-							VIEW FULL FORM</button>
-					</li>
-					<li>
-						<button onClick={this.dispatchNavigateFormMetadata} className={"panel-link panel-item btn btn-link " + (this.props.formMetadataLinkIsActive ? "panel-link--accent" : "")}>Form Details</button>
 						<hr className="panel-divider"/>
 						<p className="panel-subtitle" />
 					</li>
+				</ul>
+				<ul className="list-unstyled moduleList">
 					<li>
-						<ButtonList activeItem={this.props.activeModuleId} buttonItemClassName={"panel-link panel-item btn btn-link no-margin"} activeButtonClass={" panel-link panel-item btn btn-link no-margin panel-link--accent"} onClickCallback={this.dispatchNavigateToModule} itemKey={"cid"} className="panel-item panel-list" itemTextKey={"longName"} data={this.props.list}/>
+						<ButtonList activeItem={this.props.activeModuleId} buttonItemClassName={"panel-link panel-item btn-link no-margin"} activeButtonClass={" panel-link panel-item btn btn-link no-margin"} onClickCallback={this.dispatchNavigateToModule} itemKey={"cid"} className="panel-item panel-list" itemTextKey={"longName"} data={this.props.list}/>
 					</li>
 				</ul>
 

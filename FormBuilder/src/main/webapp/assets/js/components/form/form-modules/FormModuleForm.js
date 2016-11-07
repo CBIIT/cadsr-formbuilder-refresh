@@ -14,6 +14,7 @@ export default class FormModuleForm extends Component {
 		this.dispatchRemoveModule = this.dispatchRemoveModule.bind(this);
 		this.getQuestions = this.getQuestions.bind(this);
 		this.handleSelectQuestionAccordion = this.handleSelectQuestionAccordion.bind(this);
+		this.renderableQuestionHeader = this.renderableQuestionHeader.bind(this);
 		this.state = {
 			validatePristine: false,
 			activeQuestionAccordion:  '1'
@@ -41,10 +42,31 @@ export default class FormModuleForm extends Component {
 	handleSelectQuestionAccordion(activeKey) {
 		this.setState({ activeQuestionAccordion: activeKey });
 	}
+	renderableQuestionHeader(index, item) {
+		if (index == this.state.activeQuestionAccordion) {
+			return (
+				<div>
+					<span className="questionExpandCollapse">-</span>
+					{item.longName}
+				</div>
+			);
+		}
+		else {
+			return (
+				<div>
+					<span className="questionExpandCollapse">+</span>
+					{item.longName}
+				</div>
+			);
+		}
+	}
 	getQuestions (items) {
 		if(items && items.length){
 			const activeQuestionAccordion = this.state.activeQuestionAccordion;
 			const mapQuestions = (item, index) =>{
+				
+				let header = this.renderableQuestionHeader(index, item);
+				
 				return (
 					<Panel header={item.longName} key={index} eventKey={index}>
 						<QuestionEditable shouldDisplayRemoveItem={this.props.actionMode !== formActions.CREATE_MODULE} moduleId={this.props.moduleId} panelIsExpanded={activeQuestionAccordion=== index}  question={item}/>

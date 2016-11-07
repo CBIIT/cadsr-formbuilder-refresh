@@ -25,6 +25,7 @@ export default class FormModuleStatic extends Component {
 	dispatchRemoveModule(){
 		formChannel.request(EVENTS.FORM.REMOVE_MODULE, {id: this.props.moduleId});
 	}
+	
 	/* TODO move dupliated methods in FormModuleForm into reusable component */
 	getQuestions(){
 		if(this.props.questions && this.props.questions.length){

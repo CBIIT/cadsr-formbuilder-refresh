@@ -47,13 +47,13 @@ export class ValidValueEditable extends Component{
 								<legend className="sr-only">{this.props.validValue.longName}</legend>
 								<ul className="list-unstyled">
 									<li>
-										Form Value Meaning Text: {this.props.validValue.formValueMeaningText}
+										Meaning Text: {this.props.validValue.formValueMeaningText}
 									</li>
 									<li>
-										Form Value Meaning Public ID Version: {this.props.validValue.formValueMeaningIdVersion}
+										Meaning Public ID Version: {this.props.validValue.formValueMeaningIdVersion}
 									</li>
 									<li>
-										Form Value Meaning Desc: {this.props.validValue.formValueMeaningDesc}
+										Meaning Desc: {this.props.validValue.formValueMeaningDesc}
 									</li>
 									<li>
 										<Textarea rows={1} name="instructions" label="Instructions" value={(this.props.validValue.instructions !== null ? this.props.validValue.instructions : "")}/>

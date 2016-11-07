@@ -7,10 +7,18 @@
   background-color: $color-base;
   h4{
     margin-top:10px;
-    text-transform: uppercase;
+  }
+  .toolbar-button {
+  	margin-top: 10px;
   }
 }
 .module-wrap{
   width: 100%;
   padding: 10px;
+}
+.validValueStaticWidth {
+	text-transform: uppercase;
+	display: inline-block;
+	width: 17em;
+	font-weight: normal;
 }

@@ -40,16 +40,10 @@ export default class QuestionStatic extends Component {
 	render(){
 		return (
 			<Row className="top-margin bottom-margin bordered">
-				{/*<Col md={1}>
-				 <div className="module-side">
-				 </div>
-				 </Col>\*/}
-				<Col md={1} />
 				<Col md={12}>
 					<Row>
 						<Col md={12}>
 							<div className="center-v-spread-h">
-								<h5>{this.props.question.preferredQuestionText}</h5>
 								<FormItemToolbar itemType="Question" dispatchRemoveItem={this.dispatchRemoveQuestion} shouldDisplayRemoveItem={this.props.shouldDisplayRemoveItem} />
 							</div>
 						</Col>
@@ -62,6 +56,7 @@ export default class QuestionStatic extends Component {
 								value={this.props.question.mandatory}
 								label="Answer is Mandatory"
 								disabled={true}
+								layout="elementOnly"
 							/>
 
 						</Col>
@@ -71,6 +66,7 @@ export default class QuestionStatic extends Component {
 								value={this.props.question.editable}
 								label="Answer is Editable"
 								disabled={true}
+								layout="elementOnly"
 							/>
 						</Col>
 					</Row>
@@ -80,7 +76,7 @@ export default class QuestionStatic extends Component {
 							<p className="bold short-top-spacing">VALUE DOMAIN DETAILS</p>
 						</Col>
 					</Row>
-					<Row>
+					<Row className="metaDataLabel">
 						<Col md={6}>
 							<ControlLabel>LONG NAME</ControlLabel>
 						</Col>
@@ -88,7 +84,7 @@ export default class QuestionStatic extends Component {
 							<ControlLabel>DATA TYPE</ControlLabel>
 						</Col>
 					</Row>
-					<Row>
+					<Row className="metaDataContent">
 						<Col md={6}>
 							{this.props.question.longName}
 						</Col>
@@ -97,7 +93,7 @@ export default class QuestionStatic extends Component {
 						</Col>
 					</Row>
 					
-					<Row>
+					<Row className="metaDataLabel">
 						<Col md={6}>
 							<ControlLabel>UNIT OF MEASURE</ControlLabel>
 						</Col>
@@ -105,7 +101,7 @@ export default class QuestionStatic extends Component {
 							<ControlLabel>DISPLAY FORMAT</ControlLabel>
 						</Col>
 					</Row>
-					<Row>
+					<Row className="metaDataContent">
 						<Col md={6}>
 							{this.props.question.unitOfMeasure}
 						</Col>
@@ -114,12 +110,12 @@ export default class QuestionStatic extends Component {
 						</Col>
 					</Row>
 
-					<Row>
+					<Row className="metaDataLabel">
 						<Col md={12}>
 							<ControlLabel>CONCEPTS</ControlLabel>
 						</Col>
 					</Row>
-					<Row>
+					<Row className="metaDataContent">
 						<Col md={6}>
 						{this.props.question.concepts}
 						</Col>
@@ -129,7 +125,6 @@ export default class QuestionStatic extends Component {
 						{this.getValidValues()}
 					</div>
 				</Col>
-				<Col md={1} />
 			</Row>
 		);
 	}

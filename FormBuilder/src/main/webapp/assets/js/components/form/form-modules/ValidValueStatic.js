@@ -25,18 +25,18 @@ export default class ValidValueStatic extends Component{
 				 </Col>\*/}
 				<Col md={12}>
 					<div className="center-v-spread-h">
-						<h5>{this.props.validValue.longName}</h5>
+						<h4 className="bold">{this.props.validValue.longName}</h4>
 						<FormItemToolbar itemType="Valid Value" dispatchRemoveItem={this.dispatchRemoveValidValue} shouldDisplayRemoveItem={this.props.shouldDisplayRemoveItem} />
 					</div>
 					<ul className="list-unstyled">
 						<li>
-							Form Value Meaning Text: {this.props.validValue.formValueMeaningText}
+							<label className="validValueStaticWidth">Meaning Text</label> {this.props.validValue.formValueMeaningText}
 						</li>
 						<li>
-							Form Value Meaning Public ID Version: {this.props.validValue.formValueMeaningIdVersion}
+							<label className="validValueStaticWidth">Meaning Public ID Version</label> {this.props.validValue.formValueMeaningIdVersion}
 						</li>
 						<li>
-							Form Value Meaning Desc: {this.props.validValue.formValueMeaningDesc}
+							<label className="validValueStaticWidth">Meaning Desc</label> {this.props.validValue.formValueMeaningDesc}
 						</li>
 					</ul>
 				</Col>

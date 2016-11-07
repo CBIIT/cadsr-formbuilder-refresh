@@ -21,51 +21,51 @@ const formMetadataStatic = (props) =>{
 	
 	return (
 		<Grid fluid={true}>
-			<Row>
+			<Row className="metaDataLabel">
 				<Col lg={12}>
 					<ControlLabel>LONG NAME</ControlLabel>
 				</Col>
 			</Row>
-			<Row> 
+			<Row className="metaDataContent"> 
 				<Col lg={12}>
 					{props.formMetadata.longName}
 				</Col> 
 			</Row> 
 			
-			<Row>
+			<Row className="metaDataLabel">
 				<Col lg={12}>
 					<ControlLabel>PROTOCOL</ControlLabel>
 				</Col>
 			</Row>
-			<Row> 
+			<Row className="metaDataContent"> 
 				<Col lg={12}>
 					{protocols}
 				</Col> 
 			</Row>
 			
-			<Row>
+			<Row className="metaDataLabel">
 				<Col lg={12}>
 					<ControlLabel>CLASSIFICATIONS</ControlLabel>
 				</Col>
 			</Row>
-			<Row> 
+			<Row className="metaDataContent"> 
 				<Col lg={12}>
 					{classifications}
 				</Col> 
 			</Row>
 			
-			<Row>
+			<Row className="metaDataLabel">
 				<Col lg={12}>
 					<ControlLabel>DESCRIPTION</ControlLabel>
 				</Col>
 			</Row>
-			<Row> 
+			<Row className="metaDataContent"> 
 				<Col lg={12}>
 					{props.formMetadata.preferredDefinition}
 				</Col> 
 			</Row>
 
-			<Row>
+			<Row className="metaDataLabel">
 				<Col lg={6}>
 					<ControlLabel>CONTEXT</ControlLabel>
 				</Col>
@@ -73,7 +73,7 @@ const formMetadataStatic = (props) =>{
 					<ControlLabel>CATEGORY</ControlLabel>
 				</Col>
 			</Row>
-			<Row>
+			<Row className="metaDataContent">
 				<Col lg={6}>
 					{props.formMetadata.context.name}
 				</Col>
@@ -82,7 +82,7 @@ const formMetadataStatic = (props) =>{
 				</Col>
 			</Row>
 			
-			<Row>
+			<Row className="metaDataLabel">
 				<Col lg={6}>
 					<ControlLabel>WORKFLOW STATUS</ControlLabel>
 				</Col>
@@ -90,7 +90,7 @@ const formMetadataStatic = (props) =>{
 					<ControlLabel>TYPE</ControlLabel>
 				</Col>
 			</Row>
-			<Row>
+			<Row className="metaDataContent">
 				<Col lg={6}>
 				{props.formMetadata.workflow}
 				</Col>
@@ -99,7 +99,7 @@ const formMetadataStatic = (props) =>{
 				</Col>
 			</Row>
 			
-			<Row>
+			<Row className="metaDataLabel">
 				<Col lg={6}>
 					<ControlLabel>HEADER INSTRUCTION</ControlLabel>
 				</Col>
@@ -107,7 +107,7 @@ const formMetadataStatic = (props) =>{
 					<ControlLabel>FOOTER INSTRUCTION</ControlLabel>
 				</Col>
 			</Row>
-			<Row>
+			<Row className="metaDataContent">
 				<Col lg={6}>
 				{props.formMetadata.headerInstructions}
 				</Col>

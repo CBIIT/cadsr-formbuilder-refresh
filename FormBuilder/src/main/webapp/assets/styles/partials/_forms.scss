@@ -586,3 +586,17 @@ label span.example {
 .formGlobalToolbar .formCenterV {
 	display: inline-block;
 }
+.metaDataContent {
+	margin-bottom: 8px;
+}
+.treeView {
+	display: flex;
+	flex-direction: column;
+	.moduleListHeader {
+		margin-bottom: 0px;
+	}
+	.moduleList {
+		overflow: auto;
+		margin-top: 0px;
+	}
+}
