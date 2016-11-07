@@ -15,8 +15,13 @@ export const setGlobalJQAjaxSettings  = () =>{
  * http://stackoverflow.com/questions/34586671/download-pdf-file-using-jquery-ajax#answer-34587987
  * @param url
  * @param fileExtension
+ * TODO Update this to use the fetch API instead
  */
 export const ajaxDownloadFile = (url, fileExtension) =>{
+	appChannel.request(EVENTS.APP.SET_NETWORK_IS_IDLE, {networkIsIdle: false});
+	function transferComplete (){
+		appChannel.request(EVENTS.APP.SET_NETWORK_IS_IDLE, {networkIsIdle: true});
+	}
 	const req = new XMLHttpRequest();
 	req.open("GET", url, true);
 	req.responseType = "blob";
@@ -24,7 +29,10 @@ export const ajaxDownloadFile = (url, fileExtension) =>{
 	req.onload = function(event){
 		const blob = req.response;
 		createDownloadLink(blob, fileExtension);
+		transferComplete();
 	};
+	req.addEventListener("error", transferComplete);
+	req.addEventListener("abort", transferComplete);
 	req.send();
 };
 
