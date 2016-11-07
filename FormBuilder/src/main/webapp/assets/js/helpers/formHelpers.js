@@ -55,7 +55,7 @@ const formHelpers = {
 				networkOperations.push(fetchForm({errorMessage: "There was a problem trying to get the working copy of the form you were last editing."}));
 				setFormEditing = true;
 			}
-			else {
+			else{
 				networkOperations.push(fetchForm());
 
 			}
@@ -90,6 +90,8 @@ const formHelpers = {
 			});
 	},
 	releaseForm({formIdseq}) {
+		fetchSecure({url: ENDPOINT_URLS.FORMS_WORKING_COPY, method: "delete"});
+
 		return new Promise(
 			(resolve) =>{
 				fetchSecure({
