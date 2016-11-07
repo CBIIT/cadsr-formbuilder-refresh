@@ -1020,7 +1020,7 @@ public class JDBCFormDAOFB extends JDBCAdminComponentDAOFB implements FormDAO {
 			f.setVersion(new Float(rs.getString(2))); // VERSION
 			f.setPublicId(rs.getInt(11)); // Public ID
 			f.setPreferredDefinition(rs.getString(8)); // PREFERRED_DEFINITION
-			f.setCreatedBy(rs.getString(14)); // CREATED_BY
+			f.setCreatedBy(rs.getString(14).substring(0, rs.getString(14).indexOf(" "))); // CREATED_BY
 			f.setFormCategory(rs.getString(5));
 			f.setProtocolLongName(rs.getString(15));
 
