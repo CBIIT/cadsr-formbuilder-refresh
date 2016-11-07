@@ -440,7 +440,7 @@ export default class Datatable extends Component {
 				}
 				<span className="reactTable-total">{this.props.resultsText} {this.state.data.length}</span>
 				<div className="reactTable-wrap">
-					<Reactable id="table" className="table reactTable" noDataText="No Items to List.">
+					<Reactable id="table" className="table reactTable" noDataText="No Results.">
 						<Thead>
 							<Th column="checkbox" className={(this.props.showCheckboxes) ? "" : "hidden"}>
 								<input type="checkbox" onChange={this.selectAllRows}/>
