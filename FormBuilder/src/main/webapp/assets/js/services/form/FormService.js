@@ -131,7 +131,7 @@ const FormService = Marionette.Object.extend({
 	},
 	handleAddModule(data) {
 		const newModuleModel = this.formModel.get('formModules').add(new FormModuleModel(data));
-		this.saveForm().then(() =>{
+		this.persistForm().then(() =>{
 			appChannel.request(EVENTS.APP.SHOW_USER_MESSAGE, {
 				message: "Module Added",
 				level:   "success"
@@ -213,7 +213,7 @@ const FormService = Marionette.Object.extend({
 		questionModel.trigger("change");
 	},
 	handleSaveForm() {
-		this.saveForm({successMessage: "Form Saved"});
+		this.persistForm({successMessage: "Form Saved"});
 	},
 	handleSetFormEditable() {
 		const formIdseq = this.formModel.get('formIdseq');
@@ -255,7 +255,7 @@ const FormService = Marionette.Object.extend({
 		/* Make FormLayout re-render because it's listening for update on this collection */
 		questionModel.trigger("change");
 	},
-	saveForm({successMessage} = {}) {
+	persistForm({successMessage} = {}) {
 		const p = new Promise(
 			(resolve, reject) =>{
 				this.formModel.save(null, {
