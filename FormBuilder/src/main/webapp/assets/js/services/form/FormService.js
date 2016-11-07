@@ -26,8 +26,8 @@ const FormService = Marionette.Object.extend({
 		[EVENTS.FORM.CANCEL_EDIT_FORM]:         'handleCancelEditForm',
 		[EVENTS.FORM.EDIT_FORM]:                'handleSetFormEditable',
 		[EVENTS.FORM.GET_MODULE]:               'getModuleModel',
-		[EVENTS.FORM.SET_FORM_LAYOUT]:          'dispatchLayout',
-		[EVENTS.FORM.CREATE_MODULE]:            'dispatchLayout',
+		[EVENTS.FORM.SET_FORM_LAYOUT]:          'handleFormActionModeChange',
+		[EVENTS.FORM.CREATE_MODULE]:            'handleFormActionModeChange',
 		[EVENTS.FORM.CREATE_QUESTION_FROM_CDE]: 'handleCreateQuestionFromCde',
 		[EVENTS.FORM.SET_CORE_FORM_DETAILS]:    'handleFormMetadataSubmitData',
 		[EVENTS.FORM.REMOVE_MODULE]:            'handleRemoveModule',
@@ -53,7 +53,7 @@ const FormService = Marionette.Object.extend({
 			this.currentUserName = (username) ? username : null;
 		});
 	},
-	dispatchLayout({action, formIdseq = this.formModel.get('formIdseq')}) {
+	handleFormActionModeChange({action, formIdseq = this.formModel.get('formIdseq')}) {
 		switch(action){
 			case formActions.CREATE_FORM:
 				this.formUIStateModel.set({actionMode: action});
@@ -96,14 +96,17 @@ const FormService = Marionette.Object.extend({
 					formIdseq: formIdseq
 				});
 				browserHistory.push(`/FormBuilder/`);
-				this.formUIStateModel.set({isEditing: true});
-				this.dispatchLayout({action: formActions.VIEW_FULL_FORM});
+				this.formUIStateModel.set({
+					isEditing:            true,
+					formIdSeqEditingForm: formIdseq
+				});
+				this.handleFormActionModeChange({action: formActions.VIEW_FULL_FORM});
 			},
 			error:   (model, response) =>{
 				/*TODO: of course this is too basic. Improve error handling */
-				appChannel.request(EVENTS.APP.SHOW_USER_MESSAGE,{
+				appChannel.request(EVENTS.APP.SHOW_USER_MESSAGE, {
 					message: "There was a problem creating the Form.  Please try again.",
-					level: "error"
+					level:   "error"
 				});
 			}
 		});
@@ -129,9 +132,9 @@ const FormService = Marionette.Object.extend({
 	handleAddModule(data) {
 		const newModuleModel = this.formModel.get('formModules').add(new FormModuleModel(data));
 		this.saveForm().then(() =>{
-			appChannel.request(EVENTS.APP.SHOW_USER_MESSAGE,{
+			appChannel.request(EVENTS.APP.SHOW_USER_MESSAGE, {
 				message: "Module Added",
-				level: "success"
+				level:   "success"
 			});
 			/* TODO Hack for CADSRFBTR-282. make sure to remove when redesigning form saving */
 			newModuleModel.set("moduleIdseq", this.formModel.get("tempNewModuleseqId"));
@@ -164,10 +167,11 @@ const FormService = Marionette.Object.extend({
 	},
 	handleCancelEditForm({action = this.formUIStateModel.attributes.actionMode}) {
 		formHelpers.releaseForm({formIdseq: this.formModel.get('formIdseq')}).then((data) =>{
-			if (data === true) {
+			if(data === true){
 				this.formUIStateModel.set({
-					actionMode: action,
-					isEditing:  false
+					actionMode:           action,
+					isEditing:            false,
+					formIdSeqEditingForm: null
 				});
 			}
 		});
@@ -199,7 +203,7 @@ const FormService = Marionette.Object.extend({
 	handleRemoveQuestion({moduleId, questionId}) {
 		this.getModuleModel(moduleId).get("questions").remove(questionId);
 	},
-	handleRemoveValidValue({moduleId,questionId,validValueId}) {
+	handleRemoveValidValue({moduleId, questionId, validValueId}) {
 		const questionModel = this.getModuleQuestionModel({
 			moduleId:   moduleId,
 			questionId: questionId
@@ -212,8 +216,12 @@ const FormService = Marionette.Object.extend({
 		this.saveForm({successMessage: "Form Saved"});
 	},
 	handleSetFormEditable() {
-		formHelpers.setFormLocked({formIdseq: this.formModel.get('formIdseq')}).then((data) =>{
-				this.formUIStateModel.set({isEditing: true});
+		const formIdseq = this.formModel.get('formIdseq');
+		formHelpers.setFormLocked({formIdseq: formIdseq}).then((data) =>{
+			this.formUIStateModel.set({
+				formIdSeqEditingForm: formIdseq,
+				isEditing:            true
+			});
 		});
 	},
 	handleSetModule(data) {
@@ -247,7 +255,7 @@ const FormService = Marionette.Object.extend({
 		/* Make FormLayout re-render because it's listening for update on this collection */
 		questionModel.trigger("change");
 	},
-	saveForm({persistToDB = false, successMessage} = {}) {
+	saveForm({successMessage} = {}) {
 		const p = new Promise(
 			(resolve, reject) =>{
 				this.formModel.save(null, {
@@ -274,10 +282,27 @@ const FormService = Marionette.Object.extend({
 			console.log(error);
 		});
 	},
+	saveWorkingCopyForm() {
+		const saveOptions = {
+			method: 'post',
+			dataType: 'text'
+		};
+		this.formModel.url = ENDPOINT_URLS.FORMS_WORKING_COPY;
+		return new Promise(
+			(resolve, reject) =>{
+				this.formModel.save(null, saveOptions)
+					.then(() =>{
+						resolve();
+					}).catch((error) =>{
+					reject(error);
+				});
+			}
+		);
+	},
 	setModuleView(id) {
 		/*TODO: Prepare for when editing a module with repetitions, this will be an array containing the module and its associated repetitioned modules */
 		this.formUIStateModel.set({moduleViewingId: id});
-		this.dispatchLayout({action: formActions.VIEW_MODULE});
+		this.handleFormActionModeChange({action: formActions.VIEW_MODULE});
 	},
 	handleFormMetadataSubmitData(data) {
 		/*TODO handle context a better way. */
@@ -289,15 +314,20 @@ const FormService = Marionette.Object.extend({
 			context: {conteIdseq: context}
 		});
 		/* POST form if if we're in create form, otherwise we don't need to do anything else*/
-		if(this.formUIStateModel.attributes.actionMode === formActions.CREATE_FORM) {
+		if(this.formUIStateModel.attributes.actionMode === formActions.CREATE_FORM){
 			this.formModel.get('formMetadata').set({
 				createdBy: this.currentUserName
 			});
 			this.createForm();
 		}
 	},
-	setForm(model) {
+	setForm({model: model, setEditing = false}) {
 		this.formModel = model;
+		if(setEditing) {
+			this.formUIStateModel.set({
+				isEditing:            true
+			});
+		}
 	},
 	setupModels() {
 		this.formModel = new FormModel();
@@ -305,18 +335,18 @@ const FormService = Marionette.Object.extend({
 	},
 	handleCreateCopy(formIdseq) {
 		fetchSecure({
-			url:    `${ENDPOINT_URLS.FORMS.CREATE_COPY}/${formIdseq}`,
-			method: "POST",
-			dataType: "text",
+			url:           `${ENDPOINT_URLS.FORMS.CREATE_COPY}/${formIdseq}`,
+			method:        "POST",
+			dataType:      "text",
 			swallowErrors: false,
 		}).then((data) =>{
-			data.text().then((text) => {
-				appChannel.request(EVENTS.APP.SHOW_USER_MODAL_MESSAGE,{
+			data.text().then((text) =>{
+				appChannel.request(EVENTS.APP.SHOW_USER_MODAL_MESSAGE, {
 					heading: "FORM SUCCESSFULLY COPIED",
 					message: "You will now be redirected to the copied version of the form.  A new public ID has been assigned.",
-					button: {
-						label: "VIEW COPIED FORM",
-						callback: () => {
+					button:  {
+						label:    "VIEW COPIED FORM",
+						callback: () =>{
 							let url = "/FormBuilder/forms/" + text;
 							window.location.href = url;
 						}
@@ -324,30 +354,30 @@ const FormService = Marionette.Object.extend({
 				});
 			});
 		}).catch(() =>{
-			appChannel.request(EVENTS.APP.SHOW_USER_MESSAGE,{
+			appChannel.request(EVENTS.APP.SHOW_USER_MESSAGE, {
 				message: "Form failed to copy",
-				level: "error"
+				level:   "error"
 			});
 		});
 	},
 	handleDelete(formIdseq) {
 		fetchSecure({
-			url:    `${ENDPOINT_URLS.FORMS.DELETE}/${formIdseq}`,
-			method: "DELETE",
+			url:           `${ENDPOINT_URLS.FORMS.DELETE}/${formIdseq}`,
+			method:        "DELETE",
 			swallowErrors: false,
-			dataType: "string"
+			dataType:      "string"
 		}).then((data) =>{
-			appChannel.request(EVENTS.APP.SHOW_USER_MESSAGE,{
+			appChannel.request(EVENTS.APP.SHOW_USER_MESSAGE, {
 				message: "The Form has been deleted successfully",
-				level: "success"
+				level:   "success"
 			});
-			setTimeout(function() {
+			setTimeout(function(){
 				window.location.href = "/FormBuilder/";
 			}, 2000);
 		}).catch((msg) =>{
-			appChannel.request(EVENTS.APP.SHOW_USER_MESSAGE,{
+			appChannel.request(EVENTS.APP.SHOW_USER_MESSAGE, {
 				message: "The Form failed to delete properly",
-				level: "error"
+				level:   "error"
 			});
 			console.log(msg);
 		});

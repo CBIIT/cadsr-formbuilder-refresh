@@ -7,21 +7,34 @@ import {cartChannel, formChannel} from '../channels/radioChannels';
 import EVENTS from '../constants/EVENTS';
 const formHelpers = {
 	fetchForm(nextState, replace, callback) {
-		if(formService.formModel && (formService.formModel.attributes.formIdseq !== nextState.params.formIdseq)) {
-			const formModel = new FormModel();
-			formModel.set("formIdseq", nextState.params.formIdseq);
+		const formIdseqFormToView = nextState.params.formIdseq;
+		const formIdseqCurrentForm = formService.formModel.attributes.formIdseq;
+
+		let setFormEditing = false;
+		/* If the form is different than the one they previously viewed, or it's the first form they're viewing, fetch the form */
+		if(formService.formModel && (formIdseqCurrentForm !== formIdseqFormToView)) {
+			const newFormModel = new FormModel();
+			const formIdSeqEditingForm = formService.formUIStateModel.attributes.formIdSeqEditingForm;
+			newFormModel.set("formIdseq", nextState.params.formIdseq);
+			if((formIdSeqEditingForm !== null && formIdSeqEditingForm !== formIdseqFormToView) && formIdseqCurrentForm) {
+				formService.saveWorkingCopyForm();
+			}
+			else if (formIdSeqEditingForm === formIdseqFormToView) {
+				setFormEditing = true;
+			}
 			formChannel.request(EVENTS.FORM.SET_FORM_LAYOUT, {
 				action: formActions.VIEW_FULL_FORM,
 				formIdseq: nextState.params.formIdseq
 			});
-			formModel.fetch().then(() =>{
-				formService.setForm(formModel);
+			newFormModel.fetch().then(() =>{
+				formService.setForm({model: newFormModel, setEditing: setFormEditing});
 				callback();
 			}).catch(error =>{
 				// do some error handling here
 				callback(error);
 			});
 		}
+		/*It's the first form the user is viewing */
 		else {
 			formChannel.request(EVENTS.FORM.SET_FORM_LAYOUT, {
 				action: formActions.VIEW_FULL_FORM,

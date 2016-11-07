@@ -8,6 +8,8 @@ const FormUIStateModel = Model.extend({
 	defaults: {
 		/*determines whether the user can add new modules, reorder the modules, edit form details, etc FormLayout.shouldShowFormEditControls uses this a lot */
 		isEditing:        false,
+		/* id of the form the user is editing*/
+		formIdSeqEditingForm: null,
 		/**
 		 * The action the user is performing on the form when viewOnly: false,
 		 */
