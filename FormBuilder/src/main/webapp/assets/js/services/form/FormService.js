@@ -76,10 +76,6 @@ const FormService = Marionette.Object.extend({
 				break;
 			case formActions.VIEW_FULL_FORM:
 				this.formUIStateModel.set({actionMode: action});
-				if(formIdseq !== this.formModel.get('formIdseq')){
-					/* IF going to view a different form, make sure edit controls are turned off */
-					this.formUIStateModel.set({isEditing: false});
-				}
 				this.getCartData({collectionName: "cdeCartCollection"});
 				this.getCartData({collectionName: "moduleCartCollection"});
 				break;
@@ -256,6 +252,8 @@ const FormService = Marionette.Object.extend({
 		questionModel.trigger("change");
 	},
 	persistForm({successMessage} = {}) {
+		delete this.formModel.url;
+		this.formModel.urlRoot = ENDPOINT_URLS.FORMS_DB;
 		const p = new Promise(
 			(resolve, reject) =>{
 				this.formModel.save(null, {
@@ -268,23 +266,23 @@ const FormService = Marionette.Object.extend({
 			}
 		);
 		return p.then(()=>{
-			if(successMessage) {
-				appChannel.request(EVENTS.APP.SHOW_USER_MESSAGE,{
+			if(successMessage){
+				appChannel.request(EVENTS.APP.SHOW_USER_MESSAGE, {
 					message: successMessage,
-					level: "success"
+					level:   "success"
 				});
 			}
 		}).catch((error)=>{
-			appChannel.request(EVENTS.APP.SHOW_USER_MESSAGE,{
+			appChannel.request(EVENTS.APP.SHOW_USER_MESSAGE, {
 				message: "There was a problem saving the form.  Please try again",
-				level: "error"
+				level:   "error"
 			});
 			console.log(error);
 		});
 	},
 	saveWorkingCopyForm() {
 		const saveOptions = {
-			method: 'post',
+			method:   'post',
 			dataType: 'text'
 		};
 		this.formModel.url = ENDPOINT_URLS.FORMS_WORKING_COPY;
@@ -327,9 +325,9 @@ const FormService = Marionette.Object.extend({
 	},
 	setForm({model: model, setEditing = false}) {
 		this.formModel = model;
-		if(setEditing) {
+		if(setEditing !== this.formUIStateModel.attributes.isEditing){
 			this.formUIStateModel.set({
-				isEditing:            true
+				isEditing: setEditing
 			});
 		}
 	},

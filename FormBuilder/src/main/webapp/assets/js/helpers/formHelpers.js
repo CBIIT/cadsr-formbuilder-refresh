@@ -2,6 +2,7 @@ import FormModel from '../models/forms/FormModel';
 import {fetchSecure} from './ajaXHelpers';
 import ENDPOINT_URLS from '../constants/ENDPOINT_URLS';
 import formService from  "../services/form/FormService";
+import userMessagesText from '../constants/userMessagesText';
 import formActions from '../constants/formActions';
 import {appChannel, formChannel} from '../channels/radioChannels';
 import EVENTS from '../constants/EVENTS';
@@ -19,6 +20,7 @@ const formHelpers = {
 		let setFormEditing = false;
 		/* If the form is different than the one they previously viewed, or it's the first form they're viewing, fetch the form */
 		if(formService.formModel && (formIdseqCurrentForm !== formIdseqFormToView)){
+			/* An array of promises passed into promise.all*/
 			const networkOperations = [];
 			const newFormModel = new FormModel();
 			const formIdSeqEditingForm = formService.formUIStateModel.attributes.formIdSeqEditingForm;
@@ -30,7 +32,7 @@ const formHelpers = {
 				});
 			};
 			/* Fetch the form the user wants to see and return a promise*/
-			const fetchForm = ({errorMessage = "There was a problem trying to get the form you're trying to view."} ={}) =>{
+			const fetchForm = ({errorMessage = userMessagesText.FETCH_FORM_FAIL} ={}) =>{
 				return newFormModel.fetch().then(()=>{
 					return Promise.resolve(newFormModel);
 				}).catch(error =>{
@@ -45,6 +47,7 @@ const formHelpers = {
 
 			/*They're going to view a DIFFERENT form then the one they're editing */
 			if((formIdSeqEditingForm !== null && formIdSeqEditingForm !== formIdseqFormToView) && formIdseqCurrentForm){
+				delete newFormModel.url;
 				newFormModel.urlRoot = ENDPOINT_URLS.FORMS_DB;
 				networkOperations.push(saveWorkingCopyForm());
 				networkOperations.push(fetchForm());
@@ -52,22 +55,26 @@ const formHelpers = {
 			/*They're going to view the SAME form they were editing */
 			else if(formIdSeqEditingForm === formIdseqFormToView){
 				newFormModel.url = ENDPOINT_URLS.FORMS_WORKING_COPY;
-				networkOperations.push(fetchForm({errorMessage: "There was a problem trying to get the working copy of the form you were last editing."}));
+				networkOperations.push(fetchForm({errorMessage: userMessagesText.FETCH_WORKING_COPY_FAIL}));
 				setFormEditing = true;
 			}
 			else{
+				delete newFormModel.url;
+				newFormModel.urlRoot = ENDPOINT_URLS.FORMS_DB;
 				networkOperations.push(fetchForm());
 
 			}
 			/*Wait until all networkOperations promises are complete*/
 			Promise.all(networkOperations).then((results) =>{
+				/* Get the fetchedFormModel from the array of promises */
+				const fetchedFormModel = _.find(results, (item) => {
+					return item instanceof Backbone.Model;
+				});
+				formService.setForm({model: fetchedFormModel, setEditing: setFormEditing});
 				setFormLayout();
 				callback();
-				/* Get the fetchedFormModel from the array of promises */
-				const fetchedFormModel = results[results.length - 1];
-				formService.setForm({model: fetchedFormModel, setEditing: setFormEditing});
-			})
-				.catch(function(error){
+
+			}).catch(function(error){
 					// One or more promises was rejected
 				});
 		}

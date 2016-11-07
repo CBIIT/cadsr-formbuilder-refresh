@@ -116,6 +116,7 @@ FormBuilder/src/main/webapp/assets/js/constants/ROUTES.js -text
 FormBuilder/src/main/webapp/assets/js/constants/TABLE_CONFIGS.js -text
 FormBuilder/src/main/webapp/assets/js/constants/cartActions.js -text
 FormBuilder/src/main/webapp/assets/js/constants/formActions.js -text
+FormBuilder/src/main/webapp/assets/js/constants/userMessagesText.js -text
 FormBuilder/src/main/webapp/assets/js/helpers/CartDataHelpers.js -text
 FormBuilder/src/main/webapp/assets/js/helpers/ajaXHelpers.js -text
 FormBuilder/src/main/webapp/assets/js/helpers/authHelpers.js -text
