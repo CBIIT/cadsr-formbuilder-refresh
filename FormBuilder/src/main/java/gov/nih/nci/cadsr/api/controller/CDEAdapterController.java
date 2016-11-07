@@ -1,5 +1,7 @@
 package gov.nih.nci.cadsr.api.controller;
 
+import javax.naming.OperationNotSupportedException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,6 +30,14 @@ public class CDEAdapterController {
 		
 		RestTemplate restTemplate = new RestTemplate();
 		return restTemplate.getForEntity(uri, byte[].class);
+		
+	}
+	
+	@RequestMapping(value = "/xml/{cdeId}", method = RequestMethod.GET)
+	@ResponseBody
+	public ResponseEntity downloadCdeXml(@PathVariable String cdeId) throws OperationNotSupportedException {
+		
+		throw new OperationNotSupportedException();
 		
 	}
 
