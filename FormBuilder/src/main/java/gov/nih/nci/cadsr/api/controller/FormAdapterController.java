@@ -239,7 +239,7 @@ public class FormAdapterController {
 	public ResponseEntity downloadFormXml(@PathVariable String formIdSeq) {
 		
 		String uri = props.getFormServiceApiUrl() + FormBuilderConstants.FORMSERVICE_BASE_URL
-				+ "formDownload" + "?formIdSeq=" + formIdSeq;
+				+ "formDownloadXml" + "?formIdSeq=" + formIdSeq;
 		
 
 		RestTemplate restTemplate = new RestTemplate();
