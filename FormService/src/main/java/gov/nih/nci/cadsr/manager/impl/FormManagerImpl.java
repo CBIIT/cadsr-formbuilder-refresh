@@ -43,6 +43,7 @@ import gov.nih.nci.ncicb.cadsr.common.dto.ValidValueTransferObject;
 import gov.nih.nci.ncicb.cadsr.common.dto.ValueDomainTransferObject;
 import gov.nih.nci.ncicb.cadsr.common.exception.DMLException;
 import gov.nih.nci.ncicb.cadsr.common.persistence.dao.AbstractDAOFactoryFB;
+import gov.nih.nci.ncicb.cadsr.common.persistence.dao.ClassificationSchemeDAO;
 import gov.nih.nci.ncicb.cadsr.common.persistence.dao.ContextDAO;
 import gov.nih.nci.ncicb.cadsr.common.persistence.dao.FormDAO;
 import gov.nih.nci.ncicb.cadsr.common.persistence.dao.FormInstructionDAO;
@@ -73,8 +74,8 @@ public class FormManagerImpl implements FormManager {
 			String categoryName, String type, String classificationIdSeq, String publicId, String version,
 			String moduleLongName, String cdePublicId, NCIUser user, String contextRestriction) {
 		long startTimer = System.currentTimeMillis();
-		
-		//Testing new CI Build
+
+		// Testing new CI Build
 
 		FormDAO dao = daoFactory.getFormDAO();
 		ContextDAO contextDao = daoFactory.getContextDAO();
@@ -122,15 +123,15 @@ public class FormManagerImpl implements FormManager {
 		formTransferObject.setFormType(form.getFormType());
 		formTransferObject.setVersion(form.getVersion());
 		List<ProtocolTransferObject> protocols = new ArrayList<ProtocolTransferObject>();
-		for(FEProtocol bbprot : form.getProtocols()){
+		for (FEProtocol bbprot : form.getProtocols()) {
 			ProtocolTransferObject pto = new ProtocolTransferObject();
 			pto.setProtoIdseq(bbprot.getProtoIdseq());
 			protocols.add(pto);
 		}
 		formTransferObject.setProtocols(protocols);
-		
+
 		String id = fdao.createFormComponent(formTransferObject);
-		
+
 		if (headerInstruction.getPreferredDefinition() != null && headerInstruction.getPreferredDefinition() != "") {
 			FormInstructionDAO fidao1 = daoFactory.getFormInstructionDAO();
 			fidao1.createInstruction(headerInstruction, id);
@@ -141,14 +142,12 @@ public class FormManagerImpl implements FormManager {
 			fidao2.createFooterInstruction(footerInstruction, id);
 		}
 
-		//return full form that's been newly created from the DB
+		// return full form that's been newly created from the DB
 		FEFormMetaData newForm = testTranslateDBFormToBBForm(getFullForm(id)).getFormMetadata();
-		
-		
+
 		return newForm;
 
 	}
-
 
 	public FormTransferObject getFullForm(String formIdSeq) {
 		Form form = service.getFormDetails(formIdSeq);
@@ -157,7 +156,7 @@ public class FormManagerImpl implements FormManager {
 
 		return fto;
 	}
-	
+
 	public FormV2TransferObject getFullFormV2(String formIdSeq) {
 		FormV2 formv2 = service.getFormDetailsV2(formIdSeq);
 
@@ -165,7 +164,7 @@ public class FormManagerImpl implements FormManager {
 
 		return fto;
 	}
-	
+
 	public FormTransferObject getFormRow(String formIdSeq) {
 		Form formRow = service.getFormRow(formIdSeq);
 
@@ -173,7 +172,6 @@ public class FormManagerImpl implements FormManager {
 
 		return fto;
 	}
-
 
 	public InstructionTransferObject buildHeaderInstructions(FEFormMetaData form) {
 
@@ -211,7 +209,7 @@ public class FormManagerImpl implements FormManager {
 
 	}
 
-	public String updateForm(FEForm form) {
+	public String updateForm(FEForm form, FEForm oldForm) {
 
 		// FormTransferObject formHeader = adaptFormHeader(form);
 
@@ -227,24 +225,31 @@ public class FormManagerImpl implements FormManager {
 		String username = "";
 		String formIdSeq = form.getFormMetadata().getFormIdseq();
 
-		
 		try {
 
+			adaptProtocols(form, oldForm, addedProts, deletedProts);
+
 			adaptModels(form, formHeader, addedMods, updatedMods, deletedMods, addedProts, deletedProts, protTrigs,
-					instChanges, username, formIdSeq);
+					instChanges, username, formIdSeq, oldForm);
 
 		} catch (IllegalAccessException | InvocationTargetException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
+		System.out.println("addedProts Size: " + addedProts.size());
+		System.out.println("deletedProts Size: " + deletedProts.size());
 		Form resultForm = service.updateForm(formIdSeq, formHeader, updatedMods, deletedMods, addedMods, addedProts,
 				deletedProts, protTrigs, instChanges, username);
-		
-		updateModules(updatedMods);
-		
-		if(addedMods.size() > 0){
-			return ((ModuleTransferObject)addedMods.iterator().next()).getModuleIdseq();
+
+		if (form.getFormMetadata().getClassifications().size() > 0) {
+			updateFormClassifications(form);
+		}
+
+		updateModules(updatedMods, oldForm);
+
+		if (addedMods.size() > 0) {
+			return ((ModuleTransferObject) addedMods.iterator().next()).getModuleIdseq();
 		}
 
 		return "SUCCESS";
@@ -252,7 +257,7 @@ public class FormManagerImpl implements FormManager {
 
 	private void adaptModels(FEForm form, FormTransferObject formHeader, Collection addedMods, Collection updatedMods,
 			Collection deletedMods, Collection addedProts, Collection deletedProts, Collection protTrigs,
-			FormInstructionChangesTransferObject instChanges, String username, String formIdSeq)
+			FormInstructionChangesTransferObject instChanges, String username, String formIdSeq, FEForm oldForm)
 			throws IllegalAccessException, InvocationTargetException {
 		FormDAO fdao = daoFactory.getFormDAO();
 		ModuleInstructionDAO moduleInstrDao = daoFactory.getModuleInstructionDAO();
@@ -268,11 +273,16 @@ public class FormManagerImpl implements FormManager {
 		formContext.setConteIdseq(form.getFormMetadata().getContext().getConteIdseq());
 		formHeader.setContext(formContext);
 		formHeader.setAslName(form.getFormMetadata().getWorkflow());
-		if(formHeader.getPreferredName() == null){
+		if (formHeader.getPreferredName() == null) {
 			formHeader.setPreferredName(form.getFormMetadata().getLongName());
 		}
-		
-		
+
+		// fdao.getpro
+		/*
+		 * for(FEProtocol prot : form.getFormMetadata().getProtocols()){
+		 * fdao.get }
+		 */
+
 		for (FEModule module : form.getFormModules()) {
 			ModuleTransferObject m = new ModuleTransferObject();
 			FormTransferObject f = new FormTransferObject();
@@ -289,23 +299,22 @@ public class FormManagerImpl implements FormManager {
 			InstructionTransferObject instr = new InstructionTransferObject();
 			List dbinstructions = moduleInstrDao.getInstructions(module.getModuleIdseq());
 			System.out.println("TEST # of instructions for " + module.getLongName() + ": " + dbinstructions.size());
-			if(dbinstructions.size() > 0){
+			if (dbinstructions.size() > 0) {
 				m.setInstructions(dbinstructions);
-				instr = (InstructionTransferObject)m.getInstruction();
-			}
-			else{
+				instr = (InstructionTransferObject) m.getInstruction();
+			} else {
 				instr.setVersion(form.getFormMetadata().getVersion());
 				instr.setLongName(form.getFormMetadata().getLongName());
 				instr.setAslName(form.getFormMetadata().getWorkflow());
 				instr.setDisplayOrder(1);
 			}
-//			BeanUtils.copyProperties(module.getInstructions(), instr, "context");
+			// BeanUtils.copyProperties(module.getInstructions(), instr,
+			// "context");
 			instr.setContext(c);
 			instr.setCreatedBy(username);
-			if(module.getInstructions() == null || module.getInstructions().equals("")){
+			if (module.getInstructions() == null || module.getInstructions().equals("")) {
 				instr.setPreferredDefinition(" ");
-			}
-			else{
+			} else {
 				instr.setPreferredDefinition(module.getInstructions());
 			}
 			m.setInstruction(instr);
@@ -322,121 +331,93 @@ public class FormManagerImpl implements FormManager {
 			m.setAslName(form.getFormMetadata().getWorkflow());
 			m.setCreatedBy(form.getFormMetadata().getCreatedBy());
 			m.setContext(c);
-			
-//			for(BBQuestion ques : module.getQuestions()){
-				
-//				QuestionTransferObject qto = new QuestionTransferObject();
-//				qto.setDataElement(new DataElementTransferObject());
-//				qto.getDataElement().setValueDomain(new ValueDomainTransferObject());
-//				
-//				qto.setVersion(ques.getVersion());
-//				qto.setPreferredDefinition(ques.getPreferredQuestionText()); //XXX: is correct?
-//				qto.setMandatory(ques.isMandatory());
-//				qto.setEditable(ques.isEditable());
-//				qto.setDeDerived(ques.isDeDerived());
-//				qto.setLongName(ques.getLongName());
-//				qto.getDataElement().getValueDomain().setDatatype(ques.getDataType());
-//				qto.getDataElement().getValueDomain().setUnitOfMeasure(ques.getUnitOfMeasure());
-				
-//				bbques.setDeIdseq(qto.getDataElement().getIdseq());
-//				bbques.setVersion(qto.getVersion());
-//				bbques.setPreferredQuestionText(qto.getPreferredDefinition());//XXX: is correct?
-//				bbques.setMandatory(false);
-//				bbques.setEditable(true);
-//				bbques.setDeDerived(true);
-//				bbques.setLongName(qto.getLongName());
-//				bbques.setDataType(qto.getDataElement().getValueDomain().getDatatype());
-//				bbques.setUnitOfMeasure(qto.getDataElement().getValueDomain().getUnitOfMeasure());
-//				bbques.setDisplayFormat(qto.getDataElement().getValueDomain().getDisplayFormat());
-				
-//			}
 
 			if (module.getModuleIdseq() == null || module.getModuleIdseq() == "") {
-				System.out.println("This is a new module! name=" + module.getLongName() + " id=" + module.getModuleIdseq());
 				addedMods.add(m);
 			} else if (module.getIsEdited()) {
-				System.out.println("THIS MOD IS EDITABLE: " + module.getLongName());
 				updatedMods.add(m);
-			} /*else if(module.getIsDeleted()){
-				deletedMods.add(m.getModuleIdseq());
-			}*/
+			} 
+			for(FEModule oldModule : oldForm.getFormModules()){
+				if(!form.getFormModules().contains(oldModule)){
+					deletedMods.add(m);
+				}
+			}
 		}
-		
+
 		FormInstructionDAO formInstrDao = daoFactory.getFormInstructionDAO();
-		
+
 		List headers = formInstrDao.getInstructions(formIdSeq);
 		List footers = formInstrDao.getFooterInstructions(formIdSeq);
-		
+
 		Instruction header = new InstructionTransferObject();
 		Instruction footer = new InstructionTransferObject();
-		
-		if(headers.size() > 0){
-			header = (InstructionTransferObject)headers.get(0);
+
+		if (headers.size() > 0) {
+			header = (InstructionTransferObject) headers.get(0);
 		}
-		if(footers.size() > 0){
-			footer = (InstructionTransferObject)footers.get(0);
+		if (footers.size() > 0) {
+			footer = (InstructionTransferObject) footers.get(0);
 		}
-		
+
 		header.setPreferredDefinition(form.getFormMetadata().getHeaderInstructions());
 		footer.setPreferredDefinition(form.getFormMetadata().getFooterInstructions());
-		
+
 		String headerInsterStr = "";
-	    FormInstructionChanges instrChanges = new FormInstructionChangesTransferObject();
-	    Map headerInstrChanges  = getInstructionChanges(instrChanges.getFormHeaderInstructionChanges()
-	                              , headerInsterStr , header, formHeader, form.getFormMetadata().getLongName());
-	    instrChanges.setFormHeaderInstructionChanges(headerInstrChanges);  
-	    
-	    String footerInsterStr = "";
-	    Map footerInstrChanges  = getInstructionChanges(instrChanges.getFormFooterInstructionChanges()
-	                              , footerInsterStr , footer,formHeader, form.getFormMetadata().getLongName());
-	    instrChanges.setFormFooterInstructionChanges(footerInstrChanges);
+		FormInstructionChanges instrChanges = new FormInstructionChangesTransferObject();
+		Map headerInstrChanges = getInstructionChanges(instrChanges.getFormHeaderInstructionChanges(), headerInsterStr,
+				header, formHeader, form.getFormMetadata().getLongName());
+		instrChanges.setFormHeaderInstructionChanges(headerInstrChanges);
+
+		String footerInsterStr = "";
+		Map footerInstrChanges = getInstructionChanges(instrChanges.getFormFooterInstructionChanges(), footerInsterStr,
+				footer, formHeader, form.getFormMetadata().getLongName());
+		instrChanges.setFormFooterInstructionChanges(footerInstrChanges);
 
 		instChanges.setFormHeaderInstructionChanges(headerInstrChanges);
 		instChanges.setFormFooterInstructionChanges(footerInstrChanges);
-		
-		
+
 	}
-	
-	private void updateModules(Collection mods){
+
+	private void updateModules(Collection mods, FEForm oldForm) {
 		System.out.println("IN MANAGER UPDATE MODULES");
-		
+
 		QuestionInstructionDAO questionInstrDao = daoFactory.getQuestionInstructionDAO();
 		FormValidValueInstructionDAO vvInstrDao = daoFactory.getFormValidValueInstructionDAO();
-		
-		for(Object mod : mods){
-			ModuleTransferObject mto = (ModuleTransferObject)mod;
-			
+
+		for (Object mod : mods) {
+			ModuleTransferObject mto = (ModuleTransferObject) mod;
+
 			ModuleChangesTransferObject modChange = new ModuleChangesTransferObject();
-			
+
 			modChange.setDeletedQuestions(new ArrayList());
 			modChange.setUpdatedQuestions(new ArrayList());
 			modChange.setNewQuestions(new ArrayList());
-			
+
 			modChange.setModuleId(mto.getModuleIdseq());
 			modChange.setUpdatedModule(mto);
 			modChange.setInstructionChanges(new InstructionChangesTransferObject());
-			if(mto.getInstruction().getIdseq() == null){
+			if (mto.getInstruction().getIdseq() == null) {
 				modChange.getInstructionChanges().setNewInstruction(mto.getInstruction());
-			}
-			else{
+			} else {
 				modChange.getInstructionChanges().setUpdatedInstruction(mto.getInstruction());
 			}
-			
+
 			modChange.getInstructionChanges().setParentId(mto.getModuleIdseq());
-			
-			for(Object obj : mto.getQuestions()){
-				FEQuestion ques = (FEQuestion)obj;
-				
+
+			for (Object obj : mto.getQuestions()) {
+				FEQuestion ques = (FEQuestion) obj;
+
 				QuestionTransferObject qto = new QuestionTransferObject();
 				qto.setDataElement(new DataElementTransferObject());
 				qto.getDataElement().setValueDomain(new ValueDomainTransferObject());
 				qto.getDataElement().setDeIdseq(ques.getDeIdseq());
-				
+
 				qto.setModule(mto);
-				
+
 				qto.setQuesIdseq(ques.getQuesIdseq());
 				qto.setVersion(ques.getVersion());
-				qto.setPreferredDefinition(ques.getLongName()); //XXX: is correct?
+				qto.setPreferredDefinition(ques.getLongName()); // XXX: is
+																// correct?
 				qto.setMandatory(ques.isMandatory());
 				qto.setEditable(ques.isEditable());
 				qto.setDeDerived(ques.isDeDerived());
@@ -447,178 +428,184 @@ public class FormManagerImpl implements FormManager {
 				qto.setContext(mto.getContext());
 				qto.setCreatedBy(mto.getCreatedBy());
 				qto.setDisplayOrder(ques.getDisplayOrder());
-				
+
 				qto.setDefaultValue(ques.getDefaultValue());
-				
+
 				InstructionTransferObject instr = new InstructionTransferObject();
 				List dbinstructions = questionInstrDao.getInstructions(ques.getQuesIdseq());
 				System.out.println("TEST # of instructions for " + ques.getLongName() + ": " + dbinstructions.size());
-				if(dbinstructions.size() > 0){
+				if (dbinstructions.size() > 0) {
 					qto.setInstructions(dbinstructions);
-					instr = (InstructionTransferObject)qto.getInstruction();
+					instr = (InstructionTransferObject) qto.getInstruction();
+				} else {
+					// instr.setVersion(mto.getForm().getVersion());
+					// instr.setLongName(ques.getLongName());
+					// instr.setAslName(mto.getAslName());
+					// instr.setDisplayOrder(1);
+					// context
+					// createdby
 				}
-				else{
-//					instr.setVersion(mto.getForm().getVersion());
-//					instr.setLongName(ques.getLongName());
-//					instr.setAslName(mto.getAslName());
-//					instr.setDisplayOrder(1);
-					//context
-					//createdby
-				}
-				
+
 				instr.setLongName(ques.getLongName());
 				instr.setAslName(mto.getAslName());
 				instr.setDisplayOrder(1);
 				instr.setVersion(1F);
 				instr.setContext(mto.getForm().getContext());
 				instr.setCreatedBy(mto.getForm().getCreatedBy());
-				
-				if(ques.getInstructions() == null || ques.getInstructions().equals("")){
+
+				if (ques.getInstructions() == null || ques.getInstructions().equals("")) {
 					instr.setPreferredDefinition(" ");
-				}
-				else{
+				} else {
 					instr.setPreferredDefinition(ques.getInstructions());
 				}
-				
+
 				dbinstructions.add(instr);
 				qto.setInstructions(dbinstructions);
 				
-				if(ques.getIsDeleted()){
-					modChange.getDeletedQuestions().add(qto);
+				
+				
+				for(FEModule oldMod : oldForm.getFormModules()){
+					if(oldMod.getModuleIdseq().equals(mto.getModuleIdseq())){
+						if(!oldMod.getQuestions().contains(ques)){
+							modChange.getDeletedQuestions().add(qto.getQuesIdseq());
+						}
+						/*for(FEQuestion oldQues : oldMod.getQuestions()){
+							if(!oldMod.getQuestions().contains(ques)){
+								modChange.getDeletedQuestions().add(qto);
+							}
+						}*/
+					}
 				}
-				else if(ques.getIsEdited()){
-					
+				
+				/*if (ques.getIsDeleted()) {
+					modChange.getDeletedQuestions().add(qto);
+				}*/ 
+				if (ques.getIsEdited()) {
+
 					QuestionChangeTransferObject quesChange = new QuestionChangeTransferObject();
-					
+
 					quesChange.setUpdatedQuestion(qto);
-					
+
 					quesChange.setInstructionChanges(new InstructionChangesTransferObject());
 					quesChange.getInstructionChanges().setParentId(ques.getQuesIdseq());
-					if(qto.getInstruction().getIdseq() == null){
+					if (qto.getInstruction().getIdseq() == null) {
 						quesChange.getInstructionChanges().setNewInstruction(qto.getInstruction());
-					}
-					else{
+					} else {
 						quesChange.getInstructionChanges().setUpdatedInstruction(qto.getInstruction());
 					}
-					
+
 					FormValidValueChangesTransferObject validValueChange = new FormValidValueChangesTransferObject();
-					
+
 					validValueChange.setDeletedValidValues(new ArrayList());
 					validValueChange.setNewValidValues(new ArrayList());
 					validValueChange.setUpdatedValidValues(new ArrayList());
-					
-					for(FEValidValue bbVV : ques.getValidValues()){
-						
+
+					for (FEValidValue bbVV : ques.getValidValues()) {
+
 						ValidValueTransferObject vvto = new ValidValueTransferObject();
 						BeanUtils.copyProperties(bbVV, vvto);
-						
+
 						InstructionTransferObject vvinstr = new InstructionTransferObject();
 						List vvInstructions = vvInstrDao.getInstructions(vvto.getVdIdseq());
-						if(vvInstructions.size() > 0){
+						if (vvInstructions.size() > 0) {
 							vvto.setInstructions(vvInstructions);
 						}
-						
+
 						vvinstr.setLongName(ques.getLongName());
 						vvinstr.setAslName(mto.getAslName());
 						vvinstr.setDisplayOrder(1);
 						vvinstr.setVersion(1F);
 						vvinstr.setContext(mto.getForm().getContext());
 						vvinstr.setCreatedBy(mto.getForm().getCreatedBy());
-						
-						if(bbVV.getInstructions() == null || bbVV.getInstructions().equals("")){
+
+						if (bbVV.getInstructions() == null || bbVV.getInstructions().equals("")) {
 							vvinstr.setPreferredDefinition(" ");
-						}
-						else{
+						} else {
 							vvinstr.setPreferredDefinition(ques.getInstructions());
 						}
-						
+
 						vvInstructions.add(vvinstr);
 						vvto.setInstructions(vvInstructions);
-						
-						if(bbVV.getIsEdited()){
+
+						if (bbVV.getIsEdited()) {
 							validValueChange.getUpdatedValidValues().add(vvto);
-						}
-						else if(bbVV.getIsDeleted()){
+						} else if (bbVV.getIsDeleted()) {
 							validValueChange.getDeletedValidValues().add(vvto);
-						}
-						else if(bbVV.getValueIdseq().isEmpty()){
+						} else if (bbVV.getValueIdseq().isEmpty()) {
 							validValueChange.getNewValidValues().add(vvto);
 						}
-						
+
 					}
-					
+
 					quesChange.setFormValidValueChanges(validValueChange);
-					
+
 					modChange.getUpdatedQuestions().add(quesChange);
-				}
-				else if(ques.getQuesIdseq() == null || ques.getQuesIdseq() == ""){
+				} else if (ques.getQuesIdseq() == null || ques.getQuesIdseq() == "") {
 					modChange.getNewQuestions().add(qto);
 				}
 			}
-			
+
 			service.updateModule(mto.getModuleIdseq(), modChange, mto.getCreatedBy());
-			
+
 		}
 	}
 
 	public FEForm testTranslateDBFormToBBForm(FormTransferObject fullform) {
 		FEForm bbform = new FEForm();
 		FEFormMetaData bbmeta = new FEFormMetaData();
-//		FormTransferObject fullform = getFullForm(formIdSeq);
+		// FormTransferObject fullform = getFullForm(formIdSeq);
 
 		long startTime = System.currentTimeMillis();
 
 		BeanUtils.copyProperties(fullform, bbform);
 		BeanUtils.copyProperties(fullform, bbmeta, "context", "protocols", "classifications");
-		
+
 		FEContext bbcontext = new FEContext();
 		bbcontext.setConteIdseq(fullform.getConteIdseq());
 		bbcontext.setName(fullform.getContextName());
 		bbcontext.setDescription(fullform.getContext().getDescription());
-		
+
 		List<FEProtocol> bbprotocols = new ArrayList<FEProtocol>();
-		for(Object obj : fullform.getProtocols()){
-			ProtocolTransferObject protocol = (ProtocolTransferObject)obj;
-			
+		for (Object obj : fullform.getProtocols()) {
+			ProtocolTransferObject protocol = (ProtocolTransferObject) obj;
+
 			FEProtocol bbprotocol = new FEProtocol();
 			bbprotocol.setLongName(protocol.getLongName());
 			bbprotocol.setProtoIdseq(protocol.getProtoIdseq());
-			
+
 			bbprotocols.add(bbprotocol);
-			
+
 		}
 		bbmeta.setProtocols(bbprotocols);
-		
+
 		List<FEClassification> classifications = new ArrayList<FEClassification>();
-		if(fullform.getClassifications() != null){
-			for(Object obj : fullform.getClassifications()){
-				CSITransferObject cto = (CSITransferObject)obj;
-				
+		if (fullform.getClassifications() != null) {
+			for (Object obj : fullform.getClassifications()) {
+				CSITransferObject cto = (CSITransferObject) obj;
+
 				FEClassification classification = new FEClassification();
 				BeanUtils.copyProperties(cto, classification);
-				
+
 				classifications.add(classification);
 			}
-			
+
 			bbmeta.setClassifications(classifications);
 		}
-		
+
 		bbmeta.setWorkflow(fullform.getAslName());
 		bbmeta.setContext(bbcontext);
-		
-		if(fullform.getInstruction() != null){
+
+		if (fullform.getInstruction() != null) {
 			bbmeta.setHeaderInstructions(fullform.getInstruction().getPreferredDefinition());
-		}
-		else{
+		} else {
 			bbmeta.setHeaderInstructions("");
 		}
-		if(fullform.getFooterInstruction() != null){
+		if (fullform.getFooterInstruction() != null) {
 			bbmeta.setFooterInstructions(fullform.getFooterInstruction().getPreferredDefinition());
-		}
-		else{
+		} else {
 			bbmeta.setFooterInstructions("");
 		}
-		
+
 		bbform.setFormMetadata(bbmeta);
 		bbform.setFormModules(new ArrayList<FEModule>());
 
@@ -626,17 +613,18 @@ public class FormManagerImpl implements FormManager {
 			ModuleTransferObject mto = (ModuleTransferObject) module;
 			FEModule bbmod = new FEModule();
 			BeanUtils.copyProperties(mto, bbmod, "instructions");
-			
-//			BBInstructions bbinst = new BBInstructions();
-//			if(mto.getInstruction() != null){
-//				BeanUtils.copyProperties(mto.getInstruction(), bbinst, "context");
-//			}
-			if(mto.getInstruction() != null){
+
+			// BBInstructions bbinst = new BBInstructions();
+			// if(mto.getInstruction() != null){
+			// BeanUtils.copyProperties(mto.getInstruction(), bbinst,
+			// "context");
+			// }
+			if (mto.getInstruction() != null) {
 				bbmod.setInstructions(mto.getInstruction().getPreferredDefinition());
 			}
-			
+
 			bbmod.setForm(bbmeta);
-			
+
 			bbform.getFormModules().add(bbmod);
 
 			bbmod.setQuestions(new ArrayList<FEQuestion>());
@@ -645,49 +633,47 @@ public class FormManagerImpl implements FormManager {
 				QuestionTransferObject qto = (QuestionTransferObject) question;
 				FEQuestion bbques = new FEQuestion();
 				BeanUtils.copyProperties(qto, bbques);
-				
+
 				bbques.setVersion(qto.getVersion());
 				bbques.setMandatory(qto.isMandatory());
 				bbques.setEditable(qto.isEditable());
 				bbques.setDeDerived(qto.isDeDerived());
 				bbques.setLongName(qto.getLongName());
-				
-				if(qto.getInstruction() != null){
+
+				if (qto.getInstruction() != null) {
 					bbques.setInstructions(qto.getInstruction().getPreferredDefinition());
 				}
-				if(qto.getDefaultValue() != null){
+				if (qto.getDefaultValue() != null) {
 					bbques.setDefaultValue(qto.getDefaultValue());
 				}
-				
-				if(qto.getDataElement() != null){
+
+				if (qto.getDataElement() != null) {
 					bbques.setDeIdseq(qto.getDataElement().getIdseq());
 					bbques.setValueDomainLongName(qto.getDataElement().getValueDomain().getLongName());
 					bbques.setDataType(qto.getDataElement().getValueDomain().getDatatype());
 					bbques.setUnitOfMeasure(qto.getDataElement().getValueDomain().getUnitOfMeasure());
 					bbques.setDisplayFormat(qto.getDataElement().getValueDomain().getDisplayFormat());
-	//				bbques.setConcepts(qto.getDataElement().getValueDomain().getConceptDerivationRule().getComponentConcepts().toString());
-					
+					// bbques.setConcepts(qto.getDataElement().getValueDomain().getConceptDerivationRule().getComponentConcepts().toString());
+
 					List<String> altQuestionTexts = new ArrayList<String>();
-					
-					for(Object obj : qto.getDataElement().getRefereceDocs()){
-						ReferenceDocumentTransferObject refDoc = (ReferenceDocumentTransferObject)obj;
-						
-						if(refDoc.getDocType().equals("Preferred Question Text")){
+
+					for (Object obj : qto.getDataElement().getRefereceDocs()) {
+						ReferenceDocumentTransferObject refDoc = (ReferenceDocumentTransferObject) obj;
+
+						if (refDoc.getDocType().equals("Preferred Question Text")) {
 							bbques.setPreferredQuestionText(refDoc.getDocText());
-						}
-						else if(refDoc.getDocType().equals("Alternate Question Text")){
+						} else if (refDoc.getDocType().equals("Alternate Question Text")) {
 							String altQuestionText = refDoc.getDocText();
-							
+
 							altQuestionTexts.add(altQuestionText);
 						}
 					}
-					
+
 					bbques.setAlternativeQuestionText(altQuestionTexts);
-					//TODO: need to translate dataelement as well and set in question
+					// TODO: need to translate dataelement as well and set in
+					// question
 				}
-				
-				
-				
+
 				bbmod.getQuestions().add(bbques);
 
 				bbques.setValidValues(new ArrayList<FEValidValue>());
@@ -696,11 +682,11 @@ public class FormManagerImpl implements FormManager {
 					FormValidValueTransferObject vvto = (FormValidValueTransferObject) validVal;
 					FEValidValue bbval = new FEValidValue();
 					BeanUtils.copyProperties(vvto, bbval);
-					
-					if(vvto.getInstruction() != null){
+
+					if (vvto.getInstruction() != null) {
 						bbval.setInstructions(vvto.getInstruction().getPreferredDefinition());
 					}
-					
+
 					bbques.getValidValues().add(bbval);
 				}
 			}
@@ -712,13 +698,13 @@ public class FormManagerImpl implements FormManager {
 		return bbform;
 
 	}
-	
+
 	/**
 	 * 
 	 * Performance Test Methods
 	 * 
 	 */
-	
+
 	public String getFormPerformanceTest(@PathVariable String formIdSeq) {
 
 		long startTimer1 = System.currentTimeMillis();
@@ -745,114 +731,151 @@ public class FormManagerImpl implements FormManager {
 		sb.append("\t# of CDE's: " + numCdes + "\n");
 		sb.append("Time(ms) to retrieve from DB: " + retrieveFromDBTime + "\n");
 		sb.append("Time(ms) to translate to simple object: " + translateObjectTime + "\n");
-		
+
 		/*
-		long startTimer3 = System.currentTimeMillis();
+		 * long startTimer3 = System.currentTimeMillis();
+		 * 
+		 * FormV2TransferObject fullFormV2 =
+		 * formManager.getFullFormV2(formIdSeq);
+		 * 
+		 * long endTimer3 = System.currentTimeMillis(); String
+		 * retrieveV2FromDBTime = "" + (endTimer3 - startTimer3);
+		 * 
+		 * long startTimer4 = System.currentTimeMillis();
+		 * 
+		 * FormTransferObject formRow = this.getFormRow(formIdSeq);
+		 * 
+		 * long endTimer4 = System.currentTimeMillis(); String
+		 * retrieveRowFromDBTime = "" + (endTimer4 - startTimer4);
+		 */
 
-		FormV2TransferObject fullFormV2 = formManager.getFullFormV2(formIdSeq);
-
-		long endTimer3 = System.currentTimeMillis();
-		String retrieveV2FromDBTime = "" + (endTimer3 - startTimer3);
-		
-		long startTimer4 = System.currentTimeMillis();
-
-		FormTransferObject formRow = this.getFormRow(formIdSeq);
-
-		long endTimer4 = System.currentTimeMillis();
-		String retrieveRowFromDBTime = "" + (endTimer4 - startTimer4);
-		*/
-		
-//		sb.append("Time(ms) to retrieve V2 from DB: " + retrieveV2FromDBTime + "\n");
+		// sb.append("Time(ms) to retrieve V2 from DB: " + retrieveV2FromDBTime
+		// + "\n");
 		sb.append("Time(ms) to retrieve V2 from DB: N/A \n");
-//		sb.append("Time(ms) to retrieve header-only (metadata) from DB: " + retrieveRowFromDBTime + "\n");
+		// sb.append("Time(ms) to retrieve header-only (metadata) from DB: " +
+		// retrieveRowFromDBTime + "\n");
 		sb.append("Time(ms) to retrieve header-only (metadata) from DB: N/A \n");
 		sb.append("-------------------------------------------------------------------\n\n");
 
 		return sb.toString();
 	}
-	
-	private Map getInstructionChanges(Map mainMap, String currInstrStr , Instruction orgInstr, Form parent, String currNameStr)
-	  {
-	    if(mainMap==null)
-	           mainMap = new HashMap(); 
-	       if(currInstrStr==null&&orgInstr!=null)
-	       {
-	         List toDelete = (List)mainMap.get(FormInstructionChanges.DELETED_INSTRUCTIONS);
-	         if(toDelete==null)
-	         {
-	            toDelete = new ArrayList();       
-	         }
-	         toDelete.add(orgInstr);
-	         mainMap.put(FormInstructionChanges.DELETED_INSTRUCTIONS,toDelete);
-	         return mainMap;
-	       }
-	       if(currInstrStr!=null&&orgInstr==null)
-	       {
-	         if (!currInstrStr.trim().equals(""))
-	         {
-	            Instruction instr = new InstructionTransferObject();
-	            instr.setLongName(currNameStr);
-	            instr.setDisplayOrder(0);
-	            instr.setVersion(new Float(1));
-	            instr.setAslName("DRAFT NEW");
-	            instr.setContext(parent.getContext());        
-	            instr.setPreferredDefinition(currInstrStr);
-	    
-	           Map newInstrs = (Map)mainMap.get(FormInstructionChanges.NEW_INSTRUCTION_MAP);
-	           if(newInstrs==null)
-	           {
-	              newInstrs = new HashMap();       
-	           }
-	           newInstrs.put(parent.getFormIdseq(),instr);
-	           mainMap.put(FormInstructionChanges.NEW_INSTRUCTION_MAP,newInstrs);
-	           return mainMap;     
-	         }
-	       }
-	       if(currInstrStr!=null&&orgInstr!=null)
-	       {
-	         if(!currInstrStr.equals(orgInstr.getPreferredDefinition())&&!currInstrStr.trim().equals(""))
-	           {
-	             List updatedInstrs = (List)mainMap.get(FormInstructionChanges.UPDATED_INSTRUCTIONS);
-	             if(updatedInstrs==null)
-	             {
-	                updatedInstrs = new ArrayList();       
-	             }
-	             orgInstr.setLongName(currNameStr);
-	             orgInstr.setPreferredDefinition(currInstrStr);
-	             updatedInstrs.add(orgInstr);
-	             mainMap.put(FormInstructionChanges.UPDATED_INSTRUCTIONS,updatedInstrs);
-	             return mainMap;     
-	           }
-	           else if(!currInstrStr.equals(orgInstr.getPreferredDefinition())&&currInstrStr.trim().equals(""))
-	           {
-	             List toDelete = (List)mainMap.get(FormInstructionChanges.DELETED_INSTRUCTIONS);
-	             if(toDelete==null)
-	             {
-	                toDelete = new ArrayList();       
-	             }
-	             toDelete.add(orgInstr);
-	             mainMap.put(FormInstructionChanges.DELETED_INSTRUCTIONS,toDelete);
-	             return mainMap;       
-	           }
-	       }   
-	       return mainMap;
-	      }
 
-	
-	 public String copyForm(String sourceFormPK, Form newForm)
-	    {
-	        Form resultForm = null;
-	        FormDAO myDAO = daoFactory.getFormDAO();
-			String resultFormPK = myDAO.copyForm(sourceFormPK, newForm);
-		//resultForm = this.getFormDetails(resultFormPK);
-	        return resultFormPK;
-	    }
-	 
-	 public int deleteForm(String formPK)
-	    {
-	        FormDAO fdao = daoFactory.getFormDAO();
+	private Map getInstructionChanges(Map mainMap, String currInstrStr, Instruction orgInstr, Form parent,
+			String currNameStr) {
+		if (mainMap == null)
+			mainMap = new HashMap();
+		if (currInstrStr == null && orgInstr != null) {
+			List toDelete = (List) mainMap.get(FormInstructionChanges.DELETED_INSTRUCTIONS);
+			if (toDelete == null) {
+				toDelete = new ArrayList();
+			}
+			toDelete.add(orgInstr);
+			mainMap.put(FormInstructionChanges.DELETED_INSTRUCTIONS, toDelete);
+			return mainMap;
+		}
+		if (currInstrStr != null && orgInstr == null) {
+			if (!currInstrStr.trim().equals("")) {
+				Instruction instr = new InstructionTransferObject();
+				instr.setLongName(currNameStr);
+				instr.setDisplayOrder(0);
+				instr.setVersion(new Float(1));
+				instr.setAslName("DRAFT NEW");
+				instr.setContext(parent.getContext());
+				instr.setPreferredDefinition(currInstrStr);
 
-	        return fdao.deleteForm(formPK);
-	    }
+				Map newInstrs = (Map) mainMap.get(FormInstructionChanges.NEW_INSTRUCTION_MAP);
+				if (newInstrs == null) {
+					newInstrs = new HashMap();
+				}
+				newInstrs.put(parent.getFormIdseq(), instr);
+				mainMap.put(FormInstructionChanges.NEW_INSTRUCTION_MAP, newInstrs);
+				return mainMap;
+			}
+		}
+		if (currInstrStr != null && orgInstr != null) {
+			if (!currInstrStr.equals(orgInstr.getPreferredDefinition()) && !currInstrStr.trim().equals("")) {
+				List updatedInstrs = (List) mainMap.get(FormInstructionChanges.UPDATED_INSTRUCTIONS);
+				if (updatedInstrs == null) {
+					updatedInstrs = new ArrayList();
+				}
+				orgInstr.setLongName(currNameStr);
+				orgInstr.setPreferredDefinition(currInstrStr);
+				updatedInstrs.add(orgInstr);
+				mainMap.put(FormInstructionChanges.UPDATED_INSTRUCTIONS, updatedInstrs);
+				return mainMap;
+			} else if (!currInstrStr.equals(orgInstr.getPreferredDefinition()) && currInstrStr.trim().equals("")) {
+				List toDelete = (List) mainMap.get(FormInstructionChanges.DELETED_INSTRUCTIONS);
+				if (toDelete == null) {
+					toDelete = new ArrayList();
+				}
+				toDelete.add(orgInstr);
+				mainMap.put(FormInstructionChanges.DELETED_INSTRUCTIONS, toDelete);
+				return mainMap;
+			}
+		}
+		return mainMap;
+	}
+
+	public String copyForm(String sourceFormPK, Form newForm) {
+		Form resultForm = null;
+		FormDAO myDAO = daoFactory.getFormDAO();
+		String resultFormPK = myDAO.copyForm(sourceFormPK, newForm);
+		// resultForm = this.getFormDetails(resultFormPK);
+		return resultFormPK;
+	}
+
+	public int deleteForm(String formPK) {
+		FormDAO fdao = daoFactory.getFormDAO();
+
+		return fdao.deleteForm(formPK);
+	}
+
+	private void updateFormClassifications(FEForm form) {
+		ClassificationSchemeDAO classDao = daoFactory.getClassificationSchemeDAO();
+
+		String formIdseq = form.getFormMetadata().getFormIdseq();
+
+		Collection oldClassifications = classDao.retrieveClassifications(formIdseq);
+
+		List<String> formid = new ArrayList<String>();
+		List<String> cscsiIds = new ArrayList<String>();
+
+		for (FEClassification feclassification : form.getFormMetadata().getClassifications()) {
+			formid.add(formIdseq);
+			cscsiIds.add(feclassification.getCsCsiIdseq());
+		}
+
+		for (Object obj : oldClassifications) {
+			CSITransferObject oldClass = (CSITransferObject) obj;
+			if (!cscsiIds.contains(oldClass.getCsCsiIdseq())) {
+				service.removeFFormClassification(oldClass.getCsCsiIdseq(), formIdseq);
+			}
+		}
+
+		service.assignFormClassification(formid, cscsiIds);
+	}
+
+	private void adaptProtocols(FEForm form, FEForm oldForm, Collection addedProts, Collection deletedProts) {
+
+		List<FEProtocol> protocols = form.getFormMetadata().getProtocols();
+		List<FEProtocol> oldProtocols = oldForm.getFormMetadata().getProtocols();
+
+		for (FEProtocol protocol : protocols) {
+			System.out.println("prot: " + protocol.getProtoIdseq());
+			if (!oldProtocols.contains(protocol)) {
+				System.out.println("ADDED: " + protocol.getProtoIdseq());
+				addedProts.add(protocol.getProtoIdseq());
+			}
+		}
+
+		for (FEProtocol oldProtocol : oldProtocols) {
+			System.out.println("oldProt: " + oldProtocol.getProtoIdseq());
+			if (!protocols.contains(oldProtocol)) {
+				System.out.println("DELETED: " + oldProtocol.getProtoIdseq());
+				deletedProts.add(oldProtocol.getProtoIdseq());
+			}
+		}
+
+	}
 
 }

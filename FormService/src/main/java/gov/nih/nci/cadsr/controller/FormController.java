@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import javax.annotation.Resource;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
@@ -21,6 +22,8 @@ import org.apache.log4j.Logger;
 import org.apache.struts.action.DynaActionForm;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.Cache.ValueWrapper;
+import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
@@ -75,6 +78,10 @@ public class FormController {
 	@Autowired
 	private FormManager formManager;
 
+//	@Resource(name = "cacheManager")
+	@Autowired
+	private CacheManager cacheManager;
+
 	@RequestMapping(value = "/forms", method = RequestMethod.GET)
 	@ResponseBody
 
@@ -123,18 +130,23 @@ public class FormController {
 	}
 
 	@RequestMapping(value = { "/forms/{formIdSeq}" }, method = RequestMethod.PUT, consumes = "application/json")
-	@CacheEvict(value = "products", key = "#form.formMetadata.formIdseq")
-	public ResponseEntity<String> updateForm(@RequestBody FEForm form) {
+	@CachePut(value = "products", key = "#form.formMetadata.formIdseq")
+	public FEForm updateForm(@PathVariable String formIdSeq, @RequestBody FEForm form) {
+		FEForm oldForm = new FEForm();
 
 		try {
 
-			String response = formManager.updateForm(form);
+			oldForm = (FEForm)cacheManager.getCache("products").get(formIdSeq).get();
+			System.out.println("OldForm Prots: " + oldForm.getFormMetadata().getProtocols());
+			System.out.println("OldForm Prots size: " + oldForm.getFormMetadata().getProtocols().size());
+			
+			String response = formManager.updateForm(form, oldForm);
 
-			return new ResponseEntity<String>(response, HttpStatus.OK);
+			return form;
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new ResponseEntity(e.toString() + " : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+			return oldForm;
 		}
 
 	}
@@ -434,11 +446,11 @@ public class FormController {
 		ob.setData(convertedForm);
 		return ob;
 	}
-	
+
 	@RequestMapping(value = { "/forms/{formIdSeq}" }, method = RequestMethod.DELETE)
-	public ResponseEntity deleteForm(@PathVariable String formIdSeq){
+	public ResponseEntity deleteForm(@PathVariable String formIdSeq) {
 		int response = formManager.deleteForm(formIdSeq);
-		
+
 		return new ResponseEntity(response, HttpStatus.OK);
 	}
 
