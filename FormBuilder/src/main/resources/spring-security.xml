@@ -15,9 +15,13 @@
 		<!-- <form-login login-page="/login" default-target-url="/welcome" authentication-failure-url="/login?error" 
 			username-parameter="username" password-parameter="password" /> <logout logout-success-url="/login?logout" 
 			/> -->
-		<!-- <session-management>
-			<concurrency-control max-sessions="1" />
-		</session-management> -->
+
+		<session-management>
+			<concurrency-control expired-url="/spring_security_login" />
+		</session-management>
+		<!-- <session-management invalid-session-url="/spring_security_login" session-fixation-protection="migrateSession"> 
+			<concurrency-control expired-url="/spring_security_login" max-sessions="1"/> 
+			</session-management> -->
 
 		<logout logout-success-url="/" logout-url="/perform_logout"
 			delete-cookies="JSESSIONID" />
