@@ -1,3 +1,15 @@
+import {appChannel} from '../channels/radioChannels';
+import EVENTS from '../constants/EVENTS';
+import $ from 'jquery';
+
+export const setGlobalJQAjaxSettings  = () =>{
+	$(document).ajaxStart(() => {
+		appChannel.request(EVENTS.APP.SET_NETWORK_IS_IDLE, {networkIsIdle: false});
+	}).ajaxComplete(() => {
+		appChannel.request(EVENTS.APP.SET_NETWORK_IS_IDLE, {networkIsIdle: true});
+	});
+};
+
 /**
  * Download a file via ajax
  * http://stackoverflow.com/questions/34586671/download-pdf-file-using-jquery-ajax#answer-34587987
@@ -46,7 +58,7 @@ export const createDownloadLink = (data, fileExtension) =>{
  * Translates the body of the response into JSON.  Performs no error checking on the
  * translation process so, if the response MAY not contain json, the developer is
  * encouraged to perform this step within his/her own handler.
- * 
+ *
  * @returns {Promise} with the json data in the body
  */
 export const getResponseAsJSON = (response) => {
@@ -63,7 +75,7 @@ export const getResponseAsJSON = (response) => {
  * Checks the response for an error code.  If the code is in the 200s, resolves
  * the promise back to the stack.  If not, rejects the promise with an Error of the
  * status.
- * 
+ *
  * @returns {Promise} with the Reponse in the body or Error upon rejection
  */
 export const rejectErrors = (response) => {
@@ -95,7 +107,7 @@ export const fetchRequestData = (url, method, contentType, data) => {
  * Generalizing method for performing an ajax request and processing the results.
  * Optionally runs the Response from a fetch through the rejectErrors and
  * getResponseAsJSON methods to transform the Promise as needed.
- * 
+ *
  * @param url - URL to send the request to
  * @param method - request method name.  default: GET
  * @param data - POST data to send to the server.  default: null
@@ -103,12 +115,12 @@ export const fetchRequestData = (url, method, contentType, data) => {
  * @param swallowErrors - whether to run the Response through rejectErrors() or not.  Default true
  * @param dataType - type of the response from the server.  Default: "json".  If "json", runs the Response through getResponseAsJSON()
  * @returns {Promise}
- * 
+ *
  * @Note The support functions rejectErrors and getResponseAsJSON can be used
  * by the developer independently of this method.  This is especially useful if
  * non-standard conditions exist where the user needs to perform some step BEFORE
  * these run.
- * The syntax would be something like: 
+ * The syntax would be something like:
  * fetchSecure(...).then((response) =>{ your code here}).then(getResponseAsJSON)
  */
 export const fetchSecure = ({url, method = 'get', data = null, contentType = 'application/json', swallowErrors = true, dataType = 'json'}) =>{
@@ -119,6 +131,6 @@ export const fetchSecure = ({url, method = 'get', data = null, contentType = 'ap
 	if (dataType == 'json') {
 		promiz = promiz.then(getResponseAsJSON);
 	}
-	
+
 	return promiz;
 };

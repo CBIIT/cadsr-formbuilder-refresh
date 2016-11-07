@@ -11,10 +11,10 @@
 @import "partials/_module.scss";
 @import "partials/formtable.scss";
 @import "partials/search";
-
 @import "partials/sideBar";
+@import "partials/page-busy-indicator";
 
-body{
+body {
   background-color: $color-base;
   font-family: 'Noto Sans', sans-serif;
 }

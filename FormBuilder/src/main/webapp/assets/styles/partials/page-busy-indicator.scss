@@ -1,0 +1,12 @@
+#page-busy-indicator {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2000;
+  opacity: .6;
+  &:not(.hidden) {
+	  background: #F9F9F9 url(../images/spinner.svg)50% 50% no-repeat;
+  }
+}

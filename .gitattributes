@@ -73,6 +73,7 @@ FormBuilder/src/main/webapp/assets/fonts/icomoon.svg -text
 FormBuilder/src/main/webapp/assets/fonts/icomoon.ttf -text
 FormBuilder/src/main/webapp/assets/fonts/icomoon.woff -text
 FormBuilder/src/main/webapp/assets/images/nci-logo-full.svg -text
+FormBuilder/src/main/webapp/assets/images/spinner.svg -text
 FormBuilder/src/main/webapp/assets/js/App.js -text
 FormBuilder/src/main/webapp/assets/js/channels/radioChannels.js -text
 FormBuilder/src/main/webapp/assets/js/commands/GetFormMetadataCriteriaCommand.js -text
@@ -125,7 +126,6 @@ FormBuilder/src/main/webapp/assets/js/helpers/formHelpers.js -text
 FormBuilder/src/main/webapp/assets/js/helpers/uiInputHelpers.js -text
 FormBuilder/src/main/webapp/assets/js/helpers/urlHelpers.js -text
 FormBuilder/src/main/webapp/assets/js/main.js -text
-FormBuilder/src/main/webapp/assets/js/models/AppModel.js -text
 FormBuilder/src/main/webapp/assets/js/models/carts/CDECollection.js -text
 FormBuilder/src/main/webapp/assets/js/models/carts/CDEModel.js -text
 FormBuilder/src/main/webapp/assets/js/models/carts/CartsStateModel.js -text
@@ -156,6 +156,7 @@ FormBuilder/src/main/webapp/assets/js/routers/CartsRouter.js -text
 FormBuilder/src/main/webapp/assets/js/routers/FormRouter.js -text
 FormBuilder/src/main/webapp/assets/js/routers/SearchRouter.js -text
 FormBuilder/src/main/webapp/assets/js/routers/rootRoute.js -text
+FormBuilder/src/main/webapp/assets/js/services/app/AppService.js -text
 FormBuilder/src/main/webapp/assets/js/services/carts/CartsService.js -text
 FormBuilder/src/main/webapp/assets/js/services/form/FormService.js -text
 FormBuilder/src/main/webapp/assets/js/services/search/ModalsService.js -text
@@ -187,6 +188,7 @@ FormBuilder/src/main/webapp/assets/styles/partials/_search.scss -text
 FormBuilder/src/main/webapp/assets/styles/partials/_sideBar.scss -text
 FormBuilder/src/main/webapp/assets/styles/partials/_text_image_containers.scss -text
 FormBuilder/src/main/webapp/assets/styles/partials/_typography.scss -text
+FormBuilder/src/main/webapp/assets/styles/partials/page-busy-indicator.scss -text
 FormBuilder/src/main/webapp/assets/styles/styles.scss -text
 FormBuilder/src/main/webapp/assets/templates/app-layout/app-layout.html -text
 FormBuilder/src/main/webapp/assets/templates/app-layout/footer.html -text

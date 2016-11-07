@@ -14,7 +14,8 @@ class AppLayout extends Component {
 		this.showUserMessage = this.showUserMessage.bind(this);
 		this.hideUserMessage = this.hideUserMessage.bind(this);
 		this.state = {
-			userIsLoggedIn: false
+			userIsLoggedIn:       false,
+			showLoadingIndicator: false
 		};
 		this._notificationSystem = null;
 	}
@@ -29,12 +30,15 @@ class AppLayout extends Component {
 
 	componentDidMount(){
 		this.checkUserIsLoggedIn();
-		appChannel.reply(EVENTS.APP.SHOW_USER_MESSAGE, function(config) {
+		appChannel.reply(EVENTS.APP.SHOW_USER_MESSAGE, function(config){
 			return this.showUserMessage(config);
 		}, this);
-		appChannel.reply(EVENTS.APP.HIDE_USER_MESSAGE, function(uid) {
+		appChannel.reply(EVENTS.APP.HIDE_USER_MESSAGE, function(uid){
 			this.hideUserMessage(uid);
 		}, this);
+		appChannel.reply(EVENTS.APP.NETWORK_IDLE_STATUS_CHANGED, ({networkIsIdle}) =>{
+			this.setState({showLoadingIndicator: !networkIsIdle});
+		});
 		this._notificationSystem = this.refs.notificationSystem;
 	}
 
@@ -45,11 +49,11 @@ class AppLayout extends Component {
 			this.checkUserIsLoggedIn();
 		}
 	}
-	
+
 	showUserMessage(config) {
 		return this._notificationSystem.addNotification(config);
 	}
-	
+
 	hideUserMessage(uid) {
 		this._notificationSystem.removeNotification(uid);
 	}
@@ -66,6 +70,7 @@ class AppLayout extends Component {
 				<Footer />
 				<NotificationSystem ref="notificationSystem" />
 				<MessageModal />
+				<div id="page-busy-indicator" className={(this.state.showLoadingIndicator ? "" : "hidden")} />
 			</div>
 		);
 	}

@@ -9,7 +9,9 @@ const EVENTS = {
 		SHOW_USER_MESSAGE:              'show:userMessage',
 		HIDE_USER_MESSAGE:              'hide:userMessage',
 		SHOW_USER_MODAL_MESSAGE:        'show:persistentMessage',
-		HIDE_USER_MODAL_MESSAGE:        'hide:persistentMessage'
+		HIDE_USER_MODAL_MESSAGE:        'hide:persistentMessage',
+		SET_NETWORK_IS_IDLE:        'set:networkIsIdle',
+		NETWORK_IDLE_STATUS_CHANGED:        'changed:networkIdleStatus'
 	},
 	FORM:   {
 		CANCEL_EDIT_FORM:               'cancelEditForm',
