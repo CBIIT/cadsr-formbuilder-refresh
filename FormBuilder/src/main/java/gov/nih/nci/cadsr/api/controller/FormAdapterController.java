@@ -270,7 +270,7 @@ public class FormAdapterController {
 		
 	}
 	
-	@RequestMapping(value = { "/workingCopy" }, method = RequestMethod.GET, consumes = "application/json")
+	@RequestMapping(value = { "/workingCopy" }, method = RequestMethod.GET)
 	@ResponseBody
 	public ResponseEntity<FEForm> getWorkingCopy(){
 		return new ResponseEntity(sessionObject.getWorkingCopy(), HttpStatus.OK);
