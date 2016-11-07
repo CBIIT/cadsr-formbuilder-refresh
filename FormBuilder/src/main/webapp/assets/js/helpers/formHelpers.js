@@ -3,7 +3,7 @@ import {fetchSecure} from './ajaXHelpers';
 import ENDPOINT_URLS from '../constants/ENDPOINT_URLS';
 import formService from  "../services/form/FormService";
 import formActions from '../constants/formActions';
-import {cartChannel, formChannel} from '../channels/radioChannels';
+import {appChannel, formChannel} from '../channels/radioChannels';
 import EVENTS from '../constants/EVENTS';
 const formHelpers = {
 	fetchForm(nextState, replace, callback) {
@@ -34,24 +34,31 @@ const formHelpers = {
 				return newFormModel.fetch().then(()=>{
 					return Promise.resolve(newFormModel);
 				}).catch(error =>{
+					appChannel.request(EVENTS.APP.SHOW_USER_MESSAGE, {
+						message: "There was a problem trying to get the form you're trying to view.",
+						level:   "error"
+					});
 					return Promise.reject(error);
 				});
 			};
 
 			newFormModel.set("formIdseq", nextState.params.formIdseq);
 			if((formIdSeqEditingForm !== null && formIdSeqEditingForm !== formIdseqFormToView) && formIdseqCurrentForm){
+				newFormModel.urlRoot = ENDPOINT_URLS.FORMS_DB;
 				networkOperations.push(saveWorkingCopyForm());
 			}
 			else if(formIdSeqEditingForm === formIdseqFormToView){
+				newFormModel.url = ENDPOINT_URLS.FORMS_WORKING_COPY;
 				setFormEditing = true;
 			}
 
 			networkOperations.push(fetchForm());
-			/*Wait until all operations are complete*/
 
+			/*Wait until all networkOperations promises are complete*/
 			Promise.all(networkOperations).then((results) =>{
 				setFormLayout();
 				callback();
+				/* Get the fetchedFormModel from the array of promises */
 				const fetchedFormModel = results[results.length - 1];
 				formService.setForm({model: fetchedFormModel, setEditing: setFormEditing});
 			})
