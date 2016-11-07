@@ -32,7 +32,7 @@ public interface FormManager {
 	
 	public InstructionTransferObject buildFooterInstructions(FEFormMetaData form);
 	
-	public String updateForm(FEForm form);
+	public String updateForm(FEForm form, FEForm oldForm);
 	
 	public FEForm testTranslateDBFormToBBForm(FormTransferObject fullForm);
 	
