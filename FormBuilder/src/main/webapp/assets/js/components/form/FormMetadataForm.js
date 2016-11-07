@@ -68,6 +68,7 @@ export default class FormMetadataForm extends Component {
 
 	dispatchData(data){
 		data.protocols = this.state.selectedProtocol;
+		data.classifications = this.state.selectedClassification;
 		formChannel.request(EVENTS.FORM.SET_CORE_FORM_DETAILS, data);
 	}
 	handleValueChanged(currentValues, isChanged) {
