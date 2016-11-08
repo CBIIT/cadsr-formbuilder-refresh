@@ -14,7 +14,13 @@ export default class FormModuleStatic extends Component {
 		this.getToolbarItems = this.getToolbarItems.bind(this);
 		this.getQuestions = this.getQuestions.bind(this);
 		this.dispatchRemoveModule = this.dispatchRemoveModule.bind(this);
-
+		this.renderQuestionHeader = this.renderQuestionHeader.bind(this);
+		this.handleSelectQuestionAccordion = this.handleSelectQuestionAccordion.bind(this);
+		
+		this.state = {
+			activeQuestionAccordion : "",
+			panelOpen: false
+		};
 	}
 
 	dispatchCopyModuleToCart(){
@@ -26,12 +32,43 @@ export default class FormModuleStatic extends Component {
 		formChannel.request(EVENTS.FORM.REMOVE_MODULE, {id: this.props.moduleId});
 	}
 	
+	renderQuestionHeader(item, index) {
+		 if (this.state.activeQuestionAccordion === index && this.state.panelOpen) {
+			 return (
+				 <div className="questionHeader">
+				 	<span className="questionExpandCollapse glyphicon glyphicon-minus"></span>
+				 	{item.longName}
+				 </div>
+			 );
+		 }
+		 else {
+			 return (
+				 <div className="questionHeader">
+				 	<span className="questionExpandCollapse glyphicon glyphicon-plus"></span>
+				 	{item.longName}
+				 </div>
+			 );
+		 }
+	}
+	
+	handleSelectQuestionAccordion(eventKey, e) {
+		let panelOpen = true;
+		if (eventKey === this.state.activeQuestionAccordion) {
+			// closing the one that was already open
+			panelOpen = false;
+		}
+		this.setState({
+			activeQuestionAccordion: eventKey,
+			panelOpen: panelOpen
+		});
+	}
+	
 	/* TODO move dupliated methods in FormModuleForm into reusable component */
 	getQuestions(){
 		if(this.props.questions && this.props.questions.length){
 			const mapQuestions = (item, index) =>{
 				return (
-					<Panel header={item.longName} key={index} eventKey={index}>
+					<Panel header={this.renderQuestionHeader(item, index)} key={index} eventKey={index} expanded={this.state.activeQuestionAccordion === index}>
 						<QuestionStatic shouldDisplayRemoveItem={this.props.shouldShowRemoveModuleBtn} dispatchRemoveQuestion={this.dispatchRemoveQuestion}  moduleId={this.props.moduleId} question={item}/>
 					</Panel>
 				);
