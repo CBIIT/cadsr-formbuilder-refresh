@@ -102,7 +102,8 @@ export default class Datatable extends Component {
 		const initialState = {
 			data:         this.formatData(this.props.data, this.props.columnTitles),
 			selectedRows: [],
-			columnTitles: this.props.columnTitles
+			columnTitles: this.props.columnTitles,
+			selectAllIsChecked: false
 		};
 
 		if(shouldHavePagination){
@@ -122,13 +123,18 @@ export default class Datatable extends Component {
 		const shouldHavePagination = nextProps.pagination;
 		const newState = {
 			data:          this.formatData(nextProps.data, nextProps.columnTitles),
-			selectedRows:  [],
+			selectedRows:  this.state.selectedRows,
 			columnTitles:  nextProps.columnTitles,
-			displayedData: (shouldHavePagination) ? nextProps.data.slice(0, nextProps.perPage) : nextProps.data
+			/*This doesn't change based on new props entering Datatable, but we don't want to lose it */
+			selectAllIsChecked: this.state.selectAllIsChecked
 		};
 		if(shouldHavePagination){
 			newState.currentPage = 1;
 			this.totalPages = Math.ceil(nextProps.data.length / nextProps.perPage);
+			newState.displayedData = newState.data.slice(0, nextProps.perPage);
+		}
+		else {
+			newState.displayedData = newState.data;
 		}
 		this.setState(newState);
 	}
@@ -192,7 +198,7 @@ export default class Datatable extends Component {
 		}
 		let displayedData = this.getCurrentDisplayData(data);
 
-		this.setState({data: data, selectedRows: selectedRows, displayedData: displayedData});
+		this.setState({data: data, selectedRows: selectedRows, displayedData: displayedData, selectAllIsChecked: selectAllIsChecked});
 	}
 
 	selectRow(e){ //ensures a row is selected when a checkbox is clicked
@@ -204,7 +210,7 @@ export default class Datatable extends Component {
 		data[index].selected = !data[index].selected;
 		if(data[index].selected){
 			//selected a row, so add it to the collection
-			selectedRows.push(data[e]);
+			selectedRows.push(data[index]);
 		}
 		else if(selectedRows.length === 1){
 			//if you're deselecting the only item, make it an empty collection
@@ -443,7 +449,7 @@ export default class Datatable extends Component {
 					<Reactable id="table" className="table reactTable" noDataText="No Results.">
 						<Thead>
 							<Th column="checkbox" className={(this.props.showCheckboxes) ? "" : "hidden"}>
-								<input type="checkbox" onChange={this.selectAllRows}/>
+								<input value={this.state.selectAllIsChecked} type="checkbox" onChange={this.selectAllRows}/>
 							</Th>
 							{
 								this.state.columnTitles.map( (title) =>{
@@ -471,7 +477,7 @@ export default class Datatable extends Component {
 										{
 											<Td key={'checkbox'} column="checkbox" className={(this.props.showCheckboxes) ? "" : "hidden"}>
 												<input type="checkbox" value={item.id}
-													onChange={() =>{ this.selectRow(item.id);}}
+													onChange={() =>{ this.selectRow(item.id)}}
 													checked={item.selected} />
 											</Td>
 										}
