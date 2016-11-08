@@ -91,7 +91,7 @@ export default class FormGlobalToolbar extends Component {
 	getToolbarItems(){
 		const buttons = [];
 		/*They have curatorialPermission, it's not locked by another user and the form isn't already in edit mode */
-		const shouldShowEditFormButton = (this.props.formMetadata.curatorialPermission === true && this.props.formMetadata.locked === false) && !this.props.shouldShowFormEditControls;
+		const shouldShowEditFormButton = (this.props.formMetadata.curatorialPermission === true && this.props.formMetadata.locked === false && this.props.userIsLoggedIn === true) && !this.props.shouldShowFormEditControls;
 		const userIsEditingForm = this.props.shouldShowFormEditControls;
 
 		if(shouldShowEditFormButton){
