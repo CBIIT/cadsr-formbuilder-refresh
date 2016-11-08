@@ -469,7 +469,7 @@ export default class Datatable extends Component {
 				{
 					this.addPagination(true)
 				}
-				<span className="reactTable-total">{this.props.resultsText} {this.state.data.length}</span>
+				<span className="reactTable-total text--bold">{this.props.resultsText} {this.state.data.length}</span>
 				<div className="reactTable-wrap">
 					<Reactable id="table" className="table reactTable" noDataText="No Results.">
 						<Thead>
@@ -538,7 +538,7 @@ export default class Datatable extends Component {
 						}
 					</Reactable>
 					</div>
-				<span className="reactTable-total reactTable-total--bottom">{this.props.resultsText} {this.state.data.length}</span>
+				<span className="reactTable-total reactTable-total--bottom text--bold">{this.props.resultsText} {this.state.data.length}</span>
 				{
 					this.addPagination()
 				}

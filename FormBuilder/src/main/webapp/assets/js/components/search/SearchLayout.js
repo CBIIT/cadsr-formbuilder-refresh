@@ -360,7 +360,7 @@ export default class SearchLayout extends Component {
 		//if(this.state.tableData.length) {
 			return (
 				<div>
-					<h1 className="text--bold" id="searchHeader">{pageName}</h1>
+					<h2 className="text--bold" id="searchHeader">{pageName}</h2>
 					<Datatable pagination={true} perPage={100} pageName={pageName} resultsText={resultsText} displayControls={false} showCheckboxes={false} columnTitles={columnConfig} data={this.state.tableData}></Datatable>
 				</div>
 			);
