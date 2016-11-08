@@ -4,6 +4,12 @@ const formBuilderApiEndpointBaseUrl = `${formBuilderHost}/FormBuilder/api/v1`;
 const ENDPOINT_URLS = {
 	CARTS: {
 		ADD_FORM:                 `${formBuilderApiEndpointBaseUrl}/carts/forms`,
+		/*GET: /carts/forms/{formIdseq}
+		 Persists any Form out to the object cart service.
+		 Distinct from saving to in-session Form Cart
+		 Reason this is a get, is because it does not need a a request body, we retrieve the full form from the back end database by way of the formIdseq
+		 */
+		FORM_CART_PERSIST_OBJECTCART: `${formBuilderApiEndpointBaseUrl}/carts/forms`,
 	},
 	FORMS: {
 		/*pass /{formIdseq} */
@@ -27,12 +33,6 @@ const ENDPOINT_URLS = {
 	MODULE_CART_PERSIST:          `${formBuilderApiEndpointBaseUrl}/carts/modules`,
 	FORM_CART_FETCH:              `${formBuilderApiEndpointBaseUrl}/carts/formcart`,
 	FORM_CART_PERSIST:            `${formBuilderApiEndpointBaseUrl}/carts/forms`,
-	/*GET: /carts/forms/{formIdseq}
-	 Persists any Form out to the object cart service.
-	 Distinct from saving to in-session Form Cart
-	 Reason this is a get, is because it does not need a a request body, we retrieve the full form from the back end database by way of the formIdseq
-	 */
-	FORM_CART_PERSIST_OBJECTCART: `${formBuilderApiEndpointBaseUrl}/carts/forms`,
 	FORM_DOWNLOAD_XML:            `${formBuilderApiEndpointBaseUrl}/forms/xml`,
 	FORM_DOWNLOAD_XLS:            `${formBuilderApiEndpointBaseUrl}/forms/xls`,
 	CDE_DOWNLOAD_XML:             `${formBuilderApiEndpointBaseUrl}/cde/xml`,

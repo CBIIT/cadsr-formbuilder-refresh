@@ -6,16 +6,6 @@ import {Table as Reactable, Thead, Th, Tr, Td} from 'reactable';
 import {Glyphicon, DropdownButton, MenuItem} from 'react-bootstrap';
 
 /*
-Props:
-	data (arr),
-	columnTitles (arr),
-	pagination (bool),
-	perPage (int),
-	pageName (string),
-	displayControls (bool)
- */
-
-/*
 	State:
 	data (arr): complete collection of modules,
 	displayedData (arr): shortened collection of models that are only supposed to show for a given page
@@ -54,6 +44,7 @@ export default class Datatable extends Component {
 		this.dispatchDownloadXML = this.dispatchDownloadXML.bind(this);
 		this.dispatchDownloadXLS = this.dispatchDownloadXLS.bind(this);
 		this.dispatchRemoveSelectedFromCart = this.dispatchRemoveSelectedFromCart.bind(this);
+		this.dispatchSaveToObjectCart = this.dispatchSaveToObjectCart.bind(this);
 		this.getSelectedItemIds = this.getSelectedItemIds.bind(this);
 	}
 
@@ -78,7 +69,7 @@ export default class Datatable extends Component {
 		});
 		return selectedItemIds;
 	}
-
+	/*TODO Get "dispatch" method logic out of here and instead handle by the pages inserting this component  */
 	dispatchDownloadXLS(){
 		const itemsIds = this.getSelectedItemIds();
 		cartChannel.request(EVENTS.CARTS.GET_DOWNLOAD_XLS,
@@ -96,13 +87,18 @@ export default class Datatable extends Component {
 		cartChannel.request(EVENTS.CARTS.REMOVE_CART_ITEM,
 			{itemsToRemove: itemsToRemove});
 	}
+	dispatchSaveToObjectCart() {
+		const selectedItems = this.getSelectedItemIds();
+		cartChannel.request(EVENTS.CARTS.SAVE_TO_OBJECTCART,
+			{selectedItems: selectedItems});
+	}
 
 	setInitialState(){
 		const shouldHavePagination = this.props.pagination;
 		const initialState = {
-			data:         this.formatData(this.props.data, this.props.columnTitles),
-			selectedRows: [],
-			columnTitles: this.props.columnTitles,
+			data:               this.formatData(this.props.data, this.props.columnTitles),
+			selectedRows:       [],
+			columnTitles:       this.props.columnTitles,
 			selectAllIsChecked: false
 		};
 
@@ -122,9 +118,9 @@ export default class Datatable extends Component {
 	updateState(nextProps){
 		const shouldHavePagination = nextProps.pagination;
 		const newState = {
-			data:          this.formatData(nextProps.data, nextProps.columnTitles),
-			selectedRows:  this.state.selectedRows,
-			columnTitles:  nextProps.columnTitles,
+			data:               this.formatData(nextProps.data, nextProps.columnTitles),
+			selectedRows:       this.state.selectedRows,
+			columnTitles:       nextProps.columnTitles,
 			/*This doesn't change based on new props entering Datatable, but we don't want to lose it */
 			selectAllIsChecked: this.state.selectAllIsChecked
 		};
@@ -133,7 +129,7 @@ export default class Datatable extends Component {
 			this.totalPages = Math.ceil(nextProps.data.length / nextProps.perPage);
 			newState.displayedData = newState.data.slice(0, nextProps.perPage);
 		}
-		else {
+		else{
 			newState.displayedData = newState.data;
 		}
 		this.setState(newState);
@@ -198,7 +194,12 @@ export default class Datatable extends Component {
 		}
 		let displayedData = this.getCurrentDisplayData(data);
 
-		this.setState({data: data, selectedRows: selectedRows, displayedData: displayedData, selectAllIsChecked: selectAllIsChecked});
+		this.setState({
+			data:               data,
+			selectedRows:       selectedRows,
+			displayedData:      displayedData,
+			selectAllIsChecked: selectAllIsChecked
+		});
 	}
 
 	selectRow(e){ //ensures a row is selected when a checkbox is clicked
@@ -341,10 +342,10 @@ export default class Datatable extends Component {
 			displayedData = collection.slice(startNum, endNum);
 		return displayedData;
 	}
-
+	/* TODO Move what this method does out of this component and instead pass it through the component that owns this on render */
 	addControls(){
 		//adds the blue bar to the top fo the table. This currently doesn't do anything
-		if(this.props.displayControls){
+		if(this.props.displayControls && this.props.pageName !== 'Form'){
 			return (
 				<div className="reactTable-controlPanel">
 					<ul className="controlPanel-list">
@@ -358,9 +359,28 @@ export default class Datatable extends Component {
 				</div>
 			);
 		}
+		/* Quick hack to get the save button in, and for the record I feel ashamed */
+		else if(this.props.displayControls && this.props.pageName === 'Form'){
+			return (
+				<div className="reactTable-controlPanel">
+					<ul className="controlPanel-list">
+						<li>{this.state.selectedRows.length} {this.props.pageName}(s) Selected</li>
+						<li>
+							<button onClick={this.dispatchRemoveSelectedFromCart} className="controlPanel-btn"> REMOVE FROM CART <Glyphicon glyph="trash"/></button>
+						</li>
+						<li>
+							<button onClick={this.dispatchSaveToObjectCart} className="controlPanel-btn"> SAVE TO OBJECT CART <Glyphicon glyph="shopping-cart
+"/></button>
+						</li>
+						{this.renderToolbarDropdown()}
+					</ul>
+				</div>
+			);
+		}
+
 	}
 
-	/* TODO Move what this metod does outof this component and isntead pass it through the component that owns this on render */
+	/* TODO Move what this method does out of this component and instead pass it through the component that owns this on render */
 	renderToolbarDropdown(){
 		if(this.props.pageName === 'Form'){
 			return (
@@ -417,7 +437,12 @@ export default class Datatable extends Component {
 		});
 		columnTitles[index] = columnSort[0]; //set the newly changed column object to be at the same index in the state
 		let displayedData = this.getCurrentDisplayData(data); //re-calculate which data to display with new order
-		this.setState({data: data, columnTitles: columnTitles, displayedData: displayedData, tableSortedBy: {sortKey: columnSort[0].key, sortOrder: columnSort[0].sort}}); //update state
+		this.setState({
+			data:          data,
+			columnTitles:  columnTitles,
+			displayedData: displayedData,
+			tableSortedBy: {sortKey: columnSort[0].key, sortOrder: columnSort[0].sort}
+		}); //update state
 	}
 
 	makeArrows(title){

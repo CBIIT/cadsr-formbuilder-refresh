@@ -1,6 +1,7 @@
 import Marionette from "backbone.marionette";
 import ENDPOINT_URLS from '../../constants/ENDPOINT_URLS';
 import EVENTS from '../../constants/EVENTS';
+import userMessagesText from '../../constants/userMessagesText';
 import urlHelpers from '../../helpers/urlHelpers';
 import {ajaxDownloadFile, fetchSecure} from '../../helpers/ajaXHelpers';
 import cartActions from '../../constants/cartActions';
@@ -30,12 +31,13 @@ const CartsService = Marionette.Object.extend({
 		cartChannel.reply(EVENTS.CARTS.GET_DOWNLOAD_XML, (options) => this.handleDownloadXML(options));
 		cartChannel.reply(EVENTS.CARTS.REMOVE_CART_ITEM, (options) => this.handleRemoveCartItem(options));
 		cartChannel.reply(EVENTS.CARTS.SET_LAST_CART_SORTED_BY, (options) => this.handleCartSortedBy(options));
+		cartChannel.reply(EVENTS.CARTS.ADD_FORM, (options) => this.handleAddFormToCart(options));
+		cartChannel.reply(EVENTS.CARTS.SAVE_TO_OBJECTCART, (options) => this.handleSaveToObjectCart(options));
 
 		appChannel.reply(EVENTS.CARTS.GET_QUESTION_MODEL, (options) => this.getQuestionModelFromCDECartById(options));
 		appChannel.reply(EVENTS.CARTS.GET_MODULE_MODEL, (options) => this.getQuestionModuleFromModuleCartById(options));
 		appChannel.reply(EVENTS.APP.ADD_MODULE_FROM_FORM_TO_CART, (options) => this.handleAddModuleToModuleCart(options));
 
-		cartChannel.reply(EVENTS.CARTS.ADD_FORM, (options) => this.handleAddFormToCart(options));
 	},
 	dispatchLayout({action}) {
 		switch(action){
@@ -206,6 +208,24 @@ const CartsService = Marionette.Object.extend({
 		}).catch(() => {
 			appChannel.request(EVENTS.APP.SHOW_USER_MESSAGE,{
 				message: "The Form failed adding to the Form Cart",
+				level: "error"
+			});
+		});
+	},
+	handleSaveToObjectCart({selectedItems}) {
+		const idsString = selectedItems.join();
+
+		fetchSecure({
+				url: `${ENDPOINT_URLS.CARTS.FORM_CART_PERSIST_OBJECTCART}/${idsString}`
+		}
+		).then(() => {
+			appChannel.request(EVENTS.APP.SHOW_USER_MESSAGE,{
+				message: userMessagesText.CARTS.SAVE_OBJECT_CART_SUCCESS,
+				level: "success"
+			});
+		}).catch(() => {
+			appChannel.request(EVENTS.APP.SHOW_USER_MESSAGE,{
+				message: userMessagesText.CARTS.SAVE_OBJECT_CART_FAIL,
 				level: "error"
 			});
 		});

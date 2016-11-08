@@ -65,6 +65,7 @@ const EVENTS = {
 		FORM_CART_UPDATED: 'formCart:updated',
 		CDE_CART_UPDATED: 'cdeCart:updated',
 		REMOVE_CART_ITEM: 'remove:cartItem',
+		SAVE_TO_OBJECTCART:  'save:objectCart',
 		SET_LAST_CART_SORTED_BY: 'set:LastCartSortedBy',
 		ADD_FORM: 'add:form',
 		COMPLETE_ADD_FORM: 'complete:addForm'
