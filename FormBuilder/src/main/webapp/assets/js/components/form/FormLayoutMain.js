@@ -18,6 +18,10 @@ export default class FormLayoutMain extends Component {
 		this.showGlobalToolbar = this.showGlobalToolbar.bind(this);
 		this.cancelCreation = this.cancelCreation.bind(this);
 	}
+	
+	componentDidMount() {
+		window.scrollTo(0,0);
+	}
 
 	dispatchSaveFormClicked(){
 		formChannel.request(EVENTS.FORM.SAVE_FORM, {persistToDB: true});

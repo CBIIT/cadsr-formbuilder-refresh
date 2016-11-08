@@ -126,6 +126,11 @@ export default class SearchLayout extends Component {
 		this.setState({
 			tableData: collection.toJSON()
 		});
+		
+		let searchResultsHeader = document.getElementById("searchHeader");
+		console.log(searchResultsHeader.offsetTop);
+		console.log(searchResultsHeader.scrollTop);
+		window.scrollTo(0,searchResultsHeader.offsetTop);
 	}
 	
 	openProtocolsModal() {
@@ -355,7 +360,7 @@ export default class SearchLayout extends Component {
 		//if(this.state.tableData.length) {
 			return (
 				<div>
-					<h1 className="text--bold">{pageName}</h1>
+					<h1 className="text--bold" id="searchHeader">{pageName}</h1>
 					<Datatable pagination={true} perPage={100} pageName={pageName} resultsText={resultsText} displayControls={false} showCheckboxes={false} columnTitles={columnConfig} data={this.state.tableData}></Datatable>
 				</div>
 			);
