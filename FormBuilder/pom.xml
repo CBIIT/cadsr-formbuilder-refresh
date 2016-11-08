@@ -199,9 +199,7 @@
 							<npmVersion>3.10.3</npmVersion>
 						</configuration>
 					</execution>
-
-					<!-- Install packages that are not listed/no longer listed in package.json -->
-
+					<!-- Install packages that are not listed in package.json -->
 					<execution>
 						<id>npm install</id>
 						<goals>
