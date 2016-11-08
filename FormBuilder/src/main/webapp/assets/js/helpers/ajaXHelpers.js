@@ -132,11 +132,20 @@ export const fetchRequestData = (url, method, contentType, data) => {
  * fetchSecure(...).then((response) =>{ your code here}).then(getResponseAsJSON)
  */
 export const fetchSecure = ({url, method = 'get', data = null, contentType = 'application/json', swallowErrors = true, dataType = 'json'}) =>{
-	let promiz = fetchRequestData(url, method, contentType, data);
-	if (swallowErrors) {
+	/*Turn on spinner */
+	appChannel.request(EVENTS.APP.SET_NETWORK_IS_IDLE, {networkIsIdle: false});
+
+	let promiz = fetchRequestData(url, method, contentType, data).then((data) =>{
+		/*Wax Off spinner*/
+		appChannel.request(EVENTS.APP.SET_NETWORK_IS_IDLE, {networkIsIdle: true});
+		return Promise.resolve(data);
+	}).catch(() =>{
+		appChannel.request(EVENTS.APP.SET_NETWORK_IS_IDLE, {networkIsIdle: true});
+	});
+	if(swallowErrors){
 		promiz = promiz.then(rejectErrors);
 	}
-	if (dataType == 'json') {
+	if(dataType == 'json'){
 		promiz = promiz.then(getResponseAsJSON);
 	}
 

@@ -15,6 +15,7 @@ const AppService = Marionette.Object.extend({
 		appChannel.reply(EVENTS.APP.SET_NETWORK_IS_IDLE, (options) => this.setNetworkIdleStatus(options));
 	},
 	setNetworkIdleStatus({networkIsIdle}) {
+		/* Don't set state if it's not any different */
 		if(networkIsIdle !== this.appStateModel.attributes.networkIsIdle) {
 			this.appStateModel.set({networkIsIdle: networkIsIdle});
 			appChannel.request(EVENTS.APP.NETWORK_IDLE_STATUS_CHANGED, {networkIsIdle: networkIsIdle});
