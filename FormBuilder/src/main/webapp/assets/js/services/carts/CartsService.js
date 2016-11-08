@@ -107,9 +107,12 @@ const CartsService = Marionette.Object.extend({
 		const newModuleModel = this.moduleCartCollection.add(new ModuleModel(modulePojo));
 		newModuleModel.save();
 	},
-	/*TODO Incomplete */
 	handleCartSortedBy (cartUIState){
-		this.cartsStateModel.set(cartUIState);
+		const individualCartSortState = cartUIState[Object.keys(cartUIState)[0]];
+		/*In case the cart table returns undefined for these, don't set them as state */
+		if(individualCartSortState.sortOrder && individualCartSortState.sortKey) {
+			this.cartsStateModel.set(cartUIState);
+		}
 	},
 
 	handleDownloadXML({itemsIds}) {
