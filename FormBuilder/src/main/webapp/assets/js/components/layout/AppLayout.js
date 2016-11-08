@@ -70,7 +70,7 @@ class AppLayout extends Component {
 				<Footer />
 				<NotificationSystem ref="notificationSystem" />
 				<MessageModal />
-				<div id="page-busy-indicator" className={(this.state.showLoadingIndicator ? "" : "hidden")} />
+				<div id="page-busy-indicator" className={(this.state.showLoadingIndicator ? "" : "hidden")} aria-busy={(this.state.showLoadingIndicator ? true : false)} />
 			</div>
 		);
 	}
