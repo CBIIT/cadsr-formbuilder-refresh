@@ -33,12 +33,11 @@ export default class FormCartPage extends Component {
 		let pageName = "Form"; //page name used to display title and configure which columns to display
 		//collection of titles and model properties derived from the TABLECONFIG constant
 		const	columnConfig = TABLECONFIG.FORM;
-		const	cartLastSortedState = this.state.cartsStateModel.FormCartUIState;
 		if(this.state.tableData.length){
 			return (
 				<div>
 					<h1 className="text--bold">Form Builder | {pageName} Cart</h1>
-					<Datatable cartLastSortedState={cartLastSortedState} pagination={true} perPage={100} pageName={pageName} columnTitles={columnConfig} data={this.state.tableData} />
+					<Datatable pagination={true} perPage={100} pageName={pageName} columnTitles={columnConfig} data={this.state.tableData} />
 				</div>
 			);
 		}
@@ -54,10 +53,8 @@ export default class FormCartPage extends Component {
 }
 
 FormCartPage.defaultProps = {
-	cartLastSortedState: {}
 };
 
 FormCartPage.propTypes = {
-	cartLastSortedState: PropTypes.object
 };
 
