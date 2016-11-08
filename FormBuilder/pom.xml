@@ -200,6 +200,8 @@
 						</configuration>
 					</execution>
 
+					<!-- Install packages that are not listed/no longer listed in package.json -->
+
 					<execution>
 						<id>npm install</id>
 						<goals>
@@ -207,6 +209,17 @@
 						</goals>
 						<configuration>
 							<arguments>install</arguments>
+						</configuration>
+					</execution>
+
+					<!-- Remove packages that are not/no longer listed in package.json -->
+					<execution>
+						<id>npm prune</id>
+						<goals>
+							<goal>npm</goal>
+						</goals>
+						<configuration>
+							<arguments>prune</arguments>
 						</configuration>
 					</execution>
 
