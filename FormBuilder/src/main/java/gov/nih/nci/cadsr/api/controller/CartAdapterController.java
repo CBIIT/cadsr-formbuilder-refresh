@@ -477,12 +477,14 @@ public class CartAdapterController {
 		FEQuestion deleteQuestion = new FEQuestion();
 		
 		for(FEQuestion question : this.getUserDetails().getCdeCart()){
+			
 			if(question.getDeIdseq().equals(deIdSeq)){
-			if(ids.contains(question.getQuesIdseq()))
-				deleteQuestion = question;
-			}
+				if(ids.contains(question.getQuesIdseq()))
+					deleteQuestion = question;
+					deleteQuestion.setQuesIdseq(deIdSeq);
+					question.setQuesIdseq(deIdSeq);
+				}
 		}
-		
 		this.getUserDetails().getCdeCart().remove(deleteQuestion);
 
 		if(deleteQuestion.getIsPersisted()){
