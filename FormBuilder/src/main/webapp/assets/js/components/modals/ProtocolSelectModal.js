@@ -31,10 +31,12 @@ export default class ProtocolSelectModal extends Component {
 	}
 	
 	componentWillReceiveProps() {
-		this.setState({
-			tableData: [],
-			protocolKeyword: ""
-		});
+		if (!this.props.isOpen) {
+			this.setState({
+				tableData: [],
+				protocolKeyword: ""
+			});
+		}
 	}
 	
 	dispatchFormData(event){
