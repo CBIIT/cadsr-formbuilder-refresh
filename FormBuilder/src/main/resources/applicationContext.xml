@@ -22,6 +22,22 @@
 				<prop key="formservice.api.url">${formservice.api.url}</prop>
 				<prop key="formbuilder.local.mode">${formbuilder.local.mode}</prop>
 				<prop key="object.cart.url">${object.cart.url}</prop>
+				
+				<prop key="service.username">${service.username}</prop>
+				<prop key="service.password">${service.password}</prop>
+				
+				<prop key="link.cde.browser">${link.cde.browser}</prop>
+				<prop key="link.admin.tool">${link.admin.tool}</prop>
+				<prop key="link.curation.tool">${link.curation.tool}</prop>
+				<prop key="link.sentinel.tool">${link.sentinel.tool}</prop>
+				
+				<prop key="link.nci.meta">${link.nci.meta}</prop>
+				<prop key="link.nci.term">${link.nci.term}</prop>
+				<prop key="link.help">${link.help}</prop>
+				<prop key="link.feedback">${link.feedback}</prop>
+				<prop key="link.contact">${link.contact}</prop>
+				<prop key="link.about">${link.about}</prop>
+				<prop key="link.privacy">${link.privacy}</prop>
 			</util:properties>
 		</property>
 	</bean>
