@@ -100,15 +100,19 @@ export const rejectErrors = (response) => {
  * @param url
  * @returns {Promise} Response from the fetch
  */
-export const fetchRequestData = (url, method, contentType, data) => {
-	return fetch(url, {
+export const fetchRequestData = (url, method, contentType, data) =>{
+	const options = {
 		method:      method,
 		credentials: 'include',
 		headers:     {
 			"Content-type": contentType
-		},
-		body:        data
-	});
+		}
+	};
+	if(method.toLowerCase() !== 'get'){
+		options.body = data;
+	}
+
+	return fetch(url, options);
 };
 
 /**
