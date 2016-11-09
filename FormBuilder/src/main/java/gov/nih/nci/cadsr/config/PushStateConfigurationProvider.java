@@ -28,6 +28,9 @@ public class PushStateConfigurationProvider extends HttpConfigurationProvider
             		.andNot(Path.matches("/index.jsp"))
             		.andNot(Path.matches("/{path2}/dist/style.css"))
             		.andNot(Path.matches("/{path2}/dist/bundle.js"))
+            		.andNot(Path.matches("/{path2}/dist/style.css.map"))
+            		.andNot(Path.matches("/{path2}/dist/bundle.js.map"))
+            		.andNot(Path.matches("/{path2}/assets/**"))
                 )
             .perform(Forward.to("/index.jsp"))
             .where("path").matches(".*")
@@ -40,7 +43,22 @@ public class PushStateConfigurationProvider extends HttpConfigurationProvider
             .addRule()
             .when(Direction.isInbound().and(Path.matches("/{path2}/dist/bundle.js"))
             		.andNot(Path.matches("/dist/bundle.js")))
-            .perform(Forward.to("/dist/bundle.js"));
+            .perform(Forward.to("/dist/bundle.js"))
+        
+            .addRule()
+            .when(Direction.isInbound().and(Path.matches("/{path2}/dist/style.css.map"))
+            		.andNot(Path.matches("/dist/style.css.map")))
+            .perform(Forward.to("/dist/style.css.map"))
+            
+	        .addRule()
+	        .when(Direction.isInbound().and(Path.matches("/{path2}/dist/bundle.js.map"))
+	        		.andNot(Path.matches("/dist/bundle.js.map")))
+	        .perform(Forward.to("/dist/bundle.js.map"))
+	        
+	        .addRule()
+	        .when(Direction.isInbound().and(Path.matches("/{path2}/assets/{path3}"))
+	        		.andNot(Path.matches("/assets/{path3}")))
+	        .perform(Forward.to("/assets/{path3}"));
         
     }
 
