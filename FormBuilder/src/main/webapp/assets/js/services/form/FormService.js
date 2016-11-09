@@ -57,7 +57,7 @@ const FormService = Marionette.Object.extend({
 		switch(action){
 			case formActions.CREATE_FORM:
 				this.formUIStateModel.set({actionMode: action});
-				if(!this.formModel.isNew()){
+				if(!this.formModel){
 					delete this.formModel;
 					this.formModel = new FormModel();
 				}
