@@ -349,7 +349,7 @@ const FormService = Marionette.Object.extend({
 			});
 		}).catch(() =>{
 			appChannel.request(EVENTS.APP.SHOW_USER_MESSAGE, {
-				message: "Form failed to copy",
+				message: "FORM FAILED TO COPY",
 				level:   "error"
 			});
 		});
@@ -362,7 +362,7 @@ const FormService = Marionette.Object.extend({
 			dataType:      "string"
 		}).then((data) =>{
 			appChannel.request(EVENTS.APP.SHOW_USER_MESSAGE, {
-				message: "The Form has been deleted successfully",
+				message: "FORM SUCCESSFULLY DELETED",
 				level:   "success"
 			});
 			setTimeout(function(){
@@ -370,7 +370,7 @@ const FormService = Marionette.Object.extend({
 			}, 2000);
 		}).catch((msg) =>{
 			appChannel.request(EVENTS.APP.SHOW_USER_MESSAGE, {
-				message: "The Form failed to delete properly",
+				message: "FORM DELETION FAILED",
 				level:   "error"
 			});
 			console.log(msg);

@@ -7,6 +7,7 @@ export default class MessageModal extends Component {
 	constructor(props){
 		super(props);
 		this.renderButton = this.renderButton.bind(this);
+		this.renderCancelButton = this.renderCancelButton.bind(this);
 		this.close = this.close.bind(this);
 		
 //		this.setState({
@@ -34,10 +35,15 @@ export default class MessageModal extends Component {
 			else {
 				buttonConfig = null;
 			}
+			
+			let heading = config.heading || "";
+			let message = config.message || "";
+			let showCancel = config.showCancel || true;
 
 			this.setState({
-				heading: config.heading || "",
-				message: config.message || "",
+				heading: heading,
+				message: message,
+				showCancel: showCancel,
 				isOpen: true,
 				button: buttonConfig
 			});
@@ -59,8 +65,17 @@ export default class MessageModal extends Component {
 				<Button onClick={this.state.button.callback}>{this.state.button.label}</Button>
 			);
 		}
-		
-		
+	}
+	
+	renderCancelButton() {
+		if (this.state.showCancel) {
+			return (
+					<Button onClick={this.close}>CANCEL</Button>
+			);
+		}
+		else {
+			return (<span />);
+		}
 	}
 	
 	close() {
@@ -84,6 +99,7 @@ export default class MessageModal extends Component {
 						</Modal.Body> 
 						<Modal.Footer> 
 							{this.renderButton()}
+							{this.renderCancelButton()}
 						</Modal.Footer> 
 					</Modal>
 				</div>

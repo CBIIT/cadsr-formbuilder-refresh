@@ -4,7 +4,7 @@ import ExitFormModal from '../modals/ExitFormModal';
 import ButtonsGroup from '../common/ButtonsGroup';
 import formActions from '../../constants/formActions';
 import EVENTS from '../../constants/EVENTS';
-import {formChannel, cartChannel} from '../../channels/radioChannels';
+import {formChannel, cartChannel, appChannel} from '../../channels/radioChannels';
 
 export default class FormGlobalToolbar extends Component {
 	constructor(props){
@@ -83,7 +83,21 @@ export default class FormGlobalToolbar extends Component {
 			formChannel.request(EVENTS.FORM.CREATE_COPY, formIdseq);
 		}
 		else if (value === "deleteForm") {
-			formChannel.request(EVENTS.FORM.DELETE, formIdseq);
+			appChannel.request(EVENTS.APP.SHOW_USER_MODAL_MESSAGE, {
+				heading: "",
+				message: "ARE YOU SURE YOU WANT TO DELETE THIS FORM?",
+				button:  {
+					label:    "DELETE",
+					callback: () =>{
+						formChannel.request(EVENTS.FORM.DELETE, formIdseq);
+					}
+				}
+			});
+			
+			
+			
+			
+			
 		}
 		// else do nothing
 	}
