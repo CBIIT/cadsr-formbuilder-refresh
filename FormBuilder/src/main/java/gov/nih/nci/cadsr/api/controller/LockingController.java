@@ -68,11 +68,14 @@ public class LockingController {
 				return true;
 			}
 			else{
-				return false;
+				//XXX: switching to default to true for these cases, as a fix for Bug #422. May want to revert to a more elegant solution when expected lock is not present
+//				return false;
+				return true;
 			}
 		}
 		else{
-			return false;
+//			return false;
+			return true;
 		}
 		
 	}
