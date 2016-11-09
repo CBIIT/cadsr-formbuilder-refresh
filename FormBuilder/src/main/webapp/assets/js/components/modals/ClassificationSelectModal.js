@@ -8,35 +8,37 @@ import Datatable from '../tables/Datatable';
 export default class ClassificationSelectModal extends Component {
 	constructor(props){
 		super(props);
-		
+
 		this.dispatchFormData = this.dispatchFormData.bind(this);
 		this.dispatchSelection = this.dispatchSelection.bind(this);
 		this.handleFormChange = this.handleFormChange.bind(this);
-		
+
 		this.state = {
 			tableData : []
 		};
 	}
-	
+
 	componentWillMount() {
 		this.setState({
 			classificationKeyword: ""
 		});
 	}
-	
+
 	componentDidMount() {
 		searchChannel.reply(EVENTS.SEARCH.CLASSIFICATION_COLLECTION_RESET, function(classificationCollection) {
 			this.showResults(classificationCollection);
 		}, this);
 	}
-	
-	componentWillReceiveProps() {
-		this.setState({
-			tableData: [],
-			classificationKeyword: ""
-		});
+
+	componentWillReceiveProps(){
+		if(!this.props.isOpen){
+			this.setState({
+				tableData:             [],
+				classificationKeyword: ""
+			});
+		}
 	}
-	
+
 	dispatchFormData(event){
 		let data = {
 			classificationKeyword: this.state.classificationKeyword
@@ -44,17 +46,17 @@ export default class ClassificationSelectModal extends Component {
 		searchChannel.request(EVENTS.SEARCH.CLASSIFICATIONS_SEARCH_INPUTS, data);
 		event.preventDefault();
 	}
-	
+
 	handleFormChange(event) {
 		this.setState({classificationKeyword: event.target.value});
 	}
-	
+
 	showResults(collection) {
 		this.setState({
 			tableData: collection
 		});
 	}
-	
+
 	dispatchSelection(title, item) {
 		this.props.closeButtonClicked();
 		this.props.selectionCallback(item);
@@ -63,7 +65,7 @@ export default class ClassificationSelectModal extends Component {
 	render(){
 		let pageName = "Classification"; //page name used to display title and configure which columns to display
 		let columnConfig = TABLECONFIG.SEARCH_CLASSIFICATION;
-		
+
 		return (
 			<div>
 				<Modal show={this.props.isOpen} onHide={this.close} aria-labelledby="modal-cancel-edit-form" dialogClassName="modal-xl modal-dialog">
@@ -87,12 +89,12 @@ export default class ClassificationSelectModal extends Component {
 							The Wildcard character is " * ".
 						</div>
 					</form>
-					</div>	
-					</Modal.Header> 
+					</div>
+					</Modal.Header>
 					<Modal.Body>
 					<Datatable pagination={true} perPage={100} pageName={pageName} columnTitles={columnConfig} data={this.state.tableData} displayControls={false} showCheckboxes={false} clickCallback={this.dispatchSelection} resultsText="RESULTS:" />
-					</Modal.Body> 
-					<Modal.Footer> 
+					</Modal.Body>
+					<Modal.Footer>
 						<button className="btn btn-link btn-modal-close" onClick={this.props.closeButtonClicked}>
 							<Glyphicon glyph="remove" />
 						</button>
