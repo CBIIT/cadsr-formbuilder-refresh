@@ -50,6 +50,8 @@ class Header extends Component {
 			  	<Link to="/carts/cdecart">CDE Cart</Link>
 			  	<Link to="/carts/modulecart">Module Cart</Link>
 			  	<Link to="/carts/formcart">Form Cart</Link>
+                <a href={externalDomains.terminology} target="_blank">NCI Terminology Server</a>
+                <a href={externalDomains.metaThesaurus} target="_blank">NCI Metathesaurus</a>
 			  </div>
 			</div>
 		);
@@ -74,7 +76,7 @@ class Header extends Component {
 			return (
 				<div className="navbar-links-account">
 					<span id="nav-access">
-						Request Access
+						<a href={externalDomains.contact}>Request Access</a>
 					</span>
 					
 					<span id="nav-signIn">

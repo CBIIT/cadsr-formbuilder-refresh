@@ -30,13 +30,13 @@
 			cadsrsentinel: "<spring:eval expression="@propertyConfigurer['link.sentinel.tool']" />",
 			cadsradmintool: "<spring:eval expression="@propertyConfigurer['link.admin.tool']" />",
 			
-			metaThesaurus: "<spring:eval expression="@propertyConfigurer['link.admin.tool']" />",
-			terminology: "<spring:eval expression="@propertyConfigurer['link.admin.tool']" />",
-			help: "<spring:eval expression="@propertyConfigurer['link.admin.tool']" />",
-			feedback: "<spring:eval expression="@propertyConfigurer['link.admin.tool']" />",
-			contact: "<spring:eval expression="@propertyConfigurer['link.admin.tool']" />",
-			about: "<spring:eval expression="@propertyConfigurer['link.admin.tool']" />",
-			privacy: "<spring:eval expression="@propertyConfigurer['link.admin.tool']" />"
+			metaThesaurus: "<spring:eval expression="@propertyConfigurer['link.nci.meta']" />",
+			terminology: "<spring:eval expression="@propertyConfigurer['link.nci.term']" />",
+			help: "<spring:eval expression="@propertyConfigurer['link.help']" />",
+			feedback: "<spring:eval expression="@propertyConfigurer['link.feedback']" />",
+			contact: "<spring:eval expression="@propertyConfigurer['link.contact']" />",
+			about: "<spring:eval expression="@propertyConfigurer['link.about']" />",
+			privacy: "<spring:eval expression="@propertyConfigurer['link.privacy']" />"
 		};
 		Object.freeze(externalDomains);
 	</script>

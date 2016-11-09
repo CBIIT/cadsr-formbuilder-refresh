@@ -51,6 +51,7 @@ class AppLayout extends Component {
 	}
 
 	showUserMessage(config) {
+		config.position = "tc";
 		return this._notificationSystem.addNotification(config);
 	}
 

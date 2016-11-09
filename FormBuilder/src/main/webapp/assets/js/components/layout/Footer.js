@@ -17,14 +17,6 @@ export default class Footer extends Component {
               <div className="container">
                 <div className="_footer_menu">
                   <div className="_footer_menubar">
-	                <div className="_footer_menu_item">
-	                  <a href={externalDomains.terminology} className="footer_link" target="_blank">NCI Terminology <br /> Server</a>
-	                </div>
-	                <div className="_footer_menu_item">
-	                  <a href={externalDomains.metaThesaurus} className="footer_link" target="_blank">NCI Metathesaurus</a>
-	                </div>
-                  </div>
-                  <div className="_footer_menubar">
                     <div className="_footer_menu_item">
                       <a href={externalDomains.feedback} className="footer_link">Feedback</a>
                     </div>
