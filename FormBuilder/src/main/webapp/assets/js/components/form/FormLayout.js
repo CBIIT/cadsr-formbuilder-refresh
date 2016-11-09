@@ -108,8 +108,7 @@ class FormLayout extends Component {
 	 * @returns {boolean}
 	 */
 	canCreateModule(){
-		/*TODO come up with a more reliable way to check for this */
-		return this.shouldShowFormEditControls() === true && this.getActionMode() !== formActions.CREATE_MODULE;
+		return this.shouldShowFormEditControls() === true && this.getActionMode() !== formActions.CREATE_MODULE && this.props.userIsLoggedIn;
 	}
 
 	shouldShowFormEditControls(){

@@ -13,6 +13,7 @@ export default class TreeView extends Component {
 		this.dispatchNavigateFormMetadata = this.dispatchNavigateFormMetadata.bind(this);
 		this.dispatchNavigateFullFormView = this.dispatchNavigateFullFormView.bind(this);
 		this.dispatchNavigateToModule = this.dispatchNavigateToModule.bind(this);
+		this.renderCreateModuleLink = this.renderCreateModuleLink.bind(this);
 	}
 
 	dispatchCreateModule(){
@@ -26,18 +27,25 @@ export default class TreeView extends Component {
 	dispatchNavigateFormMetadata(){
 		formChannel.request(EVENTS.FORM.SET_FORM_LAYOUT, {action: formActions.VIEW_FORM_METADATA});
 	}
+
 	dispatchNavigateFullFormView(){
 		formChannel.request(EVENTS.FORM.SET_FORM_LAYOUT, {action: 'viewFormFullView'});
 	}
+
+	renderCreateModuleLink(){
+		if(this.props.canCreateModule){
+			return (
+				<button onClick={this.dispatchCreateModule} className="btn-link">Create Module</button>
+			);
+		}
+	}
 	render(){
-
-
 		return (
 			<div className="bordered-container tall-min-height panel treeView">
 				<ul className="list-unstyled moduleListHeader">
 					<li className="panel-header center-v-spread-h">
 						<span className="panel-header-heading">ALL MODULES</span>
-						<button disabled={!this.props.canCreateModule} onClick={this.dispatchCreateModule} className="btn-link">Create Module</button>
+						{this.renderCreateModuleLink()}
 					</li>
 					<li className="center-v-spread-h">
 						<button onClick={this.dispatchNavigateFullFormView} className={"panel-link panel-item btn-link " + (this.props.viewFullFormLinkIsActive ? "panel-link--accent" : "")}>
@@ -49,7 +57,7 @@ export default class TreeView extends Component {
 					</li>
 					<li>
 						<hr className="panel-divider"/>
-						<p className="panel-subtitle" />
+						<p className="panel-subtitle"/>
 					</li>
 				</ul>
 				<ul className="list-unstyled moduleList">
@@ -64,7 +72,7 @@ export default class TreeView extends Component {
 }
 
 TreeView.propTypes = {
-	viewFullFormLinkIsActive: PropTypes.bool,
+	viewFullFormLinkIsActive:    PropTypes.bool,
 	formMetadataLinkIsActive:    PropTypes.bool,
 	activeModuleId:              PropTypes.string,
 	shouldShowFormMeatadataLink: PropTypes.bool,
