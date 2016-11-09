@@ -331,7 +331,9 @@ public class FormController {
 			try {
 
 				for (CartObject co : cObject) {
-					cartClient.removeObject(cart, co);
+					if(co.getNativeId().equals(i)){
+						cartClient.removeObject(cart, co);
+					}
 				}
 			} catch (Exception e1) {
 				return new ResponseEntity(e1.getMessage(), HttpStatus.BAD_REQUEST);
