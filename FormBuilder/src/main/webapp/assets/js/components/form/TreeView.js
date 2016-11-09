@@ -37,7 +37,7 @@ export default class TreeView extends Component {
 				<ul className="list-unstyled moduleListHeader">
 					<li className="panel-header center-v-spread-h">
 						<span className="panel-header-heading">ALL MODULES</span>
-						<button disabled={!this.props.canCreateModule} onClick={this.dispatchCreateModule} className="btn-link">Create New Module</button>
+						<button disabled={!this.props.canCreateModule} onClick={this.dispatchCreateModule} className="btn-link">Create Module</button>
 					</li>
 					<li className="center-v-spread-h">
 						<button onClick={this.dispatchNavigateFullFormView} className={"panel-link panel-item btn-link " + (this.props.viewFullFormLinkIsActive ? "panel-link--accent" : "")}>

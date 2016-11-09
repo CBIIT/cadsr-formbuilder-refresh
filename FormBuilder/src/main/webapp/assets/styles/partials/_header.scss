@@ -5,21 +5,20 @@ nav{
   margin-bottom: 20px;
   height: 135px;
 }
-.navbar-header{
-  height: 100px;
+.header{
+  height: 50px;
   display: inline-block;
   width: 100%;
   .application-logo{
     position: relative;
     display:block;
-    top: 25%;
-    margin-left: 130px;
+    margin-left: 15px;
   }
 }
 .navbar-subheader{
   display: inline-block;
   color: $color-highlight;
-  height: 35px;
+  height: 30px;
   width: 100%;
   background-color: $color-brand;
   ul{
@@ -46,8 +45,9 @@ nav{
 /* Dimensions should be width: 182px; height: 45px;*/
 .application-logo {
   width: 182px;
-  height: 45px;
+  height: 31px;
   display: inline-block;
+  margin-top: 10px;
 
   color: #FFFFFF;
   font-size: 1.5rem;
@@ -60,7 +60,7 @@ nav{
     background: transparent url(../images/nci-logo-full.svg) no-repeat;
     color: transparent;
     background-size: contain;
-    width: 525px;
+    width: 400px;
     font-size: inherit;
     font-weight: 700;
     &:hover, &:focus {
@@ -68,4 +68,56 @@ nav{
     }
   }
 }
+.navbar-links {
+	line-height: 50px;
+	margin-right: 35px;
+	a {
+		color: $color-title;
+	}
+}
+#nav-access {
+	margin-right: 20px;
+}
+#welcome-divider {
+	margin-left: 10px;
+	margin-right: 10px;
+}
+.navbar-subheader-links {
+	float: right;
+	margin-right: 20px;
+	line-height: 30px;
+}
 
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 200px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    padding: 12px 16px;
+    z-index: 1;
+    a {
+    	display: block;
+    }
+}
+#cartsDropdown {
+	margin-left: 30px;
+	.dropdown-content {
+		right: 0px;
+	}
+}
+#toolsDropdown {
+	margin-left: 30px;
+	.dropdown-content {
+		right: 0px;
+	}
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}

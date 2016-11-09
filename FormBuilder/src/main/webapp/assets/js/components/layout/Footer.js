@@ -17,55 +17,32 @@ export default class Footer extends Component {
               <div className="container">
                 <div className="_footer_menu">
                   <div className="_footer_menubar">
-                    <div className="_footer_menu_item">
-                      <Link className="footer_link" to="/carts/cdecart">CDE Cart</Link>
-                    </div>
-                    <div className="_footer_menu_item">
-                      <Link className="footer_link" to="/carts/modulecart">Module Cart</Link>
-                    </div>
-                    <div className="_footer_menu_item">
-                      <Link className="footer_link" to="/carts/formcart">Form Cart</Link>
-                    </div>
-                  </div>
-                  <div className="_footer_menubar">
 	                <div className="_footer_menu_item">
-	                  <a href="https://cdebrowser-stage.nci.nih.gov/cdebrowserClient/cdeBrowser.html#/search" className="footer_link" target="_blank">CDE Browser</a>
+	                  <a href={externalDomains.terminology} className="footer_link" target="_blank">NCI Terminology <br /> Server</a>
 	                </div>
+	                <div className="_footer_menu_item">
+	                  <a href={externalDomains.metaThesaurus} className="footer_link" target="_blank">NCI Metathesaurus</a>
+	                </div>
+                  </div>
+                  <div className="_footer_menubar">
                     <div className="_footer_menu_item">
-                      <a href="https://cdecurate-stage.nci.nih.gov/cdecurate/" className="footer_link" target="_blank">Curation Tool</a>
+                      <a href={externalDomains.feedback} className="footer_link">Feedback</a>
                     </div>
                     <div className="_footer_menu_item">
-                      <a href="https://cadsrsentinel-stage.nci.nih.gov/cadsrsentinel/" className="footer_link" target="_blank">Sentinel Tool</a>
+                      <a href={externalDomains.help} className="footer_link" target="_blank">Help</a>
                     </div>
                   </div>
                   <div className="_footer_menubar">
                     <div className="_footer_menu_item">
-                      <a href="https://ncim.nci.nih.gov/ncimbrowser/" className="footer_link" target="_blank">NCI Metathesaurus</a>
+                      <a href={externalDomains.about} className="footer_link" target="_blank">About</a>
                     </div>
                     <div className="_footer_menu_item">
-                      <a href="https://ncit.nci.nih.gov/ncitbrowser/pages/multiple_search.jsf;jsessionid=8FF581BFE2062B8D2F01C46783615729?nav_type=terminologies" className="footer_link" target="_blank">NCI Terminology <br /> Server</a>
-                    </div>
-                    <div className="_footer_menu_item">
-	                    <a href="https://cadsradmintool-stage.nci.nih.gov" className="footer_link" target="_blank">Admin Tool</a>
-	                  </div>
-                  </div>
-                  <div className="_footer_menubar">
-                    <div className="_footer_menu_item">
-                      <a href="https://wiki.nci.nih.gov/display/caDSR/Form+Builder+User+Guide;WIKISESSIONID=8A5414E4B37FA20BFCED9448A038C30E" className="footer_link" target="_blank">Help</a>
-                    </div>
-                    <div className="_footer_menu_item">
-                      <a href="mailto:ncicbiit@mail.nih.gov" className="footer_link">Feedback</a>
-                    </div>
-                    <div className="_footer_menu_item">
-                      <a href="ncicbiit@mail.nih.gov" className="footer_link">Contact Us</a>
+                      <a href={externalDomains.contact} className="footer_link">Contact Us</a>
                     </div>
                   </div>
                   <div className="_footer_menubar">
                     <div className="_footer_menu_item">
-                      <a href="https://wiki.nci.nih.gov/display/caDSR/caDSR+Form+Builder" className="footer_link" target="_blank">About</a>
-                    </div>
-                    <div className="_footer_menu_item">
-                      <a href="https://wiki.nci.nih.gov/display/caDSR/caDSR+Privacy+Policy+Statement" className="footer_link" target="_blank">Privacy Policy</a>
+                      <a href={externalDomains.privacy} className="footer_link" target="_blank">Privacy Policy</a>
                     </div>
                     <div className="_footer_menu_item">
                       Versions 5.0.0

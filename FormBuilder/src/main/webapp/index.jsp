@@ -23,6 +23,22 @@
 			formBuilderHost: '${formBuilderHost}'
 		};
 		Object.freeze(serverProps);
+		
+		const externalDomains = {
+			cdeBrowser: "<spring:eval expression="@propertyConfigurer['link.cde.browser']" />",
+			cdeCurate: "<spring:eval expression="@propertyConfigurer['link.curation.tool']" />",
+			cadsrsentinel: "<spring:eval expression="@propertyConfigurer['link.sentinel.tool']" />",
+			cadsradmintool: "<spring:eval expression="@propertyConfigurer['link.admin.tool']" />",
+			
+			metaThesaurus: "<spring:eval expression="@propertyConfigurer['link.admin.tool']" />",
+			terminology: "<spring:eval expression="@propertyConfigurer['link.admin.tool']" />",
+			help: "<spring:eval expression="@propertyConfigurer['link.admin.tool']" />",
+			feedback: "<spring:eval expression="@propertyConfigurer['link.admin.tool']" />",
+			contact: "<spring:eval expression="@propertyConfigurer['link.admin.tool']" />",
+			about: "<spring:eval expression="@propertyConfigurer['link.admin.tool']" />",
+			privacy: "<spring:eval expression="@propertyConfigurer['link.admin.tool']" />"
+		};
+		Object.freeze(externalDomains);
 	</script>
 
 <script src="dist/bundle.js"></script>
