@@ -309,6 +309,7 @@ public class FormController {
 				cartClient.storeObject(cart, cObject);
 
 			} catch (Exception e1) {
+				e1.printStackTrace();
 				return new ResponseEntity(e1.getMessage(), HttpStatus.BAD_REQUEST);
 			}
 		}
@@ -361,6 +362,7 @@ public class FormController {
 					cartClient.removeObject(cart, co);
 				}
 			} catch (Exception e1) {
+				e1.printStackTrace();
 				return new ResponseEntity(e1.getMessage(), HttpStatus.BAD_REQUEST);
 			}
 		}
