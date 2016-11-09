@@ -32,7 +32,15 @@ const formHelpers = {
 				});
 			};
 			/* Fetch the form the user wants to see and return a promise*/
-			const fetchForm = ({errorMessage = userMessagesText.FETCH_FORM_FAIL} ={}) =>{
+			const fetchForm = ({getWorkingCopy = false, errorMessage = userMessagesText.FETCH_FORM_FAIL} ={}) =>{
+				if(getWorkingCopy){
+					newFormModel.url = ENDPOINT_URLS.FORMS_WORKING_COPY;
+				}
+				else if(!getWorkingCopy && newFormModel.url){
+					/*If the model has a hardcoded url (endpoint to working copy), remove it and set it to be dynamic (its ID appended to urlRoot))*/
+					delete newFormModel.url;
+					newFormModel.urlRoot = ENDPOINT_URLS.FORMS_DB;
+				}
 				return newFormModel.fetch().then(()=>{
 					return Promise.resolve(newFormModel);
 				}).catch(error =>{
@@ -47,22 +55,19 @@ const formHelpers = {
 
 			/*They're going to view a DIFFERENT form then the one they're editing */
 			if((formIdSeqEditingForm !== null && formIdSeqEditingForm !== formIdseqFormToView) && formIdseqCurrentForm){
-				delete newFormModel.url;
-				newFormModel.urlRoot = ENDPOINT_URLS.FORMS_DB;
 				networkOperations.push(saveWorkingCopyForm());
 				networkOperations.push(fetchForm());
 			}
 			/*They're going to view the SAME form they were editing */
 			else if(formIdSeqEditingForm === formIdseqFormToView){
-				newFormModel.url = ENDPOINT_URLS.FORMS_WORKING_COPY;
-				networkOperations.push(fetchForm({errorMessage: userMessagesText.FETCH_WORKING_COPY_FAIL}));
+				networkOperations.push(fetchForm({
+					getWorkingCopy: true,
+					errorMessage:   userMessagesText.FETCH_WORKING_COPY_FAIL
+				}));
 				setFormEditing = true;
 			}
 			else{
-				delete newFormModel.url;
-				newFormModel.urlRoot = ENDPOINT_URLS.FORMS_DB;
 				networkOperations.push(fetchForm());
-
 			}
 			/*Wait until all networkOperations promises are complete*/
 			Promise.all(networkOperations).then((results) =>{
