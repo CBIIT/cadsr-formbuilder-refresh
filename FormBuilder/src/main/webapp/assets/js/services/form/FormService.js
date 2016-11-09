@@ -307,14 +307,8 @@ const FormService = Marionette.Object.extend({
 		this.handleFormActionModeChange({action: formActions.VIEW_MODULE});
 	},
 	handleFormMetadataSubmitData(data) {
-		/*TODO handle context a better way. */
-		let context = data.conteIdseq;
-		delete data.conteIdseq;
-
 		this.formModel.get('formMetadata').set(data);
-		this.formModel.get('formMetadata').set({
-			context: {conteIdseq: context}
-		});
+
 		/* POST form if if we're in create form, otherwise we don't need to do anything else*/
 		if(this.formUIStateModel.attributes.actionMode === formActions.CREATE_FORM){
 			this.formModel.get('formMetadata').set({
