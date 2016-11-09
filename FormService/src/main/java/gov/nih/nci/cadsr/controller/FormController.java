@@ -136,9 +136,12 @@ public class FormController {
 
 		try {
 
-			oldForm = (FEForm)cacheManager.getCache("products").get(formIdSeq).get();
-			System.out.println("OldForm Prots: " + oldForm.getFormMetadata().getProtocols());
-			System.out.println("OldForm Prots size: " + oldForm.getFormMetadata().getProtocols().size());
+			try{
+				oldForm = (FEForm)cacheManager.getCache("products").get(formIdSeq).get();
+			}
+			catch(NullPointerException npe){
+				oldForm = form;
+			}
 			
 			String response = formManager.updateForm(form, oldForm);
 
