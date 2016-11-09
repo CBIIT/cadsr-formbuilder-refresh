@@ -12,6 +12,11 @@ export default class QuestionStatic extends Component {
 		super(props);
 		this.dispatchRemoveQuestion = this.dispatchRemoveQuestion.bind(this);
 		this.getValidValues = this.getValidValues.bind(this);
+		this.renderValidValueHeader = this.renderValidValueHeader.bind(this);
+		this.handleSelectValidValueAccordion = this.handleSelectValidValueAccordion.bind(this);
+		this.state = {
+			validValuesOpen: true
+		};
 	}
 	dispatchRemoveQuestion() {
 		formChannel.request(EVENTS.FORM.REMOVE_QUESTION, {
@@ -19,16 +24,42 @@ export default class QuestionStatic extends Component {
 			questionId:  this.props.question.cid
 		});
 	}
+	
+	handleSelectValidValueAccordion(eventKey, e) {
+		this.setState({
+			validValuesOpen: !this.state.validValuesOpen
+		});
+	}
+	
+	renderValidValueHeader() {
+		 if (this.state.validValuesOpen) {
+			 return (
+				 <div className="validValuesHeader">
+				 	<span className="questionExpandCollapse glyphicon glyphicon-minus"></span>
+				 	VALID VALUES
+				 </div>
+			 );
+		 }
+		 else {
+			 return (
+				 <div className="validValuesHeader">
+				 	<span className="questionExpandCollapse glyphicon glyphicon-plus"></span>
+				 	VALID VALUES
+				 </div>
+			 );
+		 }
+	}
+	
 	getValidValues(){
 		if(this.props.question.validValues && this.props.question.validValues.length){
 			const mapValidValues = (item, index) =>{
 				return (
-					<ValidValueStatic  shouldDisplayRemoveItem={this.props.shouldDisplayRemoveItem} moduleId={this.props.moduleId} questionId={this.props.question.cid} key={index} validValue={item}/>
+					<ValidValueStatic shouldDisplayRemoveItem={this.props.shouldDisplayRemoveItem} moduleId={this.props.moduleId} questionId={this.props.question.cid} key={index} validValue={item}/>
 				);
 			};
 			return (
-				<PanelGroup defaultActiveKey="1" accordion>
-					<Panel header="Valid Values" eventKey="1">
+				<PanelGroup defaultActiveKey="1" accordion onSelect={this.handleSelectValidValueAccordion} expanded={this.state.validValuesOpen}>
+					<Panel header="VALID VALUES" eventKey="1">
 						<ul className={"list-unstyled"}>
 							{this.props.question.validValues.map(mapValidValues)}
 						</ul>
@@ -39,7 +70,7 @@ export default class QuestionStatic extends Component {
 	}
 	render(){
 		return (
-			<Row className="top-margin bottom-margin bordered">
+			<Row className="top-margin bottom-margin">
 				<Col md={12}>
 					<Row>
 						<Col md={12}>

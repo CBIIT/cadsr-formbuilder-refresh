@@ -50,8 +50,6 @@ class Header extends Component {
 			  	<Link to="/carts/cdecart">CDE Cart</Link>
 			  	<Link to="/carts/modulecart">Module Cart</Link>
 			  	<Link to="/carts/formcart">Form Cart</Link>
-                <a href={externalDomains.terminology} target="_blank">NCI Terminology Server</a>
-                <a href={externalDomains.metaThesaurus} target="_blank">NCI Metathesaurus</a>
 			  </div>
 			</div>
 		);
@@ -66,6 +64,8 @@ class Header extends Component {
 			  	<a href={externalDomains.cdeCurate} target="_blank">Curation Tool</a>
 			  	<a href={externalDomains.cadsrsentinel} target="_blank">Sentinel Tool</a>
 			  	<a href={externalDomains.cadsradmintool} target="_blank">Admin Tool</a>
+			  	<a href={externalDomains.terminology} target="_blank">NCI Terminology Server</a>
+                <a href={externalDomains.metaThesaurus} target="_blank">NCI Metathesaurus</a>
 			  </div>
 			</div>
 		);

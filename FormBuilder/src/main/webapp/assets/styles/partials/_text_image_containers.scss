@@ -2,6 +2,9 @@
 .bordered {
   @include standard-border;
 }
+.bordered-bottom {
+	border-bottom: 1px solid $lightGrey;
+}
 
 /* ------- BEGIN Text Containers  --------------- */
 .bordered-container {

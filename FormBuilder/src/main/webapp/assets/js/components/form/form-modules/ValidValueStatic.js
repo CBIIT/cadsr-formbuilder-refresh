@@ -18,7 +18,7 @@ export default class ValidValueStatic extends Component{
 	}
 	render() {
 		return (
-			<Row className="top-margin bottom-margin bordered">
+			<Row className="top-margin bottom-margin bordered-bottom">
 				{/*<Col md={1}>
 				 <div className="module-side">
 				 </div>
