@@ -57,8 +57,10 @@ const FormService = Marionette.Object.extend({
 		switch(action){
 			case formActions.CREATE_FORM:
 				this.formUIStateModel.set({actionMode: action});
-				/* Make a phresh object */
-				this.formModel = new FormModel();
+				if(!this.formModel.isNew()){
+					this.formModel = null;
+					this.formModel = new FormModel();
+				}
 				break;
 			case formActions.CREATE_MODULE:
 				this.formUIStateModel.set({actionMode: action});
