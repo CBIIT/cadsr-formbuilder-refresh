@@ -1,8 +1,8 @@
-import PageableCollection from 'backbone.paginator';
+import {Collection} from 'backbone';
 import ProtocolModel from './ProtocolModel';
 import ENDPOINT_URLS from '../../../constants/ENDPOINT_URLS';
 
-const ProtocolCollection = PageableCollection.extend({
+const ProtocolCollection = Collection.extend({
 	model: ProtocolModel,
 	baseUrl: ENDPOINT_URLS.PROTOCOLS,
 	state: {
