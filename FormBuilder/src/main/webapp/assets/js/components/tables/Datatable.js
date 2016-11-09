@@ -57,7 +57,6 @@ export default class Datatable extends Component {
 			/* Pass the last sorted state before the table unmounts so we can store it in the CartUIStateModel as a config */
 			this.props.dispatchSortedState(this.state.tableSortedBy);
 		}
-		console.log('will unmount table');
 	}
 
 	getSelectedItemIds(){

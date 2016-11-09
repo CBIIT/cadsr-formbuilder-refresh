@@ -93,7 +93,6 @@ class FormLayout extends Component {
 
 	componentWillUpdate(nextProps, nextState){
 		this.getFormModules();
-		console.log("FormLayout componentWillUpdate");
 	}
 
 	componentWillUnmount(){

@@ -128,8 +128,6 @@ export default class SearchLayout extends Component {
 		});
 		
 		let searchResultsHeader = document.getElementById("searchHeader");
-		console.log(searchResultsHeader.offsetTop);
-		console.log(searchResultsHeader.scrollTop);
 		window.scrollTo(0,searchResultsHeader.offsetTop);
 	}
 	

@@ -228,7 +228,6 @@ const FormService = Marionette.Object.extend({
 		if(module.get("moduleIdseq") && !module.get("isEdited")){
 			module.set("isEdited", true);
 		}
-		console.log("module saved");
 	},
 	handleSetModuleQuestion(data) {
 		const questionModel = this.getModuleQuestionModel({moduleId: data.moduleId, questionId: data.questionId});
