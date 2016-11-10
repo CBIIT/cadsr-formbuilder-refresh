@@ -53,7 +53,12 @@ public class LockingController {
 			return true;
 		}
 		else{
-			return false;
+			if(lock.getLockedForms().get(formIdseq).equals(authUtil.getloggedinuser().getUsername())){
+				return true;
+			}
+			else{
+				return false;
+			}
 		}
 	}
 	
