@@ -91,7 +91,7 @@ const FormService = Marionette.Object.extend({
 				this.formModel.set({
 					formIdseq: formIdseq
 				});
-				browserHistory.push(`/FormBuilder/`);
+				browserHistory.push(`/FormBuilder/forms/${formIdseq}`);
 				this.formUIStateModel.set({
 					isEditing:            true,
 					formIdSeqEditingForm: formIdseq
