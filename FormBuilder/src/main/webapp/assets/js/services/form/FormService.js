@@ -222,7 +222,6 @@ const FormService = Marionette.Object.extend({
 			}
 			else{
 				/* Dirty hack: in order for FormLayout to re-render and show lock notification, we need to change an attribute in formUIStateModel, which FormLayout has set as state via BackboneReact, so it will re-render. formModel is not set as a state, so it won't re-render on that change alone */
-				/* Dirty hack: in order for FormLayout to re-render and show lock notification, we need to change an attribute in formUIStateModel, which FormLayout has set as state via BackboneReact, so it will re-render. formModel is not set as a state, so it won't re-render on that change alone */
 				this.formUIStateModel.set({formIdSeqEditingForm: undefined});
 				this.formModel.get('formMetadata').set({locked: true});
 			}
