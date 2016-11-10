@@ -147,7 +147,7 @@ const TABLECONFIG = {
 			clickable: true
 		},
 		{
-			key: 'id',
+			key: 'protoIdseq',
 			name: 'PROTOCOL ID'
 		},
 		{
