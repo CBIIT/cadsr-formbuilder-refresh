@@ -147,7 +147,7 @@ export default class FormGlobalToolbar extends Component {
 		}
 	}
 	renderFormLockedIndicator(){
-		if(this.props.formMetadata.locked === true){
+		if(this.props.formMetadata.locked === true && this.props.formMetadata.curatorialPermission === true){
 			return (
 				<div className="editingIndicator">
 					<span className="glyphicon glyphicon-lock"/>
@@ -221,12 +221,15 @@ export default class FormGlobalToolbar extends Component {
 					</div>
 				</div>
 				{this.renderEditingIndicator()}
+				{this.renderFormLockedIndicator()}
 				<ExitFormModal leaveFormCLicked={this.handleLeaveForm} goBackButtonClicked={this.closeExitFormModal} isOpen={this.state.exitFormModalOpen}/>
 			</div>
 		);
 	}
 }
 FormGlobalToolbar.PropTypes = {
+	locked: PropTypes.bool,
+	curatorialPermission: PropTypes.bool,
 	formMetadata:   PropTypes.object.required,
 	userIsLoggedIn: PropTypes.bool.required
 };
