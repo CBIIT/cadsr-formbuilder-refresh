@@ -197,7 +197,7 @@ export default class FormMetadataForm extends Component {
 	selectClassificationCallback(itemRow){
 		let entry = {
 			csCsiIdseq:          itemRow.csCsiIdseq,
-			classSchemaLongName: itemRow.csName
+			classSchemeLongName: itemRow.csName
 		};
 		this.setState({
 			selectedClassification: this.state.selectedClassification.concat(entry)
@@ -219,7 +219,7 @@ export default class FormMetadataForm extends Component {
 		let set = this.state.selectedClassification;
 		let length = set.length;
 		for(let i = 0; i < length; i++){
-			if(set[i].classSchemaLongName == item.classSchemaLongName){
+			if(set[i].classSchemeLongName == item.classSchemeLongName){
 				return i;
 			}
 		}

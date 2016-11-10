@@ -2,23 +2,13 @@ import React, {Component, PropTypes} from 'react';
 import {Grid, Row, Col, ControlLabel} from 'react-bootstrap';
 
 const formMetadataStatic = (props) =>{
-	
-	let classifications = "";
-	for (let i = 0; i < props.formMetadata.classifications.length; i++) {
-		if (i > 0) {
-			classifications += ", ";
-		}
-		classifications += props.formMetadata.classifications[i].classSchemaLongName;
-	}
-	
-	let protocols = "";
-	for (let i = 0; i < props.formMetadata.protocols.length; i++) {
-		if (i > 0) {
-			protocols += ", ";
-		}
-		protocols += props.formMetadata.protocols[i].longName;
-	}
-	
+
+	const mapItems = (items, key) => {
+		return items.map((item) => {
+			return item[key];
+		}).join(", ");
+	};
+
 	return (
 		<Grid fluid={true}>
 			<Row className="metaDataLabel">
@@ -26,43 +16,43 @@ const formMetadataStatic = (props) =>{
 					<ControlLabel>LONG NAME</ControlLabel>
 				</Col>
 			</Row>
-			<Row className="metaDataContent"> 
+			<Row className="metaDataContent">
 				<Col lg={12}>
 					{props.formMetadata.longName}
-				</Col> 
-			</Row> 
-			
+				</Col>
+			</Row>
+
 			<Row className="metaDataLabel">
 				<Col lg={12}>
 					<ControlLabel>PROTOCOL</ControlLabel>
 				</Col>
 			</Row>
-			<Row className="metaDataContent"> 
+			<Row className="metaDataContent">
 				<Col lg={12}>
-					{protocols}
-				</Col> 
+					{mapItems(props.formMetadata.protocols,"longName")}
+				</Col>
 			</Row>
-			
+
 			<Row className="metaDataLabel">
 				<Col lg={12}>
 					<ControlLabel>CLASSIFICATIONS</ControlLabel>
 				</Col>
 			</Row>
-			<Row className="metaDataContent"> 
+			<Row className="metaDataContent">
 				<Col lg={12}>
-					{classifications}
-				</Col> 
+					{mapItems(props.formMetadata.classifications,"classSchemeLongName")}
+				</Col>
 			</Row>
-			
+
 			<Row className="metaDataLabel">
 				<Col lg={12}>
 					<ControlLabel>DESCRIPTION</ControlLabel>
 				</Col>
 			</Row>
-			<Row className="metaDataContent"> 
+			<Row className="metaDataContent">
 				<Col lg={12}>
 					{props.formMetadata.preferredDefinition}
-				</Col> 
+				</Col>
 			</Row>
 
 			<Row className="metaDataLabel">
@@ -81,7 +71,7 @@ const formMetadataStatic = (props) =>{
 					{props.formMetadata.formCategory}
 				</Col>
 			</Row>
-			
+
 			<Row className="metaDataLabel">
 				<Col lg={6}>
 					<ControlLabel>WORKFLOW STATUS</ControlLabel>
@@ -98,7 +88,7 @@ const formMetadataStatic = (props) =>{
 				{props.formMetadata.formType}
 				</Col>
 			</Row>
-			
+
 			<Row className="metaDataLabel">
 				<Col lg={6}>
 					<ControlLabel>HEADER INSTRUCTION</ControlLabel>
