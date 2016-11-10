@@ -214,10 +214,18 @@ const FormService = Marionette.Object.extend({
 	handleSetFormEditable() {
 		const formIdseq = this.formModel.get('formIdseq');
 		formHelpers.setFormLocked({formIdseq: formIdseq}).then((data) =>{
-			this.formUIStateModel.set({
-				formIdSeqEditingForm: formIdseq,
-				isEditing:            true
-			});
+			if(data === true){
+				this.formUIStateModel.set({
+					formIdSeqEditingForm: formIdseq,
+					isEditing:            true
+				});
+			}
+			else{
+				/* Dirty hack: in order for FormLayout to re-render and show lock notification, we need to change an attribute in formUIStateModel, which FormLayout has set as state via BackboneReact, so it will re-render. formModel is not set as a state, so it won't re-render on that change alone */
+				/* Dirty hack: in order for FormLayout to re-render and show lock notification, we need to change an attribute in formUIStateModel, which FormLayout has set as state via BackboneReact, so it will re-render. formModel is not set as a state, so it won't re-render on that change alone */
+				this.formUIStateModel.set({formIdSeqEditingForm: undefined});
+				this.formModel.get('formMetadata').set({locked: true});
+			}
 		});
 	},
 	handleSetModule(data) {
