@@ -60,7 +60,11 @@ export default class ClassificationSelectModal extends Component {
 
 	dispatchSelection(title, item) {
 		this.props.closeButtonClicked();
-		this.props.selectionCallback(item);
+		/*Since a classification's csCsiIdseq isn't used as a table column but is needed for the BE to track a classification and the csPublicId is, need to pass back the entire classification  object */
+		const selectedClassification = _.find(this.state.tableData, (classificationObject) => {
+			return classificationObject.csPublicId === item.csPublicId;
+		});
+		this.props.selectionCallback(selectedClassification);
 	}
 
 	render(){
