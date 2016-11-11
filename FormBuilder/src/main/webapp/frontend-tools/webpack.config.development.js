@@ -28,7 +28,7 @@ export default {
     // Optimize the order that items are bundled. This assures the hash is deterministic.
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.ProvidePlugin({
-      /*make _ globally available */
+      /*make _ globally available. TODO consider undoing this and explicitly importing _. into modules that use it */
       _: 'underscore'
     }),
     // Tells React to build in prod mode. https://facebook.github.io/react/downloads.html
@@ -46,12 +46,6 @@ export default {
         loader: 'babel',
         /* use these presets (specified in .babelrc */
         query:  {presets: ['es2015', 'react']}
-      },
-      /*Underscore templates */
-      {
-        test:                   /\.html$/,
-        loader:                 'underscore-template-loader',
-        prependFilenameComment: __dirname,
       },
       {test: /\.eot(\?v=\d+.\d+.\d+)?$/, loader: 'url?name=[name].[ext]'},
       {
