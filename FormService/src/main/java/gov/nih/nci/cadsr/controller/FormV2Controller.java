@@ -25,6 +25,8 @@ import gov.nih.nci.cadsr.manager.FormV2Manager;
 import gov.nih.nci.ncicb.cadsr.common.dto.FormV2TransferObject;
 import gov.nih.nci.ncicb.cadsr.common.resource.FormV2;
 import gov.nih.nci.ncicb.cadsr.formbuilder.ejb.service.FormBuilderService;
+import gov.nih.nci.ncicb.cadsr.objectCart.CDECartItem;
+import gov.nih.nci.ncicb.cadsr.objectCart.CDECartItemTransferObject;
 
 @RestController
 public class FormV2Controller {
@@ -43,11 +45,18 @@ public class FormV2Controller {
 	public ResponseEntity<ByteArrayResource> downloadFormXML(@RequestParam(value = "formIdSeq") String formIdSeq,
 			HttpServletRequest request
 
-	) {
+	) throws IOException {
 
-		final byte[] resource = formV2Manager.download(formIdSeq, request);
-		final ByteArrayResource byteResource = new ByteArrayResource(resource);
+		String str = formIdSeq;
+		String[] ids = str.split(",");
+		byte[] resource = null;
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+		for (String id : ids) {
+			resource = formV2Manager.download(id, request);
+			outputStream.write(resource);
 
+		}
+		final ByteArrayResource byteResource = new ByteArrayResource(outputStream.toByteArray());
 		HttpHeaders responseHeaders = new HttpHeaders();
 		responseHeaders.setContentType(MediaType.APPLICATION_XML);
 		responseHeaders.setContentDispositionFormData("attachment", "FormV2_" + formIdSeq + ".xml");
@@ -62,15 +71,10 @@ public class FormV2Controller {
 	public ResponseEntity<byte[]> downloadFormExcel(@RequestParam(value = "formIdSeq") String formIdSeq,
 			HttpServletRequest request) throws IOException {
 
-		FormV2 crf = new FormV2TransferObject();
-		crf = formBuilderService.getFormDetailsV2(formIdSeq);
-		String excelFilename = "Form" + crf.getPublicId() + "_v" + crf.getVersion();
-		excelFilename = excelFilename.replace('/', '_').replace('.', '_');
+		byte[] resource = formV2ExcelDownloadManger.downloadExcel(formIdSeq, request);
 
-		HSSFWorkbook hSSFWorkbook = formV2ExcelDownloadManger.downloadExcel(formIdSeq, request);
-		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-		hSSFWorkbook.write(byteArrayOutputStream);
-		byte[] resource = byteArrayOutputStream.toByteArray();
+		String excelFilename = "Form"; // + crf.getPublicId() + "_v" + crf.getVersion();
+		excelFilename = excelFilename.replace('/', '_').replace('.', '_');
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.parseMediaType("application/vnd.ms-excel"));
