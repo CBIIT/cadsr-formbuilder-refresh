@@ -20,12 +20,11 @@ export default class FormMetadataForm extends Component {
 		this.closeProtocolsModal = this.closeProtocolsModal.bind(this);
 		this.selectProtocolCallback = this.selectProtocolCallback.bind(this);
 		this.removeProtocolPill = this.removeProtocolPill.bind(this);
-		this.renderProtocolPills = this.renderProtocolPills.bind(this);
+		this.renderSelectablePills = this.renderSelectablePills.bind(this);
 		this.openClassificationModal = this.openClassificationModal.bind(this);
 		this.closeClassificationModal = this.closeClassificationModal.bind(this);
 		this.selectClassificationCallback = this.selectClassificationCallback.bind(this);
 		this.removeClassificationPill = this.removeClassificationPill.bind(this);
-		this.renderClassificationPills = this.renderClassificationPills.bind(this);
 
 		// Default state
 		this.state = {
@@ -141,7 +140,7 @@ export default class FormMetadataForm extends Component {
 		this.dispatchData({selectedProtocols: newSelectedItemsList});
 	}
 	removeProtocolPill(item){
-		let index = this.findProtocolInSelected(item);
+		let index = this.state.selectedProtocols.indexOf(item);
 		if(index > -1){
 			let newData = this.state.selectedProtocols.slice();
 			newData.splice(index, 1);
@@ -151,17 +150,6 @@ export default class FormMetadataForm extends Component {
 			this.dispatchData({selectedProtocols: newData});
 		}
 	}
-	findProtocolInSelected(item){
-		let set = this.state.selectedProtocols;
-		let length = set.length;
-		for(let i = 0; i < length; i++){
-			if(set[i].protoIdseq == item.protoIdseq){
-				return i;
-			}
-		}
-		return -1;
-	}
-
 	getWorFlowField(){
 		if(this.props.actionMode === formActions.CREATE_FORM){
 			return (
@@ -177,19 +165,16 @@ export default class FormMetadataForm extends Component {
 			);
 		}
 	}
-
-	renderProtocolPills(){
-		let set = this.state.selectedProtocols;
-		let length = set.length;
-		let output = [];
-
-		for(let i = 0; i < length; i++){
-			output.push(
-				<FilterPill key={i} item={set[i]} text={set[i].longName} closeButtonCallback={this.removeProtocolPill}/>
+	renderSelectablePills({items, textKey, closeButtonCallback}){
+		const pillElements = items.map((item, index) => {
+			return (
+				<FilterPill key={index} item={item} text={item[textKey]} closeButtonCallback={closeButtonCallback}/>
 			);
-		}
+		});
 
-		return output;
+		return (
+			<div>{pillElements}</div>
+		);
 	}
 
 	openClassificationModal(){
@@ -216,7 +201,7 @@ export default class FormMetadataForm extends Component {
 		this.dispatchData({selectedClassifications: newSelectedItemsList});
 	}
 	removeClassificationPill(item){
-		let index = this.findClassificationInSelected(item);
+		let index = this.state.selectedClassifications.indexOf(item);
 		if(index > -1){
 			let newData = this.state.selectedClassifications.slice();
 			newData.splice(index, 1);
@@ -226,34 +211,11 @@ export default class FormMetadataForm extends Component {
 			this.dispatchData({selectedClassifications: newData});
 		}
 	}
-	findClassificationInSelected(item){
-		let set = this.state.selectedClassifications;
-		let length = set.length;
-		for(let i = 0; i < length; i++){
-			if(set[i].classSchemeLongName == item.classSchemeLongName){
-				return i;
-			}
-		}
-		return -1;
-	}
-
-	renderClassificationPills(){
-		let set = this.state.selectedClassifications;
-		let length = set.length;
-		let output = [];
-		for(let i = 0; i < length; i++){
-			output.push(
-				<FilterPill key={i} item={set[i]} text={set[i].classSchemeLongName} closeButtonCallback={this.removeClassificationPill}/>
-			);
-		}
-		return output;
-	}
-
 	renderClassifications(){
 		if(this.props.actionMode !== formActions.CREATE_FORM){
 			return (
 				<Row> <Col sm={12} className="hideFormGroup">
-					<ControlLabel>CLASSIFICATIONS</ControlLabel> {this.renderClassificationPills()}
+					<ControlLabel>CLASSIFICATIONS</ControlLabel> 								{this.renderSelectablePills({items: this.state.selectedClassifications, textKey: "classSchemeLongName", closeButtonCallback: this.removeClassificationPill})}
 					<button type="button" onClick={() =>{
 						this.openClassificationModal();
 					}} className="btn-link align-left">SEARCH FOR CLASSIFICATION
@@ -277,7 +239,7 @@ export default class FormMetadataForm extends Component {
 							</Col> </Row> <Row> <Col sm={12} className="hideFormGroup">
 							<ControlLabel>PROTOCOL</ControlLabel>
 							<div className="pillContainer">
-								{this.renderProtocolPills()}
+								{this.renderSelectablePills({items: this.state.selectedProtocols, textKey: "longName", closeButtonCallback: this.removeProtocolPill})}
 							</div>
 							<div className="clearfix"/>
 							<button type="button" onClick={() =>{
