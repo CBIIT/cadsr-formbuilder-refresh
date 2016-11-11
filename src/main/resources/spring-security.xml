@@ -1,0 +1,47 @@
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/security
+	http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+
+
+	<!--Web Services with the pattern “/api/v1/secure/” will be secured -->
+	<http auto-config="true">
+		<intercept-url pattern="/carts/*" access="ROLE_USER" />
+		<intercept-url pattern="/form/create" access="ROLE_USER" />
+		<!-- <intercept-url pattern="/api/**" access="ROLE_USER" /> -->
+		<intercept-url pattern="/**" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+		<!-- <form-login login-page="/login" default-target-url="/welcome" authentication-failure-url="/login?error" 
+			username-parameter="username" password-parameter="password" /> <logout logout-success-url="/login?logout" 
+			/> -->
+
+		<session-management>
+			<concurrency-control expired-url="/spring_security_login" />
+		</session-management>
+		<!-- <session-management invalid-session-url="/spring_security_login" session-fixation-protection="migrateSession"> 
+			<concurrency-control expired-url="/spring_security_login" max-sessions="1"/> 
+			</session-management> -->
+
+		<logout logout-success-url="/" logout-url="/perform_logout"
+			delete-cookies="JSESSIONID" />
+	</http>
+
+	<!-- <authentication-manager> <authentication-provider> <user-service> <user 
+		name="guest" password="Nci_gue5t" authorities="ROLE_USER" /> <user name="user1" 
+		password="user1" authorities="ROLE_USER" /> <user name="user2" password="user2" 
+		authorities="ROLE_USER" /> </user-service> </authentication-provider> </authentication-manager> -->
+
+	<authentication-manager>
+		<authentication-provider ref="cadsrAuthenticationProvider" />
+	</authentication-manager>
+
+	<beans:bean id="userDetailsService"
+		class="gov.nih.nci.cadsr.authentication.CadsrUserDetailsService" />
+
+	<!-- Bean implementing AuthenticationProvider of Spring Security -->
+	<beans:bean id="cadsrAuthenticationProvider"
+		class="gov.nih.nci.cadsr.authentication.CadsrAuthenticationProvider">
+	</beans:bean>
+
+</beans:beans>
