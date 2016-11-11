@@ -45,13 +45,13 @@ export default class FormMetadataForm extends Component {
 		if(this.props.formMetadata.protocols != null && this.props.formMetadata.protocols.length > 0){
 			let loadProtocols = this.props.formMetadata.protocols;
 			this.setState({
-				selectedProtocol: loadProtocols
+				selectedProtocols: loadProtocols
 			});
 		}
 		if(this.props.formMetadata.classifications != null && this.props.formMetadata.classifications.length > 0){
 			let loadClassifications = this.props.formMetadata.classifications;
 			this.setState({
-				selectedClassification: loadClassifications
+				selectedClassifications: loadClassifications
 			});
 		}
 	}
@@ -66,16 +66,24 @@ export default class FormMetadataForm extends Component {
 			});
 		});
 	}
+	/**
+	 *
+	 * @param formInputData - data already captured by another method, or grab the html form input values in cases where
+	 * dispatchData isn't called in
+	 * response to a submit or input value change
+	 * @param selectedProtocols
+	 * @param selectedClassifications
+	 */
+	dispatchData({formInputData = this.refs.formMetata.refs.form.getModel(), selectedProtocols = this.state.selectedProtocols, selectedClassifications = this.state.selectedClassifications}){
 
-	dispatchData(data){
 		/* We need to get both conteIdseq and name of the context object */
 		const context = _.find(this.state.contexts, (item) =>{
-			return item.conteIdseq === data.conteIdseq;
+			return item.conteIdseq === formInputData.conteIdseq;
 		});
-		const newData = Object.assign({}, _.omit(data, "conteIdseq"), {
+		const newData = Object.assign({}, _.omit(formInputData, "conteIdseq"), {
 			context:         _.omit(context, "description"),
-			protocols:       this.state.selectedProtocol,
-			classifications: this.state.selectedClassification
+			protocols:       selectedProtocols,
+			classifications: selectedClassifications
 		});
 
 		formChannel.request(EVENTS.FORM.SET_CORE_FORM_DETAILS, newData);
@@ -84,11 +92,11 @@ export default class FormMetadataForm extends Component {
 	handleValueChanged(currentValues, isChanged){
 		/* We're not saving to model onChange when create a form. That happens only onSubmit */
 		if(this.props.actionMode === formActions.VIEW_FORM_METADATA && isChanged){
-			this.dispatchData(currentValues);
+			this.dispatchData({formInputData: currentValues});
 		}
 	}
 
-	/* TODO Move this out to a util */
+	/* TODO Update uiInputHelpers.getOptions to use this API, and  use uiInputHelpers instead */
 	getOptions(options, optionKey, includeSelect){
 		let mappedOptions = [];
 		if(typeof optionKey === 'undefined'){
@@ -121,28 +129,30 @@ export default class FormMetadataForm extends Component {
 	}
 
 	selectProtocolCallback(itemRow){
-		let entry = {
+		const selectedItem = {
 			protoIdseq: itemRow.protoIdseq,
 			longName:   itemRow.longName
 		};
+		const currentSelectedItemsList = this.state.selectedProtocols;
+		const newSelectedItemsList = currentSelectedItemsList.concat(selectedItem);
 		this.setState({
-			selectedProtocol: this.state.selectedProtocol.concat(entry)
+			selectedProtocols: newSelectedItemsList
 		});
+		this.dispatchData({selectedProtocols: newSelectedItemsList});
 	}
-
 	removeProtocolPill(item){
 		let index = this.findProtocolInSelected(item);
 		if(index > -1){
-			let newData = this.state.selectedProtocol.slice();
+			let newData = this.state.selectedProtocols.slice();
 			newData.splice(index, 1);
 			this.setState({
-				selectedProtocol: newData
+				selectedProtocols: newData
 			});
+			this.dispatchData({selectedProtocols: newData});
 		}
 	}
-
 	findProtocolInSelected(item){
-		let set = this.state.selectedProtocol;
+		let set = this.state.selectedProtocols;
 		let length = set.length;
 		for(let i = 0; i < length; i++){
 			if(set[i].protoIdseq == item.protoIdseq){
@@ -169,7 +179,7 @@ export default class FormMetadataForm extends Component {
 	}
 
 	renderProtocolPills(){
-		let set = this.state.selectedProtocol;
+		let set = this.state.selectedProtocols;
 		let length = set.length;
 		let output = [];
 
@@ -193,30 +203,31 @@ export default class FormMetadataForm extends Component {
 			classificationModalOpen: false
 		});
 	}
-
 	selectClassificationCallback(itemRow){
-		let entry = {
+		const selectedItem = {
 			csCsiIdseq:          itemRow.csCsiIdseq,
 			classSchemeLongName: itemRow.csName
 		};
+		const currentSelectedItemsList = this.state.selectedClassifications;
+		const newSelectedItemsList = currentSelectedItemsList.concat(selectedItem);
 		this.setState({
-			selectedClassification: this.state.selectedClassification.concat(entry)
+			selectedClassifications: newSelectedItemsList
 		});
+		this.dispatchData({selectedClassifications: newSelectedItemsList});
 	}
-
 	removeClassificationPill(item){
 		let index = this.findClassificationInSelected(item);
 		if(index > -1){
-			let newData = this.state.selectedClassification.slice();
+			let newData = this.state.selectedClassifications.slice();
 			newData.splice(index, 1);
 			this.setState({
-				selectedClassification: newData
+				selectedClassifications: newData
 			});
+			this.dispatchData({selectedClassifications: newData});
 		}
 	}
-
 	findClassificationInSelected(item){
-		let set = this.state.selectedClassification;
+		let set = this.state.selectedClassifications;
 		let length = set.length;
 		for(let i = 0; i < length; i++){
 			if(set[i].classSchemeLongName == item.classSchemeLongName){
@@ -227,7 +238,7 @@ export default class FormMetadataForm extends Component {
 	}
 
 	renderClassificationPills(){
-		let set = this.state.selectedClassification;
+		let set = this.state.selectedClassifications;
 		let length = set.length;
 		let output = [];
 		for(let i = 0; i < length; i++){
@@ -241,12 +252,8 @@ export default class FormMetadataForm extends Component {
 	renderClassifications(){
 		if(this.props.actionMode !== formActions.CREATE_FORM){
 			return (
-				<Row> <Col sm={12} className="hideFormGroup"> <ControlLabel>CLASSIFICATIONS</ControlLabel>
-					<Input name="classificationIdSeq" id="classification" type="text" onClick={this.openClassificationModal} value={() =>{
-						this.state.selectedClassification.reduce(function(previousValue, currentValue){
-							return previousValue += "," + currentValue.csCsiIdseq;
-						});
-					}} className="hidden" readOnly="readOnly"/> {this.renderClassificationPills()}
+				<Row> <Col sm={12} className="hideFormGroup">
+					<ControlLabel>CLASSIFICATIONS</ControlLabel> {this.renderClassificationPills()}
 					<button type="button" onClick={() =>{
 						this.openClassificationModal();
 					}} className="btn-link align-left">SEARCH FOR CLASSIFICATION
@@ -269,7 +276,6 @@ export default class FormMetadataForm extends Component {
 								<FormControl.Static>{this.props.formMetadata.version}</FormControl.Static> </FormGroup>
 							</Col> </Row> <Row> <Col sm={12} className="hideFormGroup">
 							<ControlLabel>PROTOCOL</ControlLabel>
-							<Input name="protocolIdSeq" id="protocolLongName" type="hidden" onClick={this.openProtocolsModal} value="" className="hidden" readOnly="readOnly"/>
 							<div className="pillContainer">
 								{this.renderProtocolPills()}
 							</div>

@@ -5,6 +5,7 @@ import EVENTS from '../../constants/EVENTS';
 import TABLECONFIG from '../../constants/TABLE_CONFIGS';
 import Datatable from '../tables/Datatable';
 
+/* TODO Make reusable component for ProtocolSelectModal and this to remove need for two separate ones */
 export default class ProtocolSelectModal extends Component {
 	constructor(props){
 		super(props);
