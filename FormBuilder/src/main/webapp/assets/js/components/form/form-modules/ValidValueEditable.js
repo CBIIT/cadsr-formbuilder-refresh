@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import {Col, Row} from 'react-bootstrap';
-import {Input, Textarea} from 'formsy-react-components';
+import {Textarea} from 'formsy-react-components';
 import FormItemToolbar from './FormItemToolbar';
 import EVENTS from '../../../constants/EVENTS';
 import {formChannel} from '../../../channels/radioChannels';
@@ -12,8 +12,7 @@ export class ValidValueEditable extends Component{
 		this.handleValidValueChanged = this.handleValidValueChanged.bind(this);
 		this.dispatchRemoveValidValue = this.dispatchRemoveValidValue.bind(this);
 		this.state = {
-			validatePristine: false,
-			activeQuestionAccordion:  '1'
+			validatePristine: false
 		};
 	}
 	dispatchRemoveValidValue() {
@@ -38,14 +37,13 @@ export class ValidValueEditable extends Component{
 	render() {
 			return (
 				<Row>
-					<Col sm={12}>
+					<Col sm={12} className="medium-bottom-spacing">
 						<div className="center-v-spread-h">
+							<p className="bold">{this.props.validValue.longName}</p>
 							<FormItemToolbar itemType="Valid Value" dispatchRemoveItem={this.dispatchRemoveValidValue} shouldDisplayRemoveItem={this.props.shouldDisplayRemoveItem} />
 						</div>
 						<Form onChange={this.handleValidValueChanged}>
-							<fieldset name={this.props.validValue.longName}>
-								<legend className="sr-only">{this.props.validValue.longName}</legend>
-								<ul className="list-unstyled">
+							<ul className="list-unstyled">
 									<li>
 										Meaning Text: {this.props.validValue.formValueMeaningText}
 									</li>
@@ -59,15 +57,25 @@ export class ValidValueEditable extends Component{
 										<Textarea rows={1} name="instructions" label="Instructions" value={(this.props.validValue.instructions !== null ? this.props.validValue.instructions : "")}/>
 									</li>
 								</ul>
-							</fieldset>
 						</Form>
 					</Col>
 				</Row>
 			);
-		};
+		}
 	}
 
 ValidValueEditable.propTypes = {
+	shouldDisplayRemoveItem: PropTypes.bool.isRequired,
+	moduleId: PropTypes.string.isRequired,
+	questionId: PropTypes.string.isRequired,
+	validValue:      PropTypes.shape({
+		cid: PropTypes.string.isRequired,
+		longName: PropTypes.string,
+		formValueMeaningText: PropTypes.string,
+		formValueMeaningIdVersion: PropTypes.string,
+		formValueMeaningDesc: PropTypes.string,
+		instructions: PropTypes.string
+	})
 };
 
 export default ValidValueEditable;
