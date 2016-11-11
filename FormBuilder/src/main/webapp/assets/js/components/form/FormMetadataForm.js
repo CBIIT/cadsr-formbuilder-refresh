@@ -37,7 +37,7 @@ export default class FormMetadataForm extends Component {
 			protocolModalOpen:       false,
 			selectedProtocol:        [],		// array of objects of form: {name: "", seqId: ""}
 			classificationModalOpen: false,
-			selectedClassification:  []	// array of objects of form: {name: "", seqId: ""}
+			selectedClassifications:  []	// array of objects of form: {name: "", seqId: ""}
 		};
 	}
 
@@ -243,7 +243,7 @@ export default class FormMetadataForm extends Component {
 		let output = [];
 		for(let i = 0; i < length; i++){
 			output.push(
-				<FilterPill key={i} item={set[i]} text={set[i].csName} closeButtonCallback={this.removeClassificationPill}/>
+				<FilterPill key={i} item={set[i]} text={set[i].classSchemeLongName} closeButtonCallback={this.removeClassificationPill}/>
 			);
 		}
 		return output;
