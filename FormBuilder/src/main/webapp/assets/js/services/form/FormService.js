@@ -130,17 +130,11 @@ const FormService = Marionette.Object.extend({
 	},
 	handleAddModule(data) {
 		const newModuleModel = this.formModel.get('formModules').add(new FormModuleModel(data));
-		this.persistForm().then(() =>{
-			appChannel.request(EVENTS.APP.SHOW_USER_MESSAGE, {
-				message: "Module Added",
-				level:   "success"
-			});
-			/* TODO Hack for CADSRFBTR-282. make sure to remove when redesigning form saving */
-			newModuleModel.set("moduleIdseq", this.formModel.get("tempNewModuleseqId"));
-			this.formModel.unset("tempNewModuleseqId");
-			/* End Hack*/
-			this.setModuleView(newModuleModel.cid);
+		appChannel.request(EVENTS.APP.SHOW_USER_MESSAGE, {
+			message: "Module Added",
+			level:   "success"
 		});
+		this.setModuleView(newModuleModel.cid);
 	},
 	handleAddModuleFormCart({moduleId}) {
 		const questionModelFromCDECart = appChannel.request(EVENTS.CARTS.GET_MODULE_MODEL, moduleId);
