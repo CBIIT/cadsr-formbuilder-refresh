@@ -91,6 +91,9 @@ const FormService = Marionette.Object.extend({
 				this.formModel.set({
 					formIdseq: formIdseq
 				});
+				/* Users creating the form should get curatorial rights to edit them*/
+				this.formModel.get('formMetadata').set({curatorialPermission: true});
+
 				browserHistory.push(`/FormBuilder/forms/${formIdseq}`);
 				this.formUIStateModel.set({
 					isEditing:            true,
@@ -98,12 +101,12 @@ const FormService = Marionette.Object.extend({
 				});
 				this.handleFormActionModeChange({action: formActions.VIEW_FULL_FORM});
 			},
-			error:   (model, response) =>{
-				/*TODO: of course this is too basic. Improve error handling */
+			error:   (response) =>{
 				appChannel.request(EVENTS.APP.SHOW_USER_MESSAGE, {
 					message: "There was a problem creating the Form.  Please try again.",
 					level:   "error"
 				});
+				console.log(response);
 			}
 		});
 	},
