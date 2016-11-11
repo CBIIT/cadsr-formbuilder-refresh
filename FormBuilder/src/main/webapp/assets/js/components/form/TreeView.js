@@ -62,7 +62,7 @@ export default class TreeView extends Component {
 				</ul>
 				<ul className="list-unstyled moduleList">
 					<li>
-						<ButtonList activeItem={this.props.activeModuleId} buttonItemClassName={"panel-link panel-item btn-link no-margin"} activeButtonClass={" panel-link panel-item btn btn-link no-margin"} onClickCallback={this.dispatchNavigateToModule} itemKey={"cid"} className="panel-item panel-list" itemTextKey={"longName"} data={this.props.list}/>
+						<ButtonList activeItem={this.props.activeModuleId} buttonItemClassName={"panel-link panel-item btn-link no-margin"} activeButtonClass={" panel-link panel-link--accent panel-item btn-link no-margin"} onClickCallback={this.dispatchNavigateToModule} itemKey={"cid"} className="panel-item panel-list" itemTextKey={"longName"} data={this.props.list}/>
 					</li>
 				</ul>
 
