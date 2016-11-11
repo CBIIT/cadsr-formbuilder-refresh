@@ -10,11 +10,11 @@ import EVENTS from '../../constants/EVENTS';
 import {searchChannel} from '../../channels/radioChannels';
 import ProtocolSelectModal from '../modals/ProtocolSelectModal';
 import ClassificationSelectModal from '../modals/ClassificationSelectModal';
-import SearchResultsCollection from '../../models/search/form-search/SearchResultsCollection';
 import TABLECONFIG from '../../constants/TABLE_CONFIGS';
 import Datatable from '../tables/Datatable';
 import FilterPill from '../common/FilterPill.js';
 
+/*TODO Extract search criteria form out and into its own component */
 export default class SearchLayout extends Component {
 	constructor(props){
 		super(props);
@@ -39,6 +39,10 @@ export default class SearchLayout extends Component {
 			categories: [],
 			types: [],
 			tableData : [],
+			formLongName: '',
+			moduleLongName: '',
+			publicId: '',
+			cdePublicId: '',
 			selectedWorkflow: '',
 			selectedCategory: '',
 			selectedType: '',
@@ -188,13 +192,13 @@ export default class SearchLayout extends Component {
 		<Form id="searchForm" ref="form" onSubmit={this.dispatchFormData} validatePristine={this.state.validatePristine} className="search-form">
 			<div className="formItem">
 				<Input name="formLongName" id="longName"
-					label="FORM LONG NAME" type="text" value="" placeholder="SEARCH BY LONG NAME"
+					label="FORM LONG NAME" type="text" value={this.state.formLongName} placeholder="SEARCH BY LONG NAME"
 				/>
 			</div>
 			<div className="clearfix formColumns">
 				<div className="pull-left formColumn">
 					<div className="formItem">
-						<Input name="publicId" id="publicId"
+						<Input name="publicId" id="publicId" value={this.state.publicId}
 							label="PUBLIC ID" type="text" placeholder="SEARCH BY PUBLIC ID"
 						/>
 					</div>
@@ -225,7 +229,7 @@ export default class SearchLayout extends Component {
 				</div>
 				<div className="pull-right formColumn">
 					<div className="formItem">
-						<Input name="cdePublicId" id="cdePublicId"
+						<Input name="cdePublicId" id="cdePublicId" value={this.state.cdePublicId}
 							label="CDE PUBLIC ID" type="text"
 							placeholder="SEARCH BY CDE PUBLIC ID"
 						/>
@@ -258,7 +262,7 @@ export default class SearchLayout extends Component {
 			</div>
 			<div className="formItem">
 				<Input name="moduleLongName" id="moduleLongName"
-					label="MODULE" type="text" placeholder="SEARCH BY MODULE"
+					label="MODULE" value={this.state.moduleLongName} type="text" placeholder="SEARCH BY MODULE"
 				/>
 			</div>
 			<div className="formItem searchActions">
