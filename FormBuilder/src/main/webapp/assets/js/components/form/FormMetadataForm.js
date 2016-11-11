@@ -35,7 +35,7 @@ export default class FormMetadataForm extends Component {
 			types:                   [],
 			workflows:               [],
 			protocolModalOpen:       false,
-			selectedProtocol:        [],		// array of objects of form: {name: "", seqId: ""}
+			selectedProtocols:        [],		// array of objects of form: {name: "", seqId: ""}
 			classificationModalOpen: false,
 			selectedClassifications:  []	// array of objects of form: {name: "", seqId: ""}
 		};
