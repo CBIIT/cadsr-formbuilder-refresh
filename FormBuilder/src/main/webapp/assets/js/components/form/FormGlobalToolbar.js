@@ -163,7 +163,7 @@ export default class FormGlobalToolbar extends Component {
 		if(!this.props.formMetadata.locked === true && !this.props.shouldShowFormEditControls){
 			
 			let options = "";
-			if (this.props.userIsLoggedIn) {
+			if (this.props.formMetadata.curatorialPermission) {
 				return (
 						<div className="formCenterV">
 							<select id="moreActions" name="moreActions" className="form-control"  value={this.state.moreActionsSelected} onChange={this.handleMoreActionsChanged}>
