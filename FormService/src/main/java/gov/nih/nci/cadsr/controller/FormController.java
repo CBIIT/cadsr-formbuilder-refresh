@@ -144,8 +144,10 @@ public class FormController {
 			}
 			
 			String response = formManager.updateForm(form, oldForm);
+			
+			FormTransferObject fullForm = formManager.getFullFormV2(formIdSeq);
 
-			return form;
+			return formManager.testTranslateDBFormToBBForm(fullForm);
 
 		} catch (Exception e) {
 			e.printStackTrace();
