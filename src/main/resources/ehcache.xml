@@ -1,0 +1,24 @@
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="ehcache.xsd" 
+       updateCheck="true"
+       monitoring="autodetect" 
+       name="someNamedCache"
+       dynamicConfig="true">
+
+       <diskStore path="java.io.tmpdir" />
+       
+       <cache name="products" 
+              maxEntriesLocalHeap="100"
+              maxEntriesLocalDisk="1000" 
+              eternal="false" 
+              timeToIdleSeconds="120" 
+              memoryStoreEvictionPolicy="LFU" 
+              transactionalMode="off">
+              <persistence strategy="localTempSwap" />
+       </cache>
+
+</ehcache>
+
+
+
+
