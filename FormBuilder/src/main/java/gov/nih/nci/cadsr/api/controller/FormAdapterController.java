@@ -142,10 +142,11 @@ public class FormAdapterController {
 			String lock_uri = props.getFormBuilderApiUrl() + FormBuilderConstants.FORMBUILDER_BASE_URL + 
 					"lock/" + form.getFormMetadata().getFormIdseq();
 			
+			RestTemplate restTemplate2 = new RestTemplate();
 			HttpHeaders requestHeaders = new HttpHeaders();
 			requestHeaders.add("Cookie", "JSESSIONID=" + request.getSession().getId());
 			HttpEntity requestEntity = new HttpEntity(null, requestHeaders);
-			ResponseEntity<Boolean> response = restTemplate.exchange(
+			ResponseEntity<Boolean> response = restTemplate2.exchange(
 					lock_uri,
 			    HttpMethod.GET,
 			    requestEntity,
@@ -217,7 +218,12 @@ public class FormAdapterController {
 
 		RestTemplate restTemplate = new RestTemplate();
 		
-		ResponseEntity<String> response = restTemplate.exchange(uri, HttpMethod.PUT, entity, String.class);
+		ResponseEntity<FEForm> response = restTemplate.exchange(uri, HttpMethod.PUT, entity, FEForm.class);
+		
+		response.getBody().getFormMetadata().setCuratorialPermission(true);
+		response.getBody().getFormMetadata().setLocked(false);
+		
+		this.loadWorkingCopy(response.getBody());
 
 		return response;
 	}
