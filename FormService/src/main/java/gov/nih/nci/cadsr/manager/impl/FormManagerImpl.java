@@ -284,6 +284,8 @@ public class FormManagerImpl implements FormManager {
 		 * fdao.get }
 		 */
 
+		int i = 0;
+		
 		for (FEModule module : form.getFormModules()) {
 			ModuleTransferObject m = new ModuleTransferObject();
 			FormTransferObject f = new FormTransferObject();
@@ -333,7 +335,8 @@ public class FormManagerImpl implements FormManager {
 			m.setCreatedBy(form.getFormMetadata().getCreatedBy());
 			m.setContext(c);
 			
-			m.setDisplayOrder(form.getFormModules().indexOf(module));
+			m.setDisplayOrder(i);
+			System.out.println("MODULE ORDER # " + m.getDisplayOrder());
 
 			if (module.getModuleIdseq() == null || module.getModuleIdseq() == "") {
 				
@@ -393,6 +396,8 @@ public class FormManagerImpl implements FormManager {
 			} else if (module.getIsEdited()) {
 				updatedMods.add(m);
 			}
+			//Temp fix: Counter for maintaining Module order for newly created modules
+			i++;
 		}
 
 		for (FEModule oldModule : oldForm.getFormModules()) {
