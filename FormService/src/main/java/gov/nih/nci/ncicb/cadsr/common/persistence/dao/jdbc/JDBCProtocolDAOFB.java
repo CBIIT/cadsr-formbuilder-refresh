@@ -44,7 +44,7 @@ public class JDBCProtocolDAOFB extends JDBCBaseDAOFB implements ProtocolDAO
 	 */
 	class ProtocolQuery extends MappingSqlQuery {
 
-		String sql = " SELECT p.proto_idseq, p.version, p.conte_idseq, p.preferred_name, p.preferred_definition, p.asl_name, p.long_name, p.LATEST_VERSION_IND, p.begin_date, p.END_DATE, p.PROTOCOL_ID, p.TYPE, p.PHASE, p.LEAD_ORG, p.origin, p.PROTO_ID, c.name contextname " + 
+		String sql = " SELECT distinct p.proto_idseq, p.version, p.conte_idseq, p.preferred_name, p.preferred_definition, p.asl_name, p.long_name, p.LATEST_VERSION_IND, p.begin_date, p.END_DATE, p.PROTOCOL_ID, p.TYPE, p.PHASE, p.LEAD_ORG, p.origin, p.PROTO_ID, c.name contextname " + 
 				" from sbrext.protocols_view_ext p, sbr.contexts_view c where p.PROTO_IDSEQ=? and  p.CONTE_IDSEQ = c.CONTE_IDSEQ";
 
 
