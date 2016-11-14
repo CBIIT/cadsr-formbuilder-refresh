@@ -293,7 +293,7 @@ public class FormController {
 	 */
 	@RequestMapping(value = "/forms/objcart/{username}/{formIdSeq}", method = RequestMethod.GET)
 	@ResponseBody
-	public ResponseEntity<Cart> saveFormToOC(@PathVariable String username, @PathVariable String formIdSeq)
+	public ResponseEntity saveFormToOC(@PathVariable String username, @PathVariable String formIdSeq)
 			throws ObjectCartException {
 
 		ObjectCartClient cartClient = new ObjectCartClient();
@@ -319,7 +319,7 @@ public class FormController {
 			}
 		}
 
-		ResponseEntity<Cart> response = new ResponseEntity(cart, HttpStatus.OK);
+		ResponseEntity response = new ResponseEntity(HttpStatus.OK);
 		return response;
 	}
 
