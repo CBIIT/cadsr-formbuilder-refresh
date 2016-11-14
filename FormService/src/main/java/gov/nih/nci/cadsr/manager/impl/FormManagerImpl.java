@@ -10,6 +10,7 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -747,7 +748,7 @@ public class FormManagerImpl implements FormManager {
 							altQuestionTexts.add(altQuestionText);
 						}
 					}
-
+					
 					bbques.setAlternativeQuestionText(altQuestionTexts);
 					// TODO: need to translate dataelement as well and set in
 					// question
@@ -913,8 +914,15 @@ public class FormManagerImpl implements FormManager {
 		ClassificationSchemeDAO classDao = daoFactory.getClassificationSchemeDAO();
 
 		String formIdseq = form.getFormMetadata().getFormIdseq();
+		
+		Collection oldClassifications;
 
-		Collection oldClassifications = classDao.retrieveClassifications(formIdseq);
+		try{
+			oldClassifications = classDao.retrieveClassifications(formIdseq);
+		}
+		catch(InvalidDataAccessApiUsageException e){
+			oldClassifications = new ArrayList<>();
+		}
 
 		List<String> formid = new ArrayList<String>();
 		List<String> cscsiIds = new ArrayList<String>();
