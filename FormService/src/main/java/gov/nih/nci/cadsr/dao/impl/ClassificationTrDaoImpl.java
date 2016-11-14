@@ -65,7 +65,7 @@ public class ClassificationTrDaoImpl extends JDBCBaseDAOFB implements Classifica
 				}
 			}*/
 
-			String sql = "select cscsi.cs_csi_idseq cscsiID, csi.csi_idseq csid,cs.preferred_definition csDefination,cs.version csVersion,cs.cs_id csPublicId, csi.csi_id csiPublicId,csi.LONG_NAME csiName,"
+			String sql = "select distinct cscsi.cs_csi_idseq cscsiID, csi.csi_idseq csid,cs.preferred_definition csDefination,cs.version csVersion,cs.cs_id csPublicId, csi.csi_id csiPublicId,csi.LONG_NAME csiName,"
 					+ " cs.LONG_NAME csLongName FROM sbr.ac_csi_view accsi, sbr.cs_csi_view cscsi, "
 					+ "sbr.cs_items_view csi, sbr.classification_schemes_view cs where " + where;
 			super.setSql(sql);
