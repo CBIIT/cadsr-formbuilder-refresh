@@ -51,7 +51,7 @@ public class ProtocolTrDaoImpl extends JDBCBaseDAOFB implements ProtocolTrDao {
 				}
 			}
 
-			String sql = "SELECT p.proto_idseq idseq,p.preferred_name pn, p.preferred_definition pd, p.LONG_NAME pln, "
+			String sql = "SELECT distinct p.proto_idseq idseq,p.preferred_name pn, p.preferred_definition pd, p.LONG_NAME pln, "
 					+ "p.PROTO_ID publicId,p.conte_idseq contextId,c.name contextname  from protocols_view_ext p,sbr.contexts_view c"
 					+ where;
 
