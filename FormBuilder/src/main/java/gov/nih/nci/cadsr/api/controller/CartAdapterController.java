@@ -403,7 +403,7 @@ public class CartAdapterController {
 		headers.setContentType(MediaType.APPLICATION_JSON);
 
 		RestTemplate restTemplate = new RestTemplate();
-		ResponseEntity<Cart> response = restTemplate.getForEntity(uri, Cart.class);
+		ResponseEntity<String> response = restTemplate.getForEntity(uri, String.class);
 
 		return response;
 
