@@ -15,6 +15,7 @@ export default class QuestionEditable extends Component {
 		this.dispatchQuestionData = this.dispatchQuestionData.bind(this);
 		this.handleQuestionChanged = this.handleQuestionChanged.bind(this);
 		this.getAlternativeQuestionText = this.getAlternativeQuestionText.bind(this);
+		this.getPreferredQuestionTextInput = this.getPreferredQuestionTextInput.bind(this);
 		this.dispatchSetLongNameAsPreferredText = this.dispatchSetLongNameAsPreferredText.bind(this);
 		this.state = {
 			validatePristine: false,
@@ -77,6 +78,23 @@ export default class QuestionEditable extends Component {
 				<Select name="alternativeQuestionTextSelector" label="Alternate Question Text" options={alternativeQuestionTextItems} />
 			);
 		}
+		else {
+			return null;
+		}
+	}
+	getPreferredQuestionTextInput () {
+		if(this.props.question.preferredQuestionText){
+			return (
+				<FormGroup>
+					<ControlLabel>Preferred Question Text</ControlLabel>
+					<FormControl.Static><span className="block pull-left">{this.props.question.preferredQuestionText}</span><Button onClick={this.dispatchSetLongNameAsPreferredText} bsClass="btn-link pull-right">Use Text</Button></FormControl.Static>
+
+				</FormGroup>
+			);
+		}
+		else {
+			return null;
+		}
 	}
 	handleQuestionChanged(currentValues, isChanged) {
 		/* BE AWARE: Form.onChange returns true unexpectedly. Using isChanged as guard */
@@ -115,13 +133,9 @@ export default class QuestionEditable extends Component {
 						<Form onChange={this.handleQuestionChanged} validatePristine={this.state.validatePristine}>
 							<Textarea rows={3} cols={40} name="instructions" label="Instructions" value={this.props.question.instructions !== null ? this.props.question.instructions : ""}/>
 
-							<FormGroup>
-								<ControlLabel>Preferred Question Text</ControlLabel>
-								<FormControl.Static><span className="block pull-left">{this.props.question.preferredQuestionText}</span><Button onClick={this.dispatchSetLongNameAsPreferredText} bsClass="btn-link pull-right">Use Text</Button></FormControl.Static>
-
-							</FormGroup>
 
 
+							{this.getPreferredQuestionTextInput()}
 							{this.getAlternativeQuestionText()}
 
 							<RadioGroup
