@@ -321,7 +321,7 @@ public class FormManagerImpl implements FormManager {
 			m.setInstruction(instr);
 			System.out.println(m.getInstruction().getIdseq());
 			m.setNumberOfRepeats(module.getRepetitions());
-			m.setDisplayOrder(module.getDispOrder());
+//			m.setDisplayOrder(module.getDispOrder());
 			m.setQuestions(module.getQuestions());
 
 			m.setForm(f);
@@ -332,6 +332,8 @@ public class FormManagerImpl implements FormManager {
 			m.setAslName(form.getFormMetadata().getWorkflow());
 			m.setCreatedBy(form.getFormMetadata().getCreatedBy());
 			m.setContext(c);
+			
+			m.setDisplayOrder(form.getFormModules().indexOf(module));
 
 			if (module.getModuleIdseq() == null || module.getModuleIdseq() == "") {
 				
@@ -702,6 +704,8 @@ public class FormManagerImpl implements FormManager {
 			if (mto.getInstruction() != null) {
 				bbmod.setInstructions(mto.getInstruction().getPreferredDefinition());
 			}
+			
+			bbmod.setDispOrder(mto.getDisplayOrder());
 
 			bbmod.setForm(bbmeta);
 
