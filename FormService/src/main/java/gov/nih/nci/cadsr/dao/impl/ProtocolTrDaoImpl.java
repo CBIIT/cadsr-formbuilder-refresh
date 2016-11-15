@@ -38,7 +38,7 @@ public class ProtocolTrDaoImpl extends JDBCBaseDAOFB implements ProtocolTrDao {
 
 		public void setSql(String KeyWord) {
 
-			String where = "";
+			String where = " WHERE p.conte_idseq = c.conte_idseq ";
 			if (KeyWord != null) {
 				String lName = KeyWord.trim();
 				if (lName.length() > 0) {
@@ -47,12 +47,13 @@ public class ProtocolTrDaoImpl extends JDBCBaseDAOFB implements ProtocolTrDao {
 					temp = StringUtils.strReplace(temp, "'", "''");
 
 					where += (where.equals("")) ? " WHERE " : " AND ";
-					where += "(LONG_NAME like '%" + temp + "%'or preferred_name like '%" + temp + "%') ";
+					where += "(UPPER(LONG_NAME) like UPPER('%" + temp + "%')or UPPER(preferred_name) like UPPER('%" + temp + "%')) ";
 				}
 			}
 
 			String sql = "SELECT distinct p.proto_idseq idseq,p.preferred_name pn, p.preferred_definition pd, p.LONG_NAME pln, "
-					+ "p.PROTO_ID publicId,p.conte_idseq contextId,c.name contextname  from protocols_view_ext p,sbr.contexts_view c"
+					+ "p.PROTO_ID publicId,p.conte_idseq contextId,c.name contextname "
+					+ " from protocols_view_ext p,sbr.contexts_view c"
 					+ where;
 
 			// System.out.println("Executing searchProtocol query: " + sql);
