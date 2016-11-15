@@ -18,7 +18,7 @@ export default class FormLayoutMain extends Component {
 		this.showGlobalToolbar = this.showGlobalToolbar.bind(this);
 		this.cancelCreation = this.cancelCreation.bind(this);
 	}
-	
+
 	componentDidMount() {
 		window.scrollTo(0,0);
 	}
@@ -92,9 +92,11 @@ export default class FormLayoutMain extends Component {
 		}
 		else if(actionMode === formActions.VIEW_MODULE && !this.props.shouldShowFormEditControls){
 			const moduleEditing = this.props.editItems;
-			return (
-				<FormModuleStatic moduleId={moduleEditing.cid} longName={moduleEditing.longName} instructions={moduleEditing.instructions} questions={moduleEditing.questions} actionMode={actionMode} mainHeadingTitle="Module"/>
-			);
+			if(typeof moduleEditing ===  "object"){
+				return (
+					<FormModuleStatic moduleId={moduleEditing.cid} longName={moduleEditing.longName} instructions={moduleEditing.instructions} questions={moduleEditing.questions} actionMode={actionMode} mainHeadingTitle="Module"/>
+				);
+			}
 		}
 	}
 

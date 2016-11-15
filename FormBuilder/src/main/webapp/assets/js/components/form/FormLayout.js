@@ -132,8 +132,15 @@ class FormLayout extends Component {
 
 	/* TODO maybe get rid of "edit items" because whatever item you're viewing inside FormLayoutMain is editable, if "edit mode" is turned on. Note this also applies to a module being viewed, not just being editing */
 	getEditItems(){
-		if(this.getActionMode() === formActions.VIEW_MODULE) {
-			this.editItems = _.findWhere(this.getFormModules({returnModules: true}), {cid: this.state.formUIState.moduleViewingId});
+		if(this.getActionMode() === formActions.VIEW_MODULE){
+			const formModules = this.getFormModules({returnModules: true});
+			const moduleToEdit = _.findWhere(formModules, {cid: this.state.formUIState.moduleViewingId});
+			if(moduleToEdit !== undefined){
+				this.editItems = moduleToEdit;
+			}
+			else {
+			console.warn("setting moduleToEdit but is undefined");
+			}
 		}
 	}
 

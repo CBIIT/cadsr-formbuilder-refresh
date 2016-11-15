@@ -54,7 +54,9 @@ export default class FormMetadataForm extends Component {
 			});
 		}
 	}
-
+	componentWillUnmount(){
+		formChannel.off(EVENTS.FORM.SET_CORE_FORM_DETAILS);
+	}
 	componentDidMount(){
 		GetFormMetadataCriteriaInputOptions().then((formMetaDataDropdownOptions) =>{
 			this.setState({
