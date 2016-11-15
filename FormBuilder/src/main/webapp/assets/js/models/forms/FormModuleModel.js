@@ -3,12 +3,13 @@ import QuestionsCollection from './QuestionsCollection';
 
 const FormModuleModel = Model.extend({
 	idAttribute: "moduleIdseq",
-	defaults:    {
-		longName:     "",
-		instructions: "",
-		questions:    new QuestionsCollection(),
-		/* Used for letting the backend know whether this has changed */
-		isEdited:     false
+	defaults ()   {
+		return {
+			longName:     "",
+			instructions: "",
+			questions:    new QuestionsCollection(),
+			/* Used for letting the backend know whether this has changed */
+		};
 	},
 	initialize() {
 		/*Bubble up changes to questions collection here, so BackboneReact in FormLayout triggers a state change (and a re-render) when these events to the modules collection fre
@@ -22,7 +23,7 @@ const FormModuleModel = Model.extend({
 	},
 	constructor(attributes, options) {
 		/* Pass any questions into new QuestionsCollection so each nested object becomes a QuestionsModel */
-		if(attributes.questions) {
+		if(attributes.questions){
 			attributes.questions = new QuestionsCollection(attributes.questions);
 		}
 		Model.apply(this, arguments);
