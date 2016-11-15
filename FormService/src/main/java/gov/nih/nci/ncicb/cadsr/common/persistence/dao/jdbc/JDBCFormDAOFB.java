@@ -938,7 +938,7 @@ public class JDBCFormDAOFB extends JDBCAdminComponentDAOFB implements FormDAO {
 				String publicId, String version, String moduleName, String cdePublicId) {
 
 			String selectWhat = "SELECT distinct f.qc_idseq, f.version, f.type, f.conte_idseq, f.CATEGORY_NAME, f.workflow, f.preferred_name, f.definition, "
-					+ " f.long_name, f.context_name, f.public_id, latest_version_ind,  f.DATE_MODIFIED, f.DATE_CREATED,f.PROTOCOL_LONG_NAME";
+					+ " f.long_name, f.context_name, f.public_id, latest_version_ind,  f.DATE_MODIFIED, f.DATE_CREATED";
 			StringBuffer fromWhat = new StringBuffer(" FROM FB_FORMS_VIEW f ");
 			StringBuffer initialWhere = new StringBuffer();
 			boolean hasWhere = false;
@@ -1022,7 +1022,7 @@ public class JDBCFormDAOFB extends JDBCAdminComponentDAOFB implements FormDAO {
 			f.setPreferredDefinition(rs.getString(8)); // PREFERRED_DEFINITION
 			f.setCreatedBy(rs.getString(14).substring(0, rs.getString(14).indexOf(" "))); // CREATED_BY
 			f.setFormCategory(rs.getString(5));
-			f.setProtocolLongName(rs.getString(15));
+			//f.setProtocolLongName(rs.getString(15));
 
 			/*
 			 * form.setFormIdseq(rs.getString(1)); // QC_IDSEQ
@@ -1369,6 +1369,7 @@ public class JDBCFormDAOFB extends JDBCAdminComponentDAOFB implements FormDAO {
 			in.put("p_proto_idseq", null);
 			in.put("p_asl_name", newForm.getAslName());
 			in.put("p_created_by", newForm.getCreatedBy());
+			//in.put(key, newForm.getFooterInstruction().getLongName());
 
 			Map out = execute(in);
 
