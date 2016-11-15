@@ -282,7 +282,7 @@ const FormService = Marionette.Object.extend({
 			if(moduleViewingId){
 				const moduleViewing = formModules.findWhere({dispOrder: indexOfModuleViewing});
 				if(moduleViewing){
-					this.sew(moduleViewing.cid);
+					this.setModuleView(moduleViewing.cid);
 				}
 				else{
 					this.formUIStateModel.set({actionMode: formActions.VIEW_FULL_FORM});
