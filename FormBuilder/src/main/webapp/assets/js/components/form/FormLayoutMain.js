@@ -73,13 +73,14 @@ export default class FormLayoutMain extends Component {
 		else if(actionMode === formActions.CREATE_MODULE){
 			const buttons = [
 				{
-					name: "Save",
-					type: "submit"
+					name: "ADD",
+					type: "submit",
+					className: "btn btn-primary no-margin"
 				}
 			];
 			return (
 				<FormModuleForm actionMode={actionMode} mainHeadingTitle="Create Module">
-					<ButtonsGroup buttons={buttons}/> </FormModuleForm>
+					<ButtonsGroup containerClassName="pull-right" buttons={buttons}/> </FormModuleForm>
 			);
 		}
 		else if(actionMode === formActions.VIEW_MODULE && this.props.shouldShowFormEditControls){
