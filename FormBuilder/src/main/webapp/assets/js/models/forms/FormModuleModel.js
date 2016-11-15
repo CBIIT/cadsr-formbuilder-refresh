@@ -9,6 +9,7 @@ const FormModuleModel = Model.extend({
 			instructions: "",
 			questions:    new QuestionsCollection(),
 			/* Used for letting the backend know whether this has changed */
+			isEdited:     false
 		};
 	},
 	initialize() {
