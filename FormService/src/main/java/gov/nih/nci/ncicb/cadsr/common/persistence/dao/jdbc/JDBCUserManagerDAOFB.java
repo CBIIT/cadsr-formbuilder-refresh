@@ -102,6 +102,10 @@ public class JDBCUserManagerDAOFB extends JDBCBaseDAOFB implements UserManagerDA
 			try{
 				if(conn!=null)
 					conn.close();
+				
+				authDataSource.close();
+				authDataSource.removeConnectionProperty("username");
+				authDataSource.removeConnectionProperty("password");
 			}
 			catch(Exception exp)
 			{
