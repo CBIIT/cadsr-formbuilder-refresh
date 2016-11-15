@@ -99,6 +99,7 @@ class FormLayout extends Component {
 
 	componentWillUpdate(nextProps, nextState){
 		this.getFormModules();
+		this.getEditItems();
 	}
 
 	componentWillUnmount(){
@@ -129,9 +130,11 @@ class FormLayout extends Component {
 		return formService.formModel.attributes.formMetadata.attributes;
 	}
 
-	/* TODO maybe get rid of "edit items" because whatever item you're viewing inside FormLayoutMain is editable, if "edit mode" is turned on */
+	/* TODO maybe get rid of "edit items" because whatever item you're viewing inside FormLayoutMain is editable, if "edit mode" is turned on. Note this also applies to a module being viewed, not just being editing */
 	getEditItems(){
-		this.editItems = _.findWhere(this.getFormModules({returnModules: true}), {cid: this.state.formUIState.moduleViewingId});
+		if(this.getActionMode() === formActions.VIEW_MODULE) {
+			this.editItems = _.findWhere(this.getFormModules({returnModules: true}), {cid: this.state.formUIState.moduleViewingId});
+		}
 	}
 
 	getCDECart(){
