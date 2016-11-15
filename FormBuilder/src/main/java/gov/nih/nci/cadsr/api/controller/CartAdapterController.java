@@ -218,7 +218,7 @@ public class CartAdapterController {
 			question.setVersion(Float.valueOf(item.getVersion()));
 //			question.setPreferredQuestionText(item.getLongcdename());
 			question.setValueDomainLongName(item.getLongcdename());
-			question.setLongName(item.getLongname());
+			question.setLongName(item.getLongcdename());
 			question.setMandatory(false);
 			question.setEditable(true);
 			question.setDeDerived(true);
