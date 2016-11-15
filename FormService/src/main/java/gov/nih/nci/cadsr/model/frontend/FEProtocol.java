@@ -24,5 +24,22 @@ public class FEProtocol implements FEBaseObject,Serializable{
 	public void setLongName(String longName) {
 		this.longName = longName;
 	}
+	
+	@Override
+	public boolean equals(Object obj){
+		if (obj == null){
+			return false;
+		}
+		if(!FEProtocol.class.isAssignableFrom(obj.getClass())){
+			return false;
+		}
+		final FEProtocol other = (FEProtocol) obj;
+		
+		if(this.getProtoIdseq().equals(other.getProtoIdseq())){
+			return true;
+		}
+		
+		return false;
+	}
 
 }

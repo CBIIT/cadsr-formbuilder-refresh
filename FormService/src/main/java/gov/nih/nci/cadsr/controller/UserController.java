@@ -18,6 +18,7 @@ import gov.nih.nci.ncicb.cadsr.common.dto.NCIUserTransferObject;
 import gov.nih.nci.ncicb.cadsr.common.persistence.dao.AbstractDAOFactoryFB;
 import gov.nih.nci.ncicb.cadsr.common.persistence.dao.ContextDAO;
 import gov.nih.nci.ncicb.cadsr.common.persistence.dao.UserManagerDAO;
+import gov.nih.nci.ncicb.cadsr.common.persistence.dao.jdbc.JDBCUserManagerDAOFB;
 
 @RestController
 @RequestMapping(value = "/users")
@@ -25,6 +26,9 @@ public class UserController {
 	
 	@Autowired
 	AbstractDAOFactoryFB daoFactory;
+	
+	@Autowired
+	JDBCUserManagerDAOFB userManagerDAO;
 	
 //	@Autowired
 //	private UserManagerDAO userManagerDAO;
@@ -34,7 +38,7 @@ public class UserController {
 	public Boolean login(@PathVariable String username, @PathVariable String password) {
 		//TODO Probably should use header auth creds instead
 		
-		UserManagerDAO userManagerDAO = daoFactory.getUserManagerDAO();
+//		JDBCUserManagerDAOFB userManagerDAO = (JDBCUserManagerDAOFB) daoFactory.getUserManagerDAO();
 		
 		Boolean isUserValid = false;
         isUserValid = userManagerDAO.validUser(username, password);
