@@ -48,7 +48,7 @@ const EVENTS = {
 		PROTOCOLS_COLLECTION_RESET:			'search:protocolsCollectionReset',
 		CLASSIFICATIONS_SEARCH_INPUTS:		'send:classificationSearch',
 		CLASSIFICATIONS_COLLECTION_RESET:	'search:classificationsCollectionReset'
-		
+
 	},
 	USER:   {
 		GET_USERNAME:  'get:userName',

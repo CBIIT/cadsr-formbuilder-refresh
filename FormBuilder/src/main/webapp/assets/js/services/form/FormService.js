@@ -257,11 +257,14 @@ const FormService = Marionette.Object.extend({
 	persistForm({successMessage} = {}) {
 		delete this.formModel.url;
 		this.formModel.urlRoot = ENDPOINT_URLS.FORMS_DB;
+		let moduleViewingId = this.formUIStateModel.attributes.moduleViewingId,
+			indexOfModuleViewing;
+		if(moduleViewingId){
+			indexOfModuleViewing = this.formModel.get("formModules").indexOf(this.getModuleModel(moduleViewingId));
+		}
 		const p = new Promise(
 			(resolve, reject) =>{
-				this.formModel.save(null, {
-					dataType: 'text'
-				}).then(() =>{
+				this.formModel.save(null).then(() =>{
 					resolve();
 				}).catch((error) =>{
 					reject(error);
@@ -275,6 +278,16 @@ const FormService = Marionette.Object.extend({
 					level:   "success"
 				});
 			}
+			const formModules = this.formModel.get("formModules");
+			if(moduleViewingId){
+				const moduleViewing = formModules.findWhere({dispOrder: indexOfModuleViewing});
+				if(moduleViewing){
+					this.sew(moduleViewing.cid);
+				}
+				else{
+					this.formUIStateModel.set({actionMode: formActions.VIEW_FULL_FORM});
+				}
+			}
 		}).catch((error)=>{
 			appChannel.request(EVENTS.APP.SHOW_USER_MESSAGE, {
 				message: "There was a problem saving the form.  Please try again",
@@ -285,9 +298,7 @@ const FormService = Marionette.Object.extend({
 	},
 	saveWorkingCopyForm() {
 		const saveOptions = {
-			method:   'post',
-			dataType: 'text'
-		};
+			method:   'post'};
 		this.formModel.url = ENDPOINT_URLS.FORMS_WORKING_COPY;
 		return new Promise(
 			(resolve, reject) =>{
@@ -308,6 +319,7 @@ const FormService = Marionette.Object.extend({
 		/*TODO: Prepare for when editing a module with repetitions, this will be an array containing the module and its associated repetitioned modules */
 		this.formUIStateModel.set({moduleViewingId: id});
 		this.handleFormActionModeChange({action: formActions.VIEW_MODULE});
+		formChannel.trigger(EVENTS.FORM.SET_MODULE_TO_VIEW);
 	},
 	handleFormMetadataSubmitData(data) {
 		this.formModel.get('formMetadata').set(data);

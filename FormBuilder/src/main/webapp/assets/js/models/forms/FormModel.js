@@ -13,17 +13,12 @@ const FormModel = Model.extend({
 		});
 	},
 	parse(response){
-		if(typeof response === "object"){
-			const returnedResponse = response;
-			/*marshalling nested objects/arrays into it's own collection to map to Backbone's nested model/collection  */
-			returnedResponse.formMetadata = new FormMetadata(returnedResponse.formMetadata);
-			returnedResponse.formModules = new FormModulesCollection(returnedResponse.formModules);
-			return returnedResponse;
-		}
-		/* TODO Hack for CADSRFBTR-282. make sure to remove when redesigning form saving */
-		else if(response.indexOf("SUCCESS") == -1){
-			this.set("tempNewModuleseqId", response);
-		}
+		const returnedResponse = response;
+
+		/*marshalling nested objects/arrays into it's own collection to map to Backbone's nested model/collection  */
+		returnedResponse.formMetadata = new FormMetadata(returnedResponse.formMetadata);
+		returnedResponse.formModules = new FormModulesCollection(returnedResponse.formModules);
+		return returnedResponse;
 	}
 });
 

@@ -8,7 +8,7 @@ import {withRouter} from 'react-router';
 import TreeView from './TreeView';
 import SidePanel from './SidePanel';
 import EVENTS from '../../constants/EVENTS';
-import {appChannel} from '../../channels/radioChannels';
+import {appChannel, formChannel} from '../../channels/radioChannels';
 import formActions from '../../constants/formActions';
 import {getCdeCartCollectionPojo, getModuleCartCollectionPojo} from '../../helpers/CartDataHelpers';
 import backboneModelHelpers from "../../helpers/backboneModelHelpers";
@@ -45,8 +45,8 @@ class FormLayout extends Component {
 			}
 		});
 		this.getFormModules();
-
 	}
+
 	/*TODO use shared logic among cart pages and FormLayout, possibly with an HOC */
 	setCdeCartState(){
 		const CDECartUIState = cartsService.cartsStateModel.attributes.CDECartUIState;
@@ -61,6 +61,7 @@ class FormLayout extends Component {
 		}
 		this.setState({cdeCartCollection: cdeCartItems});
 	}
+
 	/*TODO use shared logic among cart pages and FormLayout, possibly with an HOC */
 	setModuleCartState(){
 		const ModuleCartUIState = cartsService.cartsStateModel.attributes.ModuleCartUIState;
@@ -89,6 +90,11 @@ class FormLayout extends Component {
 		appChannel.on(EVENTS.CARTS.MODULE_CART_UPDATED, () =>{
 			this.setModuleCartState();
 		});
+
+		formChannel.on(EVENTS.FORM.SET_MODULE_TO_VIEW,() => {
+			this.getEditItems();
+		});
+
 	}
 
 	componentWillUpdate(nextProps, nextState){
@@ -100,6 +106,7 @@ class FormLayout extends Component {
 		backboneReact.off(this);
 		appChannel.off(EVENTS.CARTS.CDE_CART_UPDATED);
 		appChannel.off(EVENTS.CARTS.MODULE_CART_UPDATED);
+		appChannel.off(EVENTS.FORM.SET_MODULE_TO_VIEW);
 	}
 
 	/**
@@ -124,7 +131,7 @@ class FormLayout extends Component {
 
 	/* TODO maybe get rid of "edit items" because whatever item you're viewing inside FormLayoutMain is editable, if "edit mode" is turned on */
 	getEditItems(){
-		return _.findWhere(this.formModules, {cid: this.state.formUIState.moduleViewingId});
+		this.editItems = _.findWhere(this.getFormModules({returnModules: true}), {cid: this.state.formUIState.moduleViewingId});
 	}
 
 	getCDECart(){
@@ -135,17 +142,20 @@ class FormLayout extends Component {
 		return this.state.moduleCartCollection;
 	}
 
-	getFormModules(){
+	getFormModules({returnModules= false} = {}){
 		/* Store a local copy of list of modules as POJOs with its backbone model's cid included
 		 Getting cid vs moduleIdseq because new modules don't have a moduleIdseq */
 		this.formModules = formService.formModel.attributes.formModules.models.map(model =>{
 			return Object.assign({}, backboneModelHelpers.getDeepModelPojo(model), {cid: model.cid});
 		});
+		if(returnModules) {
+			return this.formModules;
+		}
 	}
 
 	showCartsPanel(){
 		const actionMode = this.getActionMode();
-		const activeModuleId = actionMode == formActions.VIEW_MODULE && this.getEditItems() ? this.getEditItems().cid : null;
+		const activeModuleId = actionMode == formActions.VIEW_MODULE && this.editItems ? this.editItems.cid : null;
 		const permitAddQuestionFromCde = actionMode === formActions.VIEW_MODULE && this.shouldShowFormEditControls();
 		const canAddModuleFromCart = actionMode === formActions.VIEW_FULL_FORM && this.shouldShowFormEditControls();
 		if(this.getActionMode() !== formActions.CREATE_FORM){
@@ -159,7 +169,7 @@ class FormLayout extends Component {
 	showTreeNav(){
 		const actionMode = this.getActionMode();
 		if(actionMode !== formActions.CREATE_FORM){
-			const activeModuleId = actionMode == formActions.VIEW_MODULE && this.getEditItems() ? this.getEditItems().cid : null;
+			const activeModuleId = actionMode == formActions.VIEW_MODULE && this.editItems ? this.editItems.cid : null;
 			const formMetadataLinkIsActive = actionMode === formActions.VIEW_FORM_METADATA;
 			const viewFullFormLinkIsActive = actionMode === formActions.VIEW_FULL_FORM;
 			return (
@@ -186,13 +196,14 @@ class FormLayout extends Component {
 			columnConfig.center.colWidth = 8;
 			columnConfig.right.colWidth = 2;
 		}
+		const editItems = (actionMode === formActions.VIEW_MODULE) ? this.editItems : null;
 
 		return (
 			<div>
 				<Row className="eq-height-wrapper"> <Col lg={columnConfig.left.colWidth} className="eq-height-item">
 					{this.showTreeNav()}
 				</Col> <Col lg={columnConfig.center.colWidth} className="eq-height-item panel-lg">
-					<FormLayoutMain userIsLoggedIn={this.props.userIsLoggedIn} shouldShowFormEditControls={this.shouldShowFormEditControls()} actionMode={this.getActionMode()} formMetadata={this.getFormMetaData()} editItems={this.getEditItems()} formModules={this.formModules}/>
+					<FormLayoutMain userIsLoggedIn={this.props.userIsLoggedIn} shouldShowFormEditControls={this.shouldShowFormEditControls()} actionMode={this.getActionMode()} formMetadata={this.getFormMetaData()} editItems={editItems} formModules={this.formModules}/>
 				</Col> <Col lg={columnConfig.right.colWidth} className="eq-height-item">
 					{this.showCartsPanel()}
 
