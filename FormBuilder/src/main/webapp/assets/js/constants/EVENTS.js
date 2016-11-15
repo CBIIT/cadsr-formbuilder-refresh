@@ -28,6 +28,7 @@ const EVENTS = {
 		SET_NEW_MODULE:                 "set:newModule",
 		SAVE_FORM:                      'saveForm',
 		SET_MODULE:                     "set:module",
+		SET_MODULE_TO_VIEW:             "set:moduleToView",
 		SET_QUESTION:                   "set:question",
 		SET_VALID_VALUE:                "set:validValue",
 		SET_FORM_LAYOUT:                'set:formLayout',
