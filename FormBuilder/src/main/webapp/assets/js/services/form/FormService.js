@@ -147,6 +147,7 @@ const FormService = Marionette.Object.extend({
 			delete newModulePojo.moduleIdseq;
 		}
 
+		/*Change the order of all existing modules, and mark them as isEdited: true */
 		backboneModelHelpers.setCollectionModelsComparatorValue({
 			collection:      this.formModel.get('formModules'),
 			increment:       1,
@@ -176,6 +177,7 @@ const FormService = Marionette.Object.extend({
 		const questionModelFromCDECart = appChannel.request(EVENTS.CARTS.GET_QUESTION_MODEL, questionCid);
 
 		const newQuestionPojo = backboneModelHelpers.getDeepModelPojo(questionModelFromCDECart, false);
+		/*Change the order of all existing questions, and mark them as isEdited: true */
 		backboneModelHelpers.setCollectionModelsComparatorValue({
 			collection:      moduleModel.get("questions"),
 			increment:       1,
