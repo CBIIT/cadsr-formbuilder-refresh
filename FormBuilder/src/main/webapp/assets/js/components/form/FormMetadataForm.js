@@ -139,7 +139,10 @@ export default class FormMetadataForm extends Component {
 		this.setState({
 			selectedProtocols: newSelectedItemsList
 		});
-		this.dispatchData({selectedProtocols: newSelectedItemsList});
+		/* TODO find a better DRY way to do this, since other methods are calling dispatchData directly as well */
+		if(this.props.actionMode === formActions.VIEW_FORM_METADATA){
+			this.dispatchData({selectedProtocols: newSelectedItemsList});
+		}
 	}
 	removeProtocolPill(item){
 		let index = this.state.selectedProtocols.indexOf(item);
@@ -149,7 +152,10 @@ export default class FormMetadataForm extends Component {
 			this.setState({
 				selectedProtocols: newData
 			});
-			this.dispatchData({selectedProtocols: newData});
+			/* TODO find a better DRY way to do this, since other methods are calling dispatchData directly as well */
+			if(this.props.actionMode === formActions.VIEW_FORM_METADATA){
+				this.dispatchData({selectedProtocols: newData});
+			}
 		}
 	}
 	getWorFlowField(){
@@ -200,7 +206,10 @@ export default class FormMetadataForm extends Component {
 		this.setState({
 			selectedClassifications: newSelectedItemsList
 		});
-		this.dispatchData({selectedClassifications: newSelectedItemsList});
+		/* TODO find a better DRY way to do this, since other methods are calling dispatchData directly as well */
+		if(this.props.actionMode === formActions.VIEW_FORM_METADATA){
+			this.dispatchData({selectedClassifications: newSelectedItemsList});
+		}
 	}
 	removeClassificationPill(item){
 		let index = this.state.selectedClassifications.indexOf(item);
@@ -210,7 +219,10 @@ export default class FormMetadataForm extends Component {
 			this.setState({
 				selectedClassifications: newData
 			});
-			this.dispatchData({selectedClassifications: newData});
+			/* TODO find a better DRY way to do this, since other methods are calling dispatchData directly as well */
+			if(this.props.actionMode === formActions.VIEW_FORM_METADATA){
+				this.dispatchData({selectedClassifications: newData});
+			}
 		}
 	}
 	renderClassifications(){
