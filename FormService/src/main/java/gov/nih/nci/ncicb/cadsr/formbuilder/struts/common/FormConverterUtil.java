@@ -55,11 +55,11 @@ public class FormConverterUtil {
 			try {
 				Marshaller.marshal(crf, writer);
 			} catch (MarshalException ex) {
-				log.debug("FormV2 " + crf);
+				log.info("FormV2 " + crf);
 				throw ex;
 			} catch (ValidationException ex) {
 				// need exception handling	
-				log.debug("FormV2 " + crf);
+				log.info("FormV2 " + crf);
 				throw ex;
 			}
 			
@@ -92,7 +92,7 @@ public class FormConverterUtil {
 			try {
 				transformerV1ToV2.transform(xmlInput, xmlOutput);
 			} catch (TransformerException e) {
-				log.debug(writer.toString());
+				log.info(writer.toString());
 				throw e;
 			}	
 			
@@ -110,7 +110,7 @@ public class FormConverterUtil {
 				// Strip empty nodes from the transformed v2 form xml file
 				transformerStripEmpty.transform(xmlInputV2Forms, xmlOutputStripEmpty);
 			} catch (TransformerException e) {
-				log.debug(xmlInputV2Forms.toString());
+				log.info(xmlInputV2Forms.toString());
 				throw e;
 			}	
 					
@@ -142,13 +142,13 @@ public class FormConverterUtil {
 		}
 		
 		try {
-			log.debug("creating transformerV1ToV2");			
+			log.info("creating transformerV1ToV2");			
 			transformerV1ToV2 = net.sf.saxon.TransformerFactoryImpl.newInstance().newTransformer(xslSource);
-			log.debug("creating transformerStripEmpty");
+			log.info("creating transformerStripEmpty");
 			transformerStripEmpty  = net.sf.saxon.TransformerFactoryImpl.newInstance().newTransformer(xslSourceStripEmpty);
 		} catch (TransformerException e) {
-			log.debug("transformerV1ToV2 exception: " + e.toString());
-			log.debug("transformerV1ToV2 exception: " + e.getMessage());
+			log.info("transformerV1ToV2 exception: " + e.toString());
+			log.info("transformerV1ToV2 exception: " + e.getMessage());
 		}	
 	} 
 	 
