@@ -298,6 +298,7 @@ const FormService = Marionette.Object.extend({
 	},
 	saveWorkingCopyForm() {
 		const saveOptions = {
+			dataType: 'text',
 			method:   'post'};
 		this.formModel.url = ENDPOINT_URLS.FORMS_WORKING_COPY;
 		return new Promise(
