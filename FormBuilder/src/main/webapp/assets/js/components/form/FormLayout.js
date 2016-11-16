@@ -29,7 +29,9 @@ class FormLayout extends Component {
 
 		this.state = {
 			cdeCartCollection:    [],
-			moduleCartCollection: []
+			moduleCartCollection: [],
+			formModules: [],
+			editItems: {}
 		};
 	}
 
@@ -39,12 +41,15 @@ class FormLayout extends Component {
 		backboneReact.on(this, {
 			models:      {
 				formUIState: formService.formUIStateModel
-			},
-			collections: {
-				formModules: formService.formModel.attributes.formModules
 			}
 		});
+
+		formChannel.on(EVENTS.FORM.MODULES_UPDATED, () =>{
+			this.getEditItems();
+			this.getFormModules();
+		});
 		this.getFormModules();
+
 	}
 
 	/*TODO use shared logic among cart pages and FormLayout, possibly with an HOC */
@@ -92,14 +97,13 @@ class FormLayout extends Component {
 		});
 
 		formChannel.on(EVENTS.FORM.SET_MODULE_TO_VIEW,() => {
+			this.getFormModules();
 			this.getEditItems();
 		});
 
 	}
 
 	componentWillUpdate(nextProps, nextState){
-		this.getFormModules();
-		this.getEditItems();
 	}
 
 	componentWillUnmount(){
@@ -136,10 +140,10 @@ class FormLayout extends Component {
 			const formModules = this.getFormModules({returnModules: true});
 			const moduleToEdit = _.findWhere(formModules, {cid: this.state.formUIState.moduleViewingId});
 			if(moduleToEdit !== undefined){
-				this.editItems = moduleToEdit;
+				this.setState({editItems: moduleToEdit});
 			}
-			else {
-			console.warn("setting moduleToEdit but is undefined");
+			else{
+				console.warn("setting moduleToEdit but is undefined");
 			}
 		}
 	}
@@ -152,20 +156,22 @@ class FormLayout extends Component {
 		return this.state.moduleCartCollection;
 	}
 
-	getFormModules({returnModules= false} = {}){
+	getFormModules({returnModules = false} = {}){
 		/* Store a local copy of list of modules as POJOs with its backbone model's cid included
 		 Getting cid vs moduleIdseq because new modules don't have a moduleIdseq */
-		this.formModules = formService.formModel.attributes.formModules.models.map(model =>{
+		const formModules = formService.formModel.attributes.formModules.models.map(model =>{
 			return Object.assign({}, backboneModelHelpers.getDeepModelPojo(model), {cid: model.cid});
 		});
-		if(returnModules) {
-			return this.formModules;
+		this.setState({formModules: formModules});
+
+		if(returnModules){
+			return formModules;
 		}
 	}
 
 	showCartsPanel(){
 		const actionMode = this.getActionMode();
-		const activeModuleId = actionMode == formActions.VIEW_MODULE && this.editItems ? this.editItems.cid : null;
+		const activeModuleId = actionMode == formActions.VIEW_MODULE && this.state.editItems ? this.state.editItems.cid : null;
 		const permitAddQuestionFromCde = actionMode === formActions.VIEW_MODULE && this.shouldShowFormEditControls();
 		const canAddModuleFromCart = actionMode === formActions.VIEW_FULL_FORM && this.shouldShowFormEditControls();
 		if(this.getActionMode() !== formActions.CREATE_FORM){
@@ -179,11 +185,11 @@ class FormLayout extends Component {
 	showTreeNav(){
 		const actionMode = this.getActionMode();
 		if(actionMode !== formActions.CREATE_FORM){
-			const activeModuleId = actionMode == formActions.VIEW_MODULE && this.editItems ? this.editItems.cid : null;
+			const activeModuleId = actionMode == formActions.VIEW_MODULE && this.state.editItems ? this.state.editItems.cid : null;
 			const formMetadataLinkIsActive = actionMode === formActions.VIEW_FORM_METADATA;
 			const viewFullFormLinkIsActive = actionMode === formActions.VIEW_FULL_FORM;
 			return (
-				<TreeView viewFullFormLinkIsActive={viewFullFormLinkIsActive} formMetadataLinkIsActive={formMetadataLinkIsActive} activeModuleId={activeModuleId} list={this.formModules} formIdSeq={this.props.formIdseq} formName={this.getFormMetaData().longName} canCreateModule={this.canCreateModule()}/>
+				<TreeView viewFullFormLinkIsActive={viewFullFormLinkIsActive} formMetadataLinkIsActive={formMetadataLinkIsActive} activeModuleId={activeModuleId} list={this.state.formModules} formIdSeq={this.props.formIdseq} formName={this.getFormMetaData().longName} canCreateModule={this.canCreateModule()}/>
 			);
 		}
 	}
@@ -206,14 +212,14 @@ class FormLayout extends Component {
 			columnConfig.center.colWidth = 8;
 			columnConfig.right.colWidth = 2;
 		}
-		const editItems = (actionMode === formActions.VIEW_MODULE) ? this.editItems : null;
+		const editItems = (actionMode === formActions.VIEW_MODULE) ? this.state.editItems : null;
 
 		return (
 			<div>
 				<Row className="eq-height-wrapper"> <Col lg={columnConfig.left.colWidth} className="eq-height-item">
 					{this.showTreeNav()}
 				</Col> <Col lg={columnConfig.center.colWidth} className="eq-height-item panel-lg">
-					<FormLayoutMain userIsLoggedIn={this.props.userIsLoggedIn} shouldShowFormEditControls={this.shouldShowFormEditControls()} actionMode={this.getActionMode()} formMetadata={this.getFormMetaData()} editItems={editItems} formModules={this.formModules}/>
+					<FormLayoutMain userIsLoggedIn={this.props.userIsLoggedIn} shouldShowFormEditControls={this.shouldShowFormEditControls()} actionMode={this.getActionMode()} formMetadata={this.getFormMetaData()} editItems={editItems} formModules={this.state.formModules}/>
 				</Col> <Col lg={columnConfig.right.colWidth} className="eq-height-item">
 					{this.showCartsPanel()}
 
