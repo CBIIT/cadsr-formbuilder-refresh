@@ -123,8 +123,38 @@ public class FormConverterUtil {
 		StreamSource xslSourceStripEmpty = null;
 		try {
 			InputStream xslStream = this.getClass().getResourceAsStream(V1ExtendedToV2XSL);
+			if(xslStream == null){
+				System.out.println("TRYING: " + "/WEB-INF/classes" + V1ExtendedToV2XSL);
+				xslStream = this.getClass().getResourceAsStream("/WEB-INF/classes" + V1ExtendedToV2XSL);
+				if(xslStream == null){
+					System.out.println("TRYING: " + "/classes" + "/transforms/FinalFormCartTransformv33.xsl");
+					xslStream = this.getClass().getResourceAsStream("/classes" + V1ExtendedToV2XSL);
+					if(xslStream == null){
+						System.out.println("TRYING: " + "*/FinalFormCartTransformv33.xsl");
+						xslStream = this.getClass().getResourceAsStream("**/FinalFormCartTransformv33.xsl");
+						if(xslStream == null){
+							System.out.println("TRYING: " + "classpath*:*" + V1ExtendedToV2XSL);
+							xslStream = this.getClass().getResourceAsStream("classpath*:*" + V1ExtendedToV2XSL);
+							if(xslStream == null){
+								System.out.println("TRYING: " + "Classloader");
+								ClassLoader classLoader = getClass().getClassLoader();
+								xslStream = classLoader.getResourceAsStream(V1ExtendedToV2XSL);
+							}
+						}
+					}
+				}
+			}
 			xslSource = new StreamSource(xslStream);
 			InputStream xslStreamRemoveEmptyNodes = this.getClass().getResourceAsStream(stripEmptyNodesXSL); 
+			if(xslStreamRemoveEmptyNodes == null){
+				xslStreamRemoveEmptyNodes = this.getClass().getResourceAsStream("/WEB-INF/classes" + stripEmptyNodesXSL);
+				if(xslStreamRemoveEmptyNodes == null){
+					xslStreamRemoveEmptyNodes = this.getClass().getResourceAsStream("/classes" + stripEmptyNodesXSL);
+					if(xslStreamRemoveEmptyNodes == null){
+						xslStreamRemoveEmptyNodes = this.getClass().getResourceAsStream("**/remove-empty-nodes.xsl");
+					}
+				}
+			}
 			xslSourceStripEmpty = new StreamSource(xslStreamRemoveEmptyNodes);
 		}
 		catch(Exception e) {
