@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.net.URL;
 
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
@@ -123,11 +124,17 @@ public class FormConverterUtil {
 		StreamSource xslSourceStripEmpty = null;
 		try {
 			
-			ClassLoader classLoader = getClass().getClassLoader();
-			InputStream xslStream = classLoader.getResourceAsStream(V1ExtendedToV2XSL);
+			final URL resource = this.getClass().getResource(V1ExtendedToV2XSL);
+			final URL resource2 = this.getClass().getResource(stripEmptyNodesXSL);
+
+			final InputStream xslStream = resource.openStream();
+			final InputStream xslStreamRemoveEmptyNodes = resource2.openStream();
 			
+//			ClassLoader classLoader = getClass().getClassLoader();
+//			InputStream xslStream = classLoader.getResourceAsStream(V1ExtendedToV2XSL);
 			xslSource = new StreamSource(xslStream);
-			InputStream xslStreamRemoveEmptyNodes = classLoader.getResourceAsStream(stripEmptyNodesXSL);
+			
+//			InputStream xslStreamRemoveEmptyNodes = classLoader.getResourceAsStream(stripEmptyNodesXSL);
 			xslSourceStripEmpty = new StreamSource(xslStreamRemoveEmptyNodes);
 		}
 		catch(Exception e) {
