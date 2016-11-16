@@ -636,7 +636,6 @@ public class FormManagerImpl implements FormManager {
 					
 					modChange.getNewQuestions().add(qto);
 					
-					System.out.println("# of question vv's 2: " + qto.getValidValues().size());
 					System.out.println("ADDING QUESTION: " + qto.getLongName());
 				} else if (ques.getIsEdited()) {
 
