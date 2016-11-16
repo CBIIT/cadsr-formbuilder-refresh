@@ -46,11 +46,13 @@ import gov.nih.nci.ncicb.cadsr.common.exception.DMLException;
 import gov.nih.nci.ncicb.cadsr.common.persistence.dao.AbstractDAOFactoryFB;
 import gov.nih.nci.ncicb.cadsr.common.persistence.dao.ClassificationSchemeDAO;
 import gov.nih.nci.ncicb.cadsr.common.persistence.dao.ContextDAO;
+import gov.nih.nci.ncicb.cadsr.common.persistence.dao.DataElementDAO;
 import gov.nih.nci.ncicb.cadsr.common.persistence.dao.FormDAO;
 import gov.nih.nci.ncicb.cadsr.common.persistence.dao.FormInstructionDAO;
 import gov.nih.nci.ncicb.cadsr.common.persistence.dao.FormValidValueInstructionDAO;
 import gov.nih.nci.ncicb.cadsr.common.persistence.dao.ModuleInstructionDAO;
 import gov.nih.nci.ncicb.cadsr.common.persistence.dao.ProtocolDAO;
+import gov.nih.nci.ncicb.cadsr.common.persistence.dao.QuestionDAO;
 import gov.nih.nci.ncicb.cadsr.common.persistence.dao.QuestionInstructionDAO;
 import gov.nih.nci.ncicb.cadsr.common.persistence.dao.jdbc.JDBCFormDAOFB;
 import gov.nih.nci.ncicb.cadsr.common.resource.Form;
@@ -263,6 +265,8 @@ public class FormManagerImpl implements FormManager {
 		FormDAO fdao = daoFactory.getFormDAO();
 		ModuleInstructionDAO moduleInstrDao = daoFactory.getModuleInstructionDAO();
 		ProtocolDAO protocolDao = daoFactory.getProtocolDAO();
+		FormValidValueInstructionDAO vvInstrDao = daoFactory.getFormValidValueInstructionDAO();
+
 
 		formIdSeq = form.getFormMetadata().getFormIdseq();
 		username = form.getFormMetadata().getCreatedBy();
@@ -385,6 +389,49 @@ public class FormManagerImpl implements FormManager {
 					}
 
 					qto.setInstruction(minstr);
+					qto.setValidValues(new ArrayList());
+					
+					for (FEValidValue bbVV : ques.getValidValues()) {
+
+						System.out.println("HEY! Translating valid values");
+						ValidValueTransferObject vvto = new ValidValueTransferObject();
+						FormValidValueTransferObject fvto = new FormValidValueTransferObject();
+						BeanUtils.copyProperties(bbVV, vvto);
+						BeanUtils.copyProperties(bbVV, fvto, "instructions");
+
+						InstructionTransferObject vvinstr = new InstructionTransferObject();
+						List vvInstructions = vvInstrDao.getInstructions(vvto.getVdIdseq());
+						if (vvInstructions.size() > 0) {
+							fvto.setInstructions(vvInstructions);
+						}
+
+						vvinstr.setLongName(ques.getLongName());
+						vvinstr.setAslName(m.getAslName());
+						vvinstr.setDisplayOrder(1);
+						vvinstr.setVersion(1F);
+						vvinstr.setContext(m.getForm().getContext());
+						vvinstr.setCreatedBy(m.getForm().getCreatedBy());
+
+						if (bbVV.getInstructions() == null || bbVV.getInstructions().equals("")) {
+							vvinstr.setPreferredDefinition(" ");
+						} else {
+							vvinstr.setPreferredDefinition(ques.getInstructions());
+						}
+
+						vvInstructions.add(vvinstr);
+						fvto.setInstructions(vvInstructions);
+						fvto.setVersion(1F);
+//						fvto.setLongName(ques.getLongName());
+						fvto.setPreferredDefinition(m.getPreferredDefinition());
+						fvto.setContext(c);
+						fvto.setAslName(m.getAslName());
+						fvto.setCreatedBy(username);
+						
+
+//						qto.getDataElement().getValueDomain().getValidValues().add(vvto);
+						qto.getValidValues().add(fvto);
+
+					}
 
 					qtos.add(qto);
 				}
@@ -450,8 +497,11 @@ public class FormManagerImpl implements FormManager {
 	private void updateModules(Collection mods, FEForm oldForm) {
 		System.out.println("IN MANAGER UPDATE MODULES");
 
+		FormDAO myDAO = daoFactory.getFormDAO();
 		QuestionInstructionDAO questionInstrDao = daoFactory.getQuestionInstructionDAO();
+		QuestionDAO questionDao = daoFactory.getQuestionDAO();
 		FormValidValueInstructionDAO vvInstrDao = daoFactory.getFormValidValueInstructionDAO();
+		DataElementDAO DEDao = daoFactory.getDataElementDAO();
 
 		for (Object mod : mods) {
 			ModuleTransferObject mto = (ModuleTransferObject) mod;
@@ -494,6 +544,7 @@ public class FormManagerImpl implements FormManager {
 				FEQuestion ques = (FEQuestion) obj;
 
 				QuestionTransferObject qto = new QuestionTransferObject();
+//				qto.setDataElement(DEDao.);
 				qto.setDataElement(new DataElementTransferObject());
 				qto.getDataElement().setValueDomain(new ValueDomainTransferObject());
 				qto.getDataElement().setDeIdseq(ques.getDeIdseq());
@@ -549,7 +600,43 @@ public class FormManagerImpl implements FormManager {
 				qto.setInstructions(dbinstructions);
 
 				if (ques.getQuesIdseq() == null || ques.getQuesIdseq() == "") {
+					
+					for (FEValidValue bbVV : ques.getValidValues()) {
+
+						System.out.println("HEY! Translating valid values");
+						ValidValueTransferObject vvto = new ValidValueTransferObject();
+						BeanUtils.copyProperties(bbVV, vvto);
+
+						InstructionTransferObject vvinstr = new InstructionTransferObject();
+						List vvInstructions = vvInstrDao.getInstructions(vvto.getVdIdseq());
+						if (vvInstructions.size() > 0) {
+							vvto.setInstructions(vvInstructions);
+						}
+
+						vvinstr.setLongName(ques.getLongName());
+						vvinstr.setAslName(mto.getAslName());
+						vvinstr.setDisplayOrder(1);
+						vvinstr.setVersion(1F);
+						vvinstr.setContext(mto.getForm().getContext());
+						vvinstr.setCreatedBy(mto.getForm().getCreatedBy());
+
+						if (bbVV.getInstructions() == null || bbVV.getInstructions().equals("")) {
+							vvinstr.setPreferredDefinition(" ");
+						} else {
+							vvinstr.setPreferredDefinition(ques.getInstructions());
+						}
+
+						vvInstructions.add(vvinstr);
+						vvto.setInstructions(vvInstructions);
+
+//						qto.getDataElement().getValueDomain().getValidValues().add(vvto);
+						qto.getValidValues().add(vvto);
+
+					}
+					
 					modChange.getNewQuestions().add(qto);
+					
+					System.out.println("# of question vv's 2: " + qto.getValidValues().size());
 					System.out.println("ADDING QUESTION: " + qto.getLongName());
 				} else if (ques.getIsEdited()) {
 
@@ -579,8 +666,9 @@ public class FormManagerImpl implements FormManager {
 
 									for (FEValidValue oldValue : oldQues.getValidValues()) {
 										if (!qto.getValidValues().contains(oldValue)) {
-											ValidValueTransferObject deleteValue = new ValidValueTransferObject();
-											deleteValue.setVdIdseq(oldValue.getValueIdseq());
+//											ValidValueTransferObject deleteValue = new ValidValueTransferObject();
+											FormValidValueTransferObject deleteValue = new FormValidValueTransferObject();
+											deleteValue.setValueIdseq(oldValue.getValueIdseq());
 											validValueChange.getDeletedValidValues().add(deleteValue);
 										}
 									}
@@ -618,9 +706,9 @@ public class FormManagerImpl implements FormManager {
 
 						if (bbVV.getIsEdited()) {
 							validValueChange.getUpdatedValidValues().add(vvto);
-						} else if (bbVV.getIsDeleted()) {
+						} /*else if (bbVV.getIsDeleted()) {
 							validValueChange.getDeletedValidValues().add(vvto);
-						} else if (bbVV.getValueIdseq().isEmpty()) {
+						}*/ else if (bbVV.getValueIdseq().isEmpty()) {
 							validValueChange.getNewValidValues().add(vvto);
 						}
 
@@ -973,5 +1061,9 @@ public class FormManagerImpl implements FormManager {
 		}
 
 	}
+	
+//	public List<FEValidValue> getValidValuesForCDE(String deIdSeq){
+//		
+//	}
 
 }
