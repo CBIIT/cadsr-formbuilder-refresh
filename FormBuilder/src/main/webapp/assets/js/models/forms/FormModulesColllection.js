@@ -8,7 +8,6 @@ const FormModulesCollection = Collection.extend({
 	model: FormModuleModel,
 	initialize() {
 		this.on("update change sort reset", () => {
-			console.log("modules collection updated");
 			formChannel.trigger(EVENTS.FORM.MODULES_UPDATED);
 		});
 	}
