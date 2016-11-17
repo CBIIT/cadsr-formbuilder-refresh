@@ -24,6 +24,7 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
+import org.apache.xalan.transformer.TransformerIdentityImpl;
 import org.exolab.castor.xml.MarshalException;
 import org.exolab.castor.xml.Marshaller;
 import org.exolab.castor.xml.ValidationException;
@@ -39,8 +40,8 @@ public class FormConverterUtil {
 	
 	public static final String stripEmptyNodesXSL = "/transforms/remove-empty-nodes.xsl";
 	
-	protected Transformer transformerV1ToV2;
-	protected Transformer transformerStripEmpty;
+	protected Transformer transformerV1ToV2 = new TransformerIdentityImpl();
+	protected Transformer transformerStripEmpty = new TransformerIdentityImpl();
 	
 
 	public String getCartObjectType() {
