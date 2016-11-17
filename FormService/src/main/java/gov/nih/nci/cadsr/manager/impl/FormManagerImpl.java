@@ -825,7 +825,7 @@ public class FormManagerImpl implements FormManager {
 
 				if (qto.getDataElement() != null) {
 					bbques.setDeIdseq(qto.getDataElement().getIdseq());
-					bbques.setValueDomainLongName(qto.getDataElement().getValueDomain().getLongName());
+					bbques.setValueDomainLongName(qto.getDataElement().getLongCDEName());
 					bbques.setDataType(qto.getDataElement().getValueDomain().getDatatype());
 					bbques.setUnitOfMeasure(qto.getDataElement().getValueDomain().getUnitOfMeasure());
 					bbques.setDisplayFormat(qto.getDataElement().getValueDomain().getDisplayFormat());
