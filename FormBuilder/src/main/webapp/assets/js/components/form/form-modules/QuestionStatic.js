@@ -117,7 +117,7 @@ export default class QuestionStatic extends Component {
 					</Row>
 					<Row className="metaDataContent">
 						<Col md={6}>
-							{this.props.question.longName}
+							{this.props.question.valueDomainLongName}
 						</Col>
 						<Col md={6}>
 							{this.props.question.dataType}

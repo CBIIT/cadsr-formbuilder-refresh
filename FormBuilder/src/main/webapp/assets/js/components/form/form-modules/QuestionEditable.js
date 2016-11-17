@@ -155,7 +155,7 @@ export default class QuestionEditable extends Component {
 							{QuestionEditable.getDefaultValueField(this.props.question.defaultValue, this.props.question.validValues)}
 							<ul className="list-unstyled">
 								<li>
-									Long Name: {this.props.question.longName}
+									Long Name: {this.props.question.valueDomainLongName}
 								</li>
 								<li>
 									Data Type: {this.props.question.dataType}
