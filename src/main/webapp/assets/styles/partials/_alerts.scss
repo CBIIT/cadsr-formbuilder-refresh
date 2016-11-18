@@ -1,0 +1,71 @@
+
+.alert {
+  border-radius: 0;
+  border-width: 2px;
+  color: $dfTextColor;
+  font-family: 'Hind', sans-serif;
+  font-size: 1.25rem;
+  display: inline-block;
+  padding: 15px 30px 15px 30px;
+  @media (min-width: 768px) {
+    margin-left: 6%;
+    margin-right: 6%;
+  }
+  ul {
+    margin-top: 0;
+    padding-left: 0;
+    list-style: none;
+  }
+  li {
+    font-size: 1.25rem;
+    &:not(:last-child) {
+      @include short-bottom-spacing;
+    }
+  }
+}
+
+.close {
+  opacity: 1;
+  font-weight: 400;
+}
+
+.alert-warning {
+  border-color: #ffcc00;
+  background-color: #fffcad;
+}
+
+.alert-danger {
+  border-color: #ed2024;
+  background-color: #ffc8c8;
+}
+
+.alert-popup .close {
+  color: #000;
+}
+
+/*.modal h1, .modal h2, .modal h3 {
+	margin-top: 10px;
+}*/
+.alert-dismissable .close, .alert-dismissible .close {
+  top: 2px;
+  right: -26px;
+}
+
+.modal-content {
+  border-radius: 0;
+}
+
+.modal-header, .modal-footer {
+  border: 0;
+}
+
+.modal-header {
+  padding: 10px 10px 0 26px;
+  h1 {
+    margin-top: 25px;
+  }
+}
+
+.modal-body {
+  padding: 0 30px 25px 29px;
+}
