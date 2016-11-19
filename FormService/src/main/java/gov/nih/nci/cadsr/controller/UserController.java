@@ -1,11 +1,14 @@
 package gov.nih.nci.cadsr.controller;
 
+import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -33,12 +36,28 @@ public class UserController {
 //	@Autowired
 //	private UserManagerDAO userManagerDAO;
 	
-	@RequestMapping(value = { "/login/{username}/{password}" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/login" }, method = RequestMethod.GET)
 	@ResponseBody
-	public Boolean login(@PathVariable String username, @PathVariable String password) {
+	public Boolean login(@RequestHeader("Authorization") String auth) {
 		//TODO Probably should use header auth creds instead
 		
 //		JDBCUserManagerDAOFB userManagerDAO = (JDBCUserManagerDAOFB) daoFactory.getUserManagerDAO();
+		String username = "";
+		String password = "";
+		
+		if (auth != null && auth.startsWith("Basic")) {
+	        // Authorization: Basic base64credentials
+	        String base64Credentials = auth.substring("Basic".length()).trim();
+	        String credentials = new String(Base64.getDecoder().decode(base64Credentials),
+	                Charset.forName("UTF-8"));
+	        // credentials = username:password
+	        String[] values = credentials.split(":",2);
+	        
+	        username = values[0];
+	        password = values[1];
+		}
+	        
+		System.out.println(username + ":" + password);
 		
 		Boolean isUserValid = false;
         isUserValid = userManagerDAO.validUser(username, password);
