@@ -37,9 +37,9 @@ public class CadsrAuthenticationProvider implements AuthenticationProvider{
 		CadsrUserDetails userDetails = new CadsrUserDetails();
 
 		String base_uri = props.getFormServiceApiUrl() + FormBuilderConstants.FORMSERVICE_BASE_URL
-				+ FormBuilderConstants.FORMSERVICE_USERS + "/login/" + username + "/" + password;
+				+ FormBuilderConstants.FORMSERVICE_USERS + "/login";
 
-		RestTemplate restTemplate = new RestTemplate();
+		BasicAuthRestTemplate restTemplate = new BasicAuthRestTemplate(username, password);
 		Boolean response = restTemplate.getForObject(base_uri, Boolean.class);
 		
 		if(response){
@@ -49,16 +49,18 @@ public class CadsrAuthenticationProvider implements AuthenticationProvider{
 			
 			try{
 				
+				RestTemplate restTemplate2 = new RestTemplate();
+				
 				String cdecart_uri = props.getFormBuilderApiUrl() + "/FormBuilder/api/v1/carts/cdecart?username=" + username + "&cache=false";
 				
 				ParameterizedTypeReference<List<FEQuestion>> cderesponseType = new ParameterizedTypeReference<List<FEQuestion>>() {};
-				ResponseEntity<List<FEQuestion>> cderesp = restTemplate.exchange(cdecart_uri, HttpMethod.GET, null, cderesponseType);
+				ResponseEntity<List<FEQuestion>> cderesp = restTemplate2.exchange(cdecart_uri, HttpMethod.GET, null, cderesponseType);
 				List<FEQuestion> cdelist = cderesp.getBody();
 				
 				String formcart_uri = props.getFormBuilderApiUrl() + "/FormBuilder/api/v1/carts/formcart?username=" + username + "&cache=false";
 				
 				ParameterizedTypeReference<List<FEFormMetaData>> formresponseType = new ParameterizedTypeReference<List<FEFormMetaData>>() {};
-				ResponseEntity<List<FEFormMetaData>> formresp = restTemplate.exchange(cdecart_uri, HttpMethod.GET, null, formresponseType);
+				ResponseEntity<List<FEFormMetaData>> formresp = restTemplate2.exchange(cdecart_uri, HttpMethod.GET, null, formresponseType);
 				List<FEFormMetaData> formlist = formresp.getBody();
 				
 				userDetails.setCdeCart(cdelist);
