@@ -18,6 +18,7 @@ FormBuilder/src/main/java/gov/nih/nci/cadsr/api/controller/TestController.java -
 FormBuilder/src/main/java/gov/nih/nci/cadsr/api/controller/TreeAdapterController.java -text
 FormBuilder/src/main/java/gov/nih/nci/cadsr/api/controller/UserAdapterController.java -text
 FormBuilder/src/main/java/gov/nih/nci/cadsr/authentication/AuthUtils.java -text
+FormBuilder/src/main/java/gov/nih/nci/cadsr/authentication/BasicAuthRestTemplate.java -text
 FormBuilder/src/main/java/gov/nih/nci/cadsr/authentication/CadsrAuthenticationProvider.java -text
 FormBuilder/src/main/java/gov/nih/nci/cadsr/authentication/CadsrUserDetails.java -text
 FormBuilder/src/main/java/gov/nih/nci/cadsr/authentication/CadsrUserDetailsService.java -text
